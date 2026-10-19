@@ -66,10 +66,12 @@ A modernized and streamlined version of Freemind. Modernized pertains to the UI.
 | ID | Decision | Reason | Decided by | Replay hint |
 |----|----------|--------|------------|-------------|
 | COV-001 | The test spec is `docs/testspec.md`. It maps each requirement to tests whose assertions check that behaviour, and it leaves gaps as none or partial. No test is renamed to `TestREQ_` in this step. | The coverage skill maps the requirements before new tests. A menu-only test is not a check. | agent | Keep this file. Do not mark a requirement checked because a test runs the code. |
+| COV-002 | New tests are named `TestREQ_` and assert only the clause they reach. `jacocoTestReport` depends on `test`, `testGui`, `testPerformance`, and `testChaos`. | A combined Gradle invocation otherwise refuses the report, because the extra exec files are an implicit dependency. Gaps that need a controller, a dialog, or a real OS launch stay none or partial. | agent | Keep the dependency. Do not mark a row checked for a clause the test does not assert. |
 
 ### Last run
 
 - 2026-10-19. Test spec written. 49 requirements: 8 checked, 21 partial, 20 none. Instruction coverage 21.3% (31,265 of 146,900) was measured at `a9db337` and is recorded in the test spec. This stage has not exited: tests are not named after requirement IDs, the coverage number is not a CI threshold, and no mutation tool is chosen.
+- 2026-10-19. 14 `TestREQ_` methods added. 49 requirements: 14 checked, 28 partial, 7 none. Gate passed: unit 838, GUI 489, performance 9, chaos 0. Instruction coverage 21.8% (32,021 of 146,900). The covered stage has not exited: seven requirements still have no behavioural test, the coverage number is not a CI threshold, and no mutation tool is chosen. Underline is not decided.
 
 ## 3 tailored
 

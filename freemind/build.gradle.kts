@@ -446,7 +446,7 @@ tasks.register<JavaExec>("showcaseScreenshots") {
 // ============================================================================
 
 tasks.jacocoTestReport {
-    dependsOn(tasks.test)
+    dependsOn(tasks.test, tasks.named("testGui"), tasks.named("testPerformance"), tasks.named("testChaos"))
     // testGui, testPerformance, and testChaos write their own exec files.
     // The default report only reads test.exec, so a full run would under-count.
     executionData.setFrom(fileTree(layout.buildDirectory.dir("jacoco")) {

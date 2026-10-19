@@ -1,6 +1,6 @@
 # FreeMind CE test spec
 
-Maps every ID in `docs/spec.md` to the tests whose assertions check that behaviour. Read from the test bodies on 2026-10-19 at `a9db337`. This document does not add or rename tests. No method is named `TestREQ_` yet.
+Maps every ID in `docs/spec.md` to the tests whose assertions check that behaviour. The rows below include the `TestREQ_` methods added with the 21.8% measurement. Older tests were not renamed.
 
 A test counts only when it asserts the behaviour. Opening a menu, counting nodes, or asserting that saved XML is non-empty does not count. GUI tests that only call the same model setter as a unit test are named with that unit test, not as a separate menu check.
 
@@ -10,13 +10,13 @@ A test counts only when it asserts the behaviour. Opening a menu, counting nodes
 - **Partial** — at least one clause is checked and at least one is not.
 - **None** — no assertion checks the behaviour.
 
-49 requirements: 8 checked, 21 partial, 20 none.
+49 requirements: 14 checked, 28 partial, 7 none.
 
 ## Coverage number
 
-Authoritative number: **21.3% instruction** (31,265 of 146,900), measured 2026-10-19 at `a9db337`. Line coverage 22.4% (8,363 of 37,282). Branch coverage 20.3% (2,543 of 12,519). The performance exec did not move the instruction total. The chaos exec contains no tests.
+Authoritative number: **21.8% instruction** (32,021 of 146,900), measured 2026-10-19 with the `TestREQ_` tests in this change. The same command at `a9db337` was 21.3% (31,265 of 146,900). Line coverage 23.0% (8,559 of 37,282). Branch coverage 20.8% (2,602 of 12,519). The chaos exec contains no tests.
 
-Command, after the four test tasks have written `freemind/build/jacoco/*.exec`:
+Command. `jacocoTestReport` depends on all four test tasks and reads every `freemind/build/jacoco/*.exec`:
 
 ```
 ./gradlew :freemind:test :freemind:testGui :freemind:testPerformance :freemind:testChaos :freemind:jacocoTestReport --no-configuration-cache
@@ -28,7 +28,7 @@ HTML report: `freemind/build/reports/jacoco/test/html/index.html`. This number i
 
 - Unit tests: `:freemind:test`, headless, excludes tag `gui`. GUI tests: `:freemind:testGui`, needs a display. Performance: `:freemind:testPerformance`, tag `performance`. Chaos: `:freemind:testChaos`, tag `chaos`. Nothing is tagged `chaos`, so that task runs and finds no tests.
 - JUnit 5 is the runner. jqwik property tests and `fuzz/MindMapParsingFuzzTest.java` run with the unit task. JaCoCo is the coverage tool. No mutation tool is chosen. `select-tool` runs before any mutation campaign. Mutation stays out of the normal CI pipeline.
-- A test that calls code and asserts nothing is not a check. `ExportTests.testExportPng` calls `exportFileToPng` and asserts nothing.
+- A test that calls code and asserts nothing is not a check. `ExportTests.testExportPng` still calls `exportFileToPng` and asserts nothing. `TestREQ_FILE_03_PngExportWritesPngBytes` is the check.
 - Equivalent mutants: none. Mutation has not been run.
 
 ## Clarifications during tests
@@ -90,9 +90,11 @@ Adding a child or sibling and storing its text are checked on the model. The in-
 - `gui/NavigateMenuGuiTest.java` `navigate_foldAll`, `navigate_unfoldAll`: `setFolded` on the branch is true, then false. These call the model, not the menu action.
 - `BackwardCompatTest.java` `mapWithFoldedNodesLoads`: `FOLDED="true"` loads folded, and the child is still there.
 
-### REQ-NODE-03 — None
+### REQ-NODE-03 — Checked
 
-Undo and redo as XML action pairs are not checked. `ActionPairTests` stores action objects and does not apply them. The GUI undo methods delete or recreate nodes by hand.
+- `requirements/RequirementBehaviourTest.java` `TestREQ_NODE_03_UndoRedoUsesXmlActionPair`: `setNodeText` stores an `EditNodeAction` pair whose do text is the new text and whose undo text is the old text. Applying the reversed pair restores the old text. Applying the do action again sets the new text.
+
+`ActionPairTests` stores action objects and does not apply them. The GUI undo methods delete or recreate nodes by hand. The Undo menu stack is not used.
 
 ### REQ-NODE-04 — Partial
 
@@ -101,9 +103,11 @@ Delete is checked. Cut reduces the child count. Paste of a string increases the 
 - Cut and paste count: `StandaloneMapTests.java` `testXmlChangeWithoutModeController` calls `mapFeedback.cut` and `mapFeedback.paste`.
 - Delete: `gui/NodeCrudGuiTest.java` `node_deleteChild`, `node_nestedDeletion`.
 
-### REQ-NODE-05 — None
+### REQ-NODE-05 — Checked
 
-No test asserts a selection. The select-all and select-branch GUI methods only count nodes.
+- `requirements/RequirementBehaviourTest.java` `TestREQ_NODE_05_SelectAllAndBranch`: `MapView.selectBranch` on the root selects every node view. `selectBranch` on the Branch node, without extend, selects that node and Leaf, and not the root or Other.
+
+The Edit menu actions are not invoked. `SelectAllAction` and `SelectBranchAction` call this same view method.
 
 ### REQ-NODE-06 — Partial
 
@@ -119,9 +123,12 @@ No test joins nodes.
 
 No test puts an image on a node.
 
-### REQ-NODE-09 — None
+### REQ-NODE-09 — Partial
 
-`gui/ToolsMenuGuiTest.java` `tools_sortNodes` uses `containsExactlyInAnyOrder`, so order is not checked.
+The plain-text order is checked. `SortNodes.invoke` is not called, so the cut and paste that reorder the map are not checked.
+
+- `requirements/RequirementBehaviourTest.java` `TestREQ_NODE_09_SortsChildrenByPlainText`: the plugin's `NodeTextComparator` orders `apple` before `beta` (read from HTML) before `Zebra`, treats `Apple` and `apple` as equal, and reverses that order after `setNegative`.
+- `gui/ToolsMenuGuiTest.java` `tools_sortNodes` uses `containsExactlyInAnyOrder`, so order is not checked.
 
 ## Appearance
 
@@ -174,9 +181,13 @@ Bezier, linear, sharp bezier, color, and width are stored. Sharp linear is not s
 - `modes/NodeAdapterTest.java` `edgeSetAndGetStyle`, `edgeGetStyleAsIntLinear`, `edgeSetAndGetColor`, `edgeSetAndGetWidth`.
 - `StandaloneMapTests.java` `testXmlChangeWithoutModeController`: `sharp_bezier` is stored, and `null` falls back to bezier.
 
-### REQ-STYLE-08 — None
+### REQ-STYLE-08 — Partial
 
-Zoom methods only assert that map XML is unchanged. No zoom factor and no mouse wheel.
+The zoom factor is checked. The mouse wheel is not.
+
+- `requirements/RequirementBehaviourTest.java` `TestREQ_STYLE_08_ZoomScalesTheMap`: `MapView.setZoom(1.5f)` makes `getZoom` 1.5 and `getZoomed(100)` 150. Setting 1f makes `getZoomed(100)` 100.
+
+The older zoom methods only assert that map XML is unchanged.
 
 ## Links, notes, attributes
 
@@ -229,13 +240,19 @@ No test runs find or find next. `FindTextTests` checks HTML tag stripping, a tim
 
 `gui/ExportGuiTest.java` methods named `export_html*` only assert `.mm` XML and are not counted.
 
-### REQ-FILE-02 — None
+### REQ-FILE-02 — Partial
 
-No test writes an SVG or a PDF, and none opens the PDF options dialog. The GUI methods only assert `.mm` XML.
+SVG is checked. PDF and the PDF options dialog are not.
 
-### REQ-FILE-03 — None
+- `plugins/svg/TestREQ_FILE_02_SvgContainsNodeText.java` `TestREQ_FILE_02_SvgDocumentContainsNodeText`: `fillSVGGraphics2D` writes an SVG document that contains `SvgRoot` and `SvgChild`.
 
-`ExportTests.testExportPng` calls `exportFileToPng` and asserts nothing. `gui/ExportGuiTest.java` `export_png` only asserts that `.mm` XML is non-empty.
+The GUI methods only assert `.mm` XML.
+
+### REQ-FILE-03 — Checked
+
+- `requirements/RequirementBehaviourTest.java` `TestREQ_FILE_03_PngExportWritesPngBytes`: `exportFileToPng` writes a file whose first bytes are the PNG signature, `ImageIO` reads a positive width and height, and at least one pixel is not white.
+
+`ExportTests.testExportPng` still asserts nothing. `gui/ExportGuiTest.java` `export_png` only asserts that `.mm` XML is non-empty. The file chooser is not opened.
 
 ### REQ-FILE-04 — Partial
 
@@ -243,9 +260,11 @@ Markdown headings and a link, and context-graph XML node text, are checked. Node
 
 - `ContextGraphExportTest.java` `testMarkdownExportContainsHeadings`, `testMarkdownExportContainsLinks`, `testXmlExportWellFormed`.
 
-### REQ-FILE-05 — None
+### REQ-FILE-05 — Checked
 
-No test exports the current branch as its own map.
+- `requirements/RequirementBehaviourTest.java` `TestREQ_FILE_05_BranchBecomesOwnMap`: the Branch node is detached, saved with `MindMapMapModel.save`, and loaded again. The loaded root text is `Branch`, its only child is `Leaf`, and `ROOT` and `Other` are absent.
+
+The file chooser is not opened, and the original map is not given the linked stub that `ExportBranchAction` inserts.
 
 ### REQ-FILE-06 — None
 
@@ -262,9 +281,10 @@ These accessory outputs are checked: plain text, CSV, OPML, a LaTeX article, Wor
 
 ### REQ-PLUG-01 — Partial
 
-A Groovy error string yields line number 1. No test runs a script or opens the editor.
+A Groovy script result and the excluded script security manager are checked. The editor is not opened.
 
-- `ScriptEditorPanelTest.java` `testErrorLineNumbers`.
+- `requirements/RequirementBehaviourTest.java` `TestREQ_PLUG_01_GroovyScriptReturnsValue`: a `GroovyShell` with the same `ThreadInterrupt` customizer `ScriptingEngine` uses evaluates `1 + 2` to 3. `freemind/build.gradle.kts` excludes `ScriptingSecurityManager.java`.
+- `ScriptEditorPanelTest.java` `testErrorLineNumbers`: a Groovy error string yields line number 1.
 
 ### REQ-PLUG-02 — Partial
 
@@ -272,9 +292,11 @@ Nominatim XML unmarshalls to places. No test attaches a position to a node or op
 
 - `MarshallerTests.java` `testOsmNominatimConversion`, `testNominatimReverse`.
 
-### REQ-PLUG-03 — None
+### REQ-PLUG-03 — Checked
 
-No test runs a Lucene search. `PluginLogicTest.SearchPluginTests` only checks that the class loads.
+- `plugins/search/TestREQ_PLUG_03_LuceneFindsIndexedMap.java` `TestREQ_PLUG_03_IndexFindsOneMapAndMissesTheOther`: `FileSearchModel` indexes a directory. A query for a token that is in `hit.mm` returns that file only. The same token in `notes.txt` is not a hit. A token that is in neither file returns no path.
+
+`PluginLogicTest.SearchPluginTests` only checks that the class loads. The search panel is not opened.
 
 ### REQ-PLUG-04 — None
 
@@ -294,9 +316,9 @@ A localhost socket accepts a client through hello, welcome, and lock, and publis
 
 No test references JOrtho, a spell checker, or the dictionaries.
 
-### REQ-PLUG-08 — None
+### REQ-PLUG-08 — Checked
 
-No test asserts that the Gradle build omits database and Jabber collaboration, or that `pda/` is not a module.
+- `requirements/RequirementBehaviourTest.java` `TestREQ_PLUG_08_BuildOmitsLegacyModules`: every `include(` line in `settings.gradle.kts` omits database, jabber, and pda. `freemind/build.gradle.kts` excludes `**/jabber/**` and `**/database/**` from the main Java source set.
 
 ### REQ-MODE-01 — Partial
 
@@ -306,9 +328,13 @@ The default `initial_mode` property is `MindMap`. Browse mode and File mode are 
 
 ## Application
 
-### REQ-APP-01 — None
+### REQ-APP-01 — Partial
 
-No test changes a preference. `DefaultPropertiesTest` only reads defaults.
+The property store changes. The options dialog is not opened, and nothing is written to `auto.properties`.
+
+- `requirements/RequirementBehaviourTest.java` `TestREQ_APP_01_PreferenceStoreChanges`: `HeadlessFreeMind.setProperty` then `getProperty` returns the new value, and a second set replaces it.
+
+`DefaultPropertiesTest` only reads defaults. `HeadlessFreeMind.saveProperties` is empty.
 
 ### REQ-APP-02 — Partial
 
@@ -316,17 +342,27 @@ Paper size and imageable area survive a string round trip. Nothing prints, and n
 
 - `ToolsTests.java` `testPageFormatStorage`.
 
-### REQ-APP-03 — None
+### REQ-APP-03 — Partial
 
-No test counts `Resources_*.properties` or switches the UI language. The unicode tests preserve map text. That is REQ-MAP-03, not this requirement.
+Thirty or more language files are present, and English and German disagree on one label. The running UI language is not switched.
 
-### REQ-APP-04 — None
+- `requirements/RequirementBehaviourTest.java` `TestREQ_APP_03_AtLeastThirtyLanguages`: at least 30 `Resources_*.properties` files, `about` is `About` in English, and the German value is different.
 
-`FlatLafPropertiesTest` checks that property keys exist. It does not apply a light or dark theme.
+The unicode tests preserve map text. That is REQ-MAP-03, not this requirement.
 
-### REQ-APP-05 — None
+### REQ-APP-04 — Partial
 
-No test asserts Java 21 or a launch on macOS, Windows, and Linux.
+Both FlatLaf themes are applied to `UIManager`. The `lookandfeel` property in `FreeMind.updateLookAndFeel` is not the caller.
+
+- `requirements/RequirementBehaviourTest.java` `TestREQ_APP_04_FlatLafLightAndDark`: `FlatLightLaf.setup` then `FlatDarkLaf.setup` leave `UIManager` on `FlatLightLaf` and then `FlatDarkLaf`.
+
+`FlatLafPropertiesTest` checks that property keys exist.
+
+### REQ-APP-05 — Partial
+
+The build file names Java 21 and a package task for macOS, Windows, and Linux. Nothing is launched on those systems.
+
+- `requirements/RequirementBehaviourTest.java` `TestREQ_APP_05_Java21AndThreePackages`: `freemind/build.gradle.kts` sets `JavaLanguageVersion.of(21)`, registers `jpackageMac`, `jpackageWin`, and `jpackageLinux`, and names `freemind.main.FreeMindStarter`.
 
 ### REQ-SEC-01 — Partial
 
