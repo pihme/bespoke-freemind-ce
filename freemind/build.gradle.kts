@@ -401,6 +401,10 @@ tasks.register<Test>("testGui") {
 tasks.register<Test>("testPerformance") {
     description = "Run performance tests (large file, timing)"
     group = "verification"
+    // A new Test task does not use the test source set unless told. Without
+    // this, Gradle reports NO-SOURCE and the tagged tests never run.
+    testClassesDirs = sourceSets["test"].output.classesDirs
+    classpath = sourceSets["test"].runtimeClasspath
     useJUnitPlatform {
         includeTags("performance")
     }
@@ -413,6 +417,8 @@ tasks.register<Test>("testPerformance") {
 tasks.register<Test>("testChaos") {
     description = "Run chaos/resilience tests"
     group = "verification"
+    testClassesDirs = sourceSets["test"].output.classesDirs
+    classpath = sourceSets["test"].runtimeClasspath
     useJUnitPlatform {
         includeTags("chaos")
     }
@@ -441,6 +447,11 @@ tasks.register<JavaExec>("showcaseScreenshots") {
 
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
+    // testGui, testPerformance, and testChaos write their own exec files.
+    // The default report only reads test.exec, so a full run would under-count.
+    executionData.setFrom(fileTree(layout.buildDirectory.dir("jacoco")) {
+        include("*.exec")
+    })
     reports {
         xml.required.set(true)
         html.required.set(true)
