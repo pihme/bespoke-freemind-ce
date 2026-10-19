@@ -151,3 +151,7 @@ SEARCH:   search_for_pattern(regex) | find_file(mask, path) | list_dir(path, rec
 ```
 
 Full guide: [docs/serena-guide.md](docs/serena-guide.md)
+
+## Team rules
+
+Labels: `needs-triage`, `needs-info`, `needs-input`, `ready-for-maintainer`, `ready-for-development`, `ready-for-qa`, `ready-for-human`, `wontfix`, plus `bug` / `enhancement`. `ready-for-maintainer` is for Maintainer (website, docs fixes, smaller changes), `ready-for-development` is for Developer (larger feature and code work), and `ready-for-qa` is for QA. Team roles, labels, handover, merging and release mode: `docs/agents/team.md` (same in every repo; change it in presets first). See `docs/agents/triage-labels.md`.
