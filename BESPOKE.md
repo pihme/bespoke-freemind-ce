@@ -20,7 +20,7 @@ A modernized and streamlined version of Freemind. Modernized pertains to the UI.
 
 ## Spec
 
-- Feature spec: `docs/spec.md`. Testspec: none yet.
+- Feature spec: `docs/spec.md`. Testspec: `docs/testspec.md`.
 - Upstream spec: none with numbered requirements. `docs/` is an architecture and component inventory, usable as a map of the code and not as a feature spec. `_bmad-output/implementation-artifacts/tech-spec-freemind-ce-next-gen-modernization.md` is a finished infrastructure plan from 2026-03-11. It is not a product feature list, and several of its claims are stale at this commit (it says tests never run, and that LaTeX is absent from the Gradle settings). Verdict: not usable. See RAW-003.
 
 ## 1 raw
@@ -55,21 +55,21 @@ A modernized and streamlined version of Freemind. Modernized pertains to the UI.
 
 ## 2 covered
 
-- Upstream commit: <sha of 1-raw this run started from>
-- Built from: 1-raw@<sha>
+- Upstream commit: 88075b1ed47f8e58d813775e41836e08d0681f1f
+- Built from: 1-raw@a9db337edd4fc0d0d82be531c3dd49b0848e08a4
 - Skill: increase-test-coverage
-- Gate: <command(s) that must pass at the end of this stage>
-- Details: none (or bespoke/2-covered.md)
+- Gate: `./gradlew :freemind:test :freemind:testGui :freemind:testPerformance :freemind:testChaos --no-configuration-cache`
+- Details: `docs/testspec.md`
 
 ### Decisions
 
 | ID | Decision | Reason | Decided by | Replay hint |
 |----|----------|--------|------------|-------------|
-| COV-001 | | | user / agent | |
+| COV-001 | The test spec is `docs/testspec.md`. It maps each requirement to tests whose assertions check that behaviour, and it leaves gaps as none or partial. No test is renamed to `TestREQ_` in this step. | The coverage skill maps the requirements before new tests. A menu-only test is not a check. | agent | Keep this file. Do not mark a requirement checked because a test runs the code. |
 
 ### Last run
 
-- Date, result (passed / failed at decision ID), notes
+- 2026-10-19. Test spec written. 49 requirements: 8 checked, 21 partial, 20 none. Instruction coverage 21.3% (31,265 of 146,900) was measured at `a9db337` and is recorded in the test spec. This stage has not exited: tests are not named after requirement IDs, the coverage number is not a CI threshold, and no mutation tool is chosen.
 
 ## 3 tailored
 
