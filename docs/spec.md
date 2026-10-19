@@ -93,3 +93,32 @@ A line marked **docs** comes from `README.md` or `docs/`. A line marked **menu**
 ## Not decided here
 
 This list does not say which of these stay. Removing or adding features is a later stage. The vision says the feature set should end at the core of mind map modeling, and the constraints say the file format stays compatible or gains an importer.
+
+Underline stays unresolved. REQ-STYLE-02 says the view menu entry is commented out. The model flag can still be set. That is not a deduced requirement.
+
+## Deduced requirements
+
+Labeled **Deduced**. These IDs were not chosen as product requirements. They record behaviour the current program already shows, inferred so a missing test has a sentence to check. They do not decide which features stay. IDs are `REQ-DED-nn`, are never reused, and are not renumbered into the 49 rows above. Time-management calendars are not in this table.
+
+| ID | Deduced behaviour | Why it is deduced | Where the program does it |
+|----|-------------------|-------------------|---------------------------|
+| REQ-DED-01 | Joining leaf nodes writes their plain text, in list order, into the selected node, separated by a single space, and deletes the other selected nodes. A selected node that has children is left unchanged. | REQ-NODE-07 says only "Join selected nodes." | `JoinNodesAction.joinNodes` |
+| REQ-DED-02 | Find selects the first visible node whose plain text contains every word, ignoring case. Find next continues through the nodes still queued from that search and selects the next match. | REQ-FIND-01 names the commands and not the match. | `FindAction.find`, `FindAction.findNext` |
+| REQ-DED-03 | Importing a folder adds a child for each directory and each file. The node text is the file name. The link is a file URL. A directory that contains something is folded, and so is a target that is not the root once it has children. An empty directory stays unfolded. The root stays unfolded. | REQ-FILE-06 names folder-structure import and not the nodes that appear. Folding a leaf is skipped unless `enable_leaves_folding` is true, and the fold actor returns when the node is the root. | `ImportFolderStructureAction.importFolderStructure`, `ToggleFoldedActor` |
+| REQ-DED-04 | An image on a node is HTML text containing `<img src="...">`. When that node is shown, the view inserts a `<base href>` of the map URL if the text does not already have one. The stored node text does not gain that base tag. | REQ-NODE-08 names the command and that the canvas can draw images. It does not name the stored text. | `MindMapController.setImageByFileChooser`, `NodeView.updateText` |
+| REQ-DED-05 | A LaTeX hook stores an equation. The default is `E = mc^{2}`. Loading an `EQUATION` attribute replaces it. Saving writes that attribute. | REQ-PLUG-05 says render LaTeX on a node and not the stored value. | `LatexNodeHook` |
+| REQ-DED-06 | With spelling turned on, dictionaries are registered from `dictionaries.cnf` for a language that file lists. After registration for `en`, a dictionary is loaded and the current locale language is `en`. | REQ-PLUG-07 names JOrtho and not this switch. | `FreeMind.setupSpellChecking`, `SpellChecker.registerDictionaries` |
+| REQ-DED-07 | Integrated help is the HelpSet file `plugins/help/doc/freemind.hs`. That set's title contains `FreeMind Help` and its home id is `top`. | REQ-PLUG-04 says open integrated help and not which set. | `FreemindHelpStarter`, `plugins/help/doc/freemind.hs` |
+
+## Backwards compatibility tests
+
+Umbrella for program behaviour that the requirements above do not name. A test under this heading asserts an observable result of the current program. It does not add a product requirement, and it does not decide that the behaviour stays. If the result contradicts a requirement, the requirement test stays and is not weakened to match the code.
+
+The tests are added in slices. A slice is finished when its assertions are in and the coverage command has been run.
+
+1. Mind-map controller paths that the requirement tests still do not reach.
+2. Map view painting that the picture tests still do not reach: edge shapes, clouds, arrow links, mouse-wheel zoom, and an image pixel.
+3. The map plugin (`plugins/map`), including an attached geographic position.
+4. The preferences panel (`OptionPanel` and the layout package).
+5. Browse mode, File mode, print preview, the script editor, the PDF options dialog, the LaTeX viewer, the help window, and the spelling menu.
+6. Accessory dialogs the requirements do not name. Time-management calendars are in this slice. Every backwards-compatibility test, including the calendar day check, is listed in `docs/testspec.md` under **Backwards compatibility tests**. That list is the reference. It does not add a product requirement.

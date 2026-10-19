@@ -10,16 +10,16 @@ A test counts only when it asserts the behaviour. Opening a menu, counting nodes
 - **Partial** — at least one clause is checked and at least one is not.
 - **None** — no assertion checks the behaviour.
 
-49 requirements: 14 checked, 28 partial, 7 none.
+49 requirements: 19 checked, 30 partial, 0 none. The seven rows that were none now have a deduced test. Sort, the four edge shapes, and ctrl-wheel zoom are checked as well. Five of the former none rows stay partial because a clause the requirement names is still not asserted.
 
 ## Coverage number
 
-Authoritative number: **21.8% instruction** (32,021 of 146,900), measured 2026-10-19 with the `TestREQ_` tests in this change. The same command at `a9db337` was 21.3% (31,265 of 146,900). Line coverage 23.0% (8,559 of 37,282). Branch coverage 20.8% (2,602 of 12,519). The chaos exec contains no tests.
+Authoritative number: **62.4% instruction** (91,634 of 146,900), measured 2026-10-19 with `DISPLAY=:0` on the command below. Line coverage 59.9% (22,344 of 37,282). Branch coverage 49.8% (6,239 of 12,519). The same command earlier the same day was 62.0% (91,041 of 146,900), then 61.8% (90,720 of 146,900), then 60.3% (88,579 of 146,900), then 57.3% (84,212 of 146,900), then 55.7% (81,880 of 146,900), then 53.6% (78,738 of 146,900), then 53.3% (78,332 of 146,900), then 52.2% (76,701 of 146,900), then 51.3% (75,386 of 146,900), then 49.4% (72,501 of 146,900), then 42.9% (63,022 of 146,900), then 29.2% (42,834 of 146,900). After only the first seven deduced methods it was 26.5% (38,982 of 146,900). At `ef0c9af` it was 21.8% (32,021 of 146,900). At `a9db337` it was 21.3% (31,265 of 146,900). The chaos exec contains no tests. This number is not committed. 80% is 117,520 instructions, so 25,886 are still missing. Log: `/tmp/jacoco-rerun18.log`, BUILD SUCCESSFUL in 47s. `/tmp/jacoco-rerun13.log` and `/tmp/jacoco-rerun14.log` failed in `:freemind:testGui` and are not coverage numbers.
 
 Command. `jacocoTestReport` depends on all four test tasks and reads every `freemind/build/jacoco/*.exec`:
 
 ```
-./gradlew :freemind:test :freemind:testGui :freemind:testPerformance :freemind:testChaos :freemind:jacocoTestReport --no-configuration-cache
+DISPLAY=:0 ./gradlew :freemind:test :freemind:testGui :freemind:testPerformance :freemind:testChaos :freemind:jacocoTestReport --no-configuration-cache
 ```
 
 HTML report: `freemind/build/reports/jacoco/test/html/index.html`. This number is not a failing CI threshold yet. Per-module numbers are not a second score.
@@ -38,6 +38,181 @@ HTML report: `freemind/build/reports/jacoco/test/html/index.html`. This number i
 | | | | | |
 
 No question is decided here. REQ-STYLE-02 says the underline menu entry is commented out as not implemented in the view. `NodeAdapterTest.setUnderlinedChangesState` and `FormatMenuGuiTest.format_underline` still set the model flag. That stays a note on the row until you decide otherwise.
+
+## Deduced requirements
+
+The IDs are defined in `docs/spec.md` under **Deduced requirements**. A row there is not a product decision. The tests below are labeled **Deduced** because the observable result was inferred from the current program.
+
+## Deduced missing tests
+
+Labeled **Deduced**. Each row is a test the requirement sentence does not spell out, inferred from the code that implements it. A test counts only when it asserts the result. Status is updated when that assertion has passed.
+
+| ID | Deduced missing test | Test | Status |
+|----|----------------------|------|--------|
+| REQ-DED-01 | Two leaf nodes join into the selected node's text with one space, and the other node is gone. | `DeducedBehaviourTest.TestREQ_NODE_07_JoinLeavesIntoSelectedText` | passed |
+| REQ-DED-02 | Find selects the first case-insensitive word match. Find next selects the later match. | `DeducedBehaviourTest.TestREQ_FIND_01_FindThenFindNext` | passed |
+| REQ-DED-03 | A folder import adds a named child per directory and file, with a file URL link. A directory that contains a file is folded. An empty directory stays unfolded. A non-root target that received children is folded. The root stays unfolded. | `DeducedBehaviourTest.TestREQ_FILE_06_ImportFolderAddsNamedChildren` | passed |
+| REQ-DED-04 | A node whose text is an `<img>` is shown with a `<base href>` of the map. The stored text stays without that base tag. | `DeducedBehaviourTest.TestREQ_NODE_08_ImageHtmlGainsBaseHrefInTheView` | passed |
+| REQ-DED-05 | A new LaTeX hook reads back `E = mc^{2}`, saves that equation, and loads a replacement. | `DeducedBehaviourTest.TestREQ_PLUG_05_LatexHookStoresEquation` | passed |
+| REQ-DED-06 | Registering the English dictionary from `dictionaries.cnf` loads a dictionary whose locale language is `en`. | `DeducedBehaviourTest.TestREQ_PLUG_07_EnglishDictionaryLoads` | passed |
+| REQ-DED-07 | The help set file loads. Its title contains `FreeMind Help` and its home id is `top`. The help window is not opened. | `DeducedBehaviourTest.TestREQ_PLUG_04_HelpSetLoads` | passed |
+| REQ-NODE-04 | Paste of a string leaves that text on a new child. Copy and paste as plain text are still open. | `DeducedBehaviourTest.TestREQ_NODE_04_PasteLeavesThePastedText` | passed. Included in the 29.2% measurement. |
+| REQ-NODE-03 | The undo menu stack restores the previous node text. | `DeducedBehaviourTest.TestREQ_NODE_03_UndoMenuRestoresPreviousText` | passed. Included in the 29.2% measurement. |
+| REQ-NODE-06 | Cut then paste, which is what a move-drop does, moves the node under the new parent. The drop listener is not driven. | `DeducedBehaviourTest.TestREQ_NODE_06_CutThenPasteMovesNodeToNewParent` | passed. Included in the 29.2% measurement. |
+| REQ-NODE-09 | `SortNodes.invoke` reorders the children on the map. | `DeducedBehaviourTest.TestREQ_NODE_09_SortInvokeReordersChildren` | passed. Included in the 29.2% measurement. |
+| REQ-STYLE-07 | Each of the four edge styles is stored and the node view paints ink. Color and width are stored. | `DeducedBehaviourTest.TestREQ_STYLE_07_FourEdgeShapesPaint` | passed. Included in the 29.2% measurement. |
+| REQ-STYLE-08 | Ctrl plus the mouse wheel reduces the zoom. | `DeducedBehaviourTest.TestREQ_STYLE_08_CtrlWheelChangesZoom` | passed. Included in the 29.2% measurement. |
+| REQ-MAP-02 | Revert restores the last saved file. | not in this change | open |
+| REQ-FILE-02 | PDF export writes a PDF and the options dialog is still open. | not in this change | open |
+| REQ-PLUG-01 | The script editor is still not opened. | not in this change | open |
+| REQ-PLUG-02 | A node stores a geographic position. | not in this change | open |
+| REQ-APP-01 | The options panel reads and writes a preference. The dialog is still not opened. | not in this change | open |
+| REQ-APP-02 | Print preview shows a page. | not in this change | open |
+| REQ-MODE-01 | Browse mode is read-only and File mode lists a directory. | not in this change | open |
+
+The file chooser for an image, the join warning dialog, the find dialog, and `FreeMind.setupSpellChecking` (private, and it runs only when the preference is on) are not what the new tests call.
+
+## Backwards compatibility tests
+
+Labeled **Backwards compatibility**. This is the umbrella for code that no requirement names. The slices and the rule are in `docs/spec.md` under **Backwards compatibility tests**. A backwards-compatibility assertion does not replace a requirement test. Time-management calendars stay in this table. They are not a product requirement.
+
+Slices 1 and 2 also have deduced requirement tests. This table is the reference for every backwards-compatibility test. Every row in this table is included in the 62.4% measurement. Slice 5 lists a file in a temporary directory, builds the Linux file chooser, searches a directory of `.mm` files, paints a print-preview page, and exports an image of the open map. It still has no backwards-compatibility test for browse read-only, a script that runs, PDF bytes, a rendered LaTeX equation, the help window, or a checked word. The print-preview window is not opened.
+
+| Slice | What is checked | Test | Status |
+|-------|-----------------|------|--------|
+| 6 | A time-calendar widget keeps the year, month, and day it was given. | `BackwardsCompatibilityTest.calendarKeepsTheDayThatWasSet` | passed |
+| 2 | Folding a node hides its child views. The model child text stays. | `BackwardsCompatibilityTest.foldedNodeHidesItsChild` | passed |
+| 1 | A note, an icon add/remove, and a link stay on the node. | `BackwardsCompatibilityTest.noteIconAndLinkStayOnTheNode` | passed |
+| 1 | Moving a node up reorders the children. | `BackwardsCompatibilityTest.movingANodeUpReordersTheChildren` | passed |
+| 1 | A pattern copies bold, italic, and color. The intersection of a bold node and a plain node drops the bold property. Applying the pattern makes the plain node bold. | `BackwardsCompatibilityTest.patternCopiesBoldItalicAndColor` | passed |
+| 2 | An arrow link stores red. After layout, both inclinations are set and the inner bounds are positive. The bitmap is not asserted. | `BackwardsCompatibilityTest.arrowLinkPaintsRedBetweenTwoNodes` | passed |
+| 2 | A red cloud paints red pixels around the node. | `BackwardsCompatibilityTest.cloudPaintsRedAroundTheNode` | passed |
+| 1 | HTML export writes `<html>` and escapes `ä` as `&auml;`. | `BackwardsCompatibilityTest.htmlExportWritesTheNodeText` | passed |
+| 6 | An encrypted node hides its child until the password matches. A wrong password does not. | `BackwardsCompatibilityTest.encryptedNodeHidesTheChildUntilThePasswordMatches` | passed |
+| 6 | A table sorter orders rows ascending, then descending. | `BackwardsCompatibilityTest.tableSorterOrdersRows` | passed |
+| 4 | `C+ENTER` is key Enter with the modifier word `control`. Tab is consumed. Control-space is a space. Typed `B` stays `B`. `SPACE` parses as a space. An unknown key name is rejected. | `BackwardsCompatibilityTest.keyTranslatorReadsControlEnter` | passed |
+| 6 | A clone plugin reads the stored clone ids `alpha,beta,`. | `BackwardsCompatibilityTest.clonePluginReadsStoredCloneIds` | passed |
+| 3 | A map position round-trips latitude, longitude, center, zoom, and the Mapnik tile source, and the tooltip HTML contains the position mark and an `http` URL. No tile is downloaded. | `BackwardsCompatibilityTest.mapPositionRoundTripsAndBuildsATileTooltip` | passed |
+| 1 | An XML element keeps the umlaut attribute `Käse` through a write and a second parse. | `BackwardsCompatibilityTest.xmlElementKeepsAnUmlautAttribute` | passed |
+| 1 | Text comparison, placeholders, extensions, absolute paths, a restorable path, font scaling, icon indexes, and an empty compound action print. A restorable `MindMap:/tmp/file.mm` yields the path `/tmp/file.mm`. | `BackwardsCompatibilityTest.toolsComparePathsPlaceholdersAndIconIndexes` | passed |
+| 1 | Integer, double, and boolean attributes, a named integer mapping, and a non-numeric integer throw `XMLParseException`. | `BackwardsCompatibilityTest.xmlElementReadsTypedAttributes` | passed |
+| 6 | A pattern file loads the name `Marked`, recursive, red, and bold. | `BackwardsCompatibilityTest.stylePatternLoadsANamedBoldPattern` | passed |
+| 1 | Splitting `AlphaBeta` at index 5 leaves `Alpha` on the node and adds `Beta`. | `BackwardsCompatibilityTest.splittingAChildKeepsBothHalves` | passed |
+| 1 | Clearing a node drops the note and the bold face, and the color is no longer red. | `BackwardsCompatibilityTest.clearingANodeDropsTheNoteAndTheBoldFace` | passed |
+| 1 | Blending a red node toward a white map background stores the 3:1 mix. | `BackwardsCompatibilityTest.blendingANodeColorMovesItTowardTheBackground` | passed |
+| — | An optional split pane holds one panel, then a split pane with two, and returns to one. Index 2 is rejected. | `BackwardsCompatibilityTest.optionalSplitPaneHoldsOnePanelThenTwo` | passed |
+| 2 | A continuous selection keeps Alpha and Gamma, and the selected nodes are ordered by Y. | `BackwardsCompatibilityTest.continuousSelectionKeepsTheSiblingsBetween` | passed |
+| 1 | Find matches a note when the node text does not, misses an absent term, and splits `alpha "beta gamma" delta` into three terms. | `BackwardsCompatibilityTest.findActionFindsANoteAndSplitsAQuotedTerm` | passed |
+| — | A file filter accepts a directory and `map.mm`, rejects `notes.txt`, and describes `.mm`. | `BackwardsCompatibilityTest.fileFilterAcceptsAMindMapExtension` | passed |
+| — | A sorted map vector keeps keys in order, ignores a duplicate key, and shrinks on remove. | `BackwardsCompatibilityTest.sortedMapVectorKeepsKeysInOrder` | passed |
+| 6 | Raising a child of the root moves it to the other side. | `BackwardsCompatibilityTest.raisingAChildChangesItsSide` | passed |
+| 6 | New parent wraps the selected child. The new node is not named `Wrapped`. | `BackwardsCompatibilityTest.newParentWrapsTheSelectedChild` | passed |
+| 6 | The split hook breaks `Alpha` and `Beta` on a newline. | `BackwardsCompatibilityTest.splitHookBreaksANodeOnANewline` | passed |
+| 6 | Hierarchical icons collect the child icon `button_ok` onto the parent state icon. | `BackwardsCompatibilityTest.hierarchicalIconsCollectTheChildIcon` | passed |
+| 6 | Format paste copies bold from one node onto another. | `BackwardsCompatibilityTest.formatPasteCopiesBoldOntoAnotherNode` | passed |
+| 6 | Unfold all opens a folded child, then fold all folds it again. | `BackwardsCompatibilityTest.unfoldingAllOpensAFoldedChild` | passed |
+| 6 | After the revision plugin is on, editing a node sets its background to yellow. | `BackwardsCompatibilityTest.revisionPluginColorsAnEditedNode` | passed |
+| 6 | Automatic layout paints the root black and the child `#0033ff`. | `BackwardsCompatibilityTest.automaticLayoutAppliesTheDepthColor` | passed |
+| 6 | Creation/modification stores a tooltip that starts with `created `. | `BackwardsCompatibilityTest.creationModificationStoresATooltip` | passed |
+| 6 | HTML export with folding writes `fold_document`, a fold button, the icon, a `.mm.html` link, and bold. Heading export writes `<h1>` and the root text. | `BackwardsCompatibilityTest.htmlExportWithFoldingWritesTheScriptAndAHeading` | passed |
+| 1 | Applying a pattern directly sets the text, red, green, bubble, a blue bezier edge of width 4, `button_ok`, size 20, bold, italic, strikethrough, and a serif family. A child pattern named `ChildMark` sets the child text to `FromChild`. A blank font size and font name restore the default font. Clearing the icon, text, width, and font name empties the text and the icons, stores the default edge width, and the visible width is thin. | `BackwardsCompatibilityTest.directPatternApplySetsFontEdgeIconAndText` | passed |
+| 6 | Saving a pattern named `Marked` with red and loading it back keeps the name and the color. | `BackwardsCompatibilityTest.savedPatternRoundTripsTheNameAndTheColor` | passed |
+| 1 | Pasting a copy of `Alpha` adds a second `Alpha` with a different id. | `BackwardsCompatibilityTest.pastingACopyAddsTheChildAgain` | passed |
+| 1 | Joining the leaves `Alpha` and `Beta` stores `Alpha Beta` and leaves one child. | `BackwardsCompatibilityTest.joiningLeavesConcatenatesTheirText` | passed |
+| 1 | Deleting `Beta` leaves `Alpha`. | `BackwardsCompatibilityTest.deletingAChildRemovesIt` | passed |
+| 1 | Undo restores `Alpha` after the text was set to `Changed`, and redo puts `Changed` back. | `BackwardsCompatibilityTest.undoRestoresThePreviousText` | passed |
+| 1 | Moving a node stores parent v-gap 12, h-gap 30, and shift 7. | `BackwardsCompatibilityTest.movingANodeStoresItsGaps` | passed |
+| 1 | An attribute `Owner` changes from `Ada` to `Grace` and is removed. Removing every icon leaves none. | `BackwardsCompatibilityTest.anAttributeRoundTripsOnTheNode` | passed |
+| 1 | A shallow copy keeps the text `Original` and does not keep the note. | `BackwardsCompatibilityTest.aShallowCopyKeepsTheText` | passed |
+| 2 | Arrow ends stay at (1, 2) and (3, 4). The start head is `Default`, the end head is `None`, and removing the link leaves none. | `BackwardsCompatibilityTest.arrowEndsAndArrowHeadsStayOnTheLink` | passed |
+| 2 | Selecting the root branch keeps `Alpha` and `Beta` selected. A link point is non-null. Making `Beta` the selection and toggling it removes it. | `BackwardsCompatibilityTest.selectingABranchKeepsTheChildSelected` | passed |
+| 1 | An XML element reads the CDATA section `Alpha & Beta`. | `BackwardsCompatibilityTest.xmlElementReadsACdataSection` | passed |
+| 6 | JSON, YAML, Markdown, XML, and the clean JSON, YAML, and XML writers include the node text `Alpha`. JSON also includes the link, the note, `button_ok`, `Gamma`, bold, a red cloud, `Ada`, and a linear edge. YAML includes the cloud and `Ada`. | `BackwardsCompatibilityTest.contextGraphExportsWriteTheNodeText` | passed |
+| 2 | An arrow popup has at least six components. A node has no arrow popup. | `BackwardsCompatibilityTest.arrowPopupListsTheLinkActions` | passed |
+| 5 | File mode lists `listed.mm` from a temporary directory. The file node is not writeable. | `BackwardsCompatibilityTest.fileModeListsADirectory` | passed |
+| 2 | A map fitted to one page prints page 0 and rejects page 1. Two pages wide still prints page 0 and rejects page 40. With fit turned off, page 0 still prints. | `BackwardsCompatibilityTest.printingAFittedPageExistsAndLaterPagesDoNot` | passed |
+| 2 | Right from the root selects a child. Shift-down keeps at least two nodes selected. | `BackwardsCompatibilityTest.keyboardMoveSelectsTheNextNode` | passed |
+| — | Country codes keep the last value: `en` is US, `es` is MX, `it` is IT, and the map has 14 entries. | `BackwardsCompatibilityTest.countryMapKeepsTheLastCode` | passed |
+| — | Colors, points, booleans, compression, page size, generated ids, changed properties, and the node hierarchy round-trip. A proposed file name drops `:/`. | `BackwardsCompatibilityTest.toolsRoundTripValues` | passed |
+| 2 | Linear, bezier, sharp linear, and sharp bezier edges of width 4 use those painters, and the inner bounds stay non-zero. | `BackwardsCompatibilityTest.edgeStylesUseTheMatchingPainter` | passed |
+| 6 | Sorting the children `Alpha`, `Zebra` reverses them to `Zebra`, `Alpha`. | `BackwardsCompatibilityTest.sortingChildrenReversesAlphabeticalOrder` | passed |
+| 1 | Importing a favorites folder adds `Example` with `https://example.test/fav` and drops the empty directory. | `BackwardsCompatibilityTest.explorerFavoritesImportAUrl` | passed |
+| 1 | Plain text split at 5 stays `Alpha` and `Beta`. HTML split at 5 keeps `Alph` in the first half and `Beta` in the second. | `BackwardsCompatibilityTest.htmlContentSplitsIntoTwoHalves` | passed |
+| 1 | Saving a node writes the text, the cloud, `#ff0000`, `sharp_bezier`, the link, `button_ok`, `Ada`, and bold. | `BackwardsCompatibilityTest.savingAStyledNodeWritesItsParts` | passed |
+| 2 | Scrolling a 900 by 700 view inside a 400 by 300 viewport by 12, 18 moves the origin there. Zoom 1.5 stays. A point at (-1000, -1000) hits no arrow. | `BackwardsCompatibilityTest.scrollingAViewportMovesTheOrigin` | passed |
+| — | The standard file chooser on this Linux host is not the AWT dialog. | `BackwardsCompatibilityTest.theLinuxFileChooserIsTheSwingDialog` | passed |
+| 2 | The node key listener sends Right to the map and leaves the root selected when Alt is held. | `BackwardsCompatibilityTest.nodeKeyListenerForwardsAnArrow` | passed |
+| 1 | Closing a map with force stores `bespoke-close` in the last-place property. | `BackwardsCompatibilityTest.closingAMapWithForceStoresTheLastPlace` | passed |
+| 5 | Searching a directory finds `notes.mm` for the word `token`. | `BackwardsCompatibilityTest.searchingAMindMapFileFindsTheNodeText` | passed |
+| 6 | A pattern named `Rich` keeps green, blue, bubble, `Hello`, `button_ok`, Serif 20 bold italic, a red bezier edge of width 4, and itself as the child pattern. | `BackwardsCompatibilityTest.aRichPatternKeepsEdgeFontIconAndChild` | passed |
+| 2 | Clickable image HTML contains an area, `Alpha`, and `https://example.test/a`. | `BackwardsCompatibilityTest.clickableImageAreasNameTheNodeAndTheLink` | passed |
+| 4 | The key workaround drops a dead key, Alt, a letter, and a numpad digit, and it keeps Enter. | `BackwardsCompatibilityTest.keyWorkaroundDropsModifiersAndKeepsEnter` | passed |
+| 1 | XML escaping turns a leading space and a tab into `&nbsp;`, keeps the space in `a <`, encodes `<`, and drops an illegal `&#x0B;` character. | `BackwardsCompatibilityTest.htmlEscapesWhitespaceAndDropsIllegalCharacters` | passed |
+| 1 | Text export writes the link, `Folder`, and the folded child `SkipMe`. RTF writes bold, italic, strike, color 3, the escaped backslash, and `\\u228?`. | `BackwardsCompatibilityTest.textAndRtfExportWriteTheNodeTheLinkAndTheStyle` | passed |
+| 1 | Making `Beta` the root puts `Alpha` under it and `ROOT` under `Alpha`. | `BackwardsCompatibilityTest.changingTheRootReparentsTheOldChain` | passed |
+| 1 | A custom tooltip entry stays `kept` for an `https` link and for a missing `.mm` link. | `BackwardsCompatibilityTest.aMindMapLinkTooltipKeepsACustomEntry` | passed |
+| 2 | The first and last child views are `Alpha` or `Beta`. A blue background stays blue. Dragging over the node paints a pixel that is not white. | `BackwardsCompatibilityTest.nodeViewNamesItsFirstChildAndPaintsADragHint` | passed |
+| 1 | A double attribute round-trips `1.25` and `2.5`. The mapped value of `Zoom` is `1`. An unknown literal is rejected. The mapped double of `zoom` is `7.0`. | `BackwardsCompatibilityTest.xmlDoubleAttributesRoundTrip` | passed |
+| 1 | Two `Owner=Ada` attributes are equal and share a hash code. A different value does not. | `BackwardsCompatibilityTest.equalAttributesShareAHashCode` | passed |
+| — | `/tmp/file.mm` is absolute. The relative URL of `a.mm` is `a.mm`. A file in a child directory is `sub/b.mm`, and a file beside the parent directory is `../b.mm`. A missing file reads as null. Split-pane F6 and F8 are removed and put back. | `BackwardsCompatibilityTest.pathsRelativeUrlsAndSplitPaneKeysRoundTrip` | passed |
+| 1 | Attribute filters both match and miss `Owner=Ada`. | `BackwardsCompatibilityTest.attributeFiltersMatchTheStoredOwner` | passed |
+| 6 | Lowering `Beta` moves it under `Alpha`. | `BackwardsCompatibilityTest.loweringANodeMovesItUnderItsSibling` | passed |
+| 6 | Raising grandchild `Beta` places it beside `Alpha`. | `BackwardsCompatibilityTest.raisingAGrandchildMovesItBesideItsParent` | passed |
+| 6 | Splitting two HTML paragraphs keeps `Alpha` and `Beta` and leaves at least two children. | `BackwardsCompatibilityTest.splittingHtmlParagraphsKeepsBothParts` | passed |
+| 1 | Saving the map writes `<map` and `Alpha`. | `BackwardsCompatibilityTest.savingTheMapWritesTheNodeText` | passed |
+| 6 | YAML export of an arrow lists `_references:` and `Beta`. A numeric note becomes `B A` and keeps `nope`. | `BackwardsCompatibilityTest.yamlExportListsAnArrowTarget` | passed |
+| — | A UTF-8 BOM still reads `Ab`, a UTF-16BE BOM reads `B`, a UTF-16LE BOM reads `C`, a UTF-32BE BOM reads `D`, and a UTF-32LE BOM reads `E`. Text without a BOM reads `Hi`. | `BackwardsCompatibilityTest.unicodeReaderKeepsTheTextBehindTheBom` | passed |
+| — | Generated actions keep the string, number, and boolean values they are given. | `BackwardsCompatibilityTest.generatedActionsKeepTheValuesTheyAreGiven` | passed |
+| 2 | A plain click folds `Alpha` and leaves the child text `Child`. | `BackwardsCompatibilityTest.plainClickFoldsANodeThatHasAChild` | passed |
+| 2 | Ctrl-click keeps `Alpha` selected, and Alt-click keeps that branch selected. | `BackwardsCompatibilityTest.extendSelectionKeepsTheClickedNode` | passed |
+| 2 | Changing an arrow inclination moves its start off the original point. | `BackwardsCompatibilityTest.changingAnArrowInclinationMovesItsStart` | passed |
+| 6 | Creating the hierarchical-icons hook attaches it, and removing the hook drops it. | `BackwardsCompatibilityTest.creatingAHierarchicalIconHookAttachesIt` | passed |
+| 1 | Pasting three lines adds `example.test`, `Nested`, and `ada@example.test`. | `BackwardsCompatibilityTest.pastingLinesAddsALinkAChildAndAnAddress` | passed |
+| 6 | Adding the hierarchical-icons hook copies the child icon `idea` onto the root, and removing the hook drops that icon. | `BackwardsCompatibilityTest.addingHierarchicalIconsCopiesTheChildIcon` | passed |
+| 1 | Pasting a mind-map node adds `PastedNode`. Pasting HTML adds `LinkText`. Pasting a file adds its name. Pasting an image adds a `.jpeg` image node. | `BackwardsCompatibilityTest.pastingMindMapHtmlFileAndImageAddsNodes` | passed |
+| 1 | Pasting the XML node `XmlPaste` keeps that text. | `BackwardsCompatibilityTest.pastingXmlKeepsTheNodeText` | passed |
+| 1 | A shallow copy of `Alpha` keeps its link and drops the child. | `BackwardsCompatibilityTest.aShallowCopyKeepsTheLinkAndDropsTheChild` | passed |
+| 2 | Right from the root selects `Alpha` or `Beta`. Down, up, left, page down, and shift-down keep a node selected. | `BackwardsCompatibilityTest.arrowKeysWalkSiblingsAndAPage` | passed |
+| 2 | A point on a painted arrow is a hit, and a point 500 pixels away is not. | `BackwardsCompatibilityTest.anArrowReportsAHitOnItsCurve` | passed |
+| 6 | Clean JSON of an arrow lists `_references` and `Beta`, and a numeric note becomes `Aé Bé`. | `BackwardsCompatibilityTest.cleanJsonListsAnArrowAndANumericNote` | passed |
+| 6 | A clone of `Alpha` and `Beta` reports `ChildB` for `ChildA`, and reports `Beta` for `Alpha`. This is not a product requirement. | `BackwardsCompatibilityTest.cloneRegistrationFindsTheMatchingChild` | passed |
+| 6 | The day chooser keeps 15 June 2020. A right arrow fires day 16 and leaves the selected day at 15 until `setDay`. Day 0 becomes 1 and day 99 becomes the last day of June. December steps into January of the next year. This is not a product requirement. | `BackwardsCompatibilityTest.dayChooserKeepsTheFifteenthAndStepsRight` | passed |
+| 2 | The two contrary colors of blue are different from blue and from each other. | `BackwardsCompatibilityTest.contraryColorsLeaveTheOriginalHue` | passed |
+| — | A list keeps `Alpha` before `Beta`. A sorted model keeps `Ada` first. A missing map key is rejected. | `BackwardsCompatibilityTest.listModelsKeepInsertedValuesInOrder` | passed |
+| 6 | A blue tile image round-trips and then draws a red cross. This is not a product requirement. | `BackwardsCompatibilityTest.tileImageRoundTripsABlueSquare` | passed |
+| 2 | A scalable icon paints a green rectangle at twice the file size. | `BackwardsCompatibilityTest.scalableIconPaintsAtTwiceTheSize` | passed |
+| 2 | The box of a bent curve is wider than the ends and taller than a flat line. | `BackwardsCompatibilityTest.aCurveBoxContainsTheBend` | passed |
+| 2 | A folded bubble node paints ink. | `BackwardsCompatibilityTest.bubbleStylePaintsARoundedNode` | passed |
+| 2 | An existing HTML head is replaced by the configured head. An image node keeps a base URL and `pic`. A long body gains a width. A table keeps `One` and `Two`. Two lines stay in HTML. | `BackwardsCompatibilityTest.aLongHtmlNodeAndATableKeepTheirText` | passed |
+| 6 | Unfolding opens `Alpha`, stage 1 folds it, and folding the last branches folds `Alpha` again. The root stays open. This is not a product requirement. | `BackwardsCompatibilityTest.unfoldingReopensAFoldedBranch` | passed |
+| 2 | The `idea` icon is added, removed, and added again with shift. | `BackwardsCompatibilityTest.anIconActionAddsAndRemovesTheIdeaIcon` | passed |
+| 6 | A node filter that contains `Alpha` hides `Beta` and keeps the root. This is not a product requirement. | `BackwardsCompatibilityTest.aNodeFilterHidesBeta` | passed |
+| 6 | A new node copies the stored color `#0000ff`. A fold action is left unchanged. This is not a product requirement. | `BackwardsCompatibilityTest.formattingNewNodesCopiesThePreviousFormat` | passed |
+| 6 | The edit before `Beta` is `Alpha`. A fold and the jump hook itself are not stored. This is not a product requirement. | `BackwardsCompatibilityTest.theLastEditLocationIsThePreviousNode` | passed |
+| 2 | Fitting a 500 by 400 map into a smaller viewport lowers the zoom from 2. | `BackwardsCompatibilityTest.fittingTheMapChangesTheZoom` | passed |
+| 5 | A print preview paints ink on a page. | `BackwardsCompatibilityTest.aPrintPreviewPaintsAPage` | passed |
+| 2 | Bold, italic, strike, and the underline flag stay on the selected node. The font becomes size 22 and a serif family. A cloud stores cyan. The edge is bezier width 8. The style is bubble. Blending changes the color. Rich text and plain text both keep Alpha. Icons go from one to none. A green pattern stores that color. Folding Mid folds it, and toggling Alpha's children opens Mid again. Gamma moves up and its shift returns to 0. Selecting the branch and then every node keeps at least three selected. The move cursor is set and then cleared. Underline here is the model flag. | `BackwardsCompatibilityTest.formatActionsChangeTheSelectedNode` | passed |
+| 1 | A version 1.1.0 map keeps black text, a white background, fork style, the link, shift 3, gaps 4 and 5, the history times, bold italic strikethrough, a thin red bezier edge, a green cloud, the idea icon, attribute Owner, the note Remember, a folded left child, the grandchild, an arrow to Child, and a substitute for an unknown hook. | `BackwardsCompatibilityTest.aRichMapKeepsEdgeCloudArrowFontAndAttributes` | passed |
+| 6 | A present export file is copied and a missing file is skipped. A PNG filter accepts a directory and `pic.PNG` and rejects `pic.gif`. This is not a product requirement. | `BackwardsCompatibilityTest.aPresentExportFileIsCopiedAndAMissingOneIsSkipped` | passed |
+| 6 | A spin field clamps 99 to 10 and -3 to 1, then clamps 1 to the minimum 2. A card layout uses the visible child's height and ignores the hidden child. The spin field is not a product requirement. | `BackwardsCompatibilityTest.aSpinFieldClampsAndACardShowsTheVisibleSize` | passed |
+| 6 | Calendar repetitions from 15 June 2020 mark that day, return the same marking from the cache, miss 1990, and an unknown repeat type yields no entries. This is not a product requirement. | `BackwardsCompatibilityTest.calendarRepetitionsStepForwardFromJune` | passed |
+| 5 | An exported image of the open map contains ink. | `BackwardsCompatibilityTest.anExportImageContainsTheMap` | passed |
+| 1 | A plain link stays the URL. A link to a node id contains that node's text. A missing id does not. Replacing `Alpha` inside `<b>` keeps the tag and writes `Beta`. An or-filter matches `Alpha` and `Beta` and misses the root. An and-filter misses `Alpha`. A hovered fold mark on a red edge paints red. | `BackwardsCompatibilityTest.aShortLinkAFoldMarkAndAnOrFilterStayVisible` | passed |
+| 6 | A number property keeps 5 and resets 4, 99, and `nope` to 1. A remind value shows OK, Cancel, and Ask. An integer combo snaps 5 to 4 and resets 9 and `nope` to 2. A color swatch paints a black border and a red center. A tall pane shows a vertical bar and a short pane hides it. A content pane lays out the visible child. The eclipsed edge stroke is one dashed stroke. A transferable log contains `Alpha`. A typed `a` runs the matching action and is consumed. `/tmp/alpha` is absolute and its prefix is `/`. A same-host URL stays relative to `b.mm`. A different host stays absolute. `ababa` contains three `a`s, and `aaa` contains `aa` once. The FreeMind base path is not blank. A spin field accepts 5 and leaves 99 and `x` red at 5. A calendar keeps the German locale with week numbers. A triple calendar keeps 15 June 2020, 3 August 2020, and 2 January 2024. Dead grave, alt, a numpad digit, a control character, and a late newline are swallowed. This is not a product requirement. | `BackwardsCompatibilityTest.aSpinFieldASwatchAndAKeyWorkaroundStayInRange` | passed |
+| — | A version string `1.2.3` stays a release. `Alpha`, `Beta`, and `RC` keep their numbers. Two tokens and the type `Gamma` are rejected. An unknown stored type is rejected. This is not a product requirement. | `BackwardsCompatibilityTest.aVersionStringKeepsItsNumbersAndItsType` | passed |
+| — | A pasted arrow whose source stayed on the map is re-added when the target id is in the paste, and doubled when the stored link's target id is not. A source that is also in the paste is left for that source. A missing source, a missing destination, and a missing stored link are left unrestored. An arrow whose destination stayed on the map keeps that id. An arrow whose destination is in the paste is retargeted. This is not a product requirement. | `BackwardsCompatibilityTest.aPastedArrowKeepsTheEndThatStayedOnTheMap` | passed |
+| — | An arrow with no visible ends has empty bounds and misses a point. A thin arrow uses a 1-pixel stroke. A visible source with no target stores a start inclination of (30, 0) and paints red. A visible target with no source stores an end inclination and paints red. Two visible ends keep the inclinations they were given, paint red, and the curve hits its start. This is not a product requirement. | `BackwardsCompatibilityTest.anArrowPaintsFromTheEndThatIsVisible` | passed |
+| — | Typing `a` asks to edit and leaves the node text. Control-A does not ask. Home, end, and backspace ask to edit and leave the text. With the shipped move letters, E selects the previous sibling, D the next, S the parent, and F the child. This is not a product requirement. | `BackwardsCompatibilityTest.aTypedKeyAsksToEditAndAMoveLetterChangesTheSelection` | passed |
+| — | A JSON export of a folded HTML node keeps `A & B`, the tags, two icons, bubble, italic, blue, yellow, two attributes, `E = mc^{2}`, and the child. Quotes, slashes, and control characters in the note are escaped. A null value is the word null. This is not a product requirement. | `BackwardsCompatibilityTest.aJsonExportKeepsFoldedHtmlStyleAndEscapesText` | passed |
+| — | A clone filter copies a fold, a new node, a paste, an undo paste, a move, and a hook onto the other clone. A move rewrites the cloned member and leaves a stranger id. A fold of the clone itself is copied only when the clone includes itself; a move, a delete, and a cut of that clone are not copied. Selecting the clone marks the other clone, focusing the root clears that mark, and focusing the child marks the other child with the clone icon until focus is lost. A saved clone list keeps the other node, drops a missing id, and stores `CLONE_saved`. This is not a product requirement. | `BackwardsCompatibilityTest.aCloneFilterCopiesTheActionOntoTheOtherClone` | passed |
+| 1 | A style pattern from a blue bold node applies to the node, the font, and the edge, and not to an icon. An edge clone keeps its own color. An arrow clone keeps the source inclination. A bad end-arrow name stays none. A clean XML export writes `B`, `A`, `~>`, `Beta`, and the escaped token `&amp;#nope;`. Stage 1 folds `Alpha`, and stage 2 opens it. A missing `.mm` link adds no preview image, and an `https` link drops the preview. The open file is already opened. The map paints ink. Equal `alpha` matches `Alpha` and not `Beta`. Greater-than `M` matches neither. The idea icon is contained on `Alpha` and not on `Beta`. Saved filters reload as two conditions. Removing hierarchical icons leaves no hooks. Joining HTML `Gamma` and plain `Delta` keeps both texts and drops `Delta`. Undo keeps `Renamed`. Enter, escape, delete, space, insert, and tab do not edit. Down and shift-left keep a selection. The next and previous map stay on `Renamed`. | `BackwardsCompatibilityTest.aFoldedStageAJoinedHtmlNodeAndAClonedArrowStayOnTheMap` | passed |
+| 4 | The color combo selects the entry named `red` and renders its display name. | `StartupBehaviourTest.colorComboSelectsRedByName` | passed |
+| 6 | The calendar-marking dialog offers `Never` as the first repetition. This is not a product requirement. | `StartupBehaviourTest.calendarMarkingDialogOffersNever` | passed |
+| 6 | The time list shows the root text `New Mindmap` and closes. The filter field is not typed into. | `StartupBehaviourTest.timeListShowsEveryNodeAndCloses` | passed |
+| 6 | Time management appends a date to the selected root and closes. The reminder path is not used. | `StartupBehaviourTest.timeManagementAppendsTheDateAndCloses` | passed |
+| 6 | The password dialog keeps `secret` when OK is pressed. A short password is not submitted. | `StartupBehaviourTest.passwordDialogKeepsALongEnoughPassword` | passed |
+| 6 | The format dialog shows `Change format of nodes`, OK, and Cancel, and the result stays cancel. It is disposed. The close path is not called. | `StartupBehaviourTest.formatDialogShowsTheShippedTitleAndCancels` | passed |
+| 1 | The inline editor commits `Renamed root` when Enter is delivered to the field's key listener. | `StartupBehaviourTest.inlineEditorCommitsTheFieldTextOnEnter` | passed |
 
 ## Map
 
@@ -94,12 +269,15 @@ Adding a child or sibling and storing its text are checked on the model. The in-
 
 - `requirements/RequirementBehaviourTest.java` `TestREQ_NODE_03_UndoRedoUsesXmlActionPair`: `setNodeText` stores an `EditNodeAction` pair whose do text is the new text and whose undo text is the old text. Applying the reversed pair restores the old text. Applying the do action again sets the new text.
 
-`ActionPairTests` stores action objects and does not apply them. The GUI undo methods delete or recreate nodes by hand. The Undo menu stack is not used.
+`ActionPairTests` stores action objects and does not apply them. The GUI undo methods delete or recreate nodes by hand.
+
+- `requirements/DeducedBehaviourTest.java` `TestREQ_NODE_03_UndoMenuRestoresPreviousText`: after `setNodeText` from `Before` to `After`, the undo action restores `Before` and disables itself.
 
 ### REQ-NODE-04 — Partial
 
-Delete is checked. Cut reduces the child count. Paste of a string increases the count and does not assert the pasted text. Copy, copy single, and paste as plain text are not checked.
+Delete is checked. Cut reduces the child count. Paste of a string leaves that text on a new child. Copy, copy single, and paste as plain text are not checked.
 
+- `requirements/DeducedBehaviourTest.java` `TestREQ_NODE_04_PasteLeavesThePastedText`: pasting `Pasted leaf` adds one child with that text.
 - Cut and paste count: `StandaloneMapTests.java` `testXmlChangeWithoutModeController` calls `mapFeedback.cut` and `mapFeedback.paste`.
 - Delete: `gui/NodeCrudGuiTest.java` `node_deleteChild`, `node_nestedDeletion`.
 
@@ -111,24 +289,29 @@ The Edit menu actions are not invoked. `SelectAllAction` and `SelectBranchAction
 
 ### REQ-NODE-06 — Partial
 
-`moveNodes` changes the child index. The drag tests create a new node instead of reparenting the original.
+`moveNodes` changes the child index. Cut then paste moves a node under a new parent. The drop listener is not driven. The drag tests create a new node instead of reparenting the original.
 
+- `requirements/DeducedBehaviourTest.java` `TestREQ_NODE_06_CutThenPasteMovesNodeToNewParent`: cutting `MoveMe` and pasting it onto `Dest` leaves `MoveMe` only under `Dest`. `Keep` stays under the root.
 - `StandaloneMapTests.java` `testXmlChangeWithoutModeController`: `moveNodes` changes index 0 to 1, back to 0, then to 2.
 
-### REQ-NODE-07 — None
+### REQ-NODE-07 — Checked
 
-No test joins nodes.
+- `requirements/DeducedBehaviourTest.java` `TestREQ_NODE_07_JoinLeavesIntoSelectedText`: joining the leaves `Alpha` and `Beta` writes `Alpha Beta` on `Alpha` and removes `Beta`.
 
-### REQ-NODE-08 — None
+The dialog that appears when a selected node has children is not opened.
 
-No test puts an image on a node.
+### REQ-NODE-08 — Partial
 
-### REQ-NODE-09 — Partial
+The shown HTML gains a base address. The file chooser is not opened, and no drawn image pixel is checked.
 
-The plain-text order is checked. `SortNodes.invoke` is not called, so the cut and paste that reorder the map are not checked.
+- `requirements/DeducedBehaviourTest.java` `TestREQ_NODE_08_ImageHtmlGainsBaseHrefInTheView`: the stored text keeps `<img src="pic.png">` and does not gain `<base `. The view text contains that image and `<base href>` of the map URL.
 
+### REQ-NODE-09 — Checked
+
+- `requirements/DeducedBehaviourTest.java` `TestREQ_NODE_09_SortInvokeReordersChildren`: `SortNodes.invoke` on a root whose children are `beta` then `alpha` leaves them as `alpha` then `beta`.
 - `requirements/RequirementBehaviourTest.java` `TestREQ_NODE_09_SortsChildrenByPlainText`: the plugin's `NodeTextComparator` orders `apple` before `beta` (read from HTML) before `Zebra`, treats `Apple` and `apple` as equal, and reverses that order after `setNegative`.
-- `gui/ToolsMenuGuiTest.java` `tools_sortNodes` uses `containsExactlyInAnyOrder`, so order is not checked.
+
+`gui/ToolsMenuGuiTest.java` `tools_sortNodes` uses `containsExactlyInAnyOrder`, so that menu test does not check order.
 
 ## Appearance
 
@@ -155,10 +338,12 @@ HTML conversion and tag stripping are checked. A user toggle between rich text a
 
 ### REQ-STYLE-04 — Partial
 
-Applying one pattern changes the target node's color. The pattern-manager UI is not checked.
+Applying one pattern changes the target node's color. The pattern frame builds at least five buttons. The pattern manager lists at least 20 patterns, including `Default`. `getResultPattern` is not called. The format dialog is a backwards-compatibility test and does not apply a pattern.
 
 - `StandaloneMapTests.java` `testXmlChangeWithoutModeController`: a pattern taken from a magenta node makes another node magenta.
 - `property/XMLRoundTripPropertyTest.java` `patternsRoundTrip` keeps pattern names only.
+- `main/StartupBehaviourTest.java` `TestREQ_STYLE_04_PatternFrameBuildsAPattern`: after `StylePatternFrame.init` the frame has components and at least five buttons.
+- `main/StartupBehaviourTest.java` `TestREQ_STYLE_04_PatternManagerListsShippedPatterns`: the pattern list has at least 20 entries and one is named `Default`.
 
 ### REQ-STYLE-05 — Checked
 
@@ -174,18 +359,20 @@ Applying one pattern changes the target node's color. The pattern-manager UI is 
 
 `FormatMenuGuiTest.format_cloudToggle` leaves the cloud null and is not counted.
 
-### REQ-STYLE-07 — Partial
+### REQ-STYLE-07 — Checked
 
-Bezier, linear, sharp bezier, color, and width are stored. Sharp linear is not set on a node.
-
+- `requirements/DeducedBehaviourTest.java` `TestREQ_STYLE_07_FourEdgeShapesPaint`: each of `linear`, `bezier`, `sharp_linear`, and `sharp_bezier` is stored, and painting the root after that style leaves a non-white pixel. Setting the edge color to red and the width to 4 stores both.
 - `modes/NodeAdapterTest.java` `edgeSetAndGetStyle`, `edgeGetStyleAsIntLinear`, `edgeSetAndGetColor`, `edgeSetAndGetWidth`.
 - `StandaloneMapTests.java` `testXmlChangeWithoutModeController`: `sharp_bezier` is stored, and `null` falls back to bezier.
 
-### REQ-STYLE-08 — Partial
+The format menu is not invoked.
 
-The zoom factor is checked. The mouse wheel is not.
+### REQ-STYLE-08 — Checked
 
+- `requirements/DeducedBehaviourTest.java` `TestREQ_STYLE_08_CtrlWheelChangesZoom`: a ctrl mouse-wheel event with a positive rotation makes `getZoom` smaller.
 - `requirements/RequirementBehaviourTest.java` `TestREQ_STYLE_08_ZoomScalesTheMap`: `MapView.setZoom(1.5f)` makes `getZoom` 1.5 and `getZoomed(100)` 150. Setting 1f makes `getZoomed(100)` 100.
+
+The zoom menu shortcuts are not invoked.
 
 The older zoom methods only assert that map XML is unchanged.
 
@@ -221,9 +408,11 @@ Text, attribute, and icon filters, AND and OR, and visibility are checked.
 - `filter/FilterConditionCompositeTest.java` `allTrue`, `oneFalse`; `DisjunctConditionsTests.oneTrue`.
 - `filter/FilterIntegrationPipelineTest.java` `matchedNodesVisibleUnmatchedHidden`, `filterWithConjunctCondition`, `filterWithDisjunctCondition`.
 
-### REQ-FIND-01 — None
+### REQ-FIND-01 — Checked
 
-No test runs find or find next. `FindTextTests` checks HTML tag stripping, a time-list row filter, and replace. `gui/EditMenuGuiTest.java` `edit_find` uses the test helper `findNodeByText`.
+- `requirements/DeducedBehaviourTest.java` `TestREQ_FIND_01_FindThenFindNext`: find selects `alpha one`. Find next selects `prefix alpha two`. The match ignores case.
+
+The find dialog is not opened. `FindTextTests` still checks HTML tag stripping, a time-list row filter, and replace. `gui/EditMenuGuiTest.java` `edit_find` uses the test helper `findNodeByText`.
 
 ### REQ-ATTR-02 — Checked
 
@@ -242,9 +431,10 @@ No test runs find or find next. `FindTextTests` checks HTML tag stripping, a tim
 
 ### REQ-FILE-02 — Partial
 
-SVG is checked. PDF and the PDF options dialog are not.
+SVG is checked. The PDF options dialog keeps A4 and landscape and writes `pdf_page_format` and `pdf_page_orientation`. No PDF bytes are written.
 
 - `plugins/svg/TestREQ_FILE_02_SvgContainsNodeText.java` `TestREQ_FILE_02_SvgDocumentContainsNodeText`: `fillSVGGraphics2D` writes an SVG document that contains `SvgRoot` and `SvgChild`.
+- `main/StartupBehaviourTest.java` `TestREQ_FILE_02_PdfDialogKeepsPaperAndOrientation`: the dialog title is the shipped PDF export settings title, A4 and landscape are selected, OK stores those two properties, and `getResult` is true.
 
 The GUI methods only assert `.mm` XML.
 
@@ -266,9 +456,13 @@ Markdown headings and a link, and context-graph XML node text, are checked. Node
 
 The file chooser is not opened, and the original map is not given the linked stub that `ExportBranchAction` inserts.
 
-### REQ-FILE-06 — None
+### REQ-FILE-06 — Partial
 
-No test calls the import actions. `gui/ImportGuiTest.java` copies node text by hand or loads ordinary `.mm` XML.
+Folder-structure import is checked. A branch, a linked branch, and Explorer favorites are not.
+
+- `requirements/DeducedBehaviourTest.java` `TestREQ_FILE_06_ImportFolderAddsNamedChildren`: the import adds `Sub`, `Empty`, and `note.txt` with file URL links. `Sub`, which contains `inner.txt`, is folded. `Empty` stays unfolded. The non-root target is folded. The root stays unfolded.
+
+`gui/ImportGuiTest.java` still copies node text by hand or loads ordinary `.mm` XML.
 
 ### REQ-FILE-07 — Partial
 
@@ -281,30 +475,38 @@ These accessory outputs are checked: plain text, CSV, OPML, a LaTeX article, Wor
 
 ### REQ-PLUG-01 — Partial
 
-A Groovy script result and the excluded script security manager are checked. The editor is not opened.
+A Groovy script result and the excluded script security manager are checked. The editor shows `return 1;` under `script0`. The script is not run.
 
 - `requirements/RequirementBehaviourTest.java` `TestREQ_PLUG_01_GroovyScriptReturnsValue`: a `GroovyShell` with the same `ThreadInterrupt` customizer `ScriptingEngine` uses evaluates `1 + 2` to 3. `freemind/build.gradle.kts` excludes `ScriptingSecurityManager.java`.
 - `ScriptEditorPanelTest.java` `testErrorLineNumbers`: a Groovy error string yields line number 1.
+- `main/StartupBehaviourTest.java` `TestREQ_PLUG_01_ScriptEditorShowsTheScriptText`: the window title is the shipped script-editor title, the list has one entry `script0`, and the text area is `return 1;`.
 
 ### REQ-PLUG-02 — Partial
 
-Nominatim XML unmarshalls to places. No test attaches a position to a node or opens a map view.
+Nominatim XML unmarshalls to places. A map viewer builds its menus, reads tile-source URLs, builds a coordinate link, and parses `47.26 11.39` into one place. Zoom increases. No test attaches a position to a node, and `MapDialog.startupMapHook` is not opened. The position round trip is a backwards-compatibility test, not this requirement.
 
 - `MarshallerTests.java` `testOsmNominatimConversion`, `testNominatimReverse`.
+- `main/StartupBehaviourTest.java` `TestREQ_PLUG_02_MapViewBuildsMenusAndReadsACoordinate`: at least four menus, transport and MapQuest base URLs, a link containing `mlat=47.26` and `zoom=12`, a Mapnik tile source, one place at that coordinate, and a higher zoom after the zoom action. Tile downloads are blocked.
 
 ### REQ-PLUG-03 — Checked
 
 - `plugins/search/TestREQ_PLUG_03_LuceneFindsIndexedMap.java` `TestREQ_PLUG_03_IndexFindsOneMapAndMissesTheOther`: `FileSearchModel` indexes a directory. A query for a token that is in `hit.mm` returns that file only. The same token in `notes.txt` is not a hit. A token that is in neither file returns no path.
 
-`PluginLogicTest.SearchPluginTests` only checks that the class loads. The search panel is not opened.
+`PluginLogicTest.SearchPluginTests` only checks that the class loads. `plugins/search/SearchViewPanelBehaviourTest.java` shows the search window with `No results`. That window test is not this Lucene requirement.
 
-### REQ-PLUG-04 — None
+### REQ-PLUG-04 — Partial
 
-No test opens help. The help GUI tests check version strings and non-null objects.
+The help set loads. The help window is not opened.
 
-### REQ-PLUG-05 — None
+- `requirements/DeducedBehaviourTest.java` `TestREQ_PLUG_04_HelpSetLoads`: the title contains `FreeMind Help` and the home id is `top`.
 
-No test renders LaTeX on a node. `export/XsltExportTest.java` `mm2latexartclProducesOutput` exports a LaTeX article file, which is REQ-FILE-07.
+The help GUI tests still check version strings and non-null objects.
+
+### REQ-PLUG-05 — Partial
+
+The stored equation is checked. It is not rendered on a node. `export/XsltExportTest.java` `mm2latexartclProducesOutput` exports a LaTeX article file, which is REQ-FILE-07.
+
+- `requirements/DeducedBehaviourTest.java` `TestREQ_PLUG_05_LatexHookStoresEquation`: a new hook reads back `E = mc^{2}`, saving writes that equation, and loading `a = b` replaces it.
 
 ### REQ-PLUG-06 — Partial
 
@@ -312,9 +514,11 @@ A localhost socket accepts a client through hello, welcome, and lock, and publis
 
 - `CollaborationTests.java` `testNormalStartup`, `testNormalStartupWithTwoClients`, `testPublishExistingMapStartup`, `testPublishExistingMapWrongName`.
 
-### REQ-PLUG-07 — None
+### REQ-PLUG-07 — Partial
 
-No test references JOrtho, a spell checker, or the dictionaries.
+An English dictionary loads. No word is checked, and `FreeMind.setupSpellChecking` is not called.
+
+- `requirements/DeducedBehaviourTest.java` `TestREQ_PLUG_07_EnglishDictionaryLoads`: after `SpellChecker.registerDictionaries` for `en`, a dictionary is loaded and the current locale language is `en`.
 
 ### REQ-PLUG-08 — Checked
 
@@ -322,25 +526,31 @@ No test references JOrtho, a spell checker, or the dictionaries.
 
 ### REQ-MODE-01 — Partial
 
-The default `initial_mode` property is `MindMap`. Browse mode and File mode are not started.
+The default `initial_mode` property is `MindMap`. File mode's new model root is `Root` and has children. A temporary directory lists `listed.mm`, and that file node is not writeable. Browse mode starts. Read-only browse is not shown.
 
 - `DefaultPropertiesTest.java` `initialModeDefaultIsMindMap`.
+- `main/StartupBehaviourTest.java` `TestREQ_MODE_01_FileModeRootNamesTheFilesystemRoot`: after `createNewMode("File")` the root text is `Root` and it has children.
+- `main/StartupBehaviourTest.java` `TestREQ_MODE_01_BrowseModeStarts`: after `createNewMode("Browse")` the mode controller is a `BrowseController`.
+- `requirements/BackwardsCompatibilityTest.java` `fileModeListsADirectory`: a temporary directory lists `listed.mm`, and the file node is not writeable.
 
 ## Application
 
 ### REQ-APP-01 — Partial
 
-The property store changes. The options dialog is not opened, and nothing is written to `auto.properties`.
+The property store changes. The options panel builds and shows the Environment tab. OK does not write a property, and nothing is written to `auto.properties`.
 
 - `requirements/RequirementBehaviourTest.java` `TestREQ_APP_01_PreferenceStoreChanges`: `HeadlessFreeMind.setProperty` then `getProperty` returns the new value, and a second set replaces it.
+- `main/StartupBehaviourTest.java` `TestREQ_APP_01_StartupSelectsMindMapAndBuildsTheFileMenu`: the mode is `MindMap`, the menu bar has at least nine menus, and the File menu text is the shipped label.
+- `main/StartupBehaviourTest.java` `TestREQ_APP_01_OptionPanelShowsEnvironmentTab`: `OptionPanel.buildPanel` shows the Environment button and a split pane. The dialog is disposed.
 
 `DefaultPropertiesTest` only reads defaults. `HeadlessFreeMind.saveProperties` is empty.
 
 ### REQ-APP-02 — Partial
 
-Paper size and imageable area survive a string round trip. Nothing prints, and nothing opens print preview.
+Paper size and imageable area survive a string round trip. Print preview shows the label `- 1 -` and OK disposes the dialog. The page is not painted, and nothing is sent to a printer.
 
 - `ToolsTests.java` `testPageFormatStorage`.
+- `main/StartupBehaviourTest.java` `TestREQ_APP_02_PrintPreviewShowsTheFirstPage`: `PreviewDialog` contains `- 1 -`, and OK leaves the dialog not displayable.
 
 ### REQ-APP-03 — Partial
 
