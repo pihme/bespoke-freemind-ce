@@ -74,13 +74,13 @@ Labeled **Deduced**. Each row is a test the requirement sentence does not spell 
 | REQ-APP-02 | Print preview shows a page. | not in this change | open |
 | REQ-MODE-01 | Browse mode is read-only and File mode lists a directory. | not in this change | open |
 
-The file chooser for an image, the join warning dialog, the find dialog, and `FreeMind.setupSpellChecking` (private, and it runs only when the preference is on) are not what the new tests call.
+The file chooser for an image, the join warning dialog, and the find dialog are not what the deduced tests call. `FreeMindBehaviourTest.lookAndFeelBranchesAndSpellCheckRegister` calls `setupSpellChecking` with the preference on, and the current spell locale stays null. That observation is backwards compatibility. It does not change REQ-DED-06.
 
 ## Backwards compatibility tests
 
 Labeled **Backwards compatibility**. This is the umbrella for code that no requirement names. The slices and the rule are in `docs/spec.md` under **Backwards compatibility tests**. A backwards-compatibility assertion does not replace a requirement test. Time-management calendars stay in this table. They are not a product requirement.
 
-Slices 1 and 2 also have deduced requirement tests. This table is the reference for every backwards-compatibility test. Every row in this table is included in the 62.4% measurement. Slice 5 lists a file in a temporary directory, builds the Linux file chooser, searches a directory of `.mm` files, paints a print-preview page, and exports an image of the open map. It still has no backwards-compatibility test for browse read-only, a script that runs, PDF bytes, a rendered LaTeX equation, the help window, or a checked word. The print-preview window is not opened.
+Slices 1 and 2 also have deduced requirement tests. This table is the reference for every backwards-compatibility test. Every row in this table except the `freemind.main` package row was included in the 62.4% measurement. The `freemind.main` row is not in the 62.1% measurement. Slice 5 lists a file in a temporary directory, builds the Linux file chooser, searches a directory of `.mm` files, paints a print-preview page, and exports an image of the open map. It still has no backwards-compatibility test for browse read-only, a script that runs, PDF bytes, a rendered LaTeX equation, the help window, or a checked word. The print-preview window is not opened.
 
 | Slice | What is checked | Test | Status |
 |-------|-----------------|------|--------|
@@ -217,6 +217,23 @@ Slices 1 and 2 also have deduced requirement tests. This table is the reference 
 | 6 | The password dialog keeps `secret` when OK is pressed. A short password is not submitted. | `StartupBehaviourTest.passwordDialogKeepsALongEnoughPassword` | passed |
 | 6 | The format dialog shows `Change format of nodes`, OK, and Cancel, and the result stays cancel. It is disposed. The close path is not called. | `StartupBehaviourTest.formatDialogShowsTheShippedTitleAndCancels` | passed |
 | 1 | The inline editor commits `Renamed root` when Enter is delivered to the field's key listener. | `StartupBehaviourTest.inlineEditorCommitsTheFieldTextOnEnter` | passed |
+| — | The classes in `freemind.main` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.main`. Each of those tests is labeled backwards compatibility. With spelling on, the current spell locale stays null. A current-version map loads from the startup event. A dialog beside an on-screen component sits to its right and below it, and a component in the screen inset is clamped to that inset. Methods that exit the process or run a system command are in the uncoverable table. | `tests.freemind.cov.main.*BehaviourTest` | passed |
+
+## Uncoverable
+
+A method is uncoverable when its only effect is `System.exit` or `Runtime.exec` of a system command. These were read and left undriven. Dialogs, network calls, and timers are not in this table.
+
+| Source | Method | Call |
+| --- | --- | --- |
+| `freemind/freemind/main/FreeMindStarter.java` | `main` | `System.exit(1)` after a failed startup |
+| `freemind/freemind/main/FreeMindStarter.java` | `getUserPreferencesFile` | `System.exit(1)` when `defaultPreferences` is null. The non-null path is tested. |
+| `freemind/freemind/main/FreeMind.java` | `main` | `System.exit(1)` in the startup catch |
+| `freemind/freemind/main/FreeMind.java` | `checkForAnotherInstance` | `System.exit(0)` after a successful read from another instance's socket. A missing or badly formatted port file is tested. |
+| `freemind/freemind/main/FreeMind.java` | `FreeMind$3.windowClosing` | `controller.quit` reaches `System.exit(0)` in `Controller.quit` |
+| `freemind/freemind/main/FreeMind.java` | `initServer` | `new EditServer`, whose constructor calls `Tools.setPermissions` |
+| `freemind/freemind/main/EditServer.java` | `EditServer` constructor | `Tools.setPermissions(portFile, 0600)`, which runs `Runtime.getRuntime().exec` |
+| `freemind/freemind/main/Tools.java` | `setPermissions` | `Runtime.getRuntime().exec` of `chmod` when `permissions != 0` and `isUnix()`. `setPermissions(path, 0)` is tested. |
+| `freemind/freemind/main/Tools.java` | `setHidden` | `Runtime.getRuntime().exec` of `attrib.exe` when `os.name` starts with `Win`. The non-Windows return is tested. |
 
 ## Map
 
