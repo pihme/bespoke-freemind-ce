@@ -8,32 +8,13 @@ CONTRIBUTING.md is injected into your context by SessionStart hook. You already 
 
 | You normally do this | HERE, do this instead | Why |
 |---|---|---|
-| `grep/rg` on Java files | `search_for_pattern()` (Serena MCP) | Semantic analysis, not text matching |
-| `cat File.java` or `Read` whole file | `get_symbols_overview()` then `find_symbol()` | Token-efficient, symbol-level precision |
-| `find . -name "*.java"` | `find_file("*.java", ".")` (Serena MCP) | Respects .gitignore, structured results |
-| Commit without checking callers | `find_referencing_symbols()` before every commit | Broken callers are invisible without it |
 | Sanitize/filter user input | **NEVER** — user content is sacred | Every path, script, SQL the user types is preserved exactly |
 | Use `feat!:` for breaking changes | **NEVER** — backward compatibility is absolute | Every `.mm` file ever created must still open |
-
-> `grep/rg` on non-Java files (`.properties`, `.md`, `.yml`, `.xml`) is fine and encouraged.
-
-## First Action — Grounding Checklist
-
-Before ANY work, call `mcp__serena__check_onboarding_performed` then print:
-
-```
-GROUNDING:
-- Branch: ___  Directory: ___
-- Task (one sentence): ___
-- Serena onboarding: yes/no
-- First Serena call: get_symbols_overview on ___
-```
 
 ## Read What Applies to Your Task
 
 | Your task involves... | Read this |
 |---|---|
-| Any code analysis or editing | [docs/serena-guide.md](docs/serena-guide.md) |
 | Design or architecture decisions | [docs/architecture.md](docs/architecture.md) |
 | PR, merge, or release | [docs/merge-release-safety.md](docs/merge-release-safety.md) + [docs/contributor-workflows.md](docs/contributor-workflows.md) |
 | Build, test, or packaging | [docs/development-guide.md](docs/development-guide.md) |
@@ -43,13 +24,12 @@ GROUNDING:
 ## Pre-Commit Checklist
 
 -> [CONTRIBUTING.md — Before Committing](CONTRIBUTING.md#before-committing) (single source of truth)
--> [docs/serena-guide.md — Pre-Commit Verification](docs/serena-guide.md#pre-commit-verification-flow) (Serena steps)
 
 ## Subagent Rule
 
 Every subagent prompt starts with:
 ```
-Proje: freemind-ce. AGENTS.md'yi oku ve talimatları uygula. Java kod analizi icin Serena MCP kullan (grep/find degil). Gorev: [X]
+Proje: freemind-ce. AGENTS.md'yi oku ve talimatları uygula. Gorev: [X]
 ```
 
 ---
@@ -90,7 +70,6 @@ freemind-ce/
 ├── AGENTS.md                 # This file — project-specific agent rules
 ├── CONTRIBUTING.md           # Single source of truth for ALL rules
 ├── Makefile                  # Development shortcuts
-├── .serena/project.yml       # Serena LSP config
 ├── docs/                     # Architecture, guides, workflows
 ├── build.gradle.kts          # Root build config
 ├── freemind/                 # Main module
@@ -140,14 +119,3 @@ make help           # Show all targets
 -> [docs/contributor-workflows.md](docs/contributor-workflows.md) — Branch workflow, CI pipeline, release gating.
 -> [docs/merge-release-safety.md](docs/merge-release-safety.md) — Merge protocol, release checklist.
 -> [CONTRIBUTING.md — Commit Best Practices](CONTRIBUTING.md#commit-best-practices) — Conventional Commits format.
-
-### Serena Quick Reference
-
-```
-EXPLORE:  get_symbols_overview(file, depth=1) -> find_symbol(name, include_body=True)
-VERIFY:   find_referencing_symbols(name, file) -> make build
-EDIT:     replace_symbol_body | insert_after_symbol | insert_before_symbol | rename_symbol
-SEARCH:   search_for_pattern(regex) | find_file(mask, path) | list_dir(path, recursive)
-```
-
-Full guide: [docs/serena-guide.md](docs/serena-guide.md)
