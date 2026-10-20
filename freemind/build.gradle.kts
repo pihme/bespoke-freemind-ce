@@ -445,6 +445,23 @@ tasks.register<JavaExec>("showcaseScreenshots") {
 // Code Coverage (JaCoCo)
 // ============================================================================
 
+// JAXB output under generated-src. The report and the agent both skip it.
+// Phase C does not add tests for those classes.
+val generatedJaxbExclude = "freemind/controller/actions/generated/**"
+
+fun org.gradle.api.file.FileCollection.withoutGeneratedJaxb() =
+    files(map { dir ->
+        fileTree(dir) {
+            exclude(generatedJaxbExclude)
+        }
+    })
+
+tasks.withType<Test>().configureEach {
+    configure<JacocoTaskExtension> {
+        excludes = listOf("freemind.controller.actions.generated.instance.*")
+    }
+}
+
 tasks.jacocoTestReport {
     dependsOn(tasks.test, tasks.named("testGui"), tasks.named("testPerformance"), tasks.named("testChaos"))
     // testGui, testPerformance, and testChaos write their own exec files.
@@ -452,6 +469,8 @@ tasks.jacocoTestReport {
     executionData.setFrom(fileTree(layout.buildDirectory.dir("jacoco")) {
         include("*.exec")
     })
+    classDirectories.setFrom(classDirectories.withoutGeneratedJaxb())
+    sourceDirectories.setFrom(sourceDirectories.withoutGeneratedJaxb())
     reports {
         xml.required.set(true)
         html.required.set(true)
@@ -459,6 +478,8 @@ tasks.jacocoTestReport {
 }
 
 tasks.named<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
+    classDirectories.setFrom(classDirectories.withoutGeneratedJaxb())
+    sourceDirectories.setFrom(sourceDirectories.withoutGeneratedJaxb())
     violationRules {
         rule {
             limit {
