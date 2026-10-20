@@ -1,6 +1,6 @@
 # Merge, Release & Dependency Safety
 
-This document defines the mandatory protocols for merging pull requests, updating dependencies, and releasing new versions of FreeMind CE. All contributors, maintainers, and AI agents MUST follow these protocols without exception.
+Upstream notes from Denomas/freemind-ce. This fork does not treat them as binding. The rules are [AGENTS.md](../AGENTS.md) and [BESPOKE.md](../BESPOKE.md). The sections below stay as a map of the upstream merge and release process.
 
 ## Merge Safety Protocol
 
@@ -191,10 +191,9 @@ AI agents (Claude Code, Cursor, Copilot, etc.) working with maintainer credentia
 - Commits are attributed to the maintainer (the human is accountable)
 - AI-generated PRs MUST be reviewed by the maintainer with the same rigor as external contributions
 - Never add AI attribution (`Co-Authored-By`, "Generated with..." etc.) to commits or PRs — no AI tool name may appear anywhere in the repository history
-- AI agents must run `make build` before pushing and use Serena for impact analysis (see CONTRIBUTING.md)
-- AI agents MUST read CONTRIBUTING.md and all referenced docs BEFORE starting any work — skipping documentation to rely on "general knowledge" produces rule violations
-- Tool enforcement details: [docs/contributor-workflows.md — AI Agent Tool Enforcement](contributor-workflows.md#ai-agent-tool-enforcement-3-layer-defense)
-- Single Source of Truth: each fact lives in exactly one file; other files link to it — never duplicate information across docs
+- AI agents follow [AGENTS.md](../AGENTS.md) and [BESPOKE.md](../BESPOKE.md)
+- AI agents run `make build` before pushing
+- Single Source of Truth: each fact lives in exactly one file; other files link to it
 
 ## Incident History
 

@@ -14,7 +14,6 @@ A modernized and streamlined version of Freemind. Modernized pertains to the UI.
 
 ## Constraints / Do not touch
 
-- Stay in Java.
 - Keep the license from upstream.
 - Work hard to keep the file format compatible. If that is not possible, add an importer for freemind-ce files.
 
@@ -48,6 +47,7 @@ A modernized and streamlined version of Freemind. Modernized pertains to the UI.
 | RAW-002 | The feature spec is `docs/spec.md`. No testspec yet. | The repo had no numbered-requirements convention to extend. The user asked for the file name `spec`. | user | Keep later stages on this file. |
 | RAW-003 | Do not treat `docs/` or the 2026-03-11 tech spec as the feature spec. | Neither is a numbered user-feature list. The tech spec is an infrastructure plan and is stale against this commit. | agent | Re-read both if upstream docs gain requirement IDs. |
 | RAW-004 | Point `testPerformance` and `testChaos` at the test source set, and make `jacocoTestReport` read every `build/jacoco/*.exec`. | Without the source set, Gradle reports NO-SOURCE and the performance tests never run. Without the exec files, the coverage report ignores the GUI and performance runs. | agent | Keep both when replaying the raw stage. |
+| RAW-005 | There is no constraint to stay on Java 21, and no constraint to stay in Java. The license and the `.mm` file format stay. | The user dropped the Java constraint. | user | Do not put a Java stay-put rule back into `AGENTS.md` or the constraints list. The toolchain in the build file is only what the tree uses today. |
 
 ### Last run
 

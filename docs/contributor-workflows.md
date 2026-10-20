@@ -1,8 +1,6 @@
 # Contributor Workflows
 
-This document consolidates all workflow diagrams for FreeMind CE contributors. Every diagram here
-describes a real, enforced process — not aspirational guidelines. Read [CONTRIBUTING.md](../CONTRIBUTING.md)
-for the full rules and policy text that accompanies these diagrams.
+Upstream notes from Denomas/freemind-ce. This fork does not treat them as binding. The rules are [AGENTS.md](../AGENTS.md) and [BESPOKE.md](../BESPOKE.md). Serena is not used here. The diagrams stay as a map of the upstream CI and release process.
 
 ---
 

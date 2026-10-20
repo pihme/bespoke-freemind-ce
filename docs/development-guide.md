@@ -244,55 +244,6 @@ Dependencies are managed in `freemind/build.gradle.kts` with version variables:
 
 Repositories: Maven Central + JitPack
 
-## Serena Code Intelligence
-
-The project includes [Serena](https://github.com/oraios/serena) configuration for LSP-powered semantic code analysis. The config file `.serena/project.yml` is versioned in the repository.
-
-### Installation
-
-**Prerequisites:** [uv](https://docs.astral.sh/uv/getting-started/installation/) (Python package manager)
-
-```bash
-# Add Serena MCP server to Claude Code
-claude mcp add serena -- uvx --from git+https://github.com/oraios/serena \
-  serena start-mcp-server --context=claude-code --project-from-cwd
-
-# Index the codebase (creates LSP cache for fast symbol lookup)
-uvx --from git+https://github.com/oraios/serena serena project index .
-
-# Verify everything works
-uvx --from git+https://github.com/oraios/serena serena project health-check .
-```
-
-### Configuration
-
-| File | Purpose | Versioned |
-|------|---------|-----------|
-| `.serena/project.yml` | Project config (language, encoding, ignored paths) | Yes |
-| `.serena/project.local.yml` | Local overrides (developer-specific) | No (.gitignore) |
-| `~/.serena/serena_config.yml` | Global Serena config (backend, dashboard, timeouts) | No |
-| `.serena/memories/` | Project-specific AI memories | No (.gitignore) |
-
-### Java LSP Configuration
-
-For Java 21 support, add to `~/.serena/serena_config.yml`:
-
-```yaml
-ls_specific_settings:
-  java:
-    gradle_java_home: "/path/to/your/java-21-home"
-```
-
-On macOS with Homebrew: `/opt/homebrew/Cellar/openjdk@21/21.0.10/libexec/openjdk.jdk/Contents/Home`
-
-### Re-indexing
-
-Re-index after major codebase changes (new files, moved packages, renamed classes):
-
-```bash
-uvx --from git+https://github.com/oraios/serena serena project index .
-```
-
 ## Common Development Tasks
 
 ### Adding a new plugin

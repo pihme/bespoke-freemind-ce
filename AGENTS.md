@@ -1,87 +1,33 @@
-# FreeMind CE — Project-Specific Agent Rules
+# FreeMind CE — agent rules for this fork
 
-~/AGENTS.md (DENOMAS Constitution) is the universal baseline. This file contains ONLY what is different or additional for this specific project.
+This is a bespoke fork of Denomas/freemind-ce. `BESPOKE.md` is the product direction: vision, constraints, the current stage, and decisions. `docs/spec.md` is the feature list. `docs/testspec.md` maps each requirement to the tests that check it.
 
-CONTRIBUTING.md is injected into your context by SessionStart hook. You already have it. If you did not read it, read it now before doing anything else.
+Read `BESPOKE.md` before changing behavior. A feature is added when `docs/spec.md` lists it. A feature is removed when the user or the current stage asks for that removal. Record the removal in `BESPOKE.md` and in `docs/spec.md`.
 
-## What Is Different in This Project
+## What stays
 
-| You normally do this | HERE, do this instead | Why |
-|---|---|---|
-| Sanitize/filter user input | **NEVER** — user content is sacred | Every path, script, SQL the user types is preserved exactly |
-| Use `feat!:` for breaking changes | **NEVER** — backward compatibility is absolute | Every `.mm` file ever created must still open |
+- Text the user types is stored as typed. Paths, scripts, SQL, and markup go through save, load, and export unchanged.
+- An existing `.mm` file opens. When a change cannot keep that, add an importer for freemind-ce files.
+- The license stays GPL-2.0.
+- The language and the JDK are not fixed. The toolchain in the build file is only what this tree uses today.
+- `generated-src/` is JAXB output. Regenerate it with `make jaxb`.
+- `auto.properties` is a runtime file. Leave it uncommitted.
+- A warning is fixed at the cause. `@SuppressWarnings` is not the fix.
+- Local JARs that the build still uses stay tracked. A JAR nothing calls can leave in the trim stage.
+- A dependency change is scanned with `make audit` on this machine. The scan is a local CLI, not a cloud service.
+- Another person's branch stays as they left it. Do not force-push, and do not close or rewrite a branch you did not start.
 
-## Read What Applies to Your Task
+## When the task needs more
 
-| Your task involves... | Read this |
+| Task | Read |
 |---|---|
-| Design or architecture decisions | [docs/architecture.md](docs/architecture.md) |
-| PR, merge, or release | [docs/merge-release-safety.md](docs/merge-release-safety.md) + [docs/contributor-workflows.md](docs/contributor-workflows.md) |
-| Build, test, or packaging | [docs/development-guide.md](docs/development-guide.md) |
-| Finding specific code/components | [docs/component-inventory.md](docs/component-inventory.md) + [docs/source-tree-analysis.md](docs/source-tree-analysis.md) |
-| Commit conventions, project rules | [CONTRIBUTING.md](CONTRIBUTING.md) (single source of truth) |
+| Commits, the build, or tests | [CONTRIBUTING.md](CONTRIBUTING.md) |
+| Design of the current code | [docs/architecture.md](docs/architecture.md) |
+| Where a class lives | [docs/source-tree-analysis.md](docs/source-tree-analysis.md) and [docs/component-inventory.md](docs/component-inventory.md) |
+| How to build, test, or package | [docs/development-guide.md](docs/development-guide.md) |
+| An upstream-style release | [docs/contributor-workflows.md](docs/contributor-workflows.md) and [docs/merge-release-safety.md](docs/merge-release-safety.md). Those notes describe Denomas/freemind-ce. This fork's rules are this file and `BESPOKE.md`. |
 
-## Pre-Commit Checklist
-
--> [CONTRIBUTING.md — Before Committing](CONTRIBUTING.md#before-committing) (single source of truth)
-
-## Subagent Rule
-
-Every subagent prompt starts with:
-```
-Proje: freemind-ce. AGENTS.md'yi oku ve talimatları uygula. Gorev: [X]
-```
-
----
-
-## Reference (look up as needed — do not read upfront)
-
-### Quick Start
-
-```bash
-make build    # Build the project (compile + test)
-make run      # Run FreeMind CE
-make help     # Show all available make targets
-```
-
-> `make` wraps Gradle with correct `JAVA_HOME` and `--no-configuration-cache` flags.
-
-- Entry point: `freemind.main.FreeMindStarter`
-- Version: Managed by release-please. Never edit manually.
-
-### Key Constraints
-
-1. Never ignore `*.jar` in .gitignore — ~90 tracked local JARs
-2. Never modify `generated-src/` — regenerate with `make jaxb`
-3. Never commit `auto.properties` — runtime-generated
-4. No `@SuppressWarnings` — fix root causes
-5. Backward compatibility is ABSOLUTE — every `.mm` file must open
-6. Never bypass merge controls — no `--admin`, no force merge
-7. Dependency updates require manual review -> [docs/merge-release-safety.md](docs/merge-release-safety.md#dependency-update-protocol)
-8. Static analysis (PMD + SpotBugs) runs on every `make build` -> [CONTRIBUTING.md — Static Analysis](CONTRIBUTING.md#static-analysis-quality-gates)
-9. Security audit (`make audit`) before pushing dependency changes -> [CONTRIBUTING.md — Security Audit](CONTRIBUTING.md#security-audit-vulnerability-scanning)
-10. No external API dependency for security tooling — if a tool runs as CLI, use the CLI, not cloud services
-11. Parallel work is sovereign — never close, absorb, or supersede another session's PR -> [CONTRIBUTING.md — Parallel Work Protection](CONTRIBUTING.md#parallel-work-protection)
-
-### Repository Layout
-
-```
-freemind-ce/
-├── AGENTS.md                 # This file — project-specific agent rules
-├── CONTRIBUTING.md           # Single source of truth for ALL rules
-├── Makefile                  # Development shortcuts
-├── docs/                     # Architecture, guides, workflows
-├── build.gradle.kts          # Root build config
-├── freemind/                 # Main module
-│   ├── freemind/             # Core source
-│   ├── accessories/          # XSLT exports
-│   ├── plugins/              # Plugin modules
-│   ├── generated-src/        # JAXB generated (DO NOT EDIT)
-│   └── tests/                # JUnit tests
-└── _bmad-output/             # Technical specs
-```
-
-### Key Source Locations
+`make help` lists the build targets. `make` sets `JAVA_HOME` and passes `--no-configuration-cache`. The entry point is `freemind.main.FreeMindStarter`.
 
 | What | Where |
 |------|-------|
@@ -91,31 +37,10 @@ freemind-ce/
 | Map view | `freemind/freemind/view/mindmapview/MapView.java` |
 | Node model | `freemind/freemind/modes/MindMapNode.java` |
 
-### Architecture
+## Subagents
 
--> [docs/architecture.md](docs/architecture.md) — MVC, modes, action framework, plugin system, data architecture.
+A subagent prompt starts with:
 
-### Common Tasks
-
-```bash
-make build          # Full build (compile + test)
-make run            # Run the app
-make test           # Run tests only
-make audit          # Security audit — Grype (fast, ~30s)
-make audit-full     # Full OWASP dependency-check (HTML report)
-make coverage       # Tests + JaCoCo coverage report
-make debug          # Debug mode (port 5005)
-make clean          # Clean build artifacts
-make check          # Build + all quality checks
-make jaxb           # Regenerate JAXB classes
-make javadoc        # Generate API documentation
-make package        # Native package for current OS
-make dist-zip       # Distribution ZIP
-make help           # Show all targets
 ```
-
-### Git and Release
-
--> [docs/contributor-workflows.md](docs/contributor-workflows.md) — Branch workflow, CI pipeline, release gating.
--> [docs/merge-release-safety.md](docs/merge-release-safety.md) — Merge protocol, release checklist.
--> [CONTRIBUTING.md — Commit Best Practices](CONTRIBUTING.md#commit-best-practices) — Conventional Commits format.
+Read AGENTS.md and BESPOKE.md. Stay inside this task: [X]
+```
