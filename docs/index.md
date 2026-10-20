@@ -56,4 +56,4 @@ When using this documentation with AI tools:
 
 ## Current Focus
 
-See the [Active Tech Spec](../_bmad-output/implementation-artifacts/tech-spec-freemind-ce-next-gen-modernization.md) for the full implementation plan and roadmap.
+Product direction is [BESPOKE.md](../BESPOKE.md). The feature list is [spec.md](spec.md).

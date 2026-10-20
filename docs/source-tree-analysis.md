@@ -95,7 +95,6 @@ freemind-ce/
 │   ├── security-scan.yml              # OWASP dependency vulnerability scan
 │   ├── fuzz.yml                       # Fuzz testing
 │   ├── pr-title.yml                   # Conventional Commit title validation
-│   ├── labeler.yml                    # Auto-label PRs by changed paths
 │   ├── stale.yml                      # Stale issue/PR management
 │   └── dependabot-auto-merge.yml      # Auto-merge Dependabot PRs
 │
