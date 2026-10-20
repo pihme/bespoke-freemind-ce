@@ -28,8 +28,9 @@
 ## Additional References
 
 - [README.md](../README.md) — Project introduction and quick start
-- [AGENTS.md](../AGENTS.md) — Project-specific agent rules (supplements ~/AGENTS.md)
-- [CONTRIBUTING.md](../CONTRIBUTING.md) — Contribution guidelines, CI/CD SOP, Serena reference
+- [AGENTS.md](../AGENTS.md) — Agent rules for this fork
+- [BESPOKE.md](../BESPOKE.md) — Vision, constraints, stage, decisions
+- [CONTRIBUTING.md](../CONTRIBUTING.md) — Build, test, and commit mechanics
 
 ## Getting Started
 

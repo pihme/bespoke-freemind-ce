@@ -71,34 +71,13 @@
       "Bash(./gradlew:*)",
       "Bash(JAVA_HOME:*)",
       "Bash(export JAVA_HOME:*)",
-      "Bash(.claude/hooks:*)",
       "Read",
       "Edit",
       "Write",
       "Glob",
       "Grep",
       "WebSearch",
-      "WebFetch(domain:github.com)",
-      "mcp__serena__check_onboarding_performed",
-      "mcp__serena__onboarding",
-      "mcp__serena__initial_instructions",
-      "mcp__serena__get_symbols_overview",
-      "mcp__serena__find_symbol",
-      "mcp__serena__find_referencing_symbols",
-      "mcp__serena__search_for_pattern",
-      "mcp__serena__find_file",
-      "mcp__serena__list_dir",
-      "mcp__serena__list_memories",
-      "mcp__serena__read_memory",
-      "mcp__serena__write_memory",
-      "mcp__serena__edit_memory",
-      "mcp__serena__delete_memory",
-      "mcp__serena__rename_memory",
-      "mcp__serena__replace_symbol_body",
-      "mcp__serena__insert_after_symbol",
-      "mcp__serena__insert_before_symbol",
-      "mcp__serena__rename_symbol",
-      "mcp__serena__safe_delete_symbol"
+      "WebFetch(domain:github.com)"
     ],
     "deny": [
       "Bash(git push --force:*)",
@@ -110,43 +89,6 @@
       "Bash(git restore .:*)",
       "Bash(rm -rf:*)",
       "Bash(rm -r:*)"
-    ]
-  },
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "CMD=$(jq -r '.tool_input.command'); echo \"$CMD\" | head -1 | grep -qE '^(grep|rg|cat|find|head|tail|sed|awk)' && echo \"$CMD\" | grep -qE '\\.(java)' && echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"deny\",\"permissionDecisionReason\":\"BLOCKED: Use Serena MCP for Java code analysis: search_for_pattern, find_symbol, get_symbols_overview. See AGENTS.md.\"}}' || true",
-            "timeout": 5,
-            "statusMessage": "Serena compliance check"
-          }
-        ]
-      },
-      {
-        "matcher": "Read",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "jq -r '.tool_input.file_path // empty' | grep -qE '\\.java$' && echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"deny\",\"permissionDecisionReason\":\"BLOCKED: Use Serena MCP to read Java files: get_symbols_overview(file, depth=1) then find_symbol(name, include_body=True). See AGENTS.md.\"}}' || true",
-            "timeout": 5,
-            "statusMessage": "Serena compliance check"
-          }
-        ]
-      },
-      {
-        "matcher": "Grep",
-        "hooks": [
-          {
-            "type": "command",
-            "command": ".claude/hooks/check-grep-java.sh",
-            "timeout": 5,
-            "statusMessage": "Serena compliance check"
-          }
-        ]
-      }
     ]
   }
 }
