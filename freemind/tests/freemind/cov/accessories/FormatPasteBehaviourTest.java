@@ -1,0 +1,83 @@
+/*FreeMind - A Program for creating and viewing Mindmaps
+ *Copyright (C) 2000-2026  FreeMind CE contributors
+ *See COPYING for Details
+ *
+ *This program is free software; you can redistribute it and/or
+ *modify it under the terms of the GNU General Public License
+ *as published by the Free Software Foundation; either version 2
+ *of the License, or (at your option) any later version.
+ *
+ *This program is distributed in the hope that it will be useful,
+ *but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *GNU General Public License for more details.
+ *
+ *You should have received a copy of the GNU General Public License
+ *along with this program; if not, write to the Free Software
+ *Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
+package tests.freemind.cov.accessories;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.awt.HeadlessException;
+import java.lang.reflect.Field;
+import java.util.Properties;
+
+import org.junit.jupiter.api.Test;
+
+import accessories.plugins.FormatPaste;
+import freemind.modes.MindMapNode;
+import tests.freemind.cov.MapFixture;
+import tests.freemind.cov.MapFixture.Opened;
+
+class FormatPasteBehaviourTest {
+
+	// backwards compatibility
+	@Test
+	void pastingWithoutACopiedPatternDoesNotChangeTheNode() throws Exception {
+		clearPattern();
+		Opened opened = MapFixture.open("Target");
+		MindMapNode target = opened.child("Target");
+		FormatPaste paste = hook(opened, "paste_format");
+
+		assertThrows(HeadlessException.class, () -> paste.invoke(target));
+
+		assertFalse(target.isBold());
+	}
+
+	// backwards compatibility
+	@Test
+	void pastingAppliesTheCopiedBoldPattern() throws Exception {
+		clearPattern();
+		Opened opened = MapFixture.open("Source", "Target");
+		MindMapNode source = opened.child("Source");
+		MindMapNode target = opened.child("Target");
+		opened.mode.setBold(source, true);
+		hook(opened, "copy_format").invoke(source);
+
+		hook(opened, "paste_format").invoke(target);
+
+		assertTrue(source.isBold());
+		assertTrue(target.isBold());
+	}
+
+	private static void clearPattern() throws Exception {
+		Field pattern = FormatPaste.class.getDeclaredField("pattern");
+		pattern.setAccessible(true);
+		pattern.set(null, null);
+	}
+
+	private static FormatPaste hook(Opened opened, String actionType) {
+		FormatPaste hook = new FormatPaste();
+		hook.setController(opened.mode);
+		hook.setMap(opened.mode.getMap());
+		Properties properties = new Properties();
+		properties.setProperty("actionType", actionType);
+		hook.setProperties(properties);
+		return hook;
+	}
+}

@@ -133,6 +133,25 @@ public final class MapFixture {
 		}
 
 		@Override
+		public void beforeMapModuleChange(freemind.view.MapModule oldMapModule,
+				freemind.modes.Mode oldMode, freemind.view.MapModule newMapModule,
+				freemind.modes.Mode newMode) {
+			if (oldMapModule == null) {
+				super.beforeMapModuleChange(oldMapModule, oldMode, newMapModule, newMode);
+				return;
+			}
+			// The headless frame never builds toolbar actions. Switching maps
+			// still records the mode, and skips the toolbar shutdown.
+			try {
+				java.lang.reflect.Field mode = Controller.class.getDeclaredField("mMode");
+				mode.setAccessible(true);
+				mode.set(this, newMode);
+			} catch (ReflectiveOperationException ex) {
+				throw new IllegalStateException(ex);
+			}
+		}
+
+		@Override
 		public void afterMapModuleChange(freemind.view.MapModule oldMapModule,
 				freemind.modes.Mode oldMode, freemind.view.MapModule newMapModule,
 				freemind.modes.Mode newMode) {
