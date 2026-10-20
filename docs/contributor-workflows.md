@@ -1,6 +1,6 @@
 # Contributor Workflows
 
-Upstream notes from Denomas/freemind-ce. This fork does not treat them as binding. The rules are [AGENTS.md](../AGENTS.md) and [BESPOKE.md](../BESPOKE.md). Serena is not used here. The diagrams stay as a map of the upstream CI and release process.
+Upstream notes from Denomas/freemind-ce. This fork does not treat them as binding. The rules are [AGENTS.md](../AGENTS.md) and [BESPOKE.md](../BESPOKE.md). Serena is not used here. This fork does not ship `.claude/`, `.opencode/`, or `_bmad-output/`. The diagrams stay as a map of the upstream CI and release process.
 
 ---
 

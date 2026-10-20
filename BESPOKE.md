@@ -20,7 +20,7 @@ A modernized and streamlined version of Freemind. Modernized pertains to the UI.
 ## Spec
 
 - Feature spec: `docs/spec.md`. Testspec: `docs/testspec.md`.
-- Upstream spec: none with numbered requirements. `docs/` is an architecture and component inventory, usable as a map of the code and not as a feature spec. `_bmad-output/implementation-artifacts/tech-spec-freemind-ce-next-gen-modernization.md` is a finished infrastructure plan from 2026-03-11. It is not a product feature list, and several of its claims are stale at this commit (it says tests never run, and that LaTeX is absent from the Gradle settings). Verdict: not usable. See RAW-003.
+- Upstream spec: none with numbered requirements. `docs/` is an architecture and component inventory, usable as a map of the code and not as a feature spec. The 2026-03-11 tech spec that used to live at `_bmad-output/implementation-artifacts/tech-spec-freemind-ce-next-gen-modernization.md` was an infrastructure plan, not a product feature list, and several of its claims were stale (it said tests never run, and that LaTeX was absent from the Gradle settings). It is not in this tree. See RAW-003 and RAW-006.
 
 ## 1 raw
 
@@ -48,6 +48,7 @@ A modernized and streamlined version of Freemind. Modernized pertains to the UI.
 | RAW-003 | Do not treat `docs/` or the 2026-03-11 tech spec as the feature spec. | Neither is a numbered user-feature list. The tech spec is an infrastructure plan and is stale against this commit. | agent | Re-read both if upstream docs gain requirement IDs. |
 | RAW-004 | Point `testPerformance` and `testChaos` at the test source set, and make `jacocoTestReport` read every `build/jacoco/*.exec`. | Without the source set, Gradle reports NO-SOURCE and the performance tests never run. Without the exec files, the coverage report ignores the GUI and performance runs. | agent | Keep both when replaying the raw stage. |
 | RAW-005 | There is no constraint to stay on Java 21, and no constraint to stay in Java. The license and the `.mm` file format stay. | The user dropped the Java constraint. | user | Do not put a Java stay-put rule back into `AGENTS.md` or the constraints list. The toolchain in the build file is only what the tree uses today. |
+| RAW-006 | Remove `.claude/`, `.opencode/`, `_bmad-output/`, `.github/CODEOWNERS`, `.github/FUNDING.yml`, `.github/labeler.yml`, and `.github/workflows/labeler.yml`. | The user asked to drop upstream agent tooling, the finished BMAD tech spec, and the GitHub funding, code-owner, and auto-label files. | user | Do not restore these paths. |
 
 ### Last run
 
