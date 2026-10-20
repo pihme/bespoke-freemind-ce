@@ -80,7 +80,7 @@ The file chooser for an image, the join warning dialog, and the find dialog are 
 
 Labeled **Backwards compatibility**. This is the umbrella for code that no requirement names. The slices and the rule are in `docs/spec.md` under **Backwards compatibility tests**. A backwards-compatibility assertion does not replace a requirement test. Time-management calendars stay in this table. They are not a product requirement.
 
-Slices 1 and 2 also have deduced requirement tests. This table is the reference for every backwards-compatibility test. Every row in this table except the `freemind.main` and `plugins/map` package rows was included in the 62.4% measurement. Those two package rows are not in the 62.1% measurement. Slice 5 lists a file in a temporary directory, builds the Linux file chooser, searches a directory of `.mm` files, paints a print-preview page, and exports an image of the open map. It still has no backwards-compatibility test for browse read-only, a script that runs, PDF bytes, a rendered LaTeX equation, the help window, or a checked word. The print-preview window is not opened.
+Slices 1 and 2 also have deduced requirement tests. This table is the reference for every backwards-compatibility test. Every row in this table except the `freemind.main`, `plugins/map`, and `freemind.view.mindmapview` package rows was included in the 62.4% measurement. Those package rows are not in the 62.1% measurement. Slice 5 lists a file in a temporary directory, builds the Linux file chooser, searches a directory of `.mm` files, paints a print-preview page, and exports an image of the open map. It still has no backwards-compatibility test for browse read-only, a script that runs, PDF bytes, a rendered LaTeX equation, the help window, or a checked word. The print-preview window is not opened.
 
 | Slice | What is checked | Test | Status |
 |-------|-----------------|------|--------|
@@ -219,6 +219,7 @@ Slices 1 and 2 also have deduced requirement tests. This table is the reference 
 | 1 | The inline editor commits `Renamed root` when Enter is delivered to the field's key listener. | `StartupBehaviourTest.inlineEditorCommitsTheFieldTextOnEnter` | passed |
 | — | The classes in `freemind.main` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.main`. Each of those tests is labeled backwards compatibility. With spelling on, the current spell locale stays null. A current-version map loads from the startup event. A dialog beside an on-screen component sits to its right and below it, and a component in the screen inset is clamped to that inset. Methods that exit the process or run a system command are in the uncoverable table. | `tests.freemind.cov.main.*BehaviourTest` | passed |
 | — | The classes in `plugins/map` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.map`. Each of those tests is labeled backwards compatibility. `MapDialog.startupMapHook` and `FreeMindMapController.AddSearchResultsToMapTask`'s constructor still throw before a dialog is shown when the suite is headless. They are not uncoverable. No method in this package only exits the process or runs a system command. | `tests.freemind.cov.map.*BehaviourTest` | passed |
+| — | The classes in `freemind.view.mindmapview` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.view`. Each of those tests is labeled backwards compatibility. The long-node dialog submits, splits, and cancels. The HTML dialog's south buttons do the same. `EditNodeTextField.show` still stops at the menu-shortcut lookup under the headless unit JVM. That method is not uncoverable. | `tests.freemind.cov.view.*BehaviourTest` | passed |
 
 ## Uncoverable
 
@@ -235,6 +236,8 @@ A method is uncoverable when its only effect is `System.exit` or `Runtime.exec` 
 | `freemind/freemind/main/EditServer.java` | `EditServer` constructor | `Tools.setPermissions(portFile, 0600)`, which runs `Runtime.getRuntime().exec` |
 | `freemind/freemind/main/Tools.java` | `setPermissions` | `Runtime.getRuntime().exec` of `chmod` when `permissions != 0` and `isUnix()`. `setPermissions(path, 0)` is tested. |
 | `freemind/freemind/main/Tools.java` | `setHidden` | `Runtime.getRuntime().exec` of `attrib.exe` when `os.name` starts with `Win`. The non-Windows return is tested. |
+| `freemind/freemind/view/mindmapview/IndependantMapViewCreator.java` | `main` | `System.exit(0)` when the argument count is not 2, and `System.exit(0)` or `System.exit(1)` after an export attempt |
+| `freemind/freemind/view/mindmapview/EditNodeExternalApplication.java` | `EditNodeExternalApplication$1.run` | `Runtime.getRuntime().exec` of the `html_editing_command` property |
 
 ## Map
 
