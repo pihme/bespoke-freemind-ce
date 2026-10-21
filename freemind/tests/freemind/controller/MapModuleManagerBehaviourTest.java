@@ -29,6 +29,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.MapModuleManager.MapModuleChangeObserver;
@@ -41,6 +42,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Open maps switch, reject a duplicate name, and close without asking when forced. */
+@DisplayName("MapModuleManagerBehaviourTest")
 class MapModuleManagerBehaviourTest {
 
 	@Test

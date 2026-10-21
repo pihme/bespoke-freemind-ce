@@ -24,12 +24,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.time.JDayChooser;
 import accessories.plugins.time.JYearChooser;
 
 /** Backwards-compatible year limits and the day chooser they update. */
+@DisplayName("JYearChooserBehaviourTest")
 class JYearChooserBehaviourTest {
 
 	@Test

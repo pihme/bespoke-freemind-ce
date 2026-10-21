@@ -28,6 +28,7 @@ import java.util.List;
 
 import javax.swing.JMenuItem;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindMapNode;
@@ -36,6 +37,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Fork is unselected until the action stores that style. */
+@DisplayName("NodeStyleActionBehaviourTest")
 class NodeStyleActionBehaviourTest {
 
 	@Test

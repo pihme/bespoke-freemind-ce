@@ -31,6 +31,7 @@ import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -40,6 +41,7 @@ import freemind.common.ComboProperty;
 import freemind.common.TextTranslator;
 
 /** A combo stores the key, shows the translation, and falls back to the first entry. */
+@DisplayName("ComboPropertyBehaviourTest")
 class ComboPropertyBehaviourTest {
 
 	@Test

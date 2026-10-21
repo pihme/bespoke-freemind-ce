@@ -27,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.Color;
 import java.util.HashMap;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.Tools;
@@ -43,6 +44,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** A map file becomes nodes, edges, clouds, arrows, notes, and an encrypted node. */
+@DisplayName("XMLElementAdapterBehaviourTest")
 class XMLElementAdapterBehaviourTest {
 
 	@Test

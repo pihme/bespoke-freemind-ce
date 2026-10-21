@@ -33,6 +33,7 @@ import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.extensions.HookFactory;
@@ -46,6 +47,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** The base feedback looks nodes up, copies a dummy, and refuses to blend colors. */
+@DisplayName("ExtendedMapFeedbackAdapterBehaviourTest")
 class ExtendedMapFeedbackAdapterBehaviourTest {
 
 	@Test

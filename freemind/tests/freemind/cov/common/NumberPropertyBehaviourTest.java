@@ -29,6 +29,7 @@ import java.awt.Container;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -37,6 +38,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import freemind.common.NumberProperty;
 
 /** A number preference keeps an in-range step and falls back to the minimum. */
+@DisplayName("NumberPropertyBehaviourTest")
 class NumberPropertyBehaviourTest {
 
 	@Test

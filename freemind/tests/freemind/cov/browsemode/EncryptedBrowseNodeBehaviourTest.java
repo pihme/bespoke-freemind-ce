@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.HeadlessException;
 import java.awt.Window;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.browsemode.EncryptedBrowseNode;
@@ -35,6 +36,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** An encrypted browse node stays locked when no display can ask for a password. */
+@DisplayName("EncryptedBrowseNodeBehaviourTest")
 class EncryptedBrowseNodeBehaviourTest {
 
 	@Test

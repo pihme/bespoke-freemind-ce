@@ -33,10 +33,12 @@ import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.Option;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.XHTMLWriter;
 
+@DisplayName("XHTMLWriterBehaviourTest")
 class XHTMLWriterBehaviourTest {
 
 	@Test

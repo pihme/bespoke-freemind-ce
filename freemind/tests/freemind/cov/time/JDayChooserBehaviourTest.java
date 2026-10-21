@@ -41,6 +41,7 @@ import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.time.JDayChooser;
@@ -54,6 +55,7 @@ import freemind.main.Resources;
 import tests.freemind.cov.MapFixture;
 
 /** Backwards-compatible day grid, keys, and marking tooltips. */
+@DisplayName("JDayChooserBehaviourTest")
 class JDayChooserBehaviourTest {
 
 	@Test

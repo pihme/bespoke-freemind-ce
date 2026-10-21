@@ -41,6 +41,7 @@ import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.tree.MutableTreeNode;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.formdev.flatlaf.FlatDarkLaf;
@@ -77,6 +78,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Requirement tests whose assertions check behaviour the older suite left open.
  * Each method name carries the requirement id.
  */
+@DisplayName("RequirementBehaviourTest")
 class RequirementBehaviourTest {
 
 	private static final String BRANCH_MAP = "<map version=\"1.0.0\">"

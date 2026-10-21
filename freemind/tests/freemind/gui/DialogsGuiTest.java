@@ -7,6 +7,7 @@ import freemind.modes.MapAdapter;
 import freemind.modes.MindMapNode;
 import freemind.modes.mindmapmode.MindMapMapModel;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -19,6 +20,7 @@ import static tests.freemind.unicode.UnicodeTestData.*;
  * Covers panel creation, content manipulation, Unicode handling,
  * idempotency, and screenshot capture.
  */
+@DisplayName("DialogsGuiTest")
 class DialogsGuiTest extends GuiTestBase {
 
     private ExtendedMapFeedbackImpl mapFeedback;

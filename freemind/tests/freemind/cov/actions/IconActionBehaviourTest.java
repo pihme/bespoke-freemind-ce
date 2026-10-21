@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.actions.generated.instance.AddIconAction;
@@ -37,6 +38,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** An icon action adds its icon, and control or shift takes icons off. */
+@DisplayName("IconActionBehaviourTest")
 class IconActionBehaviourTest {
 
 	@Test

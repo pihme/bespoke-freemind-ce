@@ -25,11 +25,13 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.common.NamedObject;
 
 /** A named object compares and hashes by the wrapped object, and prints the name. */
+@DisplayName("NamedObjectBehaviourTest")
 class NamedObjectBehaviourTest {
 
 	@Test

@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.Mode;
@@ -32,6 +33,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Mode aliases come from the modes property. A bad class yields null, an unknown alias throws. */
+@DisplayName("ModesCreatorBehaviourTest")
 class ModesCreatorBehaviourTest {
 
 	@Test

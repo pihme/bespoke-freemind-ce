@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.NodeDownAction;
@@ -31,6 +32,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Moving the selected child down swaps it with the sibling below. */
+@DisplayName("NodeDownActionBehaviourTest")
 class NodeDownActionBehaviourTest {
 
 	@Test

@@ -4,6 +4,7 @@ import freemind.modes.ExtendedMapFeedbackImpl;
 import freemind.modes.MindMapNode;
 import freemind.modes.mindmapmode.MindMapMapModel;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * concurrent creation, copy/reload, and large map handling at the model
  * level (since actual socket/db collaboration cannot be tested headlessly).
  */
+@DisplayName("CollaborationGuiTest")
 class CollaborationGuiTest extends GuiTestBase {
 
     private ExtendedMapFeedbackImpl mapFeedback;

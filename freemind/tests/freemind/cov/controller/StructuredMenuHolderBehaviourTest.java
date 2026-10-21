@@ -38,6 +38,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 import javax.swing.event.MenuEvent;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.FreeMindPopupMenu;
@@ -49,6 +50,7 @@ import freemind.main.HeadlessFreeMind;
 import freemind.main.Resources;
 
 /** A structured menu keeps its items, separators, and listener results. */
+@DisplayName("StructuredMenuHolderBehaviourTest")
 class StructuredMenuHolderBehaviourTest {
 
 	@Test

@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import java.awt.Color;
 import java.awt.Point;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindMapArrowLink;
@@ -34,6 +35,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Arrow tokens and a clone keep the link's own points and arrow strings. */
+@DisplayName("ArrowLinkAdapterBehaviourTest")
 class ArrowLinkAdapterBehaviourTest {
 
 	@Test

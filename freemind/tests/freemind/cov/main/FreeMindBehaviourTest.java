@@ -59,6 +59,7 @@ import javax.swing.SwingUtilities;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Tag;
@@ -81,6 +82,7 @@ import freemind.modes.ModeController;
 
 @Tag("gui")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@DisplayName("FreeMindBehaviourTest")
 class FreeMindBehaviourTest {
 
 	private static FreeMind frame;
@@ -90,6 +92,7 @@ class FreeMindBehaviourTest {
 	private static PrintStream previousOut;
 	private static PrintStream previousErr;
 	private static Properties previousProps;
+	private static String originalLanguage;
 	private static Object previousResourcesMain;
 	private static boolean resourcesSwapped;
 	private static final CountingFeedBack FEEDBACK = new CountingFeedBack();
@@ -130,6 +133,7 @@ class FreeMindBehaviourTest {
 			System.setOut(previousOut);
 			System.setErr(previousErr);
 		}
+		originalLanguage = frame.getProperty(FreeMindCommon.RESOURCE_LANGUAGE);
 		Field main = Resources.class.getDeclaredField("main");
 		main.setAccessible(true);
 		previousResourcesMain = main.get(Resources.getInstance());
@@ -141,6 +145,10 @@ class FreeMindBehaviourTest {
 	@AfterAll
 	static void closeFrame() throws Exception {
 		if (frame != null) {
+			if (frame.getController() != null && originalLanguage != null
+					&& !originalLanguage.equals(frame.getProperty(FreeMindCommon.RESOURCE_LANGUAGE))) {
+				frame.getController().setProperty(FreeMindCommon.RESOURCE_LANGUAGE, originalLanguage);
+			}
 			frame.dispose();
 		}
 		if (resourcesSwapped) {
@@ -148,7 +156,9 @@ class FreeMindBehaviourTest {
 			main.setAccessible(true);
 			main.set(Resources.getInstance(), previousResourcesMain);
 		}
-		FreeMind.props = previousProps;
+		if (previousProps != null) {
+			FreeMind.props = previousProps;
+		}
 		if (previousHome != null) {
 			System.setProperty("user.home", previousHome);
 		}
@@ -218,9 +228,10 @@ class FreeMindBehaviourTest {
 		assertNotNull(frame.getRootPane());
 
 		assertNotNull(FreeMind.class.getClassLoader().getResource("dictionaries.cnf"));
+		java.util.Locale spellLocale = SpellChecker.getCurrentLocale();
 		frame.setProperty(FreeMindCommon.CHECK_SPELLING, "true");
 		invoke("setupSpellChecking");
-		assertNull(SpellChecker.getCurrentLocale());
+		assertEquals(spellLocale, SpellChecker.getCurrentLocale());
 		frame.setProperty(FreeMindCommon.CHECK_SPELLING, "false");
 	}
 

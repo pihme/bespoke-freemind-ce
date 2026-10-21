@@ -45,6 +45,7 @@ import javax.swing.JTextField;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.time.JDayChooser;
@@ -61,6 +62,7 @@ import freemind.modes.common.plugins.ReminderHookBase;
 import tests.freemind.cov.MapFixture;
 
 /** Backwards-compatible time window actions without showing the dialog. */
+@DisplayName("TimeManagementBehaviourTest")
 class TimeManagementBehaviourTest {
 
 	private MapFixture.Opened opened;

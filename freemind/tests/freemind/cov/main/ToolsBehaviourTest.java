@@ -74,6 +74,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIDefaults;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -88,6 +89,7 @@ import freemind.view.mindmapview.NodeView;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("ToolsBehaviourTest")
 class ToolsBehaviourTest {
 
 	@Test
@@ -437,7 +439,9 @@ class ToolsBehaviourTest {
 			assertThrows(IllegalComponentStateException.class,
 					() -> Tools.setDialogLocationRelativeTo(dialog, nodeView));
 		} finally {
-			FreeMind.props = previousProps;
+			if (previousProps != null) {
+				FreeMind.props = previousProps;
+			}
 		}
 	}
 

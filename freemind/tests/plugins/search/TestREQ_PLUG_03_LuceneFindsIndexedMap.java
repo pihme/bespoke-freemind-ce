@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,6 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Lucene index of .mm files. A hit returns that file. A missing token returns none.
  */
+@DisplayName("TestREQ_PLUG_03_LuceneFindsIndexedMap")
 class TestREQ_PLUG_03_LuceneFindsIndexedMap {
 
 	@Test

@@ -32,6 +32,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.Controller;
@@ -43,6 +44,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** The browse note viewer shows the note text and then removes that panel. */
+@DisplayName("NodeNoteViewerBehaviourTest")
 class NodeNoteViewerBehaviourTest {
 
 	@Test

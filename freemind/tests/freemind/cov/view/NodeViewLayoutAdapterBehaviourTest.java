@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.Dimension;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.NodeAdapter;
@@ -33,6 +34,7 @@ import freemind.view.mindmapview.NodeView;
 import freemind.view.mindmapview.NodeViewLayoutAdapter;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("NodeViewLayoutAdapterBehaviourTest")
 public class NodeViewLayoutAdapterBehaviourTest {
 
 	@Test

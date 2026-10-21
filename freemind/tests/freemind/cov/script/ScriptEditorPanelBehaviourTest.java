@@ -30,6 +30,7 @@ import java.awt.HeadlessException;
 import java.awt.Window;
 import java.io.PrintStream;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.actions.generated.instance.ScriptEditorWindowConfigurationStorage;
@@ -40,6 +41,7 @@ import plugins.script.ScriptEditorPanel.ScriptModel;
 import plugins.script.ScriptingEngine.ErrorHandler;
 
 /** The script dialog is a window. Headless construction fails before any control exists. */
+@DisplayName("ScriptEditorPanelBehaviourTest")
 class ScriptEditorPanelBehaviourTest {
 
 	@Test

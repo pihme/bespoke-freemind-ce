@@ -30,11 +30,13 @@ import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.util.ResourceBundle;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.FreeMindCommon;
 import freemind.main.HeadlessFreeMind;
 
+@DisplayName("FreeMindCommonBehaviourTest")
 class FreeMindCommonBehaviourTest {
 
 	@Test

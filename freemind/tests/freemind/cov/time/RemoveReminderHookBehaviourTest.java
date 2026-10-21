@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import java.util.List;
 import java.util.Properties;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.time.RemoveReminderHook;
@@ -36,6 +37,7 @@ import freemind.modes.common.plugins.ReminderHookBase;
 import tests.freemind.cov.MapFixture;
 
 /** Backwards-compatible removal of a reminder hook. */
+@DisplayName("RemoveReminderHookBehaviourTest")
 class RemoveReminderHookBehaviourTest {
 
 	@Test

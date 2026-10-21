@@ -27,6 +27,7 @@ import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.mindmapmode.actions.RevertAction;
@@ -34,6 +35,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Revert of a map that has no file leaves the nodes in place. */
+@DisplayName("RevertActionBehaviourTest")
 class RevertActionBehaviourTest {
 
 	@Test

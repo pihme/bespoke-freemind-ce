@@ -30,12 +30,14 @@ import java.lang.reflect.Field;
 
 import javax.swing.JViewport;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.FitToPage;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("FitToPageBehaviourTest")
 class FitToPageBehaviourTest {
 
 	// backwards compatibility

@@ -34,6 +34,7 @@ import javax.swing.JPanel;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.preferences.layout.KeyEventTranslator;
@@ -41,6 +42,7 @@ import freemind.preferences.layout.KeyEventTranslator.Key;
 import freemind.preferences.layout.KeyEventWorkaround;
 
 /** Modifier letters and key names become the shortcut text FreeMind stores. */
+@DisplayName("KeyEventTranslatorBehaviourTest")
 class KeyEventTranslatorBehaviourTest {
 
 	private static int savedC;

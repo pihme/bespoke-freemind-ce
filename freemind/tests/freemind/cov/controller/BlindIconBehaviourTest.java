@@ -24,11 +24,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.BlindIcon;
 
 /** A spacer icon reports its length and paints nothing. */
+@DisplayName("BlindIconBehaviourTest")
 class BlindIconBehaviourTest {
 
 	@Test

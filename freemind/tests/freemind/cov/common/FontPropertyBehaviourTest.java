@@ -30,6 +30,7 @@ import java.awt.GraphicsEnvironment;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -38,6 +39,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import freemind.common.FontProperty;
 
 /** A font preference keeps a family the JDK actually has, else the first one. */
+@DisplayName("FontPropertyBehaviourTest")
 class FontPropertyBehaviourTest {
 
 	@Test

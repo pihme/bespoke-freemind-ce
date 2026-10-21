@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.Point;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.EdgeAdapter;
@@ -32,6 +33,7 @@ import freemind.view.mindmapview.MainView;
 import freemind.view.mindmapview.NodeView;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("ForkMainViewBehaviourTest")
 public class ForkMainViewBehaviourTest {
 
 	@Test

@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindMapNode;
@@ -34,6 +35,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Select all replaces the selection with every node in the map. */
+@DisplayName("SelectAllActionBehaviourTest")
 class SelectAllActionBehaviourTest {
 
 	@Test

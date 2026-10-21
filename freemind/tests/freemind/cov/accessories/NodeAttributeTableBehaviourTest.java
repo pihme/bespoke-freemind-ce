@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Properties;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.NodeAttributeTable;
@@ -34,6 +35,7 @@ import freemind.main.FreeMind;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("NodeAttributeTableBehaviourTest")
 class NodeAttributeTableBehaviourTest {
 
 	// backwards compatibility

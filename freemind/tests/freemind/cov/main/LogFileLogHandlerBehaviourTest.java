@@ -28,10 +28,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.LogFileLogHandler;
 
+@DisplayName("LogFileLogHandlerBehaviourTest")
 class LogFileLogHandlerBehaviourTest {
 
 	@Test

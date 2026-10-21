@@ -34,10 +34,12 @@ import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.FixedHTMLWriter;
 
+@DisplayName("FixedHTMLWriterBehaviourTest")
 class FixedHTMLWriterBehaviourTest {
 
 	@Test

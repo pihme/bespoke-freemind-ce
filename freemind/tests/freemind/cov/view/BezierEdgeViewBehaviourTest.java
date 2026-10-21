@@ -26,6 +26,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.EdgeAdapter;
@@ -35,6 +36,7 @@ import freemind.view.mindmapview.NodeView;
 import freemind.view.mindmapview.VerticalRootNodeViewLayout;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("BezierEdgeViewBehaviourTest")
 public class BezierEdgeViewBehaviourTest {
 
 	@Test

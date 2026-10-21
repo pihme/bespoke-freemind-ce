@@ -29,11 +29,13 @@ import java.io.StringReader;
 import java.util.Hashtable;
 import java.util.Vector;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.XMLElement;
 import freemind.main.XMLParseException;
 
+@DisplayName("XMLElementBehaviourTest")
 class XMLElementBehaviourTest {
 
 	@Test

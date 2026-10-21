@@ -4,6 +4,7 @@ import freemind.main.HtmlTools;
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,6 +15,7 @@ import static tests.freemind.unicode.UnicodeTestData.*;
  * Verifies that toXhtml(), unescapeHTMLUnicodeEntity(), htmlToPlain(),
  * and toHtml() correctly preserve UTF-8 characters across all scripts.
  */
+@DisplayName("HtmlUnicodeTests")
 class HtmlUnicodeTests {
 
     private final HtmlTools htmlTools = HtmlTools.getInstance();

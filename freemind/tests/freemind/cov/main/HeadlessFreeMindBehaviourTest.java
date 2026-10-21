@@ -28,11 +28,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.net.URL;
 import java.net.URLClassLoader;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.FreeMindMain;
 import freemind.main.HeadlessFreeMind;
 
+@DisplayName("HeadlessFreeMindBehaviourTest")
 class HeadlessFreeMindBehaviourTest {
 
 	@Test

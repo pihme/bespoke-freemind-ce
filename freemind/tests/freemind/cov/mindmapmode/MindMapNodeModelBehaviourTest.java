@@ -39,6 +39,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.filter.Filter;
@@ -50,6 +51,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Plain, rich, and filtered nodes export the text a reader can check. */
+@DisplayName("MindMapNodeModelBehaviourTest")
 class MindMapNodeModelBehaviourTest {
 
 	@Test

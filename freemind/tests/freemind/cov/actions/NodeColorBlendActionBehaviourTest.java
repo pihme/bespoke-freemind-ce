@@ -25,6 +25,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindMapNode;
@@ -33,6 +34,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Blending pulls the node color a quarter of the way toward the map background. */
+@DisplayName("NodeColorBlendActionBehaviourTest")
 class NodeColorBlendActionBehaviourTest {
 
 	@Test

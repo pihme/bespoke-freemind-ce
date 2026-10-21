@@ -6,6 +6,7 @@ import freemind.modes.MapAdapter;
 import freemind.modes.MindMapNode;
 import freemind.modes.mindmapmode.MindMapMapModel;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -22,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Verifies XML save/load round-trip, structure preservation, and
  * edge cases like special characters and long text.
  */
+@DisplayName("FileOperationsGuiTest")
 class FileOperationsGuiTest extends GuiTestBase {
 
     private static final String BASIC_MAP = "<map><node TEXT='ROOT'/></map>";

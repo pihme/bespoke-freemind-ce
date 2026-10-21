@@ -8,6 +8,7 @@ import freemind.modes.MapAdapter;
 import freemind.modes.MindMapNode;
 import freemind.modes.mindmapmode.MindMapMapModel;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,6 +19,7 @@ import static tests.freemind.unicode.UnicodeTestData.*;
  * Does not simulate actual keyboard input, but verifies that essential
  * classes can be loaded and instantiated.
  */
+@DisplayName("KeyboardShortcutsGuiTest")
 class KeyboardShortcutsGuiTest extends GuiTestBase {
 
     private ExtendedMapFeedbackImpl mapFeedback;

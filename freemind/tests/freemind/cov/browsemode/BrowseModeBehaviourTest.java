@@ -42,6 +42,7 @@ import javax.swing.Action;
 import javax.swing.JComboBox;
 import javax.swing.JToolBar;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.Controller;
@@ -56,6 +57,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Browse mode names itself, switches maps, and restores a file. */
+@DisplayName("BrowseModeBehaviourTest")
 class BrowseModeBehaviourTest {
 
 	@Test

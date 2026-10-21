@@ -40,6 +40,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.time.JDayChooser;
@@ -47,6 +48,7 @@ import accessories.plugins.time.JMonthChooser;
 import accessories.plugins.time.JYearChooser;
 
 /** Backwards-compatible month wrap, locale names, and spinner. */
+@DisplayName("JMonthChooserBehaviourTest")
 class JMonthChooserBehaviourTest {
 
 	@Test

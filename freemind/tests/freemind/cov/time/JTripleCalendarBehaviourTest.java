@@ -35,12 +35,14 @@ import java.util.GregorianCalendar;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.time.JCalendar;
 import accessories.plugins.time.JTripleCalendar;
 
 /** Backwards-compatible twelve-month panel without a frame. */
+@DisplayName("JTripleCalendarBehaviourTest")
 class JTripleCalendarBehaviourTest {
 
 	@Test

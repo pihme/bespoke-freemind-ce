@@ -54,6 +54,7 @@ import javax.swing.text.Document;
 import javax.swing.text.Element;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.time.TimeList;
@@ -69,6 +70,7 @@ import freemind.modes.mindmapmode.MindMapNodeModel;
 import tests.freemind.cov.MapFixture;
 
 /** Backwards-compatible node table without showing the time-list dialog. */
+@DisplayName("TimeListBehaviourTest")
 class TimeListBehaviourTest {
 
 	private MapFixture.Opened opened;

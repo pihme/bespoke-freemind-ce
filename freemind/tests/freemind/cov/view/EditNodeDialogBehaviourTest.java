@@ -42,6 +42,7 @@ import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -50,6 +51,7 @@ import freemind.view.mindmapview.EditNodeDialog;
 import freemind.view.mindmapview.NodeView;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("EditNodeDialogBehaviourTest")
 public class EditNodeDialogBehaviourTest {
 
 	@Test

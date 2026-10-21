@@ -40,6 +40,7 @@ import java.util.concurrent.TimeUnit;
 import javax.help.HelpSet;
 import javax.swing.JPanel;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.SortNodes;
@@ -74,6 +75,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Deduced tests. Each method checks a REQ-DED sentence from docs/spec.md.
  */
+@DisplayName("DeducedBehaviourTest")
 class DeducedBehaviourTest {
 
 	@Test

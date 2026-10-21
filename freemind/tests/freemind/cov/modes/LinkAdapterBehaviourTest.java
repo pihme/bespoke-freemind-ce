@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.awt.Color;
 import java.lang.reflect.Field;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.FreeMind;
@@ -34,6 +35,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Link color and style follow the standard properties, including the first assignment. */
+@DisplayName("LinkAdapterBehaviourTest")
 class LinkAdapterBehaviourTest {
 
 	@Test

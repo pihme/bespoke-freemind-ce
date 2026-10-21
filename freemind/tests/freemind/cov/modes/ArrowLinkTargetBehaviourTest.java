@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.awt.Point;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.XMLElement;
@@ -35,6 +36,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** A link target records its source label and does not move the inclination. */
+@DisplayName("ArrowLinkTargetBehaviourTest")
 class ArrowLinkTargetBehaviourTest {
 
 	@Test

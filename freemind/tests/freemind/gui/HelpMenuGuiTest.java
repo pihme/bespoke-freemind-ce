@@ -9,6 +9,7 @@ import freemind.modes.MapAdapter;
 import freemind.modes.MindMapNode;
 import freemind.modes.mindmapmode.MindMapMapModel;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * GUI tests for informational and metadata operations.
  * Covers version info, headless mode detection, and singleton instances.
  */
+@DisplayName("HelpMenuGuiTest")
 class HelpMenuGuiTest extends GuiTestBase {
 
     private ExtendedMapFeedbackImpl mapFeedback;

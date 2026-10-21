@@ -29,11 +29,13 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.mindmapmode.JAutoScrollBarPane;
 
 /** A pane shows a vertical bar only while the view is taller than the pane. */
+@DisplayName("JAutoScrollBarPaneBehaviourTest")
 class JAutoScrollBarPaneBehaviourTest {
 
 	@Test

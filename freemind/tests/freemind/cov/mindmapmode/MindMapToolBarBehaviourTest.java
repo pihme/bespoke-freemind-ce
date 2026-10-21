@@ -27,6 +27,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.color.ColorPair;
@@ -35,6 +36,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Toolbar combos change the selected node and the registered zoom. */
+@DisplayName("MindMapToolBarBehaviourTest")
 class MindMapToolBarBehaviourTest {
 
 	@Test

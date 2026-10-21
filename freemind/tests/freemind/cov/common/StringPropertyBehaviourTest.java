@@ -33,6 +33,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -41,6 +42,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import freemind.common.StringProperty;
 
 /** A text preference keeps the characters that were stored, including none. */
+@DisplayName("StringPropertyBehaviourTest")
 class StringPropertyBehaviourTest {
 
 	@Test

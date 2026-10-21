@@ -41,6 +41,7 @@ import java.util.Properties;
 
 import javax.swing.JPanel;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -52,6 +53,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** A node drag reports copy, link, or move, and ignores the root and a disabled preference. */
+@DisplayName("NodeDragListenerBehaviourTest")
 class NodeDragListenerBehaviourTest {
 
 	@Test

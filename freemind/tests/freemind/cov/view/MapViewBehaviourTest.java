@@ -50,6 +50,7 @@ import java.awt.FocusTraversalPolicy;
 import javax.swing.JComponent;
 import javax.swing.JViewport;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.FreeMind;
@@ -63,6 +64,7 @@ import freemind.view.mindmapview.NodeView;
 import freemind.view.mindmapview.NodeViewVisitor;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("MapViewBehaviourTest")
 public class MapViewBehaviourTest {
 
 	@Test

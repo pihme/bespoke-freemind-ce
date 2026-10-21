@@ -26,10 +26,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.nio.charset.StandardCharsets;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.Base64Coding;
 
+@DisplayName("Base64CodingBehaviourTest")
 class Base64CodingBehaviourTest {
 
 	@Test

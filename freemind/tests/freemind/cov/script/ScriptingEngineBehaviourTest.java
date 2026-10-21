@@ -37,6 +37,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.extensions.MindMapHook.PluginBaseClassSearcher;
@@ -52,6 +53,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Groovy started from a node, a file, or a startup hook, without a confirmation dialog. */
+@DisplayName("ScriptingEngineBehaviourTest")
 class ScriptingEngineBehaviourTest {
 
 	@AfterEach

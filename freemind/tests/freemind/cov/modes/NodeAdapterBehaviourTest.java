@@ -32,6 +32,7 @@ import java.io.StringWriter;
 import java.util.ListIterator;
 import java.util.SortedMap;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.Controller;
@@ -52,6 +53,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Base node text, style, hooks, attributes, and save keep their old results. */
+@DisplayName("NodeAdapterBehaviourTest")
 class NodeAdapterBehaviourTest {
 
 	@Test

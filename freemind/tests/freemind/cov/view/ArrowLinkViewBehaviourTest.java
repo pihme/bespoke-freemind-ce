@@ -21,6 +21,7 @@ package tests.freemind.cov.view;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindMapArrowLink;
@@ -30,6 +31,7 @@ import freemind.view.mindmapview.ArrowLinkView;
 import freemind.view.mindmapview.NodeView;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("ArrowLinkViewBehaviourTest")
 public class ArrowLinkViewBehaviourTest {
 
 	static final class OpenedLink extends ArrowLinkView {

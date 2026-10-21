@@ -30,6 +30,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.util.Properties;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.EdgeAdapter;
@@ -44,6 +45,7 @@ import plugins.latex.LatexNodeHook;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("YamlExportBehaviourTest")
 class YamlExportBehaviourTest {
 
 	private static final String QUOTED = "Alpha <tag> & \"quote\"";

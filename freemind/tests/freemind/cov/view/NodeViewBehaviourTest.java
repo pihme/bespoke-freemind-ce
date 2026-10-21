@@ -37,6 +37,7 @@ import java.util.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.event.TreeModelEvent;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindMapNode;
@@ -49,6 +50,7 @@ import freemind.view.mindmapview.NodeFoldingComponent;
 import freemind.view.mindmapview.NodeView;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("NodeViewBehaviourTest")
 public class NodeViewBehaviourTest {
 
 	@Test

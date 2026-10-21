@@ -27,6 +27,7 @@ import java.awt.HeadlessException;
 import java.lang.reflect.Field;
 import java.util.Properties;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.FormatPaste;
@@ -34,6 +35,7 @@ import freemind.modes.MindMapNode;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("FormatPasteBehaviourTest")
 class FormatPasteBehaviourTest {
 
 	// backwards compatibility

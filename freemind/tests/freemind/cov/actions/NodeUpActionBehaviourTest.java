@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.mindmapmode.actions.NodeUpAction;
@@ -31,6 +32,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Moving a node up swaps it with the sibling above it. */
+@DisplayName("NodeUpActionBehaviourTest")
 class NodeUpActionBehaviourTest {
 
 	@Test

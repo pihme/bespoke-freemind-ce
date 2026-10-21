@@ -25,12 +25,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.HeadlessException;
 import java.util.Properties;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.IconSelectionPlugin;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("IconSelectionPluginBehaviourTest")
 class IconSelectionPluginBehaviourTest {
 
 	// backwards compatibility

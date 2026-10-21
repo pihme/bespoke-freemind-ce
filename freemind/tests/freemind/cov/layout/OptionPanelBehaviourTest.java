@@ -53,6 +53,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -75,6 +76,7 @@ import freemind.preferences.layout.VariableSizeCardLayout;
 import tests.freemind.cov.MapFixture;
 
 /** Preference values move between the controls and the stored properties. */
+@DisplayName("OptionPanelBehaviourTest")
 class OptionPanelBehaviourTest {
 
 	@AfterEach

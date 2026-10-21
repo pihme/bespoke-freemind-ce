@@ -34,11 +34,13 @@ import java.nio.file.Files;
 import java.util.Locale;
 import java.util.Properties;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.FreeMindCommon;
 import freemind.main.FreeMindStarter;
 
+@DisplayName("FreeMindStarterBehaviourTest")
 class FreeMindStarterBehaviourTest {
 
 	@Test

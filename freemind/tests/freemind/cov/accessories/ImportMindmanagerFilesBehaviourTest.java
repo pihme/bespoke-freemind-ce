@@ -36,12 +36,14 @@ import java.util.zip.ZipOutputStream;
 
 import javax.xml.transform.stream.StreamSource;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.ImportMindmanagerFiles;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("ImportMindmanagerFilesBehaviourTest")
 class ImportMindmanagerFilesBehaviourTest {
 
 	private static final String DOCUMENT = """

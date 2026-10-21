@@ -43,11 +43,13 @@ import javax.swing.Action;
 import javax.swing.JLabel;
 import javax.swing.JSplitPane;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.common.JOptionalSplitPane;
 
 /** One child is a panel, two children are a split, and a third index is refused. */
+@DisplayName("JOptionalSplitPaneBehaviourTest")
 class JOptionalSplitPaneBehaviourTest {
 
 	@Test

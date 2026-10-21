@@ -37,6 +37,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -47,6 +48,7 @@ import freemind.main.HeadlessFreeMind;
 import freemind.modes.MindIcon;
 
 /** An icon preference stores the icon name. The picker dialog cannot open headless. */
+@DisplayName("IconPropertyBehaviourTest")
 class IconPropertyBehaviourTest {
 
 	@Test

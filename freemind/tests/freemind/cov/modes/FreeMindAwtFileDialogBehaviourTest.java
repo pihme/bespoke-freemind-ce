@@ -25,11 +25,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.GraphicsEnvironment;
 import java.awt.HeadlessException;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.FreeMindAwtFileDialog;
 
 /** An AWT file dialog cannot be built while the test JVM is headless. */
+@DisplayName("FreeMindAwtFileDialogBehaviourTest")
 class FreeMindAwtFileDialogBehaviourTest {
 
 	@Test

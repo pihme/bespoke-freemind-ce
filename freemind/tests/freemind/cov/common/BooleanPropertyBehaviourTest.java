@@ -32,6 +32,7 @@ import java.awt.Container;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -41,6 +42,7 @@ import freemind.common.BooleanProperty;
 import freemind.common.TextTranslator;
 
 /** A boolean preference stores "true" or "false" and nothing else. */
+@DisplayName("BooleanPropertyBehaviourTest")
 class BooleanPropertyBehaviourTest {
 
 	@Test

@@ -34,6 +34,7 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.nio.file.Files;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.actions.generated.instance.CollaborationActionBase;
@@ -47,6 +48,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 import tests.freemind.cov.socket.SocketCovSupport.Pipe;
 
+@DisplayName("StandaloneMindMapMasterBehaviourTest")
 class StandaloneMindMapMasterBehaviourTest {
 
 	@Test

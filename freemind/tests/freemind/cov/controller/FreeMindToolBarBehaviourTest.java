@@ -30,11 +30,13 @@ import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.FreeMindToolBar;
 
 /** Toolbar buttons keep the action name without its mnemonic marker, and show no text. */
+@DisplayName("FreeMindToolBarBehaviourTest")
 class FreeMindToolBarBehaviourTest {
 
 	@Test

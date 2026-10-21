@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Vector;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.extensions.MindMapHook.PluginBaseClassSearcher;
@@ -50,6 +51,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Node scripts are attributes. The editor dialog itself cannot open while headless. */
+@DisplayName("ScriptEditorBehaviourTest")
 class ScriptEditorBehaviourTest {
 
 	@Test

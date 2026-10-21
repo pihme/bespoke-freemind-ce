@@ -28,6 +28,7 @@ import java.util.List;
 
 import javax.swing.JMenuItem;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.actions.generated.instance.AddCloudXmlAction;
@@ -37,6 +38,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** A second cloud action removes the cloud. */
+@DisplayName("CloudActionBehaviourTest")
 class CloudActionBehaviourTest {
 
 	@Test

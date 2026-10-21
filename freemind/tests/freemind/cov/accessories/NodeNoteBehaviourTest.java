@@ -35,6 +35,7 @@ import java.util.Properties;
 import javax.swing.JEditorPane;
 import javax.swing.text.html.HTMLDocument;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
@@ -50,6 +51,7 @@ import freemind.main.Resources;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("NodeNoteBehaviourTest")
 class NodeNoteBehaviourTest {
 
 	// backwards compatibility

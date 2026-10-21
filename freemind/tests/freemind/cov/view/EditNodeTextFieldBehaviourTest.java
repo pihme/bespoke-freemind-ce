@@ -41,12 +41,14 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JTextField;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.view.mindmapview.EditNodeTextField;
 import freemind.view.mindmapview.NodeView;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("EditNodeTextFieldBehaviourTest")
 public class EditNodeTextFieldBehaviourTest {
 
 	@Test

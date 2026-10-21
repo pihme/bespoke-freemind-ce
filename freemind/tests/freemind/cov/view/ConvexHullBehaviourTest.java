@@ -27,10 +27,12 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Vector;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.view.mindmapview.ConvexHull;
 
+@DisplayName("ConvexHullBehaviourTest")
 public class ConvexHullBehaviourTest {
 
 	@Test

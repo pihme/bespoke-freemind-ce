@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.EventQueue;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.NewLineTable;
@@ -33,6 +34,7 @@ import accessories.plugins.NodeAttributeTableRegistration.AttributeTableModel;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("NewLineTableBehaviourTest")
 class NewLineTableBehaviourTest {
 
 	// backwards compatibility

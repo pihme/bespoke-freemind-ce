@@ -27,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.actions.generated.instance.BoldNodeAction;
@@ -41,6 +42,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** A general action applies one node operation, or builds a pair from its actor. */
+@DisplayName("NodeGeneralActionBehaviourTest")
 class NodeGeneralActionBehaviourTest {
 
 	@Test

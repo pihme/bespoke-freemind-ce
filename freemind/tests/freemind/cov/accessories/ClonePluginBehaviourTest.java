@@ -33,6 +33,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.ClonePasteAction;
@@ -45,6 +46,7 @@ import freemind.modes.mindmapmode.MindMapNodeModel;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("ClonePluginBehaviourTest")
 class ClonePluginBehaviourTest {
 
 	// backwards compatibility

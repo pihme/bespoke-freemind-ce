@@ -26,11 +26,13 @@ import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.NodeDropListener;
 
 /** The node drop listener forwards drop events only while a handler is registered. */
+@DisplayName("NodeDropListenerBehaviourTest")
 class NodeDropListenerBehaviourTest {
 
 	@Test

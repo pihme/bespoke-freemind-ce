@@ -28,6 +28,7 @@ import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindMapNode;
@@ -37,6 +38,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** A background stays when the chooser fails, and the remove action clears it. */
+@DisplayName("NodeBackgroundColorActionBehaviourTest")
 class NodeBackgroundColorActionBehaviourTest {
 
 	@Test

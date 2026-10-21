@@ -27,6 +27,7 @@ import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindMapNode;
@@ -35,6 +36,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** The edge-color chooser closes before it can replace the color. */
+@DisplayName("EdgeColorActionBehaviourTest")
 class EdgeColorActionBehaviourTest {
 
 	@Test

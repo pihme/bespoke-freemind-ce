@@ -27,6 +27,7 @@ import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.mindmapmode.actions.ExportBranchAction;
@@ -34,6 +35,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** The root is not exported, and an unsaved branch is not written out. */
+@DisplayName("ExportBranchActionBehaviourTest")
 class ExportBranchActionBehaviourTest {
 
 	@Test

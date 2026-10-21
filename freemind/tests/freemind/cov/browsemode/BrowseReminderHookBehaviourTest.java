@@ -29,6 +29,7 @@ import java.util.Properties;
 
 import javax.swing.Timer;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindMapNode;
@@ -37,6 +38,7 @@ import freemind.modes.common.plugins.ReminderHookBase;
 import tests.freemind.cov.MapFixture;
 
 /** A browse reminder marks the node, then clears the mark on shutdown. */
+@DisplayName("BrowseReminderHookBehaviourTest")
 class BrowseReminderHookBehaviourTest {
 
 	@Test

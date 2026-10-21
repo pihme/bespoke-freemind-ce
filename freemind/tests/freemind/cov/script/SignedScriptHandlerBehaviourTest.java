@@ -32,6 +32,7 @@ import java.awt.Window;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.HeadlessFreeMind;
@@ -39,6 +40,7 @@ import plugins.script.SignedScriptHandler;
 import plugins.script.SignedScriptHandler.ScriptContents;
 
 /** Signature text is parsed locally. Signing needs a password dialog, which headless mode refuses. */
+@DisplayName("SignedScriptHandlerBehaviourTest")
 class SignedScriptHandlerBehaviourTest {
 
 	private static final String SIGNATURE =

@@ -29,6 +29,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindMapNode;
@@ -37,6 +38,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** A folder chooser does not import, and a plain file only folds the target. */
+@DisplayName("ImportFolderStructureActionBehaviourTest")
 class ImportFolderStructureActionBehaviourTest {
 
 	@Test

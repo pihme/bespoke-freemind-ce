@@ -30,11 +30,13 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.common.UnicodeReader;
 
 /** A reader takes the charset from the BOM, otherwise from the default. */
+@DisplayName("UnicodeReaderBehaviourTest")
 class UnicodeReaderBehaviourTest {
 
 	@Test

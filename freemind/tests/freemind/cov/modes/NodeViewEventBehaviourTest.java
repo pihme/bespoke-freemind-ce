@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.lang.reflect.Field;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindMap;
@@ -33,6 +34,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** The event keeps the node it was constructed with. */
+@DisplayName("NodeViewEventBehaviourTest")
 class NodeViewEventBehaviourTest {
 
 	@Test

@@ -6,6 +6,7 @@ import freemind.modes.MapAdapter;
 import freemind.modes.MindMapNode;
 import freemind.modes.mindmapmode.MindMapMapModel;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,6 +17,7 @@ import static tests.freemind.unicode.UnicodeTestData.*;
  * inline and modal text editing, rich text notes, undo/redo simulation,
  * link management, cut-paste simulation, and edit preservation.
  */
+@DisplayName("NodeEditingGuiTest")
 class NodeEditingGuiTest extends GuiTestBase {
 
     private ExtendedMapFeedbackImpl mapFeedback;

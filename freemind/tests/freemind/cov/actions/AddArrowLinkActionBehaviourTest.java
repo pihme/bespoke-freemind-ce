@@ -34,6 +34,7 @@ import java.util.Vector;
 
 import javax.swing.JMenuItem;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.MindMapNodesSelection;
@@ -46,6 +47,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** An arrow is added from the selection to the single copied node. */
+@DisplayName("AddArrowLinkActionBehaviourTest")
 class AddArrowLinkActionBehaviourTest {
 
 	@Test

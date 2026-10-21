@@ -25,11 +25,13 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.beans.PropertyChangeListener;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.common.PropertyBean;
 
 /** Listeners hear the label and the current value, and a removed listener does not. */
+@DisplayName("PropertyBeanBehaviourTest")
 class PropertyBeanBehaviourTest {
 
 	@Test

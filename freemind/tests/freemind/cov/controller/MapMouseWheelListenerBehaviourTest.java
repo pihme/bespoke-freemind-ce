@@ -27,11 +27,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.JPanel;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.MapMouseWheelListener;
 
 /** The map wheel listener forwards events only while a handler is registered. */
+@DisplayName("MapMouseWheelListenerBehaviourTest")
 class MapMouseWheelListenerBehaviourTest {
 
 	@Test

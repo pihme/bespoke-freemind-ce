@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.IOException;
 import java.io.StringWriter;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.actions.generated.instance.CollaborationGoodbye;
@@ -43,6 +44,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 import tests.freemind.cov.socket.SocketCovSupport.Pipe;
 
+@DisplayName("SocketConnectionHookBehaviourTest")
 class SocketConnectionHookBehaviourTest {
 
 	@Test

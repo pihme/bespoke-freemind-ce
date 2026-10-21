@@ -29,6 +29,7 @@ import java.awt.Container;
 
 import javax.swing.JCheckBox;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -37,6 +38,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import freemind.common.DontShowNotificationProperty;
 
 /** "Don't show again" stores true, or an empty string when the box is clear. */
+@DisplayName("DontShowNotificationPropertyBehaviourTest")
 class DontShowNotificationPropertyBehaviourTest {
 
 	@Test

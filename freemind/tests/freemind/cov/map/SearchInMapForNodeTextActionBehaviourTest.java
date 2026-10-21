@@ -27,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.FreeMind;
@@ -34,6 +35,7 @@ import freemind.modes.MindMapNode;
 import plugins.map.Registration;
 import plugins.map.SearchInMapForNodeTextAction;
 
+@DisplayName("SearchInMapForNodeTextActionBehaviourTest")
 class SearchInMapForNodeTextActionBehaviourTest {
 
 	@Test

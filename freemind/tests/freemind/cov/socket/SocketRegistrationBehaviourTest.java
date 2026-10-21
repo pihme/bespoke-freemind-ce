@@ -27,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import javax.swing.AbstractAction;
 import javax.swing.JMenuItem;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.mindmapmode.actions.NodeHookAction;
@@ -37,6 +38,7 @@ import plugins.collaboration.socket.SocketRegistration;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("SocketRegistrationBehaviourTest")
 class SocketRegistrationBehaviourTest {
 
 	@Test

@@ -28,6 +28,7 @@ import java.awt.event.ActionEvent;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.mindmapmode.actions.NewPreviousSiblingAction;
@@ -35,6 +36,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** A previous sibling is inserted just before the selected node. */
+@DisplayName("NewPreviousSiblingActionBehaviourTest")
 class NewPreviousSiblingActionBehaviourTest {
 
 	@Test

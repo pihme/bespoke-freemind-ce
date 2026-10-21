@@ -22,6 +22,7 @@ package tests.freemind.cov.accessories;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.FormatNewNodes;
@@ -30,6 +31,7 @@ import freemind.modes.mindmapmode.actions.xml.ActionPair;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("FormatNewNodesBehaviourTest")
 class FormatNewNodesBehaviourTest {
 
 	// backwards compatibility

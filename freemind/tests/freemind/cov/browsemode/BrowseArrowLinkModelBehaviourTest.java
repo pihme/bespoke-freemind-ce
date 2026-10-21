@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.awt.Point;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.browsemode.BrowseArrowLinkModel;
@@ -32,6 +33,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** A browse link names its ends and ignores a drag. */
+@DisplayName("BrowseArrowLinkModelBehaviourTest")
 class BrowseArrowLinkModelBehaviourTest {
 
 	@Test

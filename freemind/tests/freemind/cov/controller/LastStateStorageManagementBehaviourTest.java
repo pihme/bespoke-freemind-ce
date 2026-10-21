@@ -27,12 +27,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.LastStateStorageManagement;
 import freemind.controller.actions.generated.instance.MindmapLastStateStorage;
 
 /** REQ-DED-10. Remembered map states are kept up to 50, newest first. */
+@DisplayName("LastStateStorageManagementBehaviourTest")
 class LastStateStorageManagementBehaviourTest {
 
 	@Test

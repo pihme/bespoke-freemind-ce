@@ -34,6 +34,7 @@ import java.lang.reflect.Field;
 
 import javax.swing.Timer;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.NodeAdapter;
@@ -41,6 +42,7 @@ import freemind.view.mindmapview.NodeFoldingComponent;
 import freemind.view.mindmapview.NodeView;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("NodeFoldingComponentBehaviourTest")
 public class NodeFoldingComponentBehaviourTest {
 
 	@Test

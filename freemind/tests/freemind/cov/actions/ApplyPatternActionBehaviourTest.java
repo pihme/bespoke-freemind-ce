@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.actions.generated.instance.Pattern;
@@ -37,6 +38,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** A named italic pattern marks the selected node, and width 2 stays the digit string. */
+@DisplayName("ApplyPatternActionBehaviourTest")
 class ApplyPatternActionBehaviourTest {
 
 	@Test

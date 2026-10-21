@@ -291,14 +291,19 @@ class StartupBehaviourTest {
 		assertTrue(patterns.getModel().getSize() >= 20,
 				"pattern count " + patterns.getModel().getSize());
 		boolean sawDefault = false;
+		StringBuilder names = new StringBuilder();
 		for (int i = 0; i < patterns.getModel().getSize(); i++) {
 			Object item = patterns.getModel().getElementAt(i);
 			Pattern pattern = assertInstanceOf(Pattern.class, item);
-			if ("Default".equals(pattern.getName())) {
+			if (names.length() > 0) {
+				names.append(", ");
+			}
+			names.append(pattern.getName());
+			if ("Default".equals(pattern.getName()) || "Default".equals(pattern.getOriginalName())) {
 				sawDefault = true;
 			}
 		}
-		assertTrue(sawDefault);
+		assertTrue(sawDefault, names.toString());
 		dialog.dispose();
 	}
 

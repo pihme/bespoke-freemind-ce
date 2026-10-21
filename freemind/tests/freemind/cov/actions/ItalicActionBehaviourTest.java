@@ -26,6 +26,7 @@ import java.util.List;
 
 import javax.swing.JMenuItem;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindMapNode;
@@ -34,6 +35,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Italic on an already italic node clears the mark. */
+@DisplayName("ItalicActionBehaviourTest")
 class ItalicActionBehaviourTest {
 
 	@Test

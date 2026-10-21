@@ -49,6 +49,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.LastStateStorageManagement;
@@ -71,6 +72,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Saving, selection, links, and file drops keep the controller's old results. */
+@DisplayName("ControllerAdapterBehaviourTest")
 class ControllerAdapterBehaviourTest {
 
 	@Test

@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.Properties;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.HierarchicalIcons;
@@ -32,6 +33,7 @@ import freemind.modes.MindMapNode;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("HierarchicalIconsBehaviourTest")
 class HierarchicalIconsBehaviourTest {
 
 	// backwards compatibility

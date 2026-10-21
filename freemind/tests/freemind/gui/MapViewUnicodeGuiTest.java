@@ -6,6 +6,7 @@ import freemind.modes.MapAdapter;
 import freemind.modes.MindMapNode;
 import freemind.modes.mindmapmode.MindMapMapModel;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.StringWriter;
@@ -20,6 +21,7 @@ import static tests.freemind.unicode.UnicodeTestData.*;
  *
  * Extends GuiTestBase for shared infrastructure.
  */
+@DisplayName("MapViewUnicodeGuiTest")
 class MapViewUnicodeGuiTest extends GuiTestBase {
 
     private ExtendedMapFeedbackImpl mapFeedback;

@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.Color;
 import java.lang.reflect.Field;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.FreeMind;
@@ -38,6 +39,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Cloud level, saved attributes, and the standard style follow the model. */
+@DisplayName("CloudAdapterBehaviourTest")
 class CloudAdapterBehaviourTest {
 
 	@Test

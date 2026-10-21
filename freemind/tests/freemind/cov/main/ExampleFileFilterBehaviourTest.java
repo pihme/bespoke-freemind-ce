@@ -29,10 +29,12 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.NoSuchElementException;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.ExampleFileFilter;
 
+@DisplayName("ExampleFileFilterBehaviourTest")
 class ExampleFileFilterBehaviourTest {
 
 	@Test

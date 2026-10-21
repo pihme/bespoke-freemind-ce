@@ -31,6 +31,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -42,6 +43,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** A script is stored escaped, and the editor plugin replaces the plain text. */
+@DisplayName("ScriptEditorPropertyBehaviourTest")
 class ScriptEditorPropertyBehaviourTest {
 
 	@Test

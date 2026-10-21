@@ -30,6 +30,7 @@ import java.awt.HeadlessException;
 import java.io.IOException;
 import java.net.Socket;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.actions.generated.instance.CollaborationActionBase;
@@ -62,6 +63,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 import tests.freemind.cov.socket.SocketCovSupport.Pipe;
 
+@DisplayName("ClientCommunicationBehaviourTest")
 class ClientCommunicationBehaviourTest {
 
 	private static final String VERSION_KEY = FreeMind.RESOURCES_USE_COLLABORATION_SERVER_WITH_DIFFERENT_VERSION;

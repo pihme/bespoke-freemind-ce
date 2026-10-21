@@ -30,6 +30,7 @@ import java.awt.Window;
 
 import javax.swing.JOptionPane;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.common.OptionalDontShowMeAgainDialog;
@@ -38,6 +39,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** A remembered answer skips the dialog. Showing it headless adds no window. */
+@DisplayName("OptionalDontShowMeAgainDialogBehaviourTest")
 class OptionalDontShowMeAgainDialogBehaviourTest {
 
 	@Test

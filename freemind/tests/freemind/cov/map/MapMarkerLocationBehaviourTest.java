@@ -25,12 +25,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.Color;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindMapNode;
 import plugins.map.MapMarkerLocation;
 import plugins.map.MapNodePositionHolder;
 
+@DisplayName("MapMarkerLocationBehaviourTest")
 class MapMarkerLocationBehaviourTest {
 
 	@Test

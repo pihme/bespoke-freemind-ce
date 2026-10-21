@@ -39,6 +39,7 @@ import java.util.Arrays;
 import java.util.Properties;
 import java.util.Timer;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.Resources;
@@ -51,6 +52,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** A map model builds nodes, locks a semaphore, and writes automatic saves. */
+@DisplayName("MindMapMapModelBehaviourTest")
 class MindMapMapModelBehaviourTest {
 
 	@Test

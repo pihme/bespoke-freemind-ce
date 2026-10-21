@@ -31,6 +31,7 @@ import java.util.Properties;
 import javax.swing.AbstractAction;
 import javax.swing.JMenuItem;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.time.TimeManagement;
@@ -41,6 +42,7 @@ import freemind.modes.mindmapmode.actions.NodeHookAction;
 import tests.freemind.cov.MapFixture;
 
 /** Backwards-compatible reminder menu visibility. */
+@DisplayName("TimeManagementOrganizerBehaviourTest")
 class TimeManagementOrganizerBehaviourTest {
 
 	@Test

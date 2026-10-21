@@ -38,6 +38,7 @@ import java.util.Properties;
 
 import javax.xml.transform.stream.StreamSource;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.ExportWithXSLT;
@@ -46,6 +47,7 @@ import freemind.modes.ControllerAdapter;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("ExportWithXSLTBehaviourTest")
 class ExportWithXSLTBehaviourTest {
 
 	private static final byte[] PNG = Base64.getDecoder().decode(

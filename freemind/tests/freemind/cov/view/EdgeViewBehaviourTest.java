@@ -23,11 +23,13 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.lang.reflect.Field;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.view.mindmapview.EdgeView;
 import freemind.view.mindmapview.LinearEdgeView;
 
+@DisplayName("EdgeViewBehaviourTest")
 public class EdgeViewBehaviourTest {
 
 	@Test

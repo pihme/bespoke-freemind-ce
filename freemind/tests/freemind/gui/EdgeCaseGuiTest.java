@@ -7,6 +7,7 @@ import freemind.modes.MapAdapter;
 import freemind.modes.MindMapNode;
 import freemind.modes.mindmapmode.MindMapMapModel;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.StringWriter;
@@ -19,6 +20,7 @@ import static tests.freemind.unicode.UnicodeTestData.*;
  * Covers empty/long text, deep/wide trees, special characters,
  * Unicode, rapid operations, and multiple map instances.
  */
+@DisplayName("EdgeCaseGuiTest")
 class EdgeCaseGuiTest extends GuiTestBase {
 
     private ExtendedMapFeedbackImpl mapFeedback;

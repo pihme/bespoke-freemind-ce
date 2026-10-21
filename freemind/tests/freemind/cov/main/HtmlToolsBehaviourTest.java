@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.HtmlTools;
@@ -36,6 +37,7 @@ import freemind.modes.mindmapmode.MindMapNodeModel;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("HtmlToolsBehaviourTest")
 class HtmlToolsBehaviourTest {
 
 	@Test

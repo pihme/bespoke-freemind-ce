@@ -12,6 +12,7 @@ import freemind.modes.attributes.Attribute;
 import freemind.modes.mindmapmode.MindMapMapModel;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import plugins.contextgraph.CleanJsonExport;
@@ -43,6 +44,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * and English. Each file is saved to disk with UTF-8 encoding, reloaded,
  * and every node's text, notes, attributes, links, and icons are verified.
  */
+@DisplayName("MultiLanguageFileTest")
 class MultiLanguageFileTest {
 
     @TempDir

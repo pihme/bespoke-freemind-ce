@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.extensions.MindMapHook;
@@ -31,6 +32,7 @@ import plugins.map.MapNodePositionHolder;
 import plugins.map.Registration;
 import plugins.map.ShowMapToNodeAction;
 
+@DisplayName("ShowMapToNodeActionBehaviourTest")
 class ShowMapToNodeActionBehaviourTest {
 
 	@Test

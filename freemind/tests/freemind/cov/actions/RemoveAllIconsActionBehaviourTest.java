@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindIcon;
@@ -36,6 +37,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Every icon on the selected node is cleared, and the key stroke is delete. */
+@DisplayName("RemoveAllIconsActionBehaviourTest")
 class RemoveAllIconsActionBehaviourTest {
 
 	@Test

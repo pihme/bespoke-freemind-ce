@@ -30,6 +30,7 @@ import java.io.Writer;
 import java.util.Collections;
 import java.util.Properties;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.extensions.PermanentNodeHookAdapter;
@@ -39,6 +40,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** HTML export follows the folding preference and escapes node text. */
+@DisplayName("MindMapHTMLWriterBehaviourTest")
 class MindMapHTMLWriterBehaviourTest {
 
 	@Test

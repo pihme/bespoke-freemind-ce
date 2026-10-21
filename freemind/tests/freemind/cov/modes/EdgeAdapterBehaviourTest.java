@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.awt.Color;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.FreeMind;
@@ -34,6 +35,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Edge style names become the integer constants, and the standard color follows the property. */
+@DisplayName("EdgeAdapterBehaviourTest")
 class EdgeAdapterBehaviourTest {
 
 	@Test

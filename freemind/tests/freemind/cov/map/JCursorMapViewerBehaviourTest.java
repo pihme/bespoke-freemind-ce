@@ -33,6 +33,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JButton;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.Tile;
@@ -42,6 +43,7 @@ import org.openstreetmap.gui.jmapviewer.interfaces.TileCache;
 
 import plugins.map.FreeMindMapController;
 
+@DisplayName("JCursorMapViewerBehaviourTest")
 class JCursorMapViewerBehaviourTest {
 
 	@Test

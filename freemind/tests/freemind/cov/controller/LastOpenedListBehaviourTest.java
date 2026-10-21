@@ -29,6 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.Controller;
@@ -36,6 +37,7 @@ import freemind.controller.LastOpenedList;
 import tests.freemind.cov.MapFixture;
 
 /** REQ-DED-08. The recent-files list drops the oldest entry past its limit. */
+@DisplayName("LastOpenedListBehaviourTest")
 class LastOpenedListBehaviourTest {
 
 	private Controller controller;

@@ -4,6 +4,7 @@ import freemind.modes.ExtendedMapFeedbackImpl;
 import freemind.modes.MindMapNode;
 import freemind.modes.mindmapmode.MindMapMapModel;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Verifies node property access, child manipulation, note handling,
  * and root/non-root detection that would underpin context menu actions.
  */
+@DisplayName("ContextMenuGuiTest")
 class ContextMenuGuiTest extends GuiTestBase {
 
     private ExtendedMapFeedbackImpl mapFeedback;

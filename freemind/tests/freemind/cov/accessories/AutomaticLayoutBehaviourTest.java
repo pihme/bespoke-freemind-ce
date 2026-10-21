@@ -33,6 +33,7 @@ import java.util.Properties;
 import javax.swing.JList;
 import javax.swing.event.ListSelectionEvent;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -49,6 +50,7 @@ import freemind.preferences.layout.OptionPanel;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("AutomaticLayoutBehaviourTest")
 class AutomaticLayoutBehaviourTest {
 
 	private static final String PATTERNS = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><patterns>"

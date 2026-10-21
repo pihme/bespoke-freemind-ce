@@ -34,6 +34,7 @@ import java.util.Vector;
 
 import javax.swing.JMenuItem;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.MindMapNodesSelection;
@@ -44,6 +45,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** A local link points at the one copied node, and an empty clipboard does not. */
+@DisplayName("AddLocalLinkActionBehaviourTest")
 class AddLocalLinkActionBehaviourTest {
 
 	@Test

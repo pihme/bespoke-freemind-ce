@@ -33,6 +33,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.JMenuItem;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.OsmTileLoader;
@@ -47,6 +48,7 @@ import freemind.modes.mindmapmode.actions.NodeHookAction;
 import plugins.map.MapNodePositionHolder;
 import plugins.map.Registration;
 
+@DisplayName("RegistrationBehaviourTest")
 class RegistrationBehaviourTest {
 
 	@Test

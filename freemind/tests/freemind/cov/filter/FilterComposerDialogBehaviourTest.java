@@ -40,6 +40,7 @@ import java.util.Timer;
 
 import javax.swing.filechooser.FileFilter;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.Controller;
@@ -51,6 +52,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** The composer is a window. Headless construction fails, and the file filter does not need one. */
+@DisplayName("FilterComposerDialogBehaviourTest")
 class FilterComposerDialogBehaviourTest {
 
 	@Test

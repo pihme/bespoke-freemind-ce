@@ -30,12 +30,14 @@ import java.lang.reflect.Field;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.FreeMindMain;
 import freemind.main.Resources;
 import freemind.modes.FreeMindJFileDialog;
 
+@DisplayName("ResourcesBehaviourTest")
 class ResourcesBehaviourTest {
 
 	@Test

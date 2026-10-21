@@ -31,11 +31,13 @@ import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.MindMapNodesSelection;
 
 /** Clipboard payload for a node copy. Each flavor returns the value it was given. */
+@DisplayName("MindMapNodesSelectionBehaviourTest")
 class MindMapNodesSelectionBehaviourTest {
 
 	@Test

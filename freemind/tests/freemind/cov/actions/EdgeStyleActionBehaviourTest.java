@@ -27,6 +27,7 @@ import java.util.List;
 
 import javax.swing.JMenuItem;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.EdgeAdapter;
@@ -36,6 +37,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Sharp linear replaces another edge style and is then selected. */
+@DisplayName("EdgeStyleActionBehaviourTest")
 class EdgeStyleActionBehaviourTest {
 
 	@Test

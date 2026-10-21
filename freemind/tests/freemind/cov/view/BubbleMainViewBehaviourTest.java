@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.Point;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindMapNode;
@@ -31,6 +32,7 @@ import freemind.view.mindmapview.MainView;
 import freemind.view.mindmapview.NodeView;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("BubbleMainViewBehaviourTest")
 public class BubbleMainViewBehaviourTest {
 
 	@Test

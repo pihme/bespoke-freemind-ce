@@ -29,6 +29,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.time.FlatNodeTableFilterModel;
@@ -38,6 +39,7 @@ import freemind.modes.MindMapNode;
 import tests.freemind.cov.MapFixture;
 
 /** Backwards-compatible node and note filtering. */
+@DisplayName("FlatNodeTableFilterModelBehaviourTest")
 class FlatNodeTableFilterModelBehaviourTest {
 
 	@Test

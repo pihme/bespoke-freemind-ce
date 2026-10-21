@@ -30,6 +30,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -40,6 +41,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Map mouse motion keeps the selection, consumes presses, and shows the maps popup. */
+@DisplayName("MapMouseMotionListenerBehaviourTest")
 class MapMouseMotionListenerBehaviourTest {
 
 	@Test

@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.StringWriter;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.OsmMercator;
@@ -40,6 +41,7 @@ import freemind.modes.common.plugins.MapNodePositionHolderBase;
 import plugins.map.FreeMindMapController;
 import plugins.map.MapNodePositionHolder;
 
+@DisplayName("MapNodePositionHolderBehaviourTest")
 class MapNodePositionHolderBehaviourTest {
 
 	@Test

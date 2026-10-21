@@ -7,6 +7,7 @@ import freemind.modes.MapAdapter;
 import freemind.modes.MindMapNode;
 import freemind.modes.mindmapmode.MindMapMapModel;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.StringWriter;
@@ -19,6 +20,7 @@ import static tests.freemind.unicode.UnicodeTestData.*;
  * Verifies that external XML structures can be loaded into the map model,
  * preserving node hierarchy, text, and notes.
  */
+@DisplayName("ImportGuiTest")
 class ImportGuiTest extends GuiTestBase {
 
     private ExtendedMapFeedbackImpl mapFeedback;

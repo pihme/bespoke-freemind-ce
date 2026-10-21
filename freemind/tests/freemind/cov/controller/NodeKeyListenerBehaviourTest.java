@@ -27,11 +27,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.JPanel;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.NodeKeyListener;
 
 /** The node key listener forwards keys only while a handler is registered. */
+@DisplayName("NodeKeyListenerBehaviourTest")
 class NodeKeyListenerBehaviourTest {
 
 	@Test

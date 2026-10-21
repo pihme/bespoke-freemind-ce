@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.BasicStroke;
 import java.awt.Color;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindMapCloud;
@@ -33,6 +34,7 @@ import freemind.view.mindmapview.CloudView;
 import freemind.view.mindmapview.NodeView;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("CloudViewBehaviourTest")
 public class CloudViewBehaviourTest {
 
 	@Test

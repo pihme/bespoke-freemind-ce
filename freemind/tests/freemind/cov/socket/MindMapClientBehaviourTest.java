@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.HeadlessException;
 import java.util.Properties;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.extensions.PermanentNodeHook;
@@ -36,6 +37,7 @@ import plugins.collaboration.socket.SocketConnectionHook;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("MindMapClientBehaviourTest")
 class MindMapClientBehaviourTest {
 
 	private static final String HOST_KEY = "plugins.collaboration.database.host";

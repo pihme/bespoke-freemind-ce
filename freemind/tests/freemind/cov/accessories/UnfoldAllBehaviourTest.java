@@ -26,6 +26,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.MouseWheelEvent;
 import java.util.Properties;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.UnfoldAll;
@@ -33,6 +34,7 @@ import freemind.modes.MindMapNode;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("UnfoldAllBehaviourTest")
 class UnfoldAllBehaviourTest {
 
 	// backwards compatibility

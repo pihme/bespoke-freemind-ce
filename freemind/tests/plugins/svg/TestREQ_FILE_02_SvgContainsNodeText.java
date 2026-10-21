@@ -28,6 +28,7 @@ import java.nio.file.Files;
 import javax.swing.JPanel;
 
 import org.apache.batik.svggen.SVGGraphics2D;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.HeadlessFreeMind;
@@ -40,6 +41,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * SVG export of a map view. PDF and the PDF options dialog stay untested.
  */
+@DisplayName("TestREQ_FILE_02_SvgContainsNodeText")
 class TestREQ_FILE_02_SvgContainsNodeText {
 
 	private static final String MAP = "<map version=\"1.0.0\">"

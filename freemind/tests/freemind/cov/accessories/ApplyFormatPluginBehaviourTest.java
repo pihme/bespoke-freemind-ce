@@ -25,12 +25,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.awt.HeadlessException;
 import java.util.Properties;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.ApplyFormatPlugin;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("ApplyFormatPluginBehaviourTest")
 class ApplyFormatPluginBehaviourTest {
 
 	// backwards compatibility

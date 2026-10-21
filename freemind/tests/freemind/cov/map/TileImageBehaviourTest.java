@@ -33,6 +33,7 @@ import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openstreetmap.gui.jmapviewer.MemoryTileCache;
 import org.openstreetmap.gui.jmapviewer.Tile;
@@ -42,6 +43,7 @@ import org.openstreetmap.gui.jmapviewer.tilesources.OsmTileSource;
 
 import plugins.map.TileImage;
 
+@DisplayName("TileImageBehaviourTest")
 class TileImageBehaviourTest {
 
 	@Test

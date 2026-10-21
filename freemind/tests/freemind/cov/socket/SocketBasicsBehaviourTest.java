@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.common.NumberProperty;
@@ -46,6 +47,7 @@ import plugins.collaboration.socket.SocketConnectionHook;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("SocketBasicsBehaviourTest")
 class SocketBasicsBehaviourTest {
 
 	private static final String PORT_KEY = "plugins.collaboration.socket.port";

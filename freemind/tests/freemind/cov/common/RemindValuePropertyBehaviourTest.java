@@ -27,6 +27,7 @@ import java.awt.Container;
 
 import javax.swing.JButton;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -36,6 +37,7 @@ import freemind.common.RemindValueProperty;
 import freemind.common.TextTranslator;
 
 /** Remind stores true, false, or an empty "ask" value, and labels the button. */
+@DisplayName("RemindValuePropertyBehaviourTest")
 class RemindValuePropertyBehaviourTest {
 
 	@Test

@@ -43,6 +43,7 @@ import javax.swing.Action;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.Controller;
@@ -72,6 +73,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Browse controller opens links, folds a parent, and rejects a map it cannot read. */
+@DisplayName("BrowseControllerBehaviourTest")
 class BrowseControllerBehaviourTest {
 
 	@Test

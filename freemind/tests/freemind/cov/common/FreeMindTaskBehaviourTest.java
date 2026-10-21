@@ -31,11 +31,13 @@ import java.awt.Window;
 
 import javax.swing.RootPaneContainer;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.common.FreeMindTask;
 
 /** A task builds a progress dialog in its constructor, which cannot open headless. */
+@DisplayName("FreeMindTaskBehaviourTest")
 class FreeMindTaskBehaviourTest {
 
 	@Test

@@ -27,6 +27,7 @@ import java.util.Properties;
 
 import javax.swing.JMenuItem;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.ChangeRootNode;
@@ -35,6 +36,7 @@ import freemind.modes.MindMapNode;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("ChangeRootNodeBehaviourTest")
 class ChangeRootNodeBehaviourTest {
 
 	// backwards compatibility

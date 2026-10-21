@@ -42,6 +42,7 @@ import javax.swing.JDialog;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.common.XmlBindingTools;
@@ -51,6 +52,7 @@ import freemind.main.HeadlessFreeMind;
 import freemind.main.Resources;
 
 /** Window geometry round-trips through JAXB. A real dialog cannot be built headless. */
+@DisplayName("XmlBindingToolsBehaviourTest")
 class XmlBindingToolsBehaviourTest {
 
 	@Test

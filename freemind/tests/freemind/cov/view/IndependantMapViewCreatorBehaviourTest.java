@@ -25,12 +25,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.Rectangle;
 import java.io.File;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.extensions.NodeHook;
 import freemind.view.mindmapview.IndependantMapViewCreator;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("IndependantMapViewCreatorBehaviourTest")
 public class IndependantMapViewCreatorBehaviourTest {
 
 	@Test

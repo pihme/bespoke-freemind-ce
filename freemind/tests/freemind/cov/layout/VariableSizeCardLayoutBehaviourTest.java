@@ -27,11 +27,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.preferences.layout.VariableSizeCardLayout;
 
 /** A card stack reports the largest visible card, plus gaps and insets. */
+@DisplayName("VariableSizeCardLayoutBehaviourTest")
 class VariableSizeCardLayoutBehaviourTest {
 
 	@Test

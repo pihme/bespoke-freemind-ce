@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindIcon;
@@ -35,6 +36,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** The last icon comes off, and the key stroke is backspace. */
+@DisplayName("RemoveIconActionBehaviourTest")
 class RemoveIconActionBehaviourTest {
 
 	@Test

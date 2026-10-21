@@ -41,6 +41,7 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.HeadlessFreeMind;
@@ -48,6 +49,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** The menu bar lists the open map and a recent file, and an unbound key does nothing. */
+@DisplayName("MenuBarBehaviourTest")
 class MenuBarBehaviourTest {
 
 	@Test

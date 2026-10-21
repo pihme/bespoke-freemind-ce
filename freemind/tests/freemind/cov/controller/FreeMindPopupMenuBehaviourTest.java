@@ -24,12 +24,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.FreeMindPopupMenu;
 import freemind.main.HeadlessFreeMind;
 
 /** Popup menu events reach listeners added on the FreeMind menu, and stop after removal. */
+@DisplayName("FreeMindPopupMenuBehaviourTest")
 class FreeMindPopupMenuBehaviourTest {
 
 	@Test

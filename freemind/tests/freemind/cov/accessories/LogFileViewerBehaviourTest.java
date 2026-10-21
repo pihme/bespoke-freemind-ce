@@ -41,6 +41,7 @@ import javax.swing.Action;
 import javax.swing.JMenuItem;
 import javax.swing.JTextArea;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.LogFileViewer;
@@ -49,6 +50,7 @@ import freemind.main.LogFileLogHandler;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("LogFileViewerBehaviourTest")
 class LogFileViewerBehaviourTest {
 
 	// backwards compatibility

@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -31,6 +32,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import freemind.common.SeparatorProperty;
 
 /** A separator has a label, no description, and asks for separator.text. */
+@DisplayName("SeparatorPropertyBehaviourTest")
 class SeparatorPropertyBehaviourTest {
 
 	@Test

@@ -6,6 +6,7 @@ import freemind.modes.MapAdapter;
 import freemind.modes.MindMapNode;
 import freemind.modes.mindmapmode.MindMapMapModel;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * GUI tests for navigation operations on the mind map tree structure:
  * root detection, parent/child traversal, sibling order, and wide trees.
  */
+@DisplayName("NavigateMenuGuiTest")
 class NavigateMenuGuiTest extends GuiTestBase {
 
     private ExtendedMapFeedbackImpl mapFeedback;

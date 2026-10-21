@@ -40,11 +40,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.time.TableSorter;
 
 /** Backwards-compatible header sorting and comparators. */
+@DisplayName("TableSorterBehaviourTest")
 class TableSorterBehaviourTest {
 
 	@Test

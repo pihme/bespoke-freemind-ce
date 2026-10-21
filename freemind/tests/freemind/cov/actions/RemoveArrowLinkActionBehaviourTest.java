@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.awt.event.ActionEvent;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindMapNode;
@@ -34,6 +35,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Removing an arrow drops that link from the map. */
+@DisplayName("RemoveArrowLinkActionBehaviourTest")
 class RemoveArrowLinkActionBehaviourTest {
 
 	@Test

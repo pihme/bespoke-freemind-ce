@@ -29,6 +29,7 @@ import java.awt.Container;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -38,6 +39,7 @@ import freemind.common.PasswordProperty;
 import freemind.main.Tools;
 
 /** A password is stored compressed and read back as the same plain text. */
+@DisplayName("PasswordPropertyBehaviourTest")
 class PasswordPropertyBehaviourTest {
 
 	@Test

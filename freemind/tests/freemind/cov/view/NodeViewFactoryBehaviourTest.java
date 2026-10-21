@@ -30,6 +30,7 @@ import java.lang.reflect.Method;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.EdgeAdapter;
@@ -39,6 +40,7 @@ import freemind.view.mindmapview.MainView;
 import freemind.view.mindmapview.NodeView;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("NodeViewFactoryBehaviourTest")
 public class NodeViewFactoryBehaviourTest {
 
 	@Test

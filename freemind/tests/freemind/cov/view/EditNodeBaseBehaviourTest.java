@@ -40,6 +40,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
 import javax.swing.text.JTextComponent;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -50,6 +51,7 @@ import freemind.view.mindmapview.EditNodeTextField;
 import freemind.view.mindmapview.NodeView;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("EditNodeBaseBehaviourTest")
 public class EditNodeBaseBehaviourTest {
 
 	@Test

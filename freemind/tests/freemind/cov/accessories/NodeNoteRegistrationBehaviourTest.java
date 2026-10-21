@@ -56,6 +56,7 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.text.html.HTMLDocument;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.MockedStatic;
@@ -76,6 +77,7 @@ import freemind.modes.common.plugins.NodeNoteBase;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("NodeNoteRegistrationBehaviourTest")
 class NodeNoteRegistrationBehaviourTest {
 
 	// backwards compatibility

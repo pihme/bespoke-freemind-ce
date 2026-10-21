@@ -8,6 +8,7 @@ import freemind.modes.MindMapNode;
 import freemind.modes.attributes.Attribute;
 import freemind.modes.mindmapmode.MindMapMapModel;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.StringWriter;
@@ -20,6 +21,7 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
  * components exist. Exercises HeadlessFreeMind, MindMapMapModel creation,
  * tree loading, child manipulation, and XML round-trip.
  */
+@DisplayName("ApplicationLaunchGuiTest")
 class ApplicationLaunchGuiTest extends GuiTestBase {
 
     private static final String BASIC_MAP = "<map><node TEXT='ROOT'/></map>";

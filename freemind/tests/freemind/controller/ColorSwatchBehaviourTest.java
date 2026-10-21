@@ -25,9 +25,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /** Package-private swatch. The test lives in this package so it can read the color. */
+@DisplayName("ColorSwatchBehaviourTest")
 class ColorSwatchBehaviourTest {
 
 	@Test

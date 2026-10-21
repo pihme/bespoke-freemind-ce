@@ -30,6 +30,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openstreetmap.gui.jmapviewer.Layer;
 import org.openstreetmap.gui.jmapviewer.Style;
@@ -38,6 +39,7 @@ import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
 import plugins.map.MapDialog;
 import plugins.map.MapMarkerBase;
 
+@DisplayName("MapMarkerBaseBehaviourTest")
 class MapMarkerBaseBehaviourTest {
 
 	@Test

@@ -6,6 +6,7 @@ import freemind.modes.MapAdapter;
 import freemind.modes.MindMapNode;
 import freemind.modes.mindmapmode.MindMapMapModel;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Font;
@@ -17,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * default font queries, node text editing (simulating toolbar text entry),
  * zoom independence, icon simulation, note toggling, and fold toggling.
  */
+@DisplayName("ToolbarGuiTest")
 class ToolbarGuiTest extends GuiTestBase {
 
     private ExtendedMapFeedbackImpl mapFeedback;

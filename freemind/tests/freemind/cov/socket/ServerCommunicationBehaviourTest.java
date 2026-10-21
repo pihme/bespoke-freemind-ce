@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.nio.file.Files;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.actions.generated.instance.CollaborationActionBase;
@@ -53,6 +54,7 @@ import plugins.collaboration.socket.CommunicationBase;
 import plugins.collaboration.socket.ServerCommunication;
 import tests.freemind.cov.socket.SocketCovSupport.Pipe;
 
+@DisplayName("ServerCommunicationBehaviourTest")
 class ServerCommunicationBehaviourTest {
 
 	@Test

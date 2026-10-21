@@ -33,6 +33,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.time.CalendarMarkingEvaluator;
@@ -41,6 +42,7 @@ import freemind.controller.actions.generated.instance.CalendarMarking;
 import freemind.controller.actions.generated.instance.CalendarMarkings;
 
 /** Backwards-compatible repeat rules on {@link ICalendarMarkingEvaluator}. */
+@DisplayName("CalendarMarkingEvaluatorBehaviourTest")
 class CalendarMarkingEvaluatorBehaviourTest {
 
 	@Test

@@ -32,6 +32,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.event.PopupMenuEvent;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.Controller;
@@ -45,6 +46,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** The browse popup lists its actions and enables the map link only with a position hook. */
+@DisplayName("BrowsePopupMenuBehaviourTest")
 class BrowsePopupMenuBehaviourTest {
 
 	@Test

@@ -35,6 +35,7 @@ import javax.swing.ImageIcon;
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.formdev.flatlaf.FlatDarkLaf;
@@ -44,6 +45,7 @@ import freemind.modes.MindIcon;
 import freemind.view.ScalableImageIcon;
 
 /** Icon names order themselves, cache a factory result, and load an image. */
+@DisplayName("MindIconBehaviourTest")
 class MindIconBehaviourTest {
 
 	@Test

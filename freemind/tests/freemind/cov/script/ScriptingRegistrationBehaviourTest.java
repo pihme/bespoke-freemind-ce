@@ -38,6 +38,7 @@ import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.common.BooleanProperty;
@@ -59,6 +60,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Pattern scripts, the startup file, and the preference controls. The editor window stays closed. */
+@DisplayName("ScriptingRegistrationBehaviourTest")
 class ScriptingRegistrationBehaviourTest {
 
 	@Test

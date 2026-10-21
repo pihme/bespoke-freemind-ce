@@ -8,6 +8,7 @@ import freemind.modes.MapAdapter;
 import freemind.modes.MindMapNode;
 import freemind.modes.mindmapmode.MindMapMapModel;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -20,6 +21,7 @@ import static tests.freemind.unicode.UnicodeTestData.*;
  * Integration tests for Unicode round-trip through map save/load cycle.
  * Uses ExtendedMapFeedbackImpl for headless map creation and manipulation.
  */
+@DisplayName("UnicodeRoundTripTests")
 class UnicodeRoundTripTests {
 
     private ExtendedMapFeedbackImpl mapFeedback;

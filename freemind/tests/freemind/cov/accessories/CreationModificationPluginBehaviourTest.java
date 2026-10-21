@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Properties;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.CreationModificationPlugin;
@@ -32,6 +33,7 @@ import freemind.modes.MindMapNode;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("CreationModificationPluginBehaviourTest")
 class CreationModificationPluginBehaviourTest {
 
 	// backwards compatibility

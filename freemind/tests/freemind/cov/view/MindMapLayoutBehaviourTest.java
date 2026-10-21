@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.Dimension;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.view.mindmapview.MapView;
@@ -32,6 +33,7 @@ import freemind.view.mindmapview.MindMapLayout;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("MindMapLayoutBehaviourTest")
 public class MindMapLayoutBehaviourTest {
 
 	@Test

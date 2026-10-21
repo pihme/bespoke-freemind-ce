@@ -25,11 +25,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.Font;
 import java.awt.event.ComponentEvent;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.common.ScalableJButton;
 
 /** The component callbacks are empty: the caption and the font stay put. */
+@DisplayName("ScalableJButtonBehaviourTest")
 class ScalableJButtonBehaviourTest {
 
 	@Test

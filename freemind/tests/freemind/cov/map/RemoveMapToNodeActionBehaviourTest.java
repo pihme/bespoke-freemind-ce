@@ -22,12 +22,14 @@ package tests.freemind.cov.map;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindMapNode;
 import plugins.map.MapNodePositionHolder;
 import plugins.map.RemoveMapToNodeAction;
 
+@DisplayName("RemoveMapToNodeActionBehaviourTest")
 class RemoveMapToNodeActionBehaviourTest {
 
 	@Test

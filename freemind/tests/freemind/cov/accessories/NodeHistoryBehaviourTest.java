@@ -32,6 +32,7 @@ import java.util.Vector;
 
 import javax.swing.JMenuItem;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.NodeHistory;
@@ -41,6 +42,7 @@ import freemind.view.mindmapview.NodeView;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("NodeHistoryBehaviourTest")
 class NodeHistoryBehaviourTest {
 
 	// backwards compatibility

@@ -27,6 +27,7 @@ import java.io.FileNotFoundException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.mindmapmode.MindMapMapModel;
@@ -35,6 +36,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** MindMap mode restores a saved map from its file path. */
+@DisplayName("MindMapModeBehaviourTest")
 class MindMapModeBehaviourTest {
 
 	@Test

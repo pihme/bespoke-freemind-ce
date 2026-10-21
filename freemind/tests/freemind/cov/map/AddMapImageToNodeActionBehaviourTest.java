@@ -22,11 +22,13 @@ package tests.freemind.cov.map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindMapNode;
 import plugins.map.AddMapImageToNodeAction;
 
+@DisplayName("AddMapImageToNodeActionBehaviourTest")
 class AddMapImageToNodeActionBehaviourTest {
 
 	@Test

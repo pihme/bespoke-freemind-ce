@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.NodeAdapter;
@@ -32,6 +33,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Reset position restores the default gaps and leaves the root where it is. */
+@DisplayName("MoveNodeActionBehaviourTest")
 class MoveNodeActionBehaviourTest {
 
 	@Test

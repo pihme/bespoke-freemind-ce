@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.awt.HeadlessException;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.mindmapmode.MindMapController;
@@ -31,6 +32,7 @@ import plugins.collaboration.socket.FormDialog;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("FormDialogBehaviourTest")
 class FormDialogBehaviourTest {
 
 	@Test

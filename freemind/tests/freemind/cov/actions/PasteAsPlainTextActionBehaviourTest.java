@@ -30,6 +30,7 @@ import java.awt.event.ActionEvent;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindMapNode;
@@ -39,6 +40,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Plain paste adds the clipboard string, and a non-text flavor adds nothing. */
+@DisplayName("PasteAsPlainTextActionBehaviourTest")
 class PasteAsPlainTextActionBehaviourTest {
 
 	@Test

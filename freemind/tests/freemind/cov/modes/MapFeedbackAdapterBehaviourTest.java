@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.extensions.PermanentNodeHook;
@@ -42,6 +43,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Depth order, hooks, and the empty view callbacks stay on the model. */
+@DisplayName("MapFeedbackAdapterBehaviourTest")
 class MapFeedbackAdapterBehaviourTest {
 
 	@Test

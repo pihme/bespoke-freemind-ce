@@ -34,6 +34,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.time.JCalendar;
@@ -42,6 +43,7 @@ import accessories.plugins.time.JMonthChooser;
 import accessories.plugins.time.JYearChooser;
 
 /** Backwards-compatible calendar wiring that does not open a frame. */
+@DisplayName("JCalendarBehaviourTest")
 class JCalendarBehaviourTest {
 
 	@Test

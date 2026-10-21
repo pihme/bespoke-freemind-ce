@@ -29,6 +29,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.util.Properties;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindIcon;
@@ -41,6 +42,7 @@ import plugins.contextgraph.CleanJsonExport;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("CleanJsonExportBehaviourTest")
 class CleanJsonExportBehaviourTest {
 
 	private static final String QUOTED = "Alpha <tag> & \"quote\"";

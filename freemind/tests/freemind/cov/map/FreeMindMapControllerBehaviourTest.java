@@ -50,6 +50,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JTextField;
 import javax.swing.event.PopupMenuEvent;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.interfaces.ICoordinate;
@@ -72,6 +73,7 @@ import plugins.map.FreeMindMapController.TransportMap;
 import plugins.map.MapMarkerBase;
 import plugins.map.MapNodePositionHolder;
 
+@DisplayName("FreeMindMapControllerBehaviourTest")
 class FreeMindMapControllerBehaviourTest {
 
 	@Test

@@ -30,6 +30,7 @@ import java.util.List;
 
 import javax.swing.JMenuItem;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.mindmapmode.actions.NodeHookAction;
@@ -37,6 +38,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Hierarchical icons attach to the root, and an unknown hook name is rejected. */
+@DisplayName("NodeHookActionBehaviourTest")
 class NodeHookActionBehaviourTest {
 
 	@Test

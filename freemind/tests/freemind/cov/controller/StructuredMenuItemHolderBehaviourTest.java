@@ -29,6 +29,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JMenuItem;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.MenuItemEnabledListener;
@@ -36,6 +37,7 @@ import freemind.controller.MenuItemSelectedListener;
 import freemind.controller.StructuredMenuItemHolder;
 
 /** A menu holder keeps the item, the action, and listeners the action itself implements. */
+@DisplayName("StructuredMenuItemHolderBehaviourTest")
 class StructuredMenuItemHolderBehaviourTest {
 
 	@Test

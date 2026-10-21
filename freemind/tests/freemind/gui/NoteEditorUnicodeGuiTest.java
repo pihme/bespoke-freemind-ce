@@ -2,6 +2,7 @@ package tests.freemind.gui;
 
 import com.lightdev.app.shtm.SHTMLPanel;
 import freemind.main.HtmlTools;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
@@ -21,6 +22,7 @@ import static tests.freemind.unicode.UnicodeTestData.*;
  * which encodes non-ASCII to entities. The fix in toXhtml() decodes
  * these back to UTF-8 during save. So we verify the full pipeline.
  */
+@DisplayName("NoteEditorUnicodeGuiTest")
 class NoteEditorUnicodeGuiTest extends GuiTestBase {
 
     private static final HtmlTools htmlTools = HtmlTools.getInstance();

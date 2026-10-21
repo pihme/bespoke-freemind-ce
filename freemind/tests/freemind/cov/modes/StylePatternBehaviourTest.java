@@ -31,6 +31,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.EdgeAdapter;
@@ -41,6 +42,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** A pattern reports which parts it carries, and a file loads node, edge, and child patterns. */
+@DisplayName("StylePatternBehaviourTest")
 class StylePatternBehaviourTest {
 
 	@Test

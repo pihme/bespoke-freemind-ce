@@ -26,6 +26,7 @@ import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindMapNode;
@@ -34,6 +35,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Joining leaves concatenates their text and drops the extra nodes. */
+@DisplayName("JoinNodesActionBehaviourTest")
 class JoinNodesActionBehaviourTest {
 
 	@Test

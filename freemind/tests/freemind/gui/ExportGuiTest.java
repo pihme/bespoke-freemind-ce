@@ -7,6 +7,7 @@ import freemind.modes.MapAdapter;
 import freemind.modes.MindMapNode;
 import freemind.modes.mindmapmode.MindMapMapModel;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.StringWriter;
@@ -19,6 +20,7 @@ import static tests.freemind.unicode.UnicodeTestData.*;
  * Exercises XML well-formedness, node text preservation, Unicode
  * handling, hierarchy, large maps, notes, and round-trip fidelity.
  */
+@DisplayName("ExportGuiTest")
 class ExportGuiTest extends GuiTestBase {
 
     private static final String BASIC_MAP = "<map><node TEXT='ROOT'/></map>";

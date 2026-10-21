@@ -28,11 +28,13 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.actions.generated.instance.Place;
 import plugins.map.MapSearchMarkerLocation;
 
+@DisplayName("MapSearchMarkerLocationBehaviourTest")
 class MapSearchMarkerLocationBehaviourTest {
 
 	@Test

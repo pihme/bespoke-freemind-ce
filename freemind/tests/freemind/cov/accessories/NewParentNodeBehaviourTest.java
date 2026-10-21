@@ -30,6 +30,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.NewParentNode;
@@ -38,6 +39,7 @@ import freemind.modes.mindmapmode.MindMapNodeModel;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("NewParentNodeBehaviourTest")
 class NewParentNodeBehaviourTest {
 
 	// backwards compatibility

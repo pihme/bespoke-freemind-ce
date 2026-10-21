@@ -35,12 +35,14 @@ import java.util.zip.ZipInputStream;
 
 import javax.xml.transform.stream.StreamResult;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.ExportToOoWriter;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("ExportToOoWriterBehaviourTest")
 class ExportToOoWriterBehaviourTest {
 
 	// backwards compatibility

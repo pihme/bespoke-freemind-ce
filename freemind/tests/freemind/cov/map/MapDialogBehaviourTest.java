@@ -35,6 +35,7 @@ import java.util.Properties;
 
 import javax.swing.JLabel;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openstreetmap.gui.jmapviewer.events.JMVCommandEvent;
 
@@ -44,6 +45,7 @@ import plugins.map.MapDialog;
 import plugins.map.MapMarkerLocation;
 import plugins.map.MapNodePositionHolder;
 
+@DisplayName("MapDialogBehaviourTest")
 class MapDialogBehaviourTest {
 
 	@Test

@@ -31,6 +31,7 @@ import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.util.ListIterator;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 
@@ -43,6 +44,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** An encrypted node hides its children until the same password opens it. */
+@DisplayName("EncryptedMindMapNodeBehaviourTest")
 class EncryptedMindMapNodeBehaviourTest {
 
 	@Test

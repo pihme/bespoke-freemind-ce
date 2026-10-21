@@ -27,8 +27,10 @@ import java.awt.geom.Rectangle2D;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("PathBBoxBehaviourTest")
 public class PathBBoxBehaviourTest {
 
 	@Test

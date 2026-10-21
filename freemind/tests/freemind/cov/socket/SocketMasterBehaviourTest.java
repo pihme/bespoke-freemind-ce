@@ -28,6 +28,7 @@ import java.io.File;
 import java.lang.reflect.Proxy;
 import java.nio.file.Files;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.actions.generated.instance.CollaborationTransaction;
@@ -43,6 +44,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 import tests.freemind.cov.socket.SocketCovSupport.Pipe;
 
+@DisplayName("SocketMasterBehaviourTest")
 class SocketMasterBehaviourTest {
 
 	@Test

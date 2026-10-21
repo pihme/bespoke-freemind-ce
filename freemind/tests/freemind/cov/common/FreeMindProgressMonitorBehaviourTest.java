@@ -28,11 +28,13 @@ import java.awt.GraphicsEnvironment;
 import java.awt.HeadlessException;
 import java.awt.Window;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.common.FreeMindProgressMonitor;
 
 /** The progress dialog is a window. Headless construction adds none. */
+@DisplayName("FreeMindProgressMonitorBehaviourTest")
 class FreeMindProgressMonitorBehaviourTest {
 
 	@Test

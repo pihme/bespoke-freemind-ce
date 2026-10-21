@@ -31,6 +31,7 @@ import java.io.File;
 import java.io.StringWriter;
 import java.net.URL;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindMap;
@@ -45,6 +46,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** A browse map names its root, refuses to write XML, and builds browse nodes. */
+@DisplayName("BrowseMapModelBehaviourTest")
 class BrowseMapModelBehaviourTest {
 
 	@Test

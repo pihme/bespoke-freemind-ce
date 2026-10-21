@@ -25,6 +25,7 @@ import java.util.Properties;
 
 import javax.swing.JTable;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.common.ScalableJTable;
@@ -33,6 +34,7 @@ import freemind.main.HeadlessFreeMind;
 import freemind.main.Resources;
 
 /** Row height follows the scaling factor, and a bad factor stays at 100. */
+@DisplayName("ScalableJTableBehaviourTest")
 class ScalableJTableBehaviourTest {
 
 	@Test

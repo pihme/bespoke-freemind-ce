@@ -35,6 +35,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -44,6 +45,7 @@ import freemind.view.mindmapview.EditNodeWYSIWYG;
 import freemind.view.mindmapview.NodeView;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("EditNodeWYSIWYGBehaviourTest")
 public class EditNodeWYSIWYGBehaviourTest {
 
 	@Test

@@ -30,6 +30,7 @@ import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JMenuItem;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.FreemindAction;
@@ -37,6 +38,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** A menu action is enabled only while a map is open, and it keeps its controller. */
+@DisplayName("FreemindActionBehaviourTest")
 class FreemindActionBehaviourTest {
 
 	@Test

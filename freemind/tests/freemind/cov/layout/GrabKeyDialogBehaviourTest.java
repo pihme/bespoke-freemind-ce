@@ -48,6 +48,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
@@ -57,6 +58,7 @@ import freemind.preferences.layout.GrabKeyDialog.KeyBinding;
 import freemind.preferences.layout.KeyEventWorkaround;
 
 /** Shortcut capture records a key name. The dialog itself cannot open headless. */
+@DisplayName("GrabKeyDialogBehaviourTest")
 class GrabKeyDialogBehaviourTest {
 
 	@Test

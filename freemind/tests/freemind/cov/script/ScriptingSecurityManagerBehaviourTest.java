@@ -42,6 +42,7 @@ import javax.tools.ToolProvider;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.HeadlessFreeMind;
@@ -51,6 +52,7 @@ import freemind.main.HeadlessFreeMind;
  * is deprecated for removal. The checks are still the sandbox behaviour, so the
  * test compiles that one file and calls them without installing a manager.
  */
+@DisplayName("ScriptingSecurityManagerBehaviourTest")
 class ScriptingSecurityManagerBehaviourTest {
 
 	private static final String FORBIDDEN = "plugins/ScriptEditor.FORBIDDEN_ACTION";

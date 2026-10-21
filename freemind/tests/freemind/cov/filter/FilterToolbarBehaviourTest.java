@@ -50,6 +50,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.Controller;
@@ -68,6 +69,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** The toolbar applies the selected condition and unfolds matching branches. */
+@DisplayName("FilterToolbarBehaviourTest")
 class FilterToolbarBehaviourTest {
 
 	@Test

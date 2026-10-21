@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.Properties;
 import java.util.Vector;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.ClonePasteAction;
@@ -37,6 +38,7 @@ import freemind.view.mindmapview.NodeView;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("ShowCloneNodesBehaviourTest")
 class ShowCloneNodesBehaviourTest {
 
 	// backwards compatibility

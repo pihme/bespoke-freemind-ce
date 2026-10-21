@@ -36,6 +36,7 @@ import freemind.modes.MindMap.MapSourceChangedObserver;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.Tools.StringReaderCreator;
@@ -54,6 +55,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** The base map reports empty exports, reloads a tree, and notices a changed file. */
+@DisplayName("MapAdapterBehaviourTest")
 class MapAdapterBehaviourTest {
 
 	@Test

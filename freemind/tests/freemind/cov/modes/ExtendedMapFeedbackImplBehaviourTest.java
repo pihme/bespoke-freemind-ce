@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.datatransfer.Transferable;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.MindMapNodesSelection;
@@ -32,6 +33,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Copying through the feedback writes the node XML onto the clipboard flavor. */
+@DisplayName("ExtendedMapFeedbackImplBehaviourTest")
 class ExtendedMapFeedbackImplBehaviourTest {
 
 	@Test

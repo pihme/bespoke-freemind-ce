@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.extensions.NodeHook;
@@ -33,6 +34,7 @@ import freemind.modes.common.plugins.MapNodePositionHolderBase;
 import freemind.modes.common.plugins.ReminderHookBase;
 
 /** Browse mode only builds the reminder and map-position hooks. */
+@DisplayName("BrowseHookFactoryBehaviourTest")
 class BrowseHookFactoryBehaviourTest {
 
 	@Test

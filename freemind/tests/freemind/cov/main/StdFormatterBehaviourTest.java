@@ -28,8 +28,10 @@ import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("StdFormatterBehaviourTest")
 class StdFormatterBehaviourTest {
 
 	@Test

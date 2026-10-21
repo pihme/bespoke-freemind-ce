@@ -11,6 +11,7 @@ import freemind.modes.mindmapmode.MindMapMapModel;
 import java.awt.Color;
 import java.awt.Font;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,6 +21,7 @@ import static tests.freemind.unicode.UnicodeTestData.*;
  * GUI tests for format menu operations using HtmlTools:
  * XHTML conversion, entity encoding/decoding, and note formatting.
  */
+@DisplayName("FormatMenuGuiTest")
 class FormatMenuGuiTest extends GuiTestBase {
 
     private static final HtmlTools htmlTools = HtmlTools.getInstance();

@@ -28,12 +28,14 @@ import java.awt.Window;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.time.CalendarMarkingDialog;
 import tests.freemind.cov.MapFixture;
 
 /** Backwards-compatible calendar-marking dialog under a headless JVM. */
+@DisplayName("CalendarMarkingDialogBehaviourTest")
 class CalendarMarkingDialogBehaviourTest {
 
 	@Test

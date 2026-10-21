@@ -28,6 +28,7 @@ import java.util.Properties;
 
 import javax.swing.JMenuItem;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.JumpLastEditLocation;
@@ -40,6 +41,7 @@ import freemind.modes.mindmapmode.actions.NodeHookAction;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("JumpLastEditLocationBehaviourTest")
 class JumpLastEditLocationBehaviourTest {
 
 	// backwards compatibility

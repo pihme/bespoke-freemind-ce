@@ -34,11 +34,13 @@ import javax.swing.UIManager;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.ChangeEvent;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.time.JSpinField;
 
 /** Backwards-compatible spin-field limits, colour, and commit behaviour. */
+@DisplayName("JSpinFieldBehaviourTest")
 class JSpinFieldBehaviourTest {
 
 	@Test

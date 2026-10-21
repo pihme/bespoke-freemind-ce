@@ -34,6 +34,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.common.TextTranslator;
@@ -60,6 +61,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Patterns load, save, describe, and apply color, text, icons, and child patterns. */
+@DisplayName("StylePatternFactoryBehaviourTest")
 class StylePatternFactoryBehaviourTest {
 
 	@Test

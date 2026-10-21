@@ -27,6 +27,7 @@ import java.awt.EventQueue;
 import java.lang.reflect.Constructor;
 import java.util.Properties;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.BlinkingNodeHook;
@@ -34,6 +35,7 @@ import freemind.view.mindmapview.NodeView;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("BlinkingNodeHookBehaviourTest")
 class BlinkingNodeHookBehaviourTest {
 
 	// backwards compatibility

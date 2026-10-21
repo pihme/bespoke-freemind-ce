@@ -25,11 +25,13 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.NodeMouseMotionListener;
 
 /** The node mouse listener forwards events and the selection update only while registered. */
+@DisplayName("NodeMouseMotionListenerBehaviourTest")
 class NodeMouseMotionListenerBehaviourTest {
 
 	@Test

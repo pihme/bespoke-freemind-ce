@@ -42,6 +42,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -51,6 +52,7 @@ import freemind.common.ColorProperty;
 import freemind.main.Tools;
 
 /** A colour preference stores #rrggbb. The chooser and the popup cannot open headless. */
+@DisplayName("ColorPropertyBehaviourTest")
 class ColorPropertyBehaviourTest {
 
 	@Test

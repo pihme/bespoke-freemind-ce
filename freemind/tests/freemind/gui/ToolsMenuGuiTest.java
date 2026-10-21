@@ -7,6 +7,7 @@ import freemind.modes.MapAdapter;
 import freemind.modes.MindMapNode;
 import freemind.modes.mindmapmode.MindMapMapModel;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ import static tests.freemind.unicode.UnicodeTestData.wrapInHtml;
  * Covers map model creation, tree loading, XML output,
  * and HtmlTools functionality.
  */
+@DisplayName("ToolsMenuGuiTest")
 class ToolsMenuGuiTest extends GuiTestBase {
 
     private ExtendedMapFeedbackImpl mapFeedback;

@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.awt.Color;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.browsemode.BrowseCloudModel;
@@ -31,6 +32,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** A browse cloud keeps its node and does not write XML. */
+@DisplayName("BrowseCloudModelBehaviourTest")
 class BrowseCloudModelBehaviourTest {
 
 	@Test

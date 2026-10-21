@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.awt.Point;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.MindMapNode;
@@ -32,6 +33,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Dragging a link end scales, flattens, and flips its inclination. */
+@DisplayName("MindMapArrowLinkModelBehaviourTest")
 class MindMapArrowLinkModelBehaviourTest {
 
 	@Test

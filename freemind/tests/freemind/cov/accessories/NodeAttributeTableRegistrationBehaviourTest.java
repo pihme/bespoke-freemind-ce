@@ -38,6 +38,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.NodeAttributeTableRegistration;
@@ -52,6 +53,7 @@ import freemind.view.mindmapview.NodeView;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("NodeAttributeTableRegistrationBehaviourTest")
 class NodeAttributeTableRegistrationBehaviourTest {
 
 	// backwards compatibility

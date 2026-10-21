@@ -30,6 +30,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.Tools;
@@ -40,6 +41,7 @@ import freemind.view.mindmapview.MapView;
 import freemind.view.mindmapview.NodeView;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("MainViewBehaviourTest")
 public class MainViewBehaviourTest {
 
 	@Test

@@ -34,6 +34,7 @@ import java.lang.reflect.Method;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -42,6 +43,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import freemind.common.ThreeCheckBoxProperty;
 
 /** The three-state box cycles true, false, and don_t_touch. */
+@DisplayName("ThreeCheckBoxPropertyBehaviourTest")
 class ThreeCheckBoxPropertyBehaviourTest {
 
 	@Test

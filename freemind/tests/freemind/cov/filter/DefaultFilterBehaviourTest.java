@@ -33,6 +33,7 @@ import java.util.Timer;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.Controller;
@@ -48,6 +49,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** A default filter shows matches, and ancestors or descendants only when asked. */
+@DisplayName("DefaultFilterBehaviourTest")
 class DefaultFilterBehaviourTest {
 
 	@Test

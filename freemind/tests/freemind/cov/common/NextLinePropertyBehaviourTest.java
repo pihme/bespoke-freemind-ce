@@ -22,6 +22,7 @@ package tests.freemind.cov.common;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -30,6 +31,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import freemind.common.NextLineProperty;
 
 /** A next-line control has no label and moves the form cursor down one row. */
+@DisplayName("NextLinePropertyBehaviourTest")
 class NextLinePropertyBehaviourTest {
 
 	@Test

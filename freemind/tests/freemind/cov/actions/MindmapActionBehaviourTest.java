@@ -27,6 +27,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import javax.swing.Icon;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.actions.generated.instance.XmlAction;
@@ -37,6 +38,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** A mind map action keeps its controller and registers the actor it is given. */
+@DisplayName("MindmapActionBehaviourTest")
 class MindmapActionBehaviourTest {
 
 	@Test

@@ -36,6 +36,7 @@ import java.net.Socket;
 
 import javax.swing.SwingUtilities;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.actions.generated.instance.CollaborationGoodbye;
@@ -53,6 +54,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 import tests.freemind.cov.socket.SocketCovSupport.Pipe;
 
+@DisplayName("MindMapMasterBehaviourTest")
 class MindMapMasterBehaviourTest {
 
 	@Test

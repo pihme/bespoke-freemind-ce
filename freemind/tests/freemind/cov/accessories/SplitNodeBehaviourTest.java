@@ -27,6 +27,7 @@ import java.awt.EventQueue;
 import java.lang.reflect.Method;
 import java.util.Properties;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.SplitNode;
@@ -34,6 +35,7 @@ import freemind.modes.MindMapNode;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("SplitNodeBehaviourTest")
 class SplitNodeBehaviourTest {
 
 	// backwards compatibility

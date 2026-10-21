@@ -32,11 +32,13 @@ import java.lang.reflect.Field;
 import javax.swing.JPanel;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.preferences.layout.KeyEventWorkaround;
 
 /** Modifier bookkeeping drops the keystrokes FreeMind must not see twice. */
+@DisplayName("KeyEventWorkaroundBehaviourTest")
 class KeyEventWorkaroundBehaviourTest {
 
 	@AfterEach

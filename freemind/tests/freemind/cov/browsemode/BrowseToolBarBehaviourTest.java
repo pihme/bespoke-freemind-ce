@@ -34,6 +34,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JToolBar;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.Controller;
@@ -44,6 +45,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** The browse toolbar shows an empty URL and rejects a value that is not a URL. */
+@DisplayName("BrowseToolBarBehaviourTest")
 class BrowseToolBarBehaviourTest {
 
 	@Test

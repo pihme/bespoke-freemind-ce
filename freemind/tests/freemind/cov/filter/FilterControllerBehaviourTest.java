@@ -39,6 +39,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.Controller;
@@ -55,6 +56,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** The filter controller shows, hides, and stores the toolbar's conditions. */
+@DisplayName("FilterControllerBehaviourTest")
 class FilterControllerBehaviourTest {
 
 	@Test

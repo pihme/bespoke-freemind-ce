@@ -25,12 +25,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.Method;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.filter.Filter;
 import freemind.controller.filter.FilterInfo;
 
 /** Filter marks are bits. Matching or hiding clears the initial bit; other marks do not. */
+@DisplayName("FilterInfoBehaviourTest")
 class FilterInfoBehaviourTest {
 
 	@Test

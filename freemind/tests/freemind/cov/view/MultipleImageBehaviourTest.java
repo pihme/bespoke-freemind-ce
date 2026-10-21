@@ -26,10 +26,12 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.view.mindmapview.MultipleImage;
 
+@DisplayName("MultipleImageBehaviourTest")
 public class MultipleImageBehaviourTest {
 
 	@Test

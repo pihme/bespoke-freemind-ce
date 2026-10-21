@@ -55,6 +55,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JViewport;
 import javax.swing.filechooser.FileFilter;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 
@@ -89,6 +90,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Mind map controller behaviour that stays off modal dialogs and file choosers. */
+@DisplayName("MindMapControllerBehaviourTest")
 class MindMapControllerBehaviourTest {
 
 	@Test

@@ -99,6 +99,7 @@ import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
@@ -288,6 +289,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Backwards compatibility tests. Each method checks current behaviour that
  * docs/spec.md does not name as a requirement.
  */
+@DisplayName("BackwardsCompatibilityTest")
 class BackwardsCompatibilityTest {
 
 	@Test

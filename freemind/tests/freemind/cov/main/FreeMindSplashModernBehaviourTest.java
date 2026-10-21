@@ -33,6 +33,7 @@ import java.util.Properties;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -42,6 +43,7 @@ import freemind.main.FreeMindSplashModern;
 import freemind.main.HeadlessFreeMind;
 
 @Tag("gui")
+@DisplayName("FreeMindSplashModernBehaviourTest")
 class FreeMindSplashModernBehaviourTest {
 
 	@Test
@@ -84,7 +86,9 @@ class FreeMindSplashModernBehaviourTest {
 				assertFalse(splash.isDisplayable());
 			}
 		} finally {
-			FreeMind.props = previousProps;
+			if (previousProps != null) {
+				FreeMind.props = previousProps;
+			}
 		}
 	}
 

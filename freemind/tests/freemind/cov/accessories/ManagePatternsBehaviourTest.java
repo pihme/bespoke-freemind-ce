@@ -26,12 +26,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.HeadlessException;
 import java.util.Properties;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import accessories.plugins.ManagePatterns;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("ManagePatternsBehaviourTest")
 class ManagePatternsBehaviourTest {
 
 	// backwards compatibility

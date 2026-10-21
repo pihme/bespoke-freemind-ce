@@ -30,6 +30,7 @@ import java.awt.event.ActionEvent;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.main.FreeMind;
@@ -39,6 +40,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Cut refuses the root, and a stored yes moves the child onto the clipboard. */
+@DisplayName("CutActionBehaviourTest")
 class CutActionBehaviourTest {
 
 	@Test

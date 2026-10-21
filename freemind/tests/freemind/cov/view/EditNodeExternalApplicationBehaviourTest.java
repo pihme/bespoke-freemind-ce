@@ -24,12 +24,14 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.awt.event.KeyEvent;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.view.mindmapview.EditNodeExternalApplication;
 import freemind.view.mindmapview.NodeView;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("EditNodeExternalApplicationBehaviourTest")
 public class EditNodeExternalApplicationBehaviourTest {
 
 	@Test

@@ -2,6 +2,7 @@ package tests.freemind.gui;
 
 import com.lightdev.app.shtm.SHTMLPanel;
 import freemind.modes.MindMapNode;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
@@ -19,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
  * GUI tests for view menu operations: SHTMLPanel creation,
  * content management, sizing, and screenshot capture.
  */
+@DisplayName("ViewMenuGuiTest")
 class ViewMenuGuiTest extends GuiTestBase {
 
     @Test

@@ -26,6 +26,7 @@ import java.awt.event.ActionEvent;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.actions.generated.instance.PasteNodeAction;
@@ -37,6 +38,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** Paste adds the copied node as a child of the selection. */
+@DisplayName("PasteActionBehaviourTest")
 class PasteActionBehaviourTest {
 
 	@Test

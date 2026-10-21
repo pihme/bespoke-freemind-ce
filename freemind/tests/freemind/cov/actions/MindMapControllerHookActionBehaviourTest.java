@@ -27,6 +27,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JMenuItem;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.mindmapmode.actions.MindMapControllerHookAction;
@@ -34,6 +35,7 @@ import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
 /** A mode hook is enabled on an open map and rejects an unknown name. */
+@DisplayName("MindMapControllerHookActionBehaviourTest")
 class MindMapControllerHookActionBehaviourTest {
 
 	@Test

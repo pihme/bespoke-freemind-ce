@@ -26,6 +26,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.modes.EdgeAdapter;
@@ -34,6 +35,7 @@ import freemind.view.mindmapview.LinearEdgeView;
 import freemind.view.mindmapview.NodeView;
 import tests.freemind.cov.MapFixture.Opened;
 
+@DisplayName("LinearEdgeViewBehaviourTest")
 public class LinearEdgeViewBehaviourTest {
 
 	@Test
