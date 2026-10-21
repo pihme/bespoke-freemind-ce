@@ -1,6 +1,6 @@
 # Contributor Workflows
 
-Upstream notes from Denomas/freemind-ce. This fork does not treat them as binding. The rules are [AGENTS.md](../AGENTS.md) and [BESPOKE.md](../BESPOKE.md). Serena is not used here. This fork does not ship `.claude/`, `.opencode/`, or `_bmad-output/`. The diagrams stay as a map of the upstream CI and release process.
+Upstream notes from Denomas/freemind-ce. This fork does not treat them as binding. The rules are [AGENTS.md](../AGENTS.md) and [BESPOKE.md](../BESPOKE.md). The local check is `make`. This fork does not ship `.claude/`, `.opencode/`, or `_bmad-output/`. The diagrams stay as a map of the upstream CI and release process.
 
 ---
 
@@ -12,7 +12,7 @@ The full end-to-end path from "I want to contribute" to "code is shipped in a re
 flowchart TD
     A["Agent / Contributor starts work"] --> B["Read CONTRIBUTING.md<br>(MANDATORY first step)"]
     B --> C["Read required docs/<br>architecture, component-inventory,<br>source-tree-analysis, development-guide"]
-    C --> D["Use Serena for code analysis<br>(MANDATORY — not optional)"]
+    C --> D["Read AGENTS.md and BESPOKE.md<br>Build with make"]
     D --> E["Create feature branch from main"]
     E --> F["Make changes<br>(make build must pass locally)"]
     F --> G["git commit<br>Pre-commit hooks run"]
@@ -129,52 +129,27 @@ gh pr create --title "feat: your feature" --body "Description"
 
 ### For AI Agents
 
-AI agents must follow the same process as human contributors with two additional mandatory gates
-— Serena usage and explicit maintainer review of the generated diff:
+An agent in this fork reads [AGENTS.md](../AGENTS.md) and [BESPOKE.md](../BESPOKE.md), then uses `make` for the local check. A human reviews the diff before merge.
 
 ```mermaid
 flowchart TD
-    A["AI agent starts work<br>(Claude Code, Cursor, etc.)"] --> B["Read CONTRIBUTING.md<br>(MANDATORY first step)"]
-    B --> C["Read referenced docs/<br>files as needed"]
-    C --> D["Use Serena for<br>code analysis (MANDATORY)"]
-    D --> E["Create branch<br>make changes"]
-    E --> F["make build<br>(must pass locally)"]
-    F --> G["find_referencing_symbols<br>(verify impact with Serena)"]
-    G --> H["Push branch + open PR"]
-    H --> I["CI runs (48 jobs)"]
-    I --> J{CI passes?}
-    J -->|No| K["AI fixes issues"]
-    K --> F
-    J -->|Yes| L["MAINTAINER reviews diff<br>(human is accountable<br>for AI-generated code)"]
-    L --> M{Approved?}
-    M -->|Yes| N["Squash merge"]
-    M -->|No| O["AI addresses feedback"]
-    O --> F
+    A["AI agent starts work"] --> B["Read AGENTS.md and BESPOKE.md"]
+    B --> C["Create branch and make changes"]
+    C --> D["make build"]
+    D --> E["Push branch and open PR"]
+    E --> F{CI passes?}
+    F -->|No| G["Fix issues"]
+    G --> D
+    F -->|Yes| H["Maintainer reviews the diff"]
+    H --> I{Approved?}
+    I -->|Yes| J["Squash merge"]
+    I -->|No| K["Address feedback"]
+    K --> D
 
     style B fill:#ffffcc,stroke:#cccc00
     style D fill:#ffffcc,stroke:#cccc00
-    style L fill:#ffffcc,stroke:#cccc00
+    style H fill:#ffffcc,stroke:#cccc00
 ```
-
-### AI Agent Tool Enforcement (3-Layer Defense)
-
-AI agents are mechanically prevented from bypassing project rules through three independent layers:
-
-| Layer | Mechanism | What It Enforces |
-|-------|-----------|-----------------|
-| **1. SessionStart hook** | `~/.claude/hooks/inject-project-docs.sh` | Auto-injects CONTRIBUTING.md + README.md into every session context. Agent cannot claim "I didn't read the rules." |
-| **2. PreToolUse hooks** | `.claude/settings.json` (committed, not gitignored) | Blocks `Read`, `Grep`, `Bash(grep/rg/cat/find)` on `.java` files with `permissionDecision: "deny"`. Forces Serena MCP usage. |
-| **3. AGENTS.md format** | Ego-compatible contrast table | First section is "You normally do X → HERE do Y instead" — overrides agent's default assumptions. |
-
-**Technical details (lessons learned):**
-
-| Detail | Correct | Wrong |
-|--------|---------|-------|
-| Hook permission decision | `"deny"` | `"block"` (not a valid value — only `"deny"`, `"allow"`, `"ask"` work) |
-| Hook config location | `.claude/settings.json` (committed) | `.claude/settings.local.json` (gitignored — worktree subagents won't get it) |
-| Hook file scope | `.java` only | `.java` + `.kts` (Gradle configs aren't analyzable by Serena) |
-| Hook pattern matching | Match command prefix first (`grep`, `rg`, `cat`, `find`) then check for `.java` | Match any text containing `.java` (false positive on `gh pr create --body "...Tools.java..."`) |
-| Non-Java files | Unrestricted — `grep`/`rg` on `.properties`, `.md`, `.yml`, `.xml` is expected and necessary | Blocking all grep/rg regardless of file type |
 
 ### First-Time Contributor Flow
 
@@ -632,10 +607,7 @@ flowchart TD
     M -->|Yes| N["Conventional commit message format<br>feat/fix/docs/refactor/test/build/ci/chore/deps<br>Max 72 chars subject, imperative mood"]
     N --> O{Pass?}
     O -->|No| CHANGES
-    O -->|Yes| P["Serena verification done<br>find_referencing_symbols run for all changed symbols?<br>No orphaned references?"]
-    P --> Q{Pass?}
-    Q -->|No| CHANGES
-    Q -->|Yes| R["make build passes<br>CI is green, but local build confirms no env-specific issues"]
+    O -->|Yes| R["make build passes<br>CI is green, but local build confirms no env-specific issues"]
     R --> S{Pass?}
     S -->|No| CHANGES
     S -->|Yes| T["APPROVE PR"]
