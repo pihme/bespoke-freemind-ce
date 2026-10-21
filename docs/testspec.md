@@ -80,7 +80,7 @@ The file chooser for an image, the join warning dialog, and the find dialog are 
 
 Labeled **Backwards compatibility**. This is the umbrella for code that no requirement names. The slices and the rule are in `docs/spec.md` under **Backwards compatibility tests**. A backwards-compatibility assertion does not replace a requirement test. Time-management calendars stay in this table. They are not a product requirement.
 
-Slices 1 and 2 also have deduced requirement tests. This table is the reference for every backwards-compatibility test. Every row in this table except the `freemind.main`, `plugins/map`, `freemind.view.mindmapview`, `accessories.plugins`, `freemind.controller`, `plugins.collaboration.socket`, `freemind.modes`, `freemind.modes.mindmapmode`, `accessories.plugins.time`, `freemind.controller.filter`, `freemind.modes.mindmapmode.actions`, and `plugins.script` package rows was included in the 62.4% measurement. Those package rows are not in the 62.1% measurement. Slice 5 lists a file in a temporary directory, builds the Linux file chooser, searches a directory of `.mm` files, paints a print-preview page, and exports an image of the open map. It still has no backwards-compatibility test for browse read-only, a script that runs, PDF bytes, a rendered LaTeX equation, the help window, or a checked word. The print-preview window is not opened.
+Slices 1 and 2 also have deduced requirement tests. This table is the reference for every backwards-compatibility test. Every row in this table except the `freemind.main`, `plugins/map`, `freemind.view.mindmapview`, `accessories.plugins`, `freemind.controller`, `plugins.collaboration.socket`, `freemind.modes`, `freemind.modes.mindmapmode`, `accessories.plugins.time`, `freemind.controller.filter`, `freemind.modes.mindmapmode.actions`, `plugins.script`, and `freemind.common` package rows was included in the 62.4% measurement. Those package rows are not in the 62.1% measurement. Slice 5 lists a file in a temporary directory, builds the Linux file chooser, searches a directory of `.mm` files, paints a print-preview page, and exports an image of the open map. It still has no backwards-compatibility test for browse read-only, a script that runs, PDF bytes, a rendered LaTeX equation, the help window, or a checked word. The print-preview window is not opened.
 
 | Slice | What is checked | Test | Status |
 |-------|-----------------|------|--------|
@@ -234,6 +234,8 @@ Slices 1 and 2 also have deduced requirement tests. This table is the reference 
 
 | — | The classes in `plugins.script` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.script`. Each of those tests is labeled backwards compatibility. A stored script `= 'ran'` sets the selected node to `ran`. A broken script returns false and reports a line. An external script rewrites the root only when asking is stored as yes. A cookie is visible to the next script. File, network, and exec checks throw `SecurityException` while those flags are off. The build leaves `ScriptingSecurityManager` out of the main compile, and the test compiles that one file without installing it as the JVM manager. The script editor throws `HeadlessException` before it is shown. It is not uncoverable. Signing stops at the password dialog. No method in this package only exits the process or runs a system command. | `tests.freemind.cov.script.*BehaviourTest` | passed |
 
+| — | The classes in `freemind.common` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.common`. Each of those tests is labeled backwards compatibility. A boolean, a string, a number, and a password round-trip through their controls. An empty string is kept for a string and a password. A number outside the range falls back to the minimum. A remembered dialog answer returns without a window. A colour chooser, an icon picker, the progress monitor, and a task that needs that monitor throw `HeadlessException` before they are shown. They are not uncoverable. `FreeMindProgressMonitor.main` calls `System.exit` and is in the uncoverable table. | `tests.freemind.cov.common.*BehaviourTest` | passed |
+
 ## Uncoverable
 
 A method is uncoverable when its only effect is `System.exit` or `Runtime.exec` of a system command. These were read and left undriven. Dialogs, network calls, and timers are not in this table.
@@ -255,6 +257,8 @@ A method is uncoverable when its only effect is `System.exit` or `Runtime.exec` 
 | `freemind/freemind/main/Tools.java` | `setHidden` | `Runtime.getRuntime().exec` of `attrib.exe` when `os.name` starts with `Win`. The non-Windows return is tested. |
 | `freemind/freemind/view/mindmapview/IndependantMapViewCreator.java` | `main` | `System.exit(0)` when the argument count is not 2, and `System.exit(0)` or `System.exit(1)` after an export attempt |
 | `freemind/freemind/view/mindmapview/EditNodeExternalApplication.java` | `EditNodeExternalApplication$1.run` | `Runtime.getRuntime().exec` of the `html_editing_command` property |
+
+| `freemind/freemind/common/FreeMindProgressMonitor.java` | `main` | `System.exit(1)` when the argument is not an integer, and `System.exit(0)` after the monitor is shown |
 
 ## Map
 
