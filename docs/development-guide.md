@@ -34,6 +34,7 @@ The project includes a cross-platform `Makefile` that auto-detects `JAVA_HOME` a
 | `make debug` | Run in debug mode (attach debugger on port 5005) |
 | `make test` | Run tests only |
 | `make coverage` | Run tests with JaCoCo coverage report |
+| `make coverage-report` | Print JaCoCo totals from exec files already on disk |
 | `make check` | Build + all quality checks |
 | `make clean` | Clean all build artifacts |
 | `make jaxb` | Regenerate JAXB classes from XSD schema |
@@ -131,6 +132,7 @@ freemind/
 make test           # Unit tests only
 make test-gui       # GUI tests only
 make coverage       # Tests + JaCoCo coverage report
+make coverage-report # Totals from exec files already on disk
 
 # Using Gradle directly
 ./gradlew test --no-configuration-cache                    # Unit tests
