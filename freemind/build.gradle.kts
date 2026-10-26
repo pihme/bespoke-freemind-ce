@@ -495,12 +495,19 @@ tasks.jacocoTestReport {
 }
 
 tasks.named<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
+    // Same exec files as jacocoTestReport: unit, GUI, and performance.
+    // testFuzz and a leftover testChaos exec stay out.
+    executionData.setFrom(fileTree(layout.buildDirectory.dir("jacoco")) {
+        include("*.exec")
+        exclude("testFuzz.exec", "testChaos.exec")
+    })
     classDirectories.setFrom(classDirectories.withoutGeneratedJaxb())
     sourceDirectories.setFrom(sourceDirectories.withoutGeneratedJaxb())
     violationRules {
         rule {
             limit {
-                minimum = "0.20".toBigDecimal()
+                counter = "INSTRUCTION"
+                minimum = "0.85".toBigDecimal()
             }
         }
     }
