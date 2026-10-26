@@ -143,7 +143,7 @@ make coverage-report # Totals from exec files already on disk
 ### Test Framework
 - **JUnit 4** test classes (`extends TestCase`) running on **JUnit 5 vintage engine**
 - **GUI tests:** AssertJ Swing with `GuiTestBase` base class, `@Tag("gui")`, automatic screenshots
-- **Property-based:** jqwik (sample size 1000, tries 100, seed 12345 — reproducible)
+- **Property and fuzz:** jqwik and Jazzer, tag `fuzz`, run with `make test-fuzz`. The unit task and the JaCoCo report leave them out.
 - **Test base:** `FreeMindTestBase` provides headless FreeMind context via `HeadlessFreeMind`
 
 ### Test Structure

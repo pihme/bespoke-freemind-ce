@@ -58,7 +58,7 @@ GRADLE       := ./gradlew
 GRADLE_FLAGS := --no-configuration-cache
 GRADLE_CMD   = JAVA_HOME=$(JAVA_HOME) $(GRADLE)
 
-.PHONY: help build run debug clean test test-gui test-performance test-chaos coverage jaxb javadoc \
+.PHONY: help build run debug clean test test-gui test-performance test-fuzz coverage jaxb javadoc \
         package package-mac package-win package-linux \
         dist-zip install-dist check audit audit-full info all
 
@@ -102,8 +102,8 @@ test-gui: ## Run GUI tests with screenshots (requires display)
 test-performance: ## Run performance tests
 	$(GRADLE_CMD) :freemind:testPerformance $(GRADLE_FLAGS)
 
-test-chaos: ## Run chaos/resilience tests
-	$(GRADLE_CMD) :freemind:testChaos $(GRADLE_FLAGS)
+test-fuzz: ## Run jqwik and Jazzer tests (not part of unit tests or coverage)
+	$(GRADLE_CMD) :freemind:testFuzz $(GRADLE_FLAGS)
 
 coverage: ## Run tests with JaCoCo coverage report
 	$(GRADLE_CMD) :freemind:test :freemind:jacocoTestReport $(GRADLE_FLAGS)
@@ -114,7 +114,7 @@ coverage-report: ## Print JaCoCo totals from exec files already on disk
 		echo "No exec files in freemind/build/jacoco. Run the test tasks first."; \
 		exit 1; \
 	fi
-	$(GRADLE_CMD) :freemind:jacocoTestReport -x :freemind:test -x :freemind:testGui -x :freemind:testPerformance -x :freemind:testChaos $(GRADLE_FLAGS)
+	$(GRADLE_CMD) :freemind:jacocoTestReport -x :freemind:test -x :freemind:testGui -x :freemind:testPerformance $(GRADLE_FLAGS)
 	@python3 -c 'import xml.etree.ElementTree as ET; root = ET.parse("freemind/build/reports/jacoco/test/jacocoTestReport.xml").getroot(); counters = {c.get("type"): c for c in root.findall("counter")}; \
 order = ("INSTRUCTION", "LINE", "BRANCH"); \
 [print("%s: %.1f%% (%s of %s)" % (name, 100.0 * int(counters[name].get("covered")) / (int(counters[name].get("covered")) + int(counters[name].get("missed"))), format(int(counters[name].get("covered")), ","), format(int(counters[name].get("covered")) + int(counters[name].get("missed")), ","))) for name in order]'

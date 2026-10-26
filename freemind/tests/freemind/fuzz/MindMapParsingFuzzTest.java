@@ -22,6 +22,7 @@ package tests.freemind.fuzz;
 
 import com.code_intelligence.jazzer.api.FuzzedDataProvider;
 import com.code_intelligence.jazzer.junit.FuzzTest;
+import org.junit.jupiter.api.Tag;
 import freemind.common.XmlBindingTools;
 import freemind.main.HeadlessFreeMind;
 import freemind.main.XMLElement;
@@ -36,6 +37,7 @@ import java.io.StringReader;
  * hangs, and security issues in the .mm file parser and action XML
  * unmarshaller.</p>
  */
+@Tag("fuzz")
 public class MindMapParsingFuzzTest {
 
     static {

@@ -59,7 +59,7 @@ A modernized and streamlined version of Freemind. Modernized pertains to the UI.
 - Upstream commit: 88075b1ed47f8e58d813775e41836e08d0681f1f
 - Built from: 1-raw@a9db337edd4fc0d0d82be531c3dd49b0848e08a4
 - Skill: increase-test-coverage
-- Gate: `./gradlew :freemind:test :freemind:testGui :freemind:testPerformance :freemind:testChaos --no-configuration-cache`
+- Gate: `./gradlew :freemind:test :freemind:testGui :freemind:testPerformance --no-configuration-cache`
 - Details: `docs/testspec.md`
 
 ### Decisions
@@ -70,6 +70,7 @@ A modernized and streamlined version of Freemind. Modernized pertains to the UI.
 | COV-002 | New tests are named `TestREQ_` and assert only the clause they reach. `jacocoTestReport` depends on `test`, `testGui`, `testPerformance`, and `testChaos`. | A combined Gradle invocation otherwise refuses the report, because the extra exec files are an implicit dependency. Gaps that need a controller, a dialog, or a real OS launch stay none or partial. | agent | Keep the dependency. Do not mark a row checked for a clause the test does not assert. |
 | COV-003 | Deduced behaviour is a labeled section in `docs/spec.md` (`REQ-DED-nn`, never reused, not renumbered into the original 49). Deduced missing tests are labeled in `docs/testspec.md`. Code that no requirement names is the umbrella "Backwards compatibility tests". Underline stays unresolved. Time-management calendars are not a requirement. | The user asked for deduced requirements, deduced missing tests, and that umbrella, each labeled. These rows do not decide which features stay. | user | Keep the labels. Do not turn a backwards-compatibility test into a product requirement. Do not weaken a requirement test to match the code. |
 | COV-004 | JaCoCo leaves out `freemind/generated-src` (`freemind.controller.actions.generated.instance`). The authoritative count is instruction coverage on everything else. | Those classes are JAXB output. The coverage skill excludes generated sources before measuring. | agent | Keep the agent exclude and the report class-directory exclude together. |
+| COV-005 | Remove `testChaos`. jqwik and Jazzer tests are tag `fuzz` and run only as `testFuzz`. The unit task and JaCoCo leave them out. | `testChaos` found no tests. Property and fuzz runs are a search, not part of the coverage suite. | user | Do not restore `testChaos`. Do not put the `fuzz` tag back into `:freemind:test` or into the JaCoCo exec files. |
 
 ### Last run
 

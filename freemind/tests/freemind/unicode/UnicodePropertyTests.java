@@ -3,6 +3,8 @@ package tests.freemind.unicode;
 import freemind.main.HeadlessFreeMind;
 import freemind.main.HtmlTools;
 import net.jqwik.api.*;
+import org.junit.jupiter.api.Tag;
+
 import tests.freemind.property.generators.MindmapGenerators;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,6 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Property-based tests for HtmlTools Unicode handling.
  * Uses jqwik to generate random Unicode strings and verify invariants.
  */
+@Tag("fuzz")
 class UnicodePropertyTests {
 
     private final HtmlTools htmlTools = HtmlTools.getInstance();

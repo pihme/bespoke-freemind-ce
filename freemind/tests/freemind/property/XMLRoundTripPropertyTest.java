@@ -6,6 +6,7 @@ import tests.freemind.property.generators.MindmapGenerators;
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 import net.jqwik.api.Provide;
+import org.junit.jupiter.api.Tag;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Verifies that JAXB marshal then unmarshal produces equivalent objects
  * for all generated action types.
  */
+@Tag("fuzz")
 public class XMLRoundTripPropertyTest {
 
     private final MindmapGenerators generators = new MindmapGenerators();

@@ -39,7 +39,7 @@ jobs:
 
       - name: Run fuzz tests
         run: |
-          ./gradlew :freemind:test --no-daemon --no-configuration-cache \
+          ./gradlew :freemind:testFuzz --no-daemon --no-configuration-cache \
             --tests "tests.freemind.fuzz.*" \
             -Djazzer.fuzz=true
         timeout-minutes: 30

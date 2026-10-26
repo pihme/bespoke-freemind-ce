@@ -359,7 +359,13 @@ tasks.register<Copy>("prepareMacDist") {
 
 tasks.test {
     useJUnitPlatform {
-        excludeTags("gui")
+        excludeTags("gui", "fuzz")
+    }
+    // jqwik does not publish the JUnit tag, so the class patterns exclude it too.
+    filter {
+        excludeTestsMatching("tests.freemind.property.*")
+        excludeTestsMatching("tests.freemind.unicode.UnicodePropertyTests")
+        excludeTestsMatching("tests.freemind.fuzz.*")
     }
 
     // Headless mode for CI compatibility (Swing tests throw HeadlessException without this)
@@ -414,16 +420,19 @@ tasks.register<Test>("testPerformance") {
     timeout.set(Duration.ofMinutes(10))
 }
 
-tasks.register<Test>("testChaos") {
-    description = "Run chaos/resilience tests"
+tasks.register<Test>("testFuzz") {
+    description = "Run jqwik property tests and Jazzer fuzz tests"
     group = "verification"
     testClassesDirs = sourceSets["test"].output.classesDirs
     classpath = sourceSets["test"].runtimeClasspath
-    useJUnitPlatform {
-        includeTags("chaos")
+    useJUnitPlatform()
+    filter {
+        includeTestsMatching("tests.freemind.property.*")
+        includeTestsMatching("tests.freemind.unicode.UnicodePropertyTests")
+        includeTestsMatching("tests.freemind.fuzz.*")
     }
     systemProperty("java.awt.headless", "true")
-    timeout.set(Duration.ofMinutes(5))
+    timeout.set(Duration.ofMinutes(30))
 }
 
 tasks.register<JavaExec>("showcaseScreenshots") {
@@ -462,12 +471,20 @@ tasks.withType<Test>().configureEach {
     }
 }
 
+tasks.named<Test>("testFuzz") {
+    configure<JacocoTaskExtension> {
+        isEnabled = false
+    }
+}
+
 tasks.jacocoTestReport {
-    dependsOn(tasks.test, tasks.named("testGui"), tasks.named("testPerformance"), tasks.named("testChaos"))
-    // testGui, testPerformance, and testChaos write their own exec files.
+    dependsOn(tasks.test, tasks.named("testGui"), tasks.named("testPerformance"))
+    // testGui and testPerformance write their own exec files.
     // The default report only reads test.exec, so a full run would under-count.
+    // testFuzz is outside this report. A leftover testChaos exec is too.
     executionData.setFrom(fileTree(layout.buildDirectory.dir("jacoco")) {
         include("*.exec")
+        exclude("testFuzz.exec", "testChaos.exec")
     })
     classDirectories.setFrom(classDirectories.withoutGeneratedJaxb())
     sourceDirectories.setFrom(sourceDirectories.withoutGeneratedJaxb())

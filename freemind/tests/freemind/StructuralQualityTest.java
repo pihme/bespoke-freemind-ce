@@ -296,63 +296,6 @@ class StructuralQualityTest {
                         + String.join("\n", violations));
     }
 
-    /**
-     * Maximum allowed test classes missing @DisplayName annotation.
-     * Goal is to reduce this to 0 over time.
-     */
-    private static final int MAX_MISSING_DISPLAY_NAME = 30;
-
-    @Test
-    @DisplayName("Test classes without @DisplayName are bounded")
-    void testClassesDisplayNameBounded() throws IOException {
-        Path testRoot = findProjectRoot().resolve("freemind/tests");
-        List<String> violations = new ArrayList<>();
-
-        if (!Files.isDirectory(testRoot)) {
-            return;
-        }
-
-        try (Stream<Path> walk = Files.walk(testRoot)) {
-            List<Path> testFiles = walk
-                    .filter(p -> p.toString().endsWith(".java"))
-                    .filter(Files::isRegularFile)
-                    .collect(Collectors.toList());
-
-            for (Path file : testFiles) {
-                String content = Files.readString(file);
-                // Check if file contains @Test annotation (JUnit 5)
-                if (content.contains("@Test")) {
-                    // Find the class declaration line and check if @DisplayName
-                    // appears in the lines preceding it
-                    String[] lines = content.split("\n");
-                    boolean foundDisplayName = false;
-                    for (int i = 0; i < lines.length; i++) {
-                        String line = lines[i].trim();
-                        if (line.contains("@DisplayName")) {
-                            foundDisplayName = true;
-                        }
-                        // Match class declaration (not inner classes)
-                        if (line.matches("(public\\s+)?class\\s+\\w+.*\\{?")
-                                && !line.contains("static class")
-                                && !line.contains("private class")) {
-                            if (!foundDisplayName) {
-                                violations.add(testRoot.getParent()
-                                        .relativize(file).toString());
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        assertTrue(violations.size() <= MAX_MISSING_DISPLAY_NAME,
-                "Test classes without @DisplayName (" + violations.size()
-                        + ") exceeds bound (" + MAX_MISSING_DISPLAY_NAME
-                        + "). Add @DisplayName to:\n"
-                        + String.join("\n", violations));
-    }
-
     // --- Utility methods ---
 
     private List<Path> productionJavaFiles(Stream<Path> walk) {

@@ -27,7 +27,11 @@ Read `BESPOKE.md` before changing behavior. A feature is added when `docs/spec.m
 | How to build, test, or package | [docs/development-guide.md](docs/development-guide.md) |
 | An upstream-style release | [docs/contributor-workflows.md](docs/contributor-workflows.md) and [docs/merge-release-safety.md](docs/merge-release-safety.md). Those notes describe Denomas/freemind-ce. This fork's rules are this file and `BESPOKE.md`. |
 
-`make help` lists the build targets. `make` sets `JAVA_HOME` and passes `--no-configuration-cache`. The entry point is `freemind.main.FreeMindStarter`.
+`make help` lists the build targets. `make` passes `--no-configuration-cache`. It keeps a `JAVA_HOME` that is already set. When `JAVA_HOME` is unset, it looks for a JDK 21 on the system paths and stops when it finds none. Set `JAVA_HOME` to a JDK 21 and run `make` again. The entry point is `freemind.main.FreeMindStarter`.
+
+A Gradle `--tests` filter is the class's `package` declaration. Read that line. Run a unit check that is already failing on its own, so `:freemind:testGui` and `jacocoTestReport` still run. Read pass and fail from `freemind/build/test-results/*/TEST-*.xml`. Read instruction, line, and branch totals from the root `counter` elements of `freemind/build/reports/jacoco/test/jacocoTestReport.xml`.
+
+One Gradle test task is one JVM. `FreeMind.props`, the `Resources` language bundle, and `SpellChecker.getCurrentLocale()` survive from one test class to the next. The test that asserts one of those resets it and keeps the original expected value. Test classes do not need a class-level `@DisplayName`. jqwik and Jazzer tests carry the tag `fuzz`. `:freemind:testFuzz` runs them. The unit task and the JaCoCo report leave them out.
 
 | What | Where |
 |------|-------|

@@ -6,6 +6,7 @@ import tests.freemind.property.generators.MindmapGenerators;
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 import net.jqwik.api.Provide;
+import org.junit.jupiter.api.Tag;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Verifies collection integrity, ordering, and structural constraints
  * on generated action classes.
  */
+@Tag("fuzz")
 public class TreeStructurePropertyTest {
 
     private final MindmapGenerators generators = new MindmapGenerators();
