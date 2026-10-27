@@ -124,6 +124,17 @@ class RemovedFeatureProofTest {
 	}
 
 	@Test
+	void TestREQ_SEC_01_EncryptCommandIsGone() throws Exception {
+		assertThrows(ClassNotFoundException.class,
+				() -> Class.forName("accessories.plugins.EncryptNode"));
+		Path root = repoRoot();
+		assertFalse(Files.exists(root.resolve("freemind/accessories/plugins/EncryptNode.java")));
+		assertFalse(Files.exists(root.resolve("freemind/accessories/plugins/EncryptNode.xml")));
+		assertFalse(Files.readString(root.resolve("freemind/mindmap_menus.xml")).contains("name=\"crypto\""));
+		assertNotNull(Class.forName("freemind.modes.mindmapmode.EncryptedMindMapNode"));
+	}
+
+	@Test
 	void TestREQ_MODE_01_BrowseAndFileModesAreGone() throws Exception {
 		assertThrows(ClassNotFoundException.class,
 				() -> Class.forName("freemind.modes.browsemode.BrowseMode"));

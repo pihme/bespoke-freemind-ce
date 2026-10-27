@@ -88,7 +88,7 @@ A line marked **docs** comes from `README.md` or `docs/`. A line marked **menu**
 | REQ-APP-03 | Use the application in one of 30 or more languages. | `Resources_*.properties`. | docs |
 | REQ-APP-04 | Use a FlatLaf light or dark look. | Documented as the CE look and feel, replacing Metal. | docs |
 | REQ-APP-05 | Run on Java 21 on macOS (including Apple Silicon), Windows, and Linux. | `freemind.main.FreeMindStarter`. | docs |
-| REQ-SEC-01 | Encrypt a node. The insert menu has an empty crypto category. Tests cover encrypt-node behavior. The docs do not describe the command. | Insert → crypto, if a plugin fills it. | menu and tests |
+| REQ-SEC-01 | A saved encrypted node still opens, and a cipher round-trips a string. The command that encrypts a node is removed (TAI-010). | `EncryptedMindMapNode`. | file format |
 
 ## Not decided here
 

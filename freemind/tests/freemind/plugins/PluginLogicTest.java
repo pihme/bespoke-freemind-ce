@@ -1,7 +1,6 @@
 package tests.freemind.plugins;
 
 import accessories.plugins.AutomaticLayout;
-import accessories.plugins.EncryptNode;
 import accessories.plugins.ImportMindmanagerFiles;
 import accessories.plugins.NodeNote;
 import accessories.plugins.time.FlatNodeTableFilterModel;
@@ -14,7 +13,6 @@ import freemind.main.Tools;
 import freemind.modes.common.plugins.ReminderHookBase;
 import freemind.modes.mindmapmode.EncryptedMindMapNode;
 import freemind.modes.mindmapmode.MindMapMapModel;
-import freemind.modes.mindmapmode.hooks.MindMapNodeHookAdapter;
 import freemind.modes.mindmapmode.hooks.PermanentMindMapNodeHookAdapter;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -107,57 +105,6 @@ class PluginLogicTest {
         void hasNoArgConstructor() {
             assertDoesNotThrow(() -> AutomaticLayout.class.getDeclaredConstructor(),
                 "AutomaticLayout must have a no-arg constructor");
-        }
-    }
-
-    // ── EncryptNode structural tests ──
-
-    @Nested
-    @DisplayName("EncryptNode")
-    class EncryptNodeTests {
-
-        @Test
-        @DisplayName("extends MindMapNodeHookAdapter")
-        void extendsMindMapNodeHookAdapter() {
-            assertTrue(MindMapNodeHookAdapter.class.isAssignableFrom(EncryptNode.class),
-                "EncryptNode must extend MindMapNodeHookAdapter");
-        }
-
-        @Test
-        @DisplayName("has no-arg constructor")
-        void hasNoArgConstructor() {
-            assertDoesNotThrow(() -> EncryptNode.class.getDeclaredConstructor(),
-                "EncryptNode must have a no-arg constructor");
-        }
-
-        @Test
-        @DisplayName("has invoke method taking MindMapNode")
-        void hasInvokeMethod() {
-            assertDoesNotThrow(
-                () -> EncryptNode.class.getMethod("invoke", freemind.modes.MindMapNode.class),
-                "EncryptNode must have invoke(MindMapNode) method");
-        }
-
-        @Test
-        @DisplayName("has Registration inner class")
-        void hasRegistrationInnerClass() {
-            Class<?>[] innerClasses = EncryptNode.class.getDeclaredClasses();
-            boolean found = Arrays.stream(innerClasses)
-                .anyMatch(c -> c.getSimpleName().equals("Registration"));
-            assertTrue(found, "EncryptNode must have Registration inner class");
-        }
-
-        @Test
-        @DisplayName("Registration implements MenuItemEnabledListener")
-        void registrationImplementsMenuItemEnabledListener() {
-            Class<?>[] innerClasses = EncryptNode.class.getDeclaredClasses();
-            for (Class<?> inner : innerClasses) {
-                if (inner.getSimpleName().equals("Registration")) {
-                    assertTrue(
-                        freemind.controller.MenuItemEnabledListener.class.isAssignableFrom(inner),
-                        "EncryptNode.Registration must implement MenuItemEnabledListener");
-                }
-            }
         }
     }
 

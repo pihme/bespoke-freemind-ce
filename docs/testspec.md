@@ -609,6 +609,7 @@ The build file names Java 21 and a package task for macOS, Windows, and Linux. N
 
 ### REQ-SEC-01 — Partial
 
-A cipher round-trips a string, and a wrong password does not return the original string. No test encrypts a node in a map.
+The command that encrypts a node is gone. `RemovedFeatureProofTest.TestREQ_SEC_01_EncryptCommandIsGone` checks that `accessories.plugins.EncryptNode` does not load, that `EncryptNode.xml` is absent, and that `EncryptedMindMapNode` still loads. A cipher round-trips a string, and a wrong password does not return the original string. A saved encrypted node still opens.
 
 - `plugins/PluginLogicTest.java` `encryptDecryptRoundTrip`, `wrongPasswordReturnsNull`.
+- `requirements/BackwardsCompatibilityTest.java` `encryptedNodeHidesTheChildUntilThePasswordMatches`.

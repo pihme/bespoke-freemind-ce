@@ -70,7 +70,6 @@
 				<menu_action field="newSibling" key_ref="keystroke_add"/>
 				<menu_action name="newPreviousSibling" field="newPreviousSibling" key_ref="keystroke_add_sibling_before"/>
 			</menu_category>
-			<menu_category name="crypto"/>
 			<menu_category name="image">
 				<menu_action field="setImageByFileChooser" key_ref="keystroke_set_image_by_filechooser"/>
 			</menu_category>
