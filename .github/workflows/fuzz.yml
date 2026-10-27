@@ -13,10 +13,23 @@ env:
 
 jobs:
   fuzz:
-    name: Jazzer Fuzz Tests
+    name: ${{ matrix.name }}
     runs-on: ubuntu-latest
+    timeout-minutes: ${{ matrix.timeout }}
     permissions:
       contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: jqwik
+            timeout: 10
+            tests: "tests.freemind.property.*,tests.freemind.unicode.UnicodePropertyTests"
+            jazzer: "false"
+          - name: jazzer
+            timeout: 30
+            tests: "tests.freemind.fuzz.*"
+            jazzer: "true"
 
     steps:
       - name: Checkout
@@ -34,23 +47,33 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Build (compile only)
-        run: ./gradlew :freemind:compileTestJava --no-daemon --no-configuration-cache
-
       - name: Run fuzz tests
+        env:
+          FUZZ_TESTS: ${{ matrix.tests }}
+          JAZZER_FUZZ: ${{ matrix.jazzer }}
         run: |
-          ./gradlew :freemind:testFuzz --no-daemon --no-configuration-cache \
-            --tests "tests.freemind.fuzz.*" \
-            -Djazzer.fuzz=true
-        timeout-minutes: 30
+          args=()
+          if [ "$JAZZER_FUZZ" = "true" ]; then
+            args+=(-Djazzer.fuzz=true)
+          fi
+          IFS=',' read -ra patterns <<< "$FUZZ_TESTS"
+          for pattern in "${patterns[@]}"; do
+            args+=(--tests "$pattern")
+          done
+          mkdir -p freemind/build/reports
+          /usr/bin/time -v -o freemind/build/reports/fuzz-time.txt \
+            ./gradlew :freemind:testFuzz --no-daemon --no-configuration-cache --max-workers=2 \
+            "${args[@]}"
 
-      - name: Upload crash artifacts
-        if: failure()
+      - name: Upload fuzz report
+        if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: fuzz-crashes
+          name: fuzz-${{ matrix.name }}
+          if-no-files-found: ignore
           path: |
+            freemind/build/reports/fuzz-time.txt
+            freemind/build/test-results/testFuzz/
+            crash-*
             **/crash-*
-            **/Jacoco-*
-            freemind/build/test-results/
-          retention-days: 30
+          retention-days: 14
