@@ -13,6 +13,15 @@ import org.junit.jupiter.api.Test;
 class RemovedFeatureProofTest {
 
 	@Test
+	void TestREQ_PLUG_01_GroovyScriptingIsGone() throws Exception {
+		assertThrows(ClassNotFoundException.class,
+				() -> Class.forName("plugins.script.ScriptingEngine"));
+		Path root = repoRoot();
+		assertFalse(Files.exists(root.resolve("freemind/plugins/ScriptingEngine.xml")));
+		assertFalse(Files.exists(root.resolve("freemind/plugins/script")));
+	}
+
+	@Test
 	void TestREQ_FILE_04_ContextGraphExportIsGone() throws Exception {
 		assertThrows(ClassNotFoundException.class,
 				() -> Class.forName("plugins.contextgraph.ContextGraphMarkdownExport"));

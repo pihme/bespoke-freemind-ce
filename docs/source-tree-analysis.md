@@ -42,7 +42,6 @@ freemind-ce/
 │   │
 │   ├── plugins/                       # ★ PLUGIN MODULES (Gradle subprojects)
 │   │   ├── svg/                       # SVG/PDF export (Batik + FOP)
-│   │   ├── script/                    # Groovy scripting engine
 │   │   ├── map/                       # JMapViewer.jar kept for the trimmed stage
 │   │   ├── help/                      # jhall.jar kept for the trimmed stage
 │   │   ├── latex/                     # LaTeX formula rendering (not in Gradle yet)
@@ -143,6 +142,6 @@ freemind-ce/
 |---|---|---|
 | Core (`freemind/freemind/`) | ~379 | FreeMind, Controller, MapView, NodeView |
 | Accessories | ~59 | Plugin helpers, time manager, icon manager |
-| Plugins | ~57 | SVG export, scripting |
+| Plugins | ~57 | SVG export |
 | Tests | ~12 | JUnit + jqwik property tests |
 | **Total** | **~507** | |

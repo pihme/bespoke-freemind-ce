@@ -33,7 +33,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.print.PageFormat;
 import java.io.File;
-import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.util.Properties;
 import java.util.Vector;
@@ -48,7 +47,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import org.junit.jupiter.api.AfterAll;
@@ -89,12 +87,7 @@ import freemind.view.mindmapview.EditNodeBase;
 import freemind.view.mindmapview.EditNodeTextField;
 import freemind.view.mindmapview.MapView;
 import freemind.view.mindmapview.NodeView;
-import plugins.script.ScriptEditorPanel;
-import plugins.script.ScriptEditorPanel.ScriptHolder;
-import plugins.script.ScriptEditorPanel.ScriptModel;
-import plugins.script.ScriptingEngine.ErrorHandler;
 import plugins.svg.ExportPdfDialog;
-import freemind.controller.actions.generated.instance.ScriptEditorWindowConfigurationStorage;
 
 /**
  * Starts the real frame once. The methods check the mode, the options panel,
@@ -294,21 +287,6 @@ class StartupBehaviourTest {
 	}
 
 	@Test
-	@Order(10)
-	void TestREQ_PLUG_01_ScriptEditorShowsTheScriptText() {
-		String body = "return 1;";
-		ScriptEditorPanel panel = new ScriptEditorPanel(new OneScript(body), frame, true);
-		assertEquals(frame.getResourceString("plugins/ScriptEditor/window.title"), panel.getTitle());
-		JList<?> scripts = findList(panel.getContentPane());
-		assertEquals(1, scripts.getModel().getSize());
-		assertEquals("script0", scripts.getModel().getElementAt(0));
-		scripts.setSelectedIndex(0);
-		JTextArea source = findTextArea(panel.getContentPane());
-		assertEquals(body, source.getText());
-		panel.dispose();
-	}
-
-	@Test
 	@Order(12)
 	void TestREQ_STYLE_05_IconDialogShowsTheIcon() {
 		Vector<freemind.modes.IconInformation> icons = new Vector<>();
@@ -469,48 +447,6 @@ class StartupBehaviourTest {
 				frame.getController().getModeController());
 	}
 
-	private static final class OneScript implements ScriptModel {
-		private final String body;
-
-		OneScript(String body) {
-			this.body = body;
-		}
-
-		public int getAmountOfScripts() {
-			return 1;
-		}
-
-		public ScriptHolder getScript(int index) {
-			return new ScriptHolder("script0", body);
-		}
-
-		public void setScript(int index, ScriptHolder script) {
-		}
-
-		public boolean executeScript(int index, PrintStream outStream, ErrorHandler errorHandler) {
-			return false;
-		}
-
-		public void storeDialogPositions(ScriptEditorPanel panel,
-				ScriptEditorWindowConfigurationStorage storage, String key) {
-		}
-
-		public ScriptEditorWindowConfigurationStorage decorateDialog(ScriptEditorPanel panel, String key) {
-			return null;
-		}
-
-		public void endDialog(boolean canceled) {
-		}
-
-		public boolean isDirty() {
-			return false;
-		}
-
-		public int addNewScript() {
-			return 0;
-		}
-	}
-
 	private static int countButtons(Container container) {
 		int count = 0;
 		for (Component component : container.getComponents()) {
@@ -588,21 +524,6 @@ class StartupBehaviourTest {
 			}
 		}
 		throw new AssertionError("no list");
-	}
-
-	private static JTextArea findTextArea(Container container) {
-		for (Component component : container.getComponents()) {
-			if (component instanceof JTextArea area) {
-				return area;
-			}
-			if (component instanceof Container) {
-				try {
-					return findTextArea((Container) component);
-				} catch (AssertionError ignored) {
-				}
-			}
-		}
-		throw new AssertionError("no text area");
 	}
 
 	private static boolean selectedRadio(Container container, String text) {

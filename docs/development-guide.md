@@ -91,7 +91,6 @@ For cases where you need direct Gradle access (CI, IDE integration, advanced opt
 ```
 :freemind                              → Main application
 :freemind:plugins:svg                  → SVG/PDF export
-:freemind:plugins:script               → Groovy scripting
 :freemind:plugins:collaboration:socket → Real-time collaboration
 ```
 
@@ -182,7 +181,7 @@ open freemind/build/reports/dependency-check-report.html
 |--------|---------|
 | Gradle dependencies | jsoup, Batik, FOP, Lucene, Logback, JUnit |
 | Tracked JARs (`lib/`) | jortho.jar, SimplyHTML.jar, bindings.jar |
-| Plugin JARs (`plugins/*/`) | JMapViewer.jar, jhall.jar, groovy-all.jar |
+| Plugin JARs (`plugins/*/`) | JMapViewer.jar, jhall.jar |
 | Build tools (non-runtime) | PMD, SpotBugs, JaCoCo |
 
 ### Core Principle

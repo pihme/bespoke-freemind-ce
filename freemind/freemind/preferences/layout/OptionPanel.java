@@ -1158,8 +1158,6 @@ public class OptionPanel implements TextTranslator {
 		controls.add(new KeyProperty(frame, null,
 				"keystroke_show_attribute_manager")); // control
 		controls.add(new KeyProperty(frame, null, "keystroke_assign_attributes")); // control
-		controls.add(new KeyProperty(frame, null,
-				"keystroke_plugins/ScriptingEngine.keystroke.evaluate"));
 
 		final ModeController modeController = fmMain.getController()
 				.getModeController();
@@ -1245,9 +1243,6 @@ public class OptionPanel implements TextTranslator {
 		controls.add(new RemindValueProperty(
 				FreeMind.RESOURCES_COMPLETE_CLONING + ".tooltip",
 				FreeMind.RESOURCES_COMPLETE_CLONING, modeController));
-		controls.add(new DontShowNotificationProperty(
-				"execute_scripts_without_asking.tooltip",
-				FreeMind.RESOURCES_EXECUTE_SCRIPTS_WITHOUT_ASKING));
 
 		controls.add(new NextLineProperty());
 		controls.add(new SeparatorProperty(FreeMind.RESOURCES_SELECTION_METHOD));

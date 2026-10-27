@@ -69,7 +69,7 @@ A line marked **docs** comes from `README.md` or `docs/`. A line marked **menu**
 
 | ID | What the user can do | Entry points | Source |
 |----|----------------------|--------------|--------|
-| REQ-PLUG-01 | Run a Groovy script, with an editor. A security manager for scripts is excluded from the Java 21 compile. | Extras → scripting. | docs |
+| ~~REQ-PLUG-01~~ REMOVED (TAI-001) | Run a Groovy script, with an editor. A security manager for scripts is excluded from the Java 21 compile. | Extras → scripting. | docs |
 | ~~REQ-PLUG-02~~ REMOVED (TAI-002) | Attach a geographic position and open it on an OpenStreetMap view. | Extras → map. | docs |
 | ~~REQ-PLUG-03~~ REMOVED (TAI-003) | Search map files with a Lucene index. | Search plugin. | docs |
 | ~~REQ-PLUG-04~~ REMOVED (TAI-004) | Open integrated help. | Help plugin, JavaHelp. | docs |

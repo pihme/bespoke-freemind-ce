@@ -125,24 +125,6 @@ class Utf8ConsistencyTest {
     }
 
     @Test
-    @DisplayName("SignedScriptHandler uses explicit charset for all getBytes() calls")
-    void signedScriptHandlerExplicitCharset() throws IOException {
-        Path file = findProjectRoot()
-            .resolve("freemind/plugins/script/SignedScriptHandler.java");
-        String content = Files.readString(file);
-
-        // Count getBytes() calls — none should be without charset
-        int getBytesCount = countOccurrences(content, ".getBytes(");
-        int getBytesWithCharset = countOccurrences(content, ".getBytes(StandardCharsets.");
-        // Also count .getBytes("UTF-8") style
-        getBytesWithCharset += countOccurrences(content, ".getBytes(\"");
-
-        assertEquals(getBytesCount, getBytesWithCharset,
-            "All .getBytes() calls in SignedScriptHandler must specify charset. " +
-            "Found " + getBytesCount + " total, " + getBytesWithCharset + " with charset");
-    }
-
-    @Test
     @DisplayName("MindMapNodesSelection uses explicit charset for RTF clipboard bytes")
     void mindMapNodesSelectionExplicitCharset() throws IOException {
         Path file = findProjectRoot()
@@ -153,16 +135,6 @@ class Utf8ConsistencyTest {
             "MindMapNodesSelection must use explicit charset for getBytes()");
         assertFalse(content.contains(".getBytes()"),
             "MindMapNodesSelection must NOT use parameterless getBytes()");
-    }
-
-    private int countOccurrences(String text, String pattern) {
-        int count = 0;
-        int idx = 0;
-        while ((idx = text.indexOf(pattern, idx)) != -1) {
-            count++;
-            idx += pattern.length();
-        }
-        return count;
     }
 
     private Path findProjectRoot() {

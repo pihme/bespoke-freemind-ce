@@ -141,7 +141,6 @@ HookAdapter (base)
 | Plugin | Entry Class | Registration XML | Dependencies |
 |---|---|---|---|
 | SVG/PDF Export | `ExportSvg`, `ExportPdf` | `ExportSvg.xml` | Batik 1.17, FOP 2.9 |
-| Scripting | `ScriptingEngine` | `ScriptingEngine.xml` | Groovy, Rhino 1.7.14 |
 | Collaboration | Socket-based | `CollaborationSocket.xml` | TCP |
 | LaTeX | `LatexNodeHook` | `Latex.xml` | HotEqn |
 
@@ -156,7 +155,6 @@ HookAdapter (base)
 ```
 :freemind                              (main application)
 :freemind:plugins:svg                  (SVG/PDF export)
-:freemind:plugins:script               (scripting)
 :freemind:plugins:collaboration:socket (collaboration)
 ```
 

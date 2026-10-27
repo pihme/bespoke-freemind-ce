@@ -14,23 +14,16 @@ import freemind.main.Tools;
 import freemind.modes.common.plugins.ReminderHookBase;
 import freemind.modes.mindmapmode.EncryptedMindMapNode;
 import freemind.modes.mindmapmode.MindMapMapModel;
-import freemind.modes.mindmapmode.hooks.MindMapHookAdapter;
 import freemind.modes.mindmapmode.hooks.MindMapNodeHookAdapter;
 import freemind.modes.mindmapmode.hooks.PermanentMindMapNodeHookAdapter;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import plugins.script.ScriptingEngine;
-import plugins.script.ScriptingRegistration;
-import plugins.script.SignedScriptHandler;
 
 import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Set;
@@ -39,7 +32,7 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Plugin logic tests covering search, script, import, time/calendar,
+ * Plugin logic tests covering search, import, time/calendar,
  * encryption, and automatic layout plugins.
  */
 @DisplayName("Plugin Logic")
@@ -335,86 +328,6 @@ class PluginLogicTest {
                 FlatNodeTableFilterModel.class.getDeclaredConstructor(
                     javax.swing.table.TableModel.class, int.class, int.class),
                 "FlatNodeTableFilterModel must have constructor(TableModel, int, int)");
-        }
-    }
-
-    // ── ScriptingEngine structural tests ──
-
-    @Nested
-    @DisplayName("ScriptingEngine")
-    class ScriptingEngineTests {
-
-        @Test
-        @DisplayName("extends MindMapHookAdapter")
-        void extendsMindMapHookAdapter() {
-            assertTrue(MindMapHookAdapter.class.isAssignableFrom(ScriptingEngine.class),
-                "ScriptingEngine must extend MindMapHookAdapter");
-        }
-
-        @Test
-        @DisplayName("has SCRIPT_PREFIX constant")
-        void hasScriptPrefixConstant() throws Exception {
-            Field field = ScriptingEngine.class.getDeclaredField("SCRIPT_PREFIX");
-            assertTrue(Modifier.isStatic(field.getModifiers()), "SCRIPT_PREFIX must be static");
-            assertTrue(Modifier.isFinal(field.getModifiers()), "SCRIPT_PREFIX must be final");
-            assertEquals("script", field.get(null), "SCRIPT_PREFIX must be 'script'");
-        }
-
-        @Test
-        @DisplayName("has executeScript static method")
-        void hasExecuteScriptMethod() {
-            boolean found = Arrays.stream(ScriptingEngine.class.getDeclaredMethods())
-                .anyMatch(m -> m.getName().equals("executeScript")
-                    && Modifier.isStatic(m.getModifiers()));
-            assertTrue(found, "ScriptingEngine must have static executeScript method");
-        }
-
-        @Test
-        @DisplayName("has ErrorHandler inner interface")
-        void hasErrorHandlerInnerInterface() {
-            boolean found = Arrays.stream(ScriptingEngine.class.getDeclaredClasses())
-                .anyMatch(c -> c.getSimpleName().equals("ErrorHandler") && c.isInterface());
-            assertTrue(found, "ScriptingEngine must have ErrorHandler inner interface");
-        }
-
-        @Test
-        @DisplayName("has findLineNumberInString method")
-        void hasFindLineNumberInStringMethod() {
-            boolean found = Arrays.stream(ScriptingEngine.class.getDeclaredMethods())
-                .anyMatch(m -> m.getName().equals("findLineNumberInString"));
-            assertTrue(found, "ScriptingEngine must have findLineNumberInString method");
-        }
-    }
-
-    // ── SignedScriptHandler structural tests ──
-
-    @Nested
-    @DisplayName("SignedScriptHandler")
-    class SignedScriptHandlerTests {
-
-        @Test
-        @DisplayName("has FREEMIND_SCRIPT_KEY_NAME constant")
-        void hasKeyNameConstant() throws Exception {
-            Field field = SignedScriptHandler.class.getDeclaredField("FREEMIND_SCRIPT_KEY_NAME");
-            assertTrue(Modifier.isStatic(field.getModifiers()));
-            assertTrue(Modifier.isFinal(field.getModifiers()));
-            assertEquals("FreeMindScriptKey", field.get(null));
-        }
-
-        @Test
-        @DisplayName("has ScriptContents inner class")
-        void hasScriptContentsInnerClass() {
-            boolean found = Arrays.stream(SignedScriptHandler.class.getDeclaredClasses())
-                .anyMatch(c -> c.getSimpleName().equals("ScriptContents"));
-            assertTrue(found, "SignedScriptHandler must have ScriptContents inner class");
-        }
-
-        @Test
-        @DisplayName("has isScriptSigned method")
-        void hasIsScriptSignedMethod() {
-            boolean found = Arrays.stream(SignedScriptHandler.class.getDeclaredMethods())
-                .anyMatch(m -> m.getName().equals("isScriptSigned"));
-            assertTrue(found, "SignedScriptHandler must have isScriptSigned method");
         }
     }
 

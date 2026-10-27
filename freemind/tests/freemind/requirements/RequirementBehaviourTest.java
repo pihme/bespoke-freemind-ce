@@ -62,11 +62,6 @@ import freemind.modes.mindmapmode.actions.xml.ActionPair;
 import freemind.view.mindmapview.IndependantMapViewCreator;
 import freemind.view.mindmapview.MapView;
 import freemind.view.mindmapview.NodeView;
-import groovy.lang.Binding;
-import groovy.lang.GroovyShell;
-import groovy.transform.ThreadInterrupt;
-import org.codehaus.groovy.control.CompilerConfiguration;
-import org.codehaus.groovy.control.customizers.ASTTransformationCustomizer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -247,18 +242,6 @@ class RequirementBehaviourTest {
 		} finally {
 			out.delete();
 		}
-	}
-
-	@Test
-	void TestREQ_PLUG_01_GroovyScriptReturnsValue() throws Exception {
-		String build = Files.readString(moduleDir().resolve("build.gradle.kts"));
-		assertTrue(build.contains("exclude(\"**/ScriptingSecurityManager.java\")"));
-
-		CompilerConfiguration config = new CompilerConfiguration();
-		config.addCompilationCustomizers(new ASTTransformationCustomizer(ThreadInterrupt.class));
-		Object value = new GroovyShell(null, new Binding(), config).evaluate("1 + 2");
-
-		assertEquals(3, ((Number) value).intValue());
 	}
 
 	@Test

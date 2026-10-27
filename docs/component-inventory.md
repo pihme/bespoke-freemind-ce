@@ -118,13 +118,6 @@
 - `ExportPdfDialog` - PDF options dialog
 - `ExportPdfPapers` - Paper size definitions
 
-### Scripting Engine
-- `ScriptingEngine` - Groovy script executor
-- `ScriptEditor` - Script editor dialog
-- `ScriptEditorPanel` - Editor UI panel
-- `SignedScriptHandler` - Script signing/verification
-- `ScriptingSecurityManager` - Sandbox security
-
 ### LaTeX
 - `LatexNodeHook` - LaTeX rendering hook
 - `JZoomedHotEqn` - Equation renderer with zoom
