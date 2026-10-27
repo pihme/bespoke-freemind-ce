@@ -84,21 +84,20 @@ A modernized and streamlined version of Freemind. Modernized pertains to the UI.
 
 ## 3 tailored
 
-- Upstream commit: <sha of 1-raw this run started from>
-- Built from: 2-covered@<sha>
+- Upstream commit: 88075b1ed47f8e58d813775e41836e08d0681f1f
+- Built from: 2-covered@b04d5d1127c639bf60416e1da815fd7c2d575c74
 - Skill: remove-features
-- Gate: <command(s) that must pass at the end of this stage>
-- Details: none (or bespoke/3-tailored.md)
+- Gate: `./gradlew :freemind:test :freemind:testGui :freemind:testPerformance --no-configuration-cache`
+- Details: none
 
 ### Decisions
 
 | ID | Decision | Reason | Decided by | Replay hint |
 |----|----------|--------|------------|-------------|
-| TAI-001 | | | user / agent | |
 
 ### Last run
 
-- Date, result (passed / failed at decision ID), notes
+- 2026-10-27. Branch opened from the exited covered stage. No feature is removed. The spec has no removal list. The license and `.mm` compatibility stay.
 
 ## 4 customized
 
