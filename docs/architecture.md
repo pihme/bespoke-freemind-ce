@@ -23,12 +23,11 @@ FreeMind CE is a Java 21 Swing desktop application for creating and editing mind
 │  └─────────────┘  └──────────────┘  └────────┬───────────┘ │
 └──────────────────────────────────────────────┬──────────────┘
                                                │
-              ┌────────────────────────────────┼────────────────┐
-              │                                │                │
-   ┌──────────▼──────────┐  ┌─────────────────▼──────┐ ┌──────▼──────┐
-   │    BrowseMode        │  │    MindMapMode          │ │  FileMode   │
-   │  (Read-only view)    │  │  (Full editing)         │ │ (File mgr)  │
-   └─────────────────────┘  └─────────┬───────────────┘ └────────────┘
+              ┌────────────────────────────────┐
+   ┌──────────▼────────────────────────┐
+   │         MindMapMode               │
+   │         (only mode)               │
+   └──────────────────┬────────────────┘
                                       │
                     ┌─────────────────┼──────────────────┐
                     │                 │                   │
@@ -74,15 +73,11 @@ FreeMind CE is a Java 21 Swing desktop application for creating and editing mind
 
 ### 3. Mode System
 
-Three operation modes, each with its own MVC triad:
+MindMap mode is the only mode. It is declared in `freemind.properties` and loaded dynamically.
 
 | Mode | Purpose | Controller |
 |---|---|---|
-| MindMapMode | Full editing (primary) | `MindMapController` |
-| BrowseMode | Read-only navigation | `BrowseController` |
-| FileMode | File browser | `FileController` |
-
-Modes are declared in `freemind.properties` and loaded dynamically.
+| MindMapMode | Full editing | `MindMapController` |
 
 ### 4. Action Framework (Undo/Redo)
 

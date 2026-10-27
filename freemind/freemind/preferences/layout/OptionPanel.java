@@ -481,7 +481,7 @@ public class OptionPanel implements TextTranslator {
 		// "The Modes which Freemind will load on startup, full Class names,
 		// comma, identifier, separated by a comma.",
 		// "modes_since_0_8_0")); //
-		// freemind.modes.browsemode.BrowseMode,Browse,freemind.modes.mindmapmode.MindMapMode,MindMap,freemind.modes.filemode.FileMode,File
+		// freemind.modes.mindmapmode.MindMapMode,MindMap
 		//
 		// controls.add(new StringProperty(
 		// "The initial mode that is loaded on startup", "initial_mode")); //

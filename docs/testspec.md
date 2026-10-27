@@ -84,7 +84,7 @@ Labeled **Deduced**. Each row is a test the requirement sentence does not spell 
 | ~~REQ-PLUG-02~~ REMOVED (TAI-002) | A node stores a geographic position. | Removed with TAI-002. | removed |
 | REQ-APP-01 | The options panel reads and writes a preference. The dialog is still not opened. | not in this change | open |
 | REQ-APP-02 | Print preview shows a page. | not in this change | open |
-| REQ-MODE-01 | Browse mode is read-only and File mode lists a directory. | not in this change | open |
+| REQ-MODE-01 | Browse and File modes. MindMap stays. | Removed with TAI-009. | removed |
 
 The file chooser for an image, the join warning dialog, and the find dialog are not what the deduced tests call.
 
@@ -145,7 +145,7 @@ Slices 1 and 2 also have deduced requirement tests. This table is the reference 
 | 1 | An XML element reads the CDATA section `Alpha & Beta`. | `BackwardsCompatibilityTest.xmlElementReadsACdataSection` | passed |
 | 6 | Context-graph export. | Removed with TAI-016. | removed |
 | 2 | An arrow popup has at least six components. A node has no arrow popup. | `BackwardsCompatibilityTest.arrowPopupListsTheLinkActions` | passed |
-| 5 | File mode lists `listed.mm` from a temporary directory. The file node is not writeable. | `BackwardsCompatibilityTest.fileModeListsADirectory` | passed |
+| 5 | File mode lists a directory. | Removed with TAI-009. | removed |
 | 2 | A map fitted to one page prints page 0 and rejects page 1. Two pages wide still prints page 0 and rejects page 40. With fit turned off, page 0 still prints. | `BackwardsCompatibilityTest.printingAFittedPageExistsAndLaterPagesDoNot` | passed |
 | 2 | Right from the root selects a child. Shift-down keeps at least two nodes selected. | `BackwardsCompatibilityTest.keyboardMoveSelectsTheNextNode` | passed |
 | — | Country codes keep the last value: `en` is US, `es` is MX, `it` is IT, and the map has 14 entries. | `BackwardsCompatibilityTest.countryMapKeepsTheLastCode` | passed |
@@ -244,7 +244,7 @@ Slices 1 and 2 also have deduced requirement tests. This table is the reference 
 | — | The classes in `freemind.common` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.common`. Each of those tests is labeled backwards compatibility. A boolean, a string, a number, and a password round-trip through their controls. An empty string is kept for a string and a password. A number outside the range falls back to the minimum. A remembered dialog answer returns without a window. A colour chooser, an icon picker, the progress monitor, and a task that needs that monitor throw `HeadlessException` before they are shown. They are not uncoverable. `FreeMindProgressMonitor.main` calls `System.exit` and is in the uncoverable table. | `tests.freemind.cov.common.*BehaviourTest` | passed |
 | — | The classes in `freemind.preferences.layout` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.layout`. Each of those tests is labeled backwards compatibility. Key translation keeps a letter, a tab, and a space, and drops a key release. A card layout ignores a hidden card and sizes to the visible maximum. A saved option panel selects its tab and adds no window. The grab-key dialog constructors throw `HeadlessException` before the dialog is shown. They are not uncoverable. No method in this package only exits the process or runs a system command. | `tests.freemind.cov.layout.*BehaviourTest` | passed |
 | — | Context-graph behaviour tests. | Removed with TAI-016. | removed |
-| — | The classes in `freemind.modes.browsemode` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.browsemode`. Each of those tests is labeled backwards compatibility. A browse node stays read-only and keeps its child. A future reminder sets a tooltip and shutdown clears it. A note is shown, updated, and cleared. A real `.mm` file loads. A bad map throws `IOException`. A missing file, an unsupported protocol, and folding an encrypted node throw `HeadlessException` before a dialog is shown. They are not uncoverable. No method in this package only exits the process or runs a system command. | `tests.freemind.cov.browsemode.*BehaviourTest` | passed |
+| — | Browse mode behaviour tests. | Removed with TAI-009. | removed |
 | — | The classes in `freemind.modes.mindmapmode.listeners` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.listeners`. Each of those tests is labeled backwards compatibility. A left drag scrolls the map. Dragging an arrow bends it and release hides the handles. Dragging a node on the right increases its gap, control-drag changes the parent gap, and a left node flips the horizontal gap. A double click restores one axis. A drop copies onto the target, a move reparents the node, and a link joins the selection. A move onto the selected node is refused. A move onto a descendant of another selected node, a copy onto a protected node, and five or more links stop with `HeadlessException` before a dialog is shown. They are not uncoverable. No method in this package only exits the process or runs a system command. | `tests.freemind.cov.listeners.*BehaviourTest` | passed |
 | — | The classes in `accessories.plugins.dialogs` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.dialogs`. Each of those tests is labeled backwards compatibility. A list drag copies the selected row. A drop appends when nothing is selected and inserts after the selected row. Dropping onto the same selection leaves it. A move removes the adjusted source index, and a copy leaves the source. A flavor that cannot be read is refused. The format dialog and the pattern dialog throw `HeadlessException` before they are shown. They are not uncoverable. No method in this package only exits the process or runs a system command. | `tests.freemind.cov.dialogs.*BehaviourTest` | passed |
 | — | The classes in `accessories.plugins.util.xslt` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.xslt`. Each of those tests is labeled backwards compatibility. An identity stylesheet writes the source element text. A missing result directory throws `FileNotFoundException` before the transform. A broken stylesheet is caught and the result file still exists. The export dialog reads its title and then throws `HeadlessException` before a window exists. It is not uncoverable. The only `System.exit` in this package is inside a comment. | `tests.freemind.cov.xslt.*BehaviourTest` | passed |
@@ -534,7 +534,7 @@ Groovy scripting is gone. `RemovedFeatureProofTest.TestREQ_PLUG_01_GroovyScripti
 
 ### ~~REQ-PLUG-02~~ REMOVED (TAI-002)
 
-The geographic map plugin is gone. `RemovedFeatureProofTest.TestREQ_PLUG_02_GeographicMapIsGone` checks that `plugins.map.MapDialog` does not load and that `freemind/plugins/MapViewer.xml` is absent. `plugins/map/JMapViewer.jar` stays until the trimmed stage. Browse mode still builds `MapNodePositionHolderBase` until that mode goes.
+The geographic map plugin is gone. `RemovedFeatureProofTest.TestREQ_PLUG_02_GeographicMapIsGone` checks that `plugins.map.MapDialog` does not load and that `freemind/plugins/MapViewer.xml` is absent. `plugins/map/JMapViewer.jar` stays until the trimmed stage. `MapNodePositionHolderBase` left with Browse mode in TAI-009.
 
 ### ~~REQ-PLUG-03~~ REMOVED (TAI-003)
 
@@ -562,12 +562,9 @@ Database collaboration, Jabber, and the Palm OS tree are gone. `RemovedFeaturePr
 
 ### REQ-MODE-01 — Partial
 
-The default `initial_mode` property is `MindMap`. File mode's new model root is `Root` and has children. A temporary directory lists `listed.mm`, and that file node is not writeable. Browse mode starts. Read-only browse is not shown.
+The default `initial_mode` property is `MindMap`. Browse mode and File mode are gone. `RemovedFeatureProofTest.TestREQ_MODE_01_BrowseAndFileModesAreGone` checks that those classes do not load and that `modes_since_0_8_0` names MindMap only. The documentation command opens its map in MindMap mode.
 
 - `DefaultPropertiesTest.java` `initialModeDefaultIsMindMap`.
-- `main/StartupBehaviourTest.java` `TestREQ_MODE_01_FileModeRootNamesTheFilesystemRoot`: after `createNewMode("File")` the root text is `Root` and it has children.
-- `main/StartupBehaviourTest.java` `TestREQ_MODE_01_BrowseModeStarts`: after `createNewMode("Browse")` the mode controller is a `BrowseController`.
-- `requirements/BackwardsCompatibilityTest.java` `fileModeListsADirectory`: a temporary directory lists `listed.mm`, and the file node is not writeable.
 
 ## Application
 

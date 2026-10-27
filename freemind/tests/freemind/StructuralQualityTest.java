@@ -263,9 +263,7 @@ class StructuralQualityTest {
 
         // Known mode class names to skip (these are mode identifiers, not plugin classes)
         List<String> modeClasses = List.of(
-                "freemind.modes.mindmapmode",
-                "freemind.modes.browsemode",
-                "freemind.modes.filemode");
+                "freemind.modes.mindmapmode");
 
         for (Path xmlFile : pluginXmls) {
             String content = Files.readString(xmlFile);

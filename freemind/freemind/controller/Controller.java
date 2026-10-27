@@ -97,7 +97,6 @@ import freemind.modes.MindMap;
 import freemind.modes.Mode;
 import freemind.modes.ModeController;
 import freemind.modes.ModesCreator;
-import freemind.modes.browsemode.BrowseMode;
 import freemind.preferences.FreemindPropertyListener;
 import freemind.preferences.layout.OptionPanel;
 import freemind.preferences.layout.OptionPanel.OptionPanelFeedback;
@@ -1310,7 +1309,7 @@ public class Controller implements MapModuleChangeObserver {
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						try {
-							createNewMode(BrowseMode.MODENAME);
+							createNewMode("MindMap");
 							controller.getModeController().load(endUrl);
 						} catch (Exception e1) {
 							freemind.main.Resources.getInstance().logException(

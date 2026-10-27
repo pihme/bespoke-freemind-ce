@@ -123,6 +123,23 @@ class RemovedFeatureProofTest {
 		assertTrue(Files.exists(freemind.resolve("lib/jortho.jar")));
 	}
 
+	@Test
+	void TestREQ_MODE_01_BrowseAndFileModesAreGone() throws Exception {
+		assertThrows(ClassNotFoundException.class,
+				() -> Class.forName("freemind.modes.browsemode.BrowseMode"));
+		assertThrows(ClassNotFoundException.class,
+				() -> Class.forName("freemind.modes.filemode.FileMode"));
+		assertThrows(ClassNotFoundException.class,
+				() -> Class.forName("freemind.modes.common.plugins.MapNodePositionHolderBase"));
+		Path root = repoRoot();
+		assertFalse(Files.exists(root.resolve("freemind/freemind/modes/browsemode")));
+		assertFalse(Files.exists(root.resolve("freemind/freemind/modes/filemode")));
+		String modes = Files.readString(root.resolve("freemind/freemind.properties"));
+		assertFalse(modes.contains("freemind.modes.browsemode"));
+		assertFalse(modes.contains("freemind.modes.filemode"));
+		assertTrue(modes.contains("freemind.modes.mindmapmode.MindMapMode,MindMap"));
+	}
+
 	private static Path repoRoot() {
 		Path root = Path.of(System.getProperty("user.dir")).toAbsolutePath();
 		while (root != null && !Files.exists(root.resolve("settings.gradle.kts"))) {

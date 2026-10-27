@@ -14,13 +14,11 @@ freemind-ce/
 │   │   ├── view/                      # MVC View layer
 │   │   │   └── mindmapview/           # Map canvas, node rendering, edge drawing
 │   │   ├── modes/                     # Operation modes system
-│   │   │   ├── browsemode/            # Read-only navigation mode
 │   │   │   ├── mindmapmode/           # ★ Primary editing mode
 │   │   │   │   ├── actions/           # All editing actions (bold, copy, paste, etc.)
 │   │   │   │   ├── dialogs/           # Mode-specific dialogs
 │   │   │   │   ├── hooks/             # Mode hook implementations
 │   │   │   │   └── listeners/         # Event listeners
-│   │   │   ├── filemode/              # File browser mode
 │   │   │   ├── common/                # Shared mode utilities
 │   │   │   ├── attributes/            # Node attribute system
 │   │   │   └── viewmodes/             # View mode configurations

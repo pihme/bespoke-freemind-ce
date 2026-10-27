@@ -215,9 +215,6 @@ import freemind.view.mindmapview.EdgeView;
 import freemind.modes.StylePatternFactory;
 import freemind.modes.common.CommonNodeKeyListener;
 import freemind.modes.common.actions.FindAction;
-import freemind.modes.filemode.FileMapModel;
-import freemind.modes.filemode.FileMode;
-import freemind.modes.filemode.FileNodeModel;
 import freemind.modes.mindmapmode.EncryptedMindMapNode;
 import freemind.modes.mindmapmode.MindMapArrowLinkModel;
 import freemind.modes.mindmapmode.MindMapController;
@@ -1274,29 +1271,6 @@ class BackwardsCompatibilityTest {
 
 		assertNotNull(popup);
 		assertTrue(popup.getComponentCount() >= 6, "components " + popup.getComponentCount());
-	}
-
-	@Test
-	void fileModeListsADirectory() throws Exception {
-		HeadlessFreeMind frame = new HeadlessFreeMind();
-		HoldingController app = new HoldingController(frame);
-		app.initialization();
-		FileMode mode = new FileMode();
-		mode.init(app);
-		File directory = Files.createTempDirectory("bespoke-files").toFile();
-		directory.deleteOnExit();
-		File listed = new File(directory, "listed.mm");
-		assertTrue(listed.createNewFile());
-		listed.deleteOnExit();
-		FileMapModel model = new FileMapModel(directory, frame, mode.getDefaultModeController());
-		FileNodeModel root = (FileNodeModel) model.getRootNode();
-		root.setFolded(false);
-		List<String> names = new ArrayList<>();
-		root.childrenUnfolded().forEachRemaining(node -> names.add(node.getText()));
-
-		assertTrue(names.contains("listed.mm"), names.toString());
-		assertFalse(root.isWriteable());
-		assertTrue(root.getLink().contains("bespoke-files"), root.getLink());
 	}
 
 	@Test

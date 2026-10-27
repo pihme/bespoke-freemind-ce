@@ -73,10 +73,8 @@ import freemind.modes.MindIcon;
 import freemind.modes.MindMapNode;
 import freemind.modes.ModeController;
 import freemind.modes.StylePatternFactory;
-import freemind.modes.browsemode.BrowseController;
 import freemind.modes.common.dialogs.EnterPasswordDialog;
 import freemind.modes.common.dialogs.IconSelectionPopupDialog;
-import freemind.modes.filemode.FileController;
 import freemind.modes.mindmapmode.MindMapController;
 import freemind.modes.mindmapmode.dialogs.StylePatternFrame;
 import freemind.modes.mindmapmode.dialogs.StylePatternFrame.StylePatternFrameType;
@@ -184,27 +182,6 @@ class StartupBehaviourTest {
 
 	@Test
 	@Order(4)
-	void TestREQ_MODE_01_FileModeRootNamesTheFilesystemRoot() {
-		assertTrue(frame.getController().createNewMode("File"));
-		assertEquals("File", frame.getController().getMode().toString());
-		FileController fileMode = assertInstanceOf(FileController.class,
-				frame.getController().getMode().getDefaultModeController());
-		MindMapNode root = fileMode.newModel(fileMode).getRootNode();
-		assertEquals("Root", root.getText());
-		assertTrue(root.hasChildren());
-	}
-
-	@Test
-	@Order(5)
-	void TestREQ_MODE_01_BrowseModeStarts() {
-		assertTrue(frame.getController().createNewMode("Browse"));
-		assertEquals("Browse", frame.getController().getMode().toString());
-		assertInstanceOf(BrowseController.class,
-				frame.getController().getMode().getDefaultModeController());
-	}
-
-	@Test
-	@Order(6)
 	void colorComboSelectsRedByName() {
 		JColorCombo combo = new JColorCombo();
 		assertTrue(combo.getItemCount() > 10);
