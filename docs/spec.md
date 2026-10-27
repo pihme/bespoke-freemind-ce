@@ -79,6 +79,8 @@ A line marked **docs** comes from `README.md` or `docs/`. A line marked **menu**
 | ~~REQ-PLUG-08~~ REMOVED (TAI-008) | Database collaboration and Jabber collaboration are legacy. The Gradle build excludes them. The Palm OS tree under `pda/` is historical and is not a Gradle module. | Not in the active build. | docs |
 | REQ-MODE-01 | Edit in MindMap mode. Browse mode and File mode are removed (TAI-009). | Declared in `freemind.properties`. | docs |
 
+The repo-root tree `plugins/wsl` is an old Onekin MediaWiki export. It was never a requirement and was not compiled. It is removed (TAI-017). The Gradle source directory `freemind/plugins` stays.
+
 ## Application
 
 | ID | What the user can do | Entry points | Source |

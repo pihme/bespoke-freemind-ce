@@ -216,6 +216,15 @@ class RemovedFeatureProofTest {
 		assertTrue(modes.contains("freemind.modes.mindmapmode.MindMapMode,MindMap"));
 	}
 
+	@Test
+	void TestTAI_017_OnekinWikiExportIsGone() throws Exception {
+		assertThrows(ClassNotFoundException.class,
+				() -> Class.forName("onekin.WSL.WSL_Main"));
+		Path root = repoRoot();
+		assertFalse(Files.exists(root.resolve("plugins/wsl")));
+		assertTrue(Files.exists(root.resolve("freemind/plugins")));
+	}
+
 	private static Path repoRoot() {
 		Path root = Path.of(System.getProperty("user.dir")).toAbsolutePath();
 		while (root != null && !Files.exists(root.resolve("settings.gradle.kts"))) {

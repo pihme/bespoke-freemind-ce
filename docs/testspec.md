@@ -558,6 +558,10 @@ The default `initial_mode` property is `MindMap`. Browse mode and File mode are 
 
 - `DefaultPropertiesTest.java` `initialModeDefaultIsMindMap`.
 
+### Onekin MediaWiki export — removed (TAI-017)
+
+This tree was not a requirement and was not compiled. `RemovedFeatureProofTest.TestTAI_017_OnekinWikiExportIsGone` checks that `onekin.WSL.WSL_Main` does not load and that repo-root `plugins/wsl` is absent. `freemind/plugins` stays.
+
 ## Application
 
 ### REQ-APP-01 — Partial
