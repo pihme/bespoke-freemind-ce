@@ -94,10 +94,27 @@ A modernized and streamlined version of Freemind. Modernized pertains to the UI.
 
 | ID | Decision | Reason | Decided by | Replay hint |
 |----|----------|--------|------------|-------------|
+| TAI-001 | Remove Groovy scripting (REQ-PLUG-01). | The user said everything under Plugins and modes goes. | user | Delete `plugins/ScriptingEngine.xml` and `plugins/script`. Leave the Groovy dependency for the trimmed stage. A `.mm` file still opens. MindMap mode stays. |
+| TAI-002 | Remove the geographic map (REQ-PLUG-02). | The user said everything under Plugins and modes goes. | user | Delete `plugins/MapViewer.xml` and `plugins/map`. Leave `JMapViewer.jar` for the trimmed stage. A `.mm` file still opens. |
+| TAI-003 | Remove Lucene search of map files (REQ-PLUG-03). | The user said everything under Plugins and modes goes. | user | Delete `plugins/Search.xml` and `plugins/search`. Leave the Lucene dependencies for the trimmed stage. |
+| TAI-004 | Remove integrated help (REQ-PLUG-04). | The user said everything under Plugins and modes goes. | user | Delete `plugins/FreemindHelp.xml` and `plugins/help`. Leave `jhall.jar` for the trimmed stage. |
+| TAI-005 | Remove LaTeX on a node (REQ-PLUG-05). | The user said LaTeX goes, and it is under Plugins and modes. | user | Delete `plugins/Latex.xml` and `plugins/latex`. Leave JLaTeXMath for the trimmed stage. A stored equation hook is skipped and the map still opens. |
+| TAI-006 | Remove socket collaboration (REQ-PLUG-06). | The user said everything under Plugins and modes goes. | user | Delete `plugins/CollaborationSocket.xml` and `plugins/collaboration/socket`. |
+| TAI-007 | Remove spell checking (REQ-PLUG-07). | The user said everything under Plugins and modes goes. | user | Remove the spell-check registration and the dictionary load. Leave `jortho.jar` for the trimmed stage. |
+| TAI-008 | Remove the leftover database, Jabber, and Palm sources (REQ-PLUG-08). | The user said everything under Plugins and modes goes. | user | Delete those source trees. The Gradle compile already excludes database and Jabber. |
+| TAI-009 | Remove Browse mode and File mode. MindMap mode stays. | The user said the modes go, and then confirmed MindMap mode stays. | user | Drop Browse and File from `modes_since_0_8_0`. Delete `freemind.modes.browsemode` and `freemind.modes.filemode`. Keep MindMap mode. REQ-MODE-01 keeps the MindMap clause. |
+| TAI-010 | Remove the command that encrypts a node (REQ-SEC-01). An existing encrypted node in a `.mm` file still loads. | The user said encryption goes. The file-format constraint keeps the load path. | user | Delete the encrypt menu hooks. Keep `EncryptedMindMapNode` so a saved encrypted node still opens. |
+| TAI-011 | Remove SVG export and PDF export (REQ-FILE-02). | The user said PDF export and SVG export go. | user | Delete `plugins/ExportSvg.xml`, `plugins/ExportPdf.xml`, and `plugins/svg`. Leave Batik and FOP for the trimmed stage. PNG export stays. |
+| TAI-012 | Remove HTML export (REQ-FILE-01). | The user said exporting to HTML goes. | user | Remove the HTML export action. Rich text stored on a node stays. |
+| TAI-013 | Remove the XSLT exports (REQ-FILE-07). | The user said XSLT exports go. | user | Remove the XSLT export accessories. Leave Xalan for the trimmed stage. |
+| TAI-014 | Remove folder-structure import. Branch import, linked-branch import, and Explorer-favorites import stay. | The user said importing a folder goes. | user | Delete `ImportFolderStructureAction`. Keep the rest of REQ-FILE-06. |
+| TAI-015 | Remove every language bundle except English (REQ-APP-03). | The user said languages besides English go. | user | Delete `Resources_*.properties` other than `Resources_en.properties` and the default bundle. |
+| TAI-016 | Remove context-graph export (REQ-FILE-04), including its Markdown, XML, JSON, and YAML writers. | The user confirmed this plugin goes. It is a plugin module listed under Files. | user | Delete `plugins/ContextGraph.xml` and `plugins/contextgraph`, and drop `:freemind:plugins:contextgraph` from `settings.gradle.kts`. A `.mm` file still opens. |
 
 ### Last run
 
-- 2026-10-27. Branch opened from the exited covered stage. The gate passed on this unchanged tree: unit 1,749, GUI 524, performance 9, all passed. No feature is removed. The spec has no removal list. The license and `.mm` compatibility stay.
+- 2026-10-27. Branch opened from the exited covered stage. The gate passed on the unchanged tree: unit 1,749, GUI 524, performance 9, all passed.
+- 2026-10-27. The user named the removals above. MindMap mode stays. PNG export, branch export, and the imports other than a folder stay. The license and `.mm` compatibility stay. No feature is removed yet.
 
 ## 4 customized
 
