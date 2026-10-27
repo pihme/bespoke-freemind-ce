@@ -30,7 +30,6 @@ import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -242,22 +241,6 @@ class RequirementBehaviourTest {
 		} finally {
 			out.delete();
 		}
-	}
-
-	@Test
-	void TestREQ_PLUG_08_BuildOmitsLegacyModules() throws Exception {
-		String settings = Files.readString(moduleDir().getParent().resolve("settings.gradle.kts"));
-		List<String> includes = settings.lines().filter(line -> line.strip().startsWith("include(")).toList();
-		assertFalse(includes.isEmpty());
-		for (String include : includes) {
-			String lower = include.toLowerCase();
-			assertFalse(lower.contains("database"), include);
-			assertFalse(lower.contains("jabber"), include);
-			assertFalse(lower.contains("pda"), include);
-		}
-		String build = Files.readString(moduleDir().resolve("build.gradle.kts"));
-		assertTrue(build.contains("exclude(\"**/jabber/**\")"));
-		assertTrue(build.contains("exclude(\"**/database/**\")"));
 	}
 
 	@Test

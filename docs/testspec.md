@@ -558,9 +558,9 @@ An English dictionary loads. No word is checked, and `FreeMind.setupSpellCheckin
 
 - `requirements/DeducedBehaviourTest.java` `TestREQ_PLUG_07_EnglishDictionaryLoads`: after `SpellChecker.registerDictionaries` for `en`, a dictionary is loaded and the current locale language is `en`.
 
-### REQ-PLUG-08 — Checked
+### ~~REQ-PLUG-08~~ REMOVED (TAI-008)
 
-- `requirements/RequirementBehaviourTest.java` `TestREQ_PLUG_08_BuildOmitsLegacyModules`: every `include(` line in `settings.gradle.kts` omits database, jabber, and pda. `freemind/build.gradle.kts` excludes `**/jabber/**` and `**/database/**` from the main Java source set.
+Database collaboration, Jabber, and the Palm OS tree are gone. `RemovedFeatureProofTest.TestREQ_PLUG_08_LegacyCollaborationSourcesAreGone` checks that `plugins.collaboration.database.DatabaseStarter` and `plugins.collaboration.jabber.JabberStarter` do not load and that `freemind/plugins/collaboration` and `pda` are absent. The single-instance port file stays. `CollaborationGuiTest` still checks map save and reload.
 
 ### REQ-MODE-01 — Partial
 

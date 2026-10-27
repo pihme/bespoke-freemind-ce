@@ -296,23 +296,6 @@ class HookFrameworkTest {
             "Expected at least 10 plugin XML descriptors, found " + validCount);
     }
 
-    @Test
-    @DisplayName("Plugin XML descriptors in plugins/ directory are well-formed XML")
-    void pluginXmlDescriptorsInPluginsDirAreWellFormedXml() {
-        File pluginDir = new File("plugins");
-        assertTrue(pluginDir.isDirectory(), "plugins directory must exist");
-        File[] xmlFiles = pluginDir.listFiles((dir, name) ->
-            name.endsWith(".xml") && !name.startsWith("build"));
-        assertNotNull(xmlFiles, "Must be able to list plugin XML files");
-        assertTrue(xmlFiles.length > 0, "At least one plugin XML descriptor must exist");
-
-        var factory = DocumentBuilderFactory.newInstance();
-        for (File xmlFile : xmlFiles) {
-            assertDoesNotThrow(() -> factory.newDocumentBuilder().parse(xmlFile),
-                "Plugin XML must be well-formed: " + xmlFile.getName());
-        }
-    }
-
     // ── Hook registration / plugin directory structure ──
 
     @Test

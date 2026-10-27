@@ -42,10 +42,7 @@ freemind-ce/
 │   │
 │   ├── plugins/                       # ★ PLUGIN MODULES (Gradle subprojects)
 │   │   ├── map/                       # JMapViewer.jar kept for the trimmed stage
-│   │   ├── help/                      # jhall.jar kept for the trimmed stage
-│   │   └── collaboration/             # Legacy collaboration sources
-│   │       ├── database/              # Database-based (legacy)
-│   │       └── jabber/                # XMPP-based (legacy)
+│   │   └── help/                      # jhall.jar kept for the trimmed stage
 │   │
 │   ├── generated-src/                 # JAXB generated classes (DO NOT EDIT)
 │   │
@@ -78,8 +75,6 @@ freemind-ce/
 │
 ├── admin/                             # Administrative assets (legacy)
 │   └── software/                      # Related software (openstreetmap, sortmm)
-│
-├── pda/                               # Palm OS version (historical, inactive)
 │
 ├── .github/workflows/                 # ★ CI/CD Pipelines
 │   ├── build.yml                      # Multi-platform build + test (path filtering + CI aggregator)

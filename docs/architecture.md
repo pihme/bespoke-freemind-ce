@@ -179,6 +179,5 @@ No Gradle plugin module remains. Batik and FOP stay until the trimmed stage.
 
 ## Known Gaps
 
-1. **Collaboration plugins** — Only Socket in Gradle; Database and Jabber are legacy-only
-2. **Java module system** — Requires 6 `--add-opens` flags for Swing access
-3. **macOS code signing** — DMG is not signed/notarized; Gatekeeper blocks first launch
+1. **Java module system** — Requires 6 `--add-opens` flags for Swing access
+2. **macOS code signing** — DMG is not signed/notarized; Gatekeeper blocks first launch

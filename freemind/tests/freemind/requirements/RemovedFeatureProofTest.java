@@ -13,6 +13,19 @@ import org.junit.jupiter.api.Test;
 class RemovedFeatureProofTest {
 
 	@Test
+	void TestREQ_PLUG_08_LegacyCollaborationSourcesAreGone() throws Exception {
+		assertThrows(ClassNotFoundException.class,
+				() -> Class.forName("plugins.collaboration.database.DatabaseStarter"));
+		assertThrows(ClassNotFoundException.class,
+				() -> Class.forName("plugins.collaboration.jabber.JabberStarter"));
+		Path root = repoRoot();
+		assertFalse(Files.exists(root.resolve("freemind/plugins/CollaborationDatabase.xml")));
+		assertFalse(Files.exists(root.resolve("freemind/plugins/CollaborationJabber.xml")));
+		assertFalse(Files.exists(root.resolve("freemind/plugins/collaboration")));
+		assertFalse(Files.exists(root.resolve("pda")));
+	}
+
+	@Test
 	void TestREQ_FILE_02_SvgAndPdfExportAreGone() throws Exception {
 		assertThrows(ClassNotFoundException.class,
 				() -> Class.forName("plugins.svg.ExportSvg"));

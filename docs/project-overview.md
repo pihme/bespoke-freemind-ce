@@ -79,10 +79,6 @@ FreeMind CE uses an **MVC (Model-View-Controller)** architecture with a **Mode-b
 | Help | Integrated help system | JavaHelp |
 | Context Graph | Markdown + XML context export | Built-in |
 
-### Legacy Modules (not in active build)
-
-- **PDA** (`pda/`) - Palm OS version (historical)
-
 ## Key Entry Points
 
 - **Application Entry:** `freemind.main.FreeMindStarter` → version check → `FreeMind.main()`
