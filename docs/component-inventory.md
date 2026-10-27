@@ -125,14 +125,6 @@
 - `SignedScriptHandler` - Script signing/verification
 - `ScriptingSecurityManager` - Sandbox security
 
-### Map Viewer
-- `MapDialog` - Map display window
-- `FreeMindMapController` - Map controls
-- `JCursorMapViewer` - Custom map viewer
-- `MapNodePositionHolder` - Node geolocation
-- `MapMarkerLocation` - Location markers
-- `TileImage` - Map tile caching
-
 ### LaTeX
 - `LatexNodeHook` - LaTeX rendering hook
 - `JZoomedHotEqn` - Equation renderer with zoom

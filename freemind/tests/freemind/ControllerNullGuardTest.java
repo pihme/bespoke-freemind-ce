@@ -50,17 +50,6 @@ class ControllerNullGuardTest {
     }
 
     @Test
-    @DisplayName("FreeMindMapController has null check for getReverseLookup result")
-    void freeMindMapControllerReverseLookupNullCheck() throws IOException {
-        Path file = findProjectRoot()
-            .resolve("freemind/plugins/map/FreeMindMapController.java");
-        String content = Files.readString(file);
-
-        assertTrue(content.contains("reverseLookup != null"),
-            "FreeMindMapController must null-check getReverseLookup() result before calling getListResultList()");
-    }
-
-    @Test
     @DisplayName("ClonePasteAction uses correct String key for mCloneIdsMap.remove()")
     void clonePasteActionUsesCorrectRemoveKey() throws IOException {
         Path file = findProjectRoot()

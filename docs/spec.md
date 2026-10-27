@@ -70,7 +70,7 @@ A line marked **docs** comes from `README.md` or `docs/`. A line marked **menu**
 | ID | What the user can do | Entry points | Source |
 |----|----------------------|--------------|--------|
 | REQ-PLUG-01 | Run a Groovy script, with an editor. A security manager for scripts is excluded from the Java 21 compile. | Extras → scripting. | docs |
-| REQ-PLUG-02 | Attach a geographic position and open it on an OpenStreetMap view. | Extras → map. | docs |
+| ~~REQ-PLUG-02~~ REMOVED (TAI-002) | Attach a geographic position and open it on an OpenStreetMap view. | Extras → map. | docs |
 | ~~REQ-PLUG-03~~ REMOVED (TAI-003) | Search map files with a Lucene index. | Search plugin. | docs |
 | ~~REQ-PLUG-04~~ REMOVED (TAI-004) | Open integrated help. | Help plugin, JavaHelp. | docs |
 | REQ-PLUG-05 | Render LaTeX on a node. The architecture doc says this plugin is not in the Gradle settings. At this commit `settings.gradle.kts` includes `:freemind:plugins:latex` and the dependency is JLaTeXMath 1.0.7. | LaTeX plugin. | tree; the older doc is stale |

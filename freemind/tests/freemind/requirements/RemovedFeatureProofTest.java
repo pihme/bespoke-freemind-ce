@@ -31,6 +31,16 @@ class RemovedFeatureProofTest {
 	}
 
 	@Test
+	void TestREQ_PLUG_02_GeographicMapIsGone() throws Exception {
+		assertThrows(ClassNotFoundException.class,
+				() -> Class.forName("plugins.map.MapDialog"));
+		Path root = repoRoot();
+		assertFalse(Files.exists(root.resolve("freemind/plugins/MapViewer.xml")));
+		assertFalse(Files.exists(root.resolve("freemind/plugins/map/MapDialog.java")));
+		assertTrue(Files.exists(root.resolve("freemind/plugins/map/JMapViewer.jar")));
+	}
+
+	@Test
 	void TestREQ_PLUG_04_IntegratedHelpIsGone() throws Exception {
 		assertThrows(ClassNotFoundException.class,
 				() -> Class.forName("plugins.help.FreemindHelpStarter"));

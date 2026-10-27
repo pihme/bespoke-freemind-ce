@@ -101,8 +101,6 @@ import javax.swing.table.DefaultTableModel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.openstreetmap.gui.jmapviewer.Coordinate;
-import org.openstreetmap.gui.jmapviewer.tilesources.OsmTileSource;
 
 import accessories.plugins.AutomaticLayout;
 import accessories.plugins.util.html.ClickableImageCreator;
@@ -263,8 +261,6 @@ import freemind.view.mindmapview.MapView;
 import freemind.view.mindmapview.NodeFoldingComponent;
 import freemind.view.mindmapview.NodeView;
 import plugins.latex.LatexNodeHook;
-import plugins.map.MapNodePositionHolder;
-import plugins.map.TileImage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -541,31 +537,6 @@ class BackwardsCompatibilityTest {
 		plugin.loadFrom(xml);
 
 		assertEquals("alpha,beta,", plugin.getCloneIdsAsString());
-	}
-
-	@Test
-	void mapPositionRoundTripsAndBuildsATileTooltip() {
-		MapNodePositionHolder holder = new MapNodePositionHolder();
-		holder.setName("plugins.map.MapNodePositionHolder");
-		holder.setPosition(new Coordinate(47.26, 11.39));
-		holder.setMapCenter(new Coordinate(47.0, 11.0));
-		holder.setZoom(12);
-		holder.setTileSource(OsmTileSource.Mapnik.class.getName());
-
-		XMLElement saved = new XMLElement();
-		holder.save(saved);
-		MapNodePositionHolder loaded = new MapNodePositionHolder();
-		loaded.loadFrom(saved);
-
-		assertEquals(47.26, loaded.getPosition().getLat(), 0.001);
-		assertEquals(11.39, loaded.getPosition().getLon(), 0.001);
-		assertEquals(47.0, loaded.getMapCenter().getLat(), 0.001);
-		assertEquals(12, loaded.getZoom());
-		assertTrue(loaded.getTileSource().contains("Mapnik"), loaded.getTileSource());
-
-		String html = holder.getImageHtml();
-		assertTrue(html.contains("<strong>X</strong>"), html);
-		assertTrue(html.contains("http"), html);
 	}
 
 	@Test
@@ -3210,39 +3181,6 @@ class BackwardsCompatibilityTest {
 		assertThrows(NoSuchElementException.class, () -> vector.getValue("missing"));
 		vector.clear();
 		assertEquals(0, vector.size());
-	}
-
-	@Test
-	void tileImageRoundTripsABlueSquare() throws Exception {
-		BufferedImage blue = new BufferedImage(8, 8, BufferedImage.TYPE_INT_RGB);
-		Graphics2D graphics = blue.createGraphics();
-		graphics.setColor(Color.BLUE);
-		graphics.fillRect(0, 0, 8, 8);
-		graphics.dispose();
-		ByteArrayOutputStream encoded = new ByteArrayOutputStream();
-		ImageIO.write(blue, "png", encoded);
-		TileImage tiles = new TileImage();
-		assertFalse(tiles.isLoaded());
-		assertFalse(tiles.hasErrors());
-		assertFalse(tiles.isImageCreated());
-		tiles.load(Tools.toBase64(encoded.toByteArray()));
-		assertTrue(tiles.isImageCreated());
-		assertNotNull(tiles.getImage());
-		assertEquals(8, ((BufferedImage) tiles.getImage()).getWidth());
-		tiles.drawCross();
-		assertTrue(redPixels((BufferedImage) tiles.getImage()) > 0);
-		assertTrue(tiles.imageUpdate(blue, 0, 0, 0, 8, 8));
-		assertTrue(tiles.isDrawingDone());
-		String saved = tiles.save();
-		assertNotNull(saved);
-		assertTrue(saved.length() > 20);
-		TileImage restored = new TileImage();
-		restored.load(saved);
-		assertEquals(8, ((BufferedImage) restored.getImage()).getWidth());
-		File missing = File.createTempFile("bespoke-tile", ".png");
-		assertTrue(missing.delete());
-		restored.load(missing);
-		assertNotNull(restored.getImage());
 	}
 
 	@Test

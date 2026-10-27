@@ -34,13 +34,9 @@ import java.awt.event.WindowEvent;
 import java.awt.print.PageFormat;
 import java.io.File;
 import java.io.PrintStream;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.Properties;
 import java.util.Vector;
-import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -63,12 +59,6 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.openstreetmap.gui.jmapviewer.Coordinate;
-import org.openstreetmap.gui.jmapviewer.JMapViewer;
-import org.openstreetmap.gui.jmapviewer.MemoryTileCache;
-import org.openstreetmap.gui.jmapviewer.interfaces.TileCache;
-import org.openstreetmap.gui.jmapviewer.interfaces.TileSource;
-import org.openstreetmap.gui.jmapviewer.tilesources.OsmTileSource;
 
 import accessories.plugins.dialogs.ChooseFormatPopupDialog;
 import accessories.plugins.dialogs.ManagePatternsPopupDialog;
@@ -79,8 +69,6 @@ import freemind.common.TextTranslator;
 import freemind.controller.Controller;
 import freemind.controller.MenuBar;
 import freemind.controller.actions.generated.instance.Pattern;
-import freemind.controller.actions.generated.instance.Place;
-import freemind.controller.actions.generated.instance.Searchresults;
 import freemind.controller.color.ColorPair;
 import freemind.controller.color.JColorCombo;
 import freemind.controller.printpreview.PreviewDialog;
@@ -101,8 +89,6 @@ import freemind.view.mindmapview.EditNodeBase;
 import freemind.view.mindmapview.EditNodeTextField;
 import freemind.view.mindmapview.MapView;
 import freemind.view.mindmapview.NodeView;
-import plugins.map.FreeMindMapController;
-import plugins.map.MapDialog;
 import plugins.script.ScriptEditorPanel;
 import plugins.script.ScriptEditorPanel.ScriptHolder;
 import plugins.script.ScriptEditorPanel.ScriptModel;
@@ -336,65 +322,6 @@ class StartupBehaviourTest {
 	}
 
 	@Test
-	@Order(13)
-	void TestREQ_PLUG_02_MapViewBuildsMenusAndReadsACoordinate() throws Throwable {
-		blockTileNetwork();
-		MindMapController mindMap = mindMap();
-		JDialog window = new JDialog(frame);
-		MapDialog hook = new MapDialog();
-		hook.setController(mindMap);
-		hook.setProperties(new Properties());
-		Class<?> closeType = Class.forName("plugins.map.MapDialog$CloseAction");
-		Constructor<?> closeCtor = closeType.getDeclaredConstructor(MapDialog.class);
-		closeCtor.setAccessible(true);
-		Field closeField = MapDialog.class.getDeclaredField("mCloseAction");
-		closeField.setAccessible(true);
-		closeField.set(hook, closeCtor.newInstance(hook));
-		Class<?> viewerType = Class.forName("plugins.map.JCursorMapViewer");
-		Constructor<?> viewerCtor = viewerType.getDeclaredConstructor(MindMapController.class,
-				JDialog.class, TileCache.class, MapDialog.class);
-		viewerCtor.setAccessible(true);
-		try {
-			JMapViewer viewer = (JMapViewer) viewerCtor.newInstance(mindMap, window,
-					new MemoryTileCache(), hook);
-			assertNotNull(window.getJMenuBar());
-			assertTrue(window.getJMenuBar().getMenuCount() >= 4,
-					"menus " + window.getJMenuBar().getMenuCount());
-			String transport = new FreeMindMapController.TransportMap().getBaseUrl();
-			assertTrue(transport.contains("tile2.opencyclemap.org/transport"), transport);
-			String quest = new FreeMindMapController.MapQuestOpenMap().getBaseUrl();
-			assertTrue(quest.contains("mqcdn.com/tiles/1.0.0/osm"), quest);
-			String link = FreeMindMapController.getLink(
-					FreeMindMapController.getTileSourceName(new OsmTileSource.Mapnik()),
-					new Coordinate(47.26, 11.39), new Coordinate(47.0, 11.0), 12);
-			assertTrue(link.contains("mlat=47.26"), link);
-			assertTrue(link.contains("zoom=12"), link);
-			TileSource source = FreeMindMapController.changeTileSource(
-					OsmTileSource.Mapnik.class.getName(), viewer);
-			assertNotNull(source);
-			assertTrue(source.getClass().getName().contains("Mapnik"));
-			frame.setProperty("do_reverse_lookup_on_lat_lon_search", "false");
-			FreeMindMapController mapController = (FreeMindMapController) MethodHandles
-					.privateLookupIn(viewerType, MethodHandles.lookup())
-					.findVirtual(viewerType, "getFreeMindMapController",
-							MethodType.methodType(FreeMindMapController.class))
-					.invoke(viewer);
-			Searchresults results = mapController.getSearchResults("47.26 11.39");
-			assertEquals(1, results.getListPlaceList().size());
-			Place place = results.getListPlaceList().get(0);
-			assertEquals(47.26, place.getLat(), 0.001);
-			assertEquals(11.39, place.getLon(), 0.001);
-			assertEquals("47.26 11.39", place.getDisplayName());
-			int zoom = viewer.getZoom();
-			clickButton(window.getJMenuBar(), mindMap.getText("MapControllerPopupDialog.ZoomAction1"));
-			assertTrue(viewer.getZoom() > zoom, "zoom " + viewer.getZoom() + " from " + zoom);
-		} finally {
-			window.dispose();
-			stopTileJobs();
-		}
-	}
-
-	@Test
 	@Order(14)
 	void calendarMarkingDialogOffersNever() {
 		MindMapController mindMap = mindMap();
@@ -540,23 +467,6 @@ class StartupBehaviourTest {
 		assertNotNull(frame.getController().getView());
 		return assertInstanceOf(MindMapController.class,
 				frame.getController().getModeController());
-	}
-
-	private static void blockTileNetwork() {
-		System.setProperty("http.proxyHost", "127.0.0.1");
-		System.setProperty("http.proxyPort", "9");
-		System.setProperty("https.proxyHost", "127.0.0.1");
-		System.setProperty("https.proxyPort", "9");
-		System.setProperty("sun.net.client.defaultConnectTimeout", "300");
-		System.setProperty("sun.net.client.defaultReadTimeout", "300");
-	}
-
-	private static void stopTileJobs() throws Exception {
-		Class<?> loader = Class.forName("org.openstreetmap.gui.jmapviewer.OsmTileLoader");
-		Field field = loader.getDeclaredField("jobDispatcher");
-		field.setAccessible(true);
-		ThreadPoolExecutor pool = (ThreadPoolExecutor) field.get(null);
-		pool.shutdownNow();
 	}
 
 	private static final class OneScript implements ScriptModel {

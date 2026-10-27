@@ -81,7 +81,7 @@ Labeled **Deduced**. Each row is a test the requirement sentence does not spell 
 | REQ-MAP-02 | Revert restores the last saved file. | not in this change | open |
 | REQ-FILE-02 | PDF export writes a PDF and the options dialog is still open. | not in this change | open |
 | REQ-PLUG-01 | The script editor is still not opened. | not in this change | open |
-| REQ-PLUG-02 | A node stores a geographic position. | not in this change | open |
+| ~~REQ-PLUG-02~~ REMOVED (TAI-002) | A node stores a geographic position. | Removed with TAI-002. | removed |
 | REQ-APP-01 | The options panel reads and writes a preference. The dialog is still not opened. | not in this change | open |
 | REQ-APP-02 | Print preview shows a page. | not in this change | open |
 | REQ-MODE-01 | Browse mode is read-only and File mode lists a directory. | not in this change | open |
@@ -108,7 +108,7 @@ Slices 1 and 2 also have deduced requirement tests. This table is the reference 
 | 6 | A table sorter orders rows ascending, then descending. | `BackwardsCompatibilityTest.tableSorterOrdersRows` | passed |
 | 4 | `C+ENTER` is key Enter with the modifier word `control`. Tab is consumed. Control-space is a space. Typed `B` stays `B`. `SPACE` parses as a space. An unknown key name is rejected. | `BackwardsCompatibilityTest.keyTranslatorReadsControlEnter` | passed |
 | 6 | A clone plugin reads the stored clone ids `alpha,beta,`. | `BackwardsCompatibilityTest.clonePluginReadsStoredCloneIds` | passed |
-| 3 | A map position round-trips latitude, longitude, center, zoom, and the Mapnik tile source, and the tooltip HTML contains the position mark and an `http` URL. No tile is downloaded. | `BackwardsCompatibilityTest.mapPositionRoundTripsAndBuildsATileTooltip` | passed |
+| 3 | A map position round-trips. | Removed with TAI-002. | removed |
 | 1 | An XML element keeps the umlaut attribute `Käse` through a write and a second parse. | `BackwardsCompatibilityTest.xmlElementKeepsAnUmlautAttribute` | passed |
 | 1 | Text comparison, placeholders, extensions, absolute paths, a restorable path, font scaling, icon indexes, and an empty compound action print. A restorable `MindMap:/tmp/file.mm` yields the path `/tmp/file.mm`. | `BackwardsCompatibilityTest.toolsComparePathsPlaceholdersAndIconIndexes` | passed |
 | 1 | Integer, double, and boolean attributes, a named integer mapping, and a non-numeric integer throw `XMLParseException`. | `BackwardsCompatibilityTest.xmlElementReadsTypedAttributes` | passed |
@@ -195,7 +195,7 @@ Slices 1 and 2 also have deduced requirement tests. This table is the reference 
 | 6 | The day chooser keeps 15 June 2020. A right arrow fires day 16 and leaves the selected day at 15 until `setDay`. Day 0 becomes 1 and day 99 becomes the last day of June. December steps into January of the next year. This is not a product requirement. | `BackwardsCompatibilityTest.dayChooserKeepsTheFifteenthAndStepsRight` | passed |
 | 2 | The two contrary colors of blue are different from blue and from each other. | `BackwardsCompatibilityTest.contraryColorsLeaveTheOriginalHue` | passed |
 | — | A list keeps `Alpha` before `Beta`. A sorted model keeps `Ada` first. A missing map key is rejected. | `BackwardsCompatibilityTest.listModelsKeepInsertedValuesInOrder` | passed |
-| 6 | A blue tile image round-trips and then draws a red cross. This is not a product requirement. | `BackwardsCompatibilityTest.tileImageRoundTripsABlueSquare` | passed |
+| 6 | A blue tile image round-trips. | Removed with TAI-002. | removed |
 | 2 | A scalable icon paints a green rectangle at twice the file size. | `BackwardsCompatibilityTest.scalableIconPaintsAtTwiceTheSize` | passed |
 | 2 | The box of a bent curve is wider than the ends and taller than a flat line. | `BackwardsCompatibilityTest.aCurveBoxContainsTheBend` | passed |
 | 2 | A folded bubble node paints ink. | `BackwardsCompatibilityTest.bubbleStylePaintsARoundedNode` | passed |
@@ -230,7 +230,7 @@ Slices 1 and 2 also have deduced requirement tests. This table is the reference 
 | 6 | The format dialog shows `Change format of nodes`, OK, and Cancel, and the result stays cancel. It is disposed. The close path is not called. | `StartupBehaviourTest.formatDialogShowsTheShippedTitleAndCancels` | passed |
 | 1 | The inline editor commits `Renamed root` when Enter is delivered to the field's key listener. | `StartupBehaviourTest.inlineEditorCommitsTheFieldTextOnEnter` | passed |
 | — | The classes in `freemind.main` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.main`. Each of those tests is labeled backwards compatibility. Turning spelling on leaves the current spell locale unchanged. A current-version map loads from the startup event. A dialog beside an on-screen component sits to its right and below it, and a component in the screen inset is clamped to that inset. Methods that exit the process or run a system command are in the uncoverable table. | `tests.freemind.cov.main.*BehaviourTest` | passed |
-| — | The classes in `plugins/map` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.map`. Each of those tests is labeled backwards compatibility. `MapDialog.startupMapHook` and `FreeMindMapController.AddSearchResultsToMapTask`'s constructor still throw before a dialog is shown when the suite is headless. They are not uncoverable. No method in this package only exits the process or runs a system command. | `tests.freemind.cov.map.*BehaviourTest` | passed |
+| — | Geographic map behaviour tests. | Removed with TAI-002. | removed |
 | — | The classes in `freemind.view.mindmapview` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.view`. Each of those tests is labeled backwards compatibility. The long-node dialog submits, splits, and cancels. The HTML dialog's south buttons do the same. `EditNodeTextField.show` still stops at the menu-shortcut lookup under the headless unit JVM. That method is not uncoverable. | `tests.freemind.cov.view.*BehaviourTest` | passed |
 | — | The classes in `accessories.plugins` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.accessories`. Each of those tests is labeled backwards compatibility. Node history keeps 100 entries and drops the tail. Save-all leaves the current map in place. The format, pattern, and icon dialogs, the note editor, the log viewer dialog, and the encrypt password frame still stop before they are shown when the suite is headless. They are not uncoverable. No method in this package only exits the process or runs a system command. | `tests.freemind.cov.accessories.*BehaviourTest` | passed |
 | — | The classes in `freemind.controller` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.controller` and `freemind.controller`. Tests with no requirement ID are labeled backwards compatibility. Zoom steps run from 25% to 400%. A title keeps the file path, the unsaved star, and a contributor. Tabs swap, and the split pane leaves when both panels are removed. Next and previous wrap the open maps. Open-map counts enable next and previous above 0, and move-left and move-right when the index allows. The filter toolbar starts hidden and toggles. A recent-file menu entry switches to the already-open map. A stored page is landscape, portrait, or reverse landscape, and a printer job uses landscape. `Controller.quit` exits the process and is in the uncoverable table. The print dialog, page setup, print preview, about, license, properties, error, and color-chooser dialogs are not shown. They are not uncoverable. | `tests.freemind.cov.controller.*BehaviourTest`, `freemind.controller.*BehaviourTest` | passed |
@@ -543,12 +543,9 @@ A Groovy script result and the excluded script security manager are checked. The
 - `ScriptEditorPanelTest.java` `testErrorLineNumbers`: a Groovy error string yields line number 1.
 - `main/StartupBehaviourTest.java` `TestREQ_PLUG_01_ScriptEditorShowsTheScriptText`: the window title is the shipped script-editor title, the list has one entry `script0`, and the text area is `return 1;`.
 
-### REQ-PLUG-02 — Partial
+### ~~REQ-PLUG-02~~ REMOVED (TAI-002)
 
-Nominatim XML unmarshalls to places. A map viewer builds its menus, reads tile-source URLs, builds a coordinate link, and parses `47.26 11.39` into one place. Zoom increases. No test attaches a position to a node, and `MapDialog.startupMapHook` is not opened. The position round trip is a backwards-compatibility test, not this requirement.
-
-- `MarshallerTests.java` `testOsmNominatimConversion`, `testNominatimReverse`.
-- `main/StartupBehaviourTest.java` `TestREQ_PLUG_02_MapViewBuildsMenusAndReadsACoordinate`: at least four menus, transport and MapQuest base URLs, a link containing `mlat=47.26` and `zoom=12`, a Mapnik tile source, one place at that coordinate, and a higher zoom after the zoom action. Tile downloads are blocked.
+The geographic map plugin is gone. `RemovedFeatureProofTest.TestREQ_PLUG_02_GeographicMapIsGone` checks that `plugins.map.MapDialog` does not load and that `freemind/plugins/MapViewer.xml` is absent. `plugins/map/JMapViewer.jar` stays until the trimmed stage. Browse mode still builds `MapNodePositionHolderBase` until that mode goes.
 
 ### ~~REQ-PLUG-03~~ REMOVED (TAI-003)
 
