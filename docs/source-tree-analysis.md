@@ -44,7 +44,6 @@ freemind-ce/
 │   │   ├── svg/                       # SVG/PDF export (Batik + FOP)
 │   │   ├── map/                       # JMapViewer.jar kept for the trimmed stage
 │   │   ├── help/                      # jhall.jar kept for the trimmed stage
-│   │   ├── latex/                     # LaTeX formula rendering (not in Gradle yet)
 │   │   └── collaboration/             # Legacy collaboration sources
 │   │       ├── database/              # Database-based (legacy)
 │   │       └── jabber/                # XMPP-based (legacy)

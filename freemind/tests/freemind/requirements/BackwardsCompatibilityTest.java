@@ -260,7 +260,6 @@ import freemind.view.mindmapview.MainView;
 import freemind.view.mindmapview.MapView;
 import freemind.view.mindmapview.NodeFoldingComponent;
 import freemind.view.mindmapview.NodeView;
-import plugins.latex.LatexNodeHook;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

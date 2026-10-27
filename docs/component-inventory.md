@@ -118,10 +118,6 @@
 - `ExportPdfDialog` - PDF options dialog
 - `ExportPdfPapers` - Paper size definitions
 
-### LaTeX
-- `LatexNodeHook` - LaTeX rendering hook
-- `JZoomedHotEqn` - Equation renderer with zoom
-
 ## Extension Framework
 
 | Component | Class | Purpose |

@@ -141,7 +141,6 @@ HookAdapter (base)
 | Plugin | Entry Class | Registration XML | Dependencies |
 |---|---|---|---|
 | SVG/PDF Export | `ExportSvg`, `ExportPdf` | `ExportSvg.xml` | Batik 1.17, FOP 2.9 |
-| LaTeX | `LatexNodeHook` | `Latex.xml` | HotEqn |
 
 ## Build Architecture
 
@@ -183,7 +182,6 @@ HookAdapter (base)
 
 ## Known Gaps
 
-1. **LaTeX plugin** — Not in `settings.gradle.kts`, planned for v1.3.0 (HotEqn → JLaTeXMath)
-2. **Collaboration plugins** — Only Socket in Gradle; Database and Jabber are legacy-only
-3. **Java module system** — Requires 6 `--add-opens` flags for Swing access
-4. **macOS code signing** — DMG is not signed/notarized; Gatekeeper blocks first launch
+1. **Collaboration plugins** — Only Socket in Gradle; Database and Jabber are legacy-only
+2. **Java module system** — Requires 6 `--add-opens` flags for Swing access
+3. **macOS code signing** — DMG is not signed/notarized; Gatekeeper blocks first launch

@@ -51,7 +51,6 @@ import freemind.main.HeadlessFreeMind;
 import freemind.modes.EdgeAdapter;
 import freemind.modes.common.listeners.MindMapMouseWheelEventHandler;
 import freemind.main.Tools;
-import freemind.main.XMLElement;
 import freemind.modes.MapAdapter;
 import freemind.modes.MindMapNode;
 import freemind.modes.ModeController;
@@ -64,7 +63,6 @@ import freemind.modes.mindmapmode.actions.ImportFolderStructureAction;
 import freemind.modes.mindmapmode.actions.JoinNodesAction;
 import freemind.view.mindmapview.IndependantMapViewCreator;
 import freemind.view.mindmapview.MapView;
-import plugins.latex.LatexNodeHook;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -256,23 +254,6 @@ class DeducedBehaviourTest {
 		assertFalse(modelText.contains("<base "));
 		assertTrue(shown.contains("pic.png"));
 		assertTrue(shown.contains("<base href=\"" + view.getModel().getURL()));
-	}
-
-	@Test
-	void TestREQ_PLUG_05_LatexHookStoresEquation() {
-		LatexNodeHook created = new LatexNodeHook();
-		assertEquals("E = mc^{2}", created.getContent("EQUATION"));
-
-		created.setName("plugins.latex.LatexNodeHook");
-		XMLElement saved = new XMLElement();
-		created.save(saved);
-		assertEquals("E = mc^{2}", saved.getAttribute("EQUATION"));
-
-		XMLElement loaded = new XMLElement();
-		loaded.setAttribute("EQUATION", "a = b");
-		LatexNodeHook restored = new LatexNodeHook();
-		restored.loadFrom(loaded);
-		assertEquals("a = b", restored.getContent("EQUATION"));
 	}
 
 	@Test

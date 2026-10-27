@@ -21,8 +21,6 @@ include(":freemind")
 
 // Plugin modules (organized by category)
 include(":freemind:plugins:svg")
-include(":freemind:plugins:latex")
 
 project(":freemind").projectDir = file("freemind")
 project(":freemind:plugins:svg").projectDir = file("freemind/plugins/svg")
-project(":freemind:plugins:latex").projectDir = file("freemind/plugins/latex")

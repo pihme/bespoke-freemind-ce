@@ -80,8 +80,6 @@ FreeMind CE uses an **MVC (Model-View-Controller)** architecture with a **Mode-b
 | Help | Integrated help system | JavaHelp |
 | Context Graph | Markdown + XML context export | Built-in |
 
-**Note:** LaTeX plugin exists in source but is not yet included in `settings.gradle.kts`.
-
 ### Legacy Modules (not in active build)
 
 - **PDA** (`pda/`) - Palm OS version (historical)

@@ -167,7 +167,7 @@ dependencies {
     implementation("org.apache.lucene:lucene-analysis-common:10.4.0")
     implementation("org.apache.lucene:lucene-queryparser:10.4.0")
     implementation(files("plugins/help/jhall.jar"))
-    // LaTeX plugin (JLaTeXMath) — built as separate module :freemind:plugins:latex
+    // JLaTeXMath stays until the trimmed stage
     implementation("org.scilab.forge:jlatexmath:1.0.7")
 
     // Batik (SVG Support) - for plugins

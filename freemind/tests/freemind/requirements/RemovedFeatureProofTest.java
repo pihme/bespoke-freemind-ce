@@ -13,6 +13,15 @@ import org.junit.jupiter.api.Test;
 class RemovedFeatureProofTest {
 
 	@Test
+	void TestREQ_PLUG_05_LatexOnANodeIsGone() throws Exception {
+		assertThrows(ClassNotFoundException.class,
+				() -> Class.forName("plugins.latex.LatexNodeHook"));
+		Path root = repoRoot();
+		assertFalse(Files.exists(root.resolve("freemind/plugins/Latex.xml")));
+		assertFalse(Files.exists(root.resolve("freemind/plugins/latex")));
+	}
+
+	@Test
 	void TestREQ_PLUG_06_SocketCollaborationIsGone() throws Exception {
 		assertThrows(ClassNotFoundException.class,
 				() -> Class.forName("plugins.collaboration.socket.MindMapMaster"));
