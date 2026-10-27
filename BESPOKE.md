@@ -79,6 +79,7 @@ A modernized and streamlined version of Freemind. Modernized pertains to the UI.
 - 2026-10-19. Test spec written. 49 requirements: 8 checked, 21 partial, 20 none. Instruction coverage 21.3% (31,265 of 146,900) was measured at `a9db337` and is recorded in the test spec. This stage has not exited: tests are not named after requirement IDs, the coverage number is not a CI threshold, and no mutation tool is chosen.
 - 2026-10-19. 14 `TestREQ_` methods added. 49 requirements: 14 checked, 28 partial, 7 none. Gate passed: unit 838, GUI 489, performance 9, chaos 0. Instruction coverage 21.8% (32,021 of 146,900). The covered stage has not exited: seven requirements still have no behavioural test, the coverage number is not a CI threshold, and no mutation tool is chosen. Underline is not decided.
 - 2026-10-26. Instruction coverage 85.03% (122,236 of 143,756) at `81a9d2e`. Unit 1,678, GUI 524, performance 9, all passed. The uncoverable inventory is the table in `docs/testspec.md`. The CI check fails under 85% instruction coverage.
+- 2026-10-27. REQ-DED-09 is checked. The undo list keeps 99 and 100, drops the oldest at 101, stays empty at 0, throws `IndexOutOfBoundsException` at -1, keeps 100 when the property is `2147483648`, and a folded pair does not apply the limit.
 
 ## 3 tailored
 

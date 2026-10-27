@@ -91,6 +91,88 @@ class UndoActionBehaviourTest {
 		assertEquals("b", ((EditNodeAction) compound.getListChoiceList().get(1)).getText());
 	}
 
+	@Test
+	void TestREQ_DED_09_ShippedLimitKeepsOneHundredAndDropsTheOldest() throws Exception {
+		Opened opened = MapFixture.open("Leaf");
+		opened.frame.setProperty("undo_levels", "100");
+		ListedUndo undo = new ListedUndo(opened.mode);
+		addSeparate(undo, 1, 99);
+		assertEquals(99, undo.size());
+		assertEquals("99", text(undo.newest()));
+		assertEquals("1", text(undo.oldest()));
+
+		addSeparate(undo, 100, 100);
+		assertEquals(100, undo.size());
+		assertEquals("100", text(undo.newest()));
+		assertEquals("1", text(undo.oldest()));
+
+		addSeparate(undo, 101, 101);
+		assertEquals(100, undo.size());
+		assertEquals("101", text(undo.newest()));
+		assertEquals("2", text(undo.oldest()));
+	}
+
+	@Test
+	void TestREQ_DED_09_ZeroKeepsTheListEmpty() throws Exception {
+		Opened opened = MapFixture.open("Leaf");
+		opened.frame.setProperty("undo_levels", "0");
+		ListedUndo undo = new ListedUndo(opened.mode);
+		undo.add(edit("zero"));
+		assertEquals(0, undo.size());
+	}
+
+	@Test
+	void TestREQ_DED_09_NegativeThrowsAfterEmptyingTheList() throws Exception {
+		Opened opened = MapFixture.open("Leaf");
+		opened.frame.setProperty("undo_levels", "-1");
+		ListedUndo undo = new ListedUndo(opened.mode);
+		assertThrows(IndexOutOfBoundsException.class, () -> undo.add(edit("minus")));
+		assertEquals(0, undo.size());
+	}
+
+	@Test
+	void TestREQ_DED_09_ValuePastIntRangeLeavesTheLimitAtOneHundred() throws Exception {
+		Opened opened = MapFixture.open("Leaf");
+		opened.frame.setProperty("undo_levels", "2147483648");
+		ListedUndo undo = new ListedUndo(opened.mode);
+		addSeparate(undo, 1, 101);
+		assertEquals(100, undo.size());
+		assertEquals("101", text(undo.newest()));
+		assertEquals("2", text(undo.oldest()));
+	}
+
+	@Test
+	void TestREQ_DED_09_FoldedPairDoesNotApplyTheLimit() throws Exception {
+		Opened opened = MapFixture.open("Leaf");
+		opened.frame.setProperty("undo_levels", "1");
+		ListedUndo undo = new ListedUndo(opened.mode);
+		undo.add(edit("a"));
+		undo.add(edit("b"));
+		assertEquals(1, undo.size());
+		CompoundAction compound = (CompoundAction) undo.newest();
+		assertEquals(2, compound.sizeChoiceList());
+		assertEquals("a", ((EditNodeAction) compound.getListChoiceList().get(0)).getText());
+		assertEquals("b", ((EditNodeAction) compound.getListChoiceList().get(1)).getText());
+
+		Thread.sleep(150);
+		undo.add(edit("c"));
+		assertEquals(1, undo.size());
+		assertEquals("c", text(undo.newest()));
+	}
+
+	private static void addSeparate(ListedUndo undo, int from, int to) throws Exception {
+		for (int i = from; i <= to; i++) {
+			if (undo.size() > 0) {
+				Thread.sleep(150);
+			}
+			undo.add(edit(Integer.toString(i)));
+		}
+	}
+
+	private static String text(XmlAction action) {
+		return ((EditNodeAction) action).getText();
+	}
+
 	private static ActionPair edit(String text) {
 		EditNodeAction done = new EditNodeAction();
 		done.setText(text);
@@ -116,6 +198,10 @@ class UndoActionBehaviourTest {
 
 		XmlAction older() {
 			return actionPairList.get(1).getDoAction();
+		}
+
+		XmlAction oldest() {
+			return actionPairList.get(actionPairList.size() - 1).getDoAction();
 		}
 	}
 }
