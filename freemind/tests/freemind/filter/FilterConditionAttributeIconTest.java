@@ -15,11 +15,14 @@ import freemind.controller.filter.condition.IconNotContainedCondition;
 import freemind.controller.filter.condition.NoFilteringCondition;
 import freemind.controller.filter.condition.SelectedViewCondition;
 import freemind.main.HeadlessFreeMind;
+import freemind.main.Resources;
 import freemind.main.XMLElement;
 import freemind.modes.MindIcon;
 import freemind.modes.MindMapNode;
 import freemind.modes.attributes.Attribute;
 import freemind.modes.mindmapmode.MindMapNodeModel;
+
+import javax.swing.ImageIcon;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -139,6 +142,17 @@ class FilterConditionAttributeIconTest {
         }
 
         @Test
+        @DisplayName("ignore case matches a different case and names that in the description")
+        void ignoreCaseMatchesDifferentCase() {
+            Condition cond = factory.createAttributeCondition("priority", FILTER_IS_EQUAL_TO, "High", true);
+            assertTrue(cond.checkNode(null, createNodeWithAttribute("node", "priority", "high")));
+            Condition sensitive = factory.createAttributeCondition("priority", FILTER_IS_EQUAL_TO, "High", false);
+            assertFalse(sensitive.checkNode(null, createNodeWithAttribute("node", "priority", "high")));
+            String ignoreCase = Resources.getInstance().getResourceString("filter_ignore_case");
+            assertEquals("priority " + FILTER_IS_EQUAL_TO.getName() + " \"High\", " + ignoreCase, cond.toString());
+        }
+
+        @Test
         @DisplayName("save produces valid XML")
         void saveXml() {
             Condition cond = factory.createAttributeCondition("attr1", FILTER_IS_EQUAL_TO, "val1", false);
@@ -157,13 +171,19 @@ class FilterConditionAttributeIconTest {
             assertNotNull(loaded);
             assertTrue(loaded.checkNode(null, createNodeWithAttribute("n", "color", "red")));
             assertFalse(loaded.checkNode(null, createNodeWithAttribute("n", "color", "blue")));
+
+            Condition greater = factory.createAttributeCondition("score", FILTER_GT, "5", false);
+            Condition loadedGreater = factory.loadCondition(saveCondition(greater));
+            assertNotNull(loadedGreater);
+            assertTrue(loadedGreater.checkNode(null, createNodeWithAttribute("n", "score", "10")));
+            assertFalse(loadedGreater.checkNode(null, createNodeWithAttribute("n", "score", "3")));
         }
 
         @Test
-        @DisplayName("createDesctiption returns non-null string")
-        void descriptionNotNull() {
+        @DisplayName("createDesctiption names the attribute, the operator, and the value")
+        void descriptionNamesTheComparison() {
             Condition cond = new AttributeCompareCondition("attr", "val", false, 0, true);
-            assertNotNull(cond.toString());
+            assertEquals("attr " + FILTER_IS_EQUAL_TO.getName() + " \"val\"", cond.toString());
         }
     }
 
@@ -208,9 +228,9 @@ class FilterConditionAttributeIconTest {
         }
 
         @Test
-        @DisplayName("createDesctiption returns non-null string")
-        void descriptionNotNull() {
-            assertNotNull(new AttributeExistsCondition("attr").toString());
+        @DisplayName("createDesctiption names the attribute and the exists operator")
+        void descriptionNamesTheAttribute() {
+            assertEquals("attr " + FILTER_EXIST.getName(), new AttributeExistsCondition("attr").toString());
         }
     }
 
@@ -249,9 +269,9 @@ class FilterConditionAttributeIconTest {
         }
 
         @Test
-        @DisplayName("createDesctiption returns non-null string")
-        void descriptionNotNull() {
-            assertNotNull(new AttributeNotExistsCondition("attr").toString());
+        @DisplayName("createDesctiption names the attribute and the does-not-exist operator")
+        void descriptionNamesTheAttribute() {
+            assertEquals("attr " + FILTER_DOES_NOT_EXIST.getName(), new AttributeNotExistsCondition("attr").toString());
         }
     }
 
@@ -277,6 +297,17 @@ class FilterConditionAttributeIconTest {
         @DisplayName("checkNode returns false when different icon is present")
         void differentIcon() {
             assertFalse(new IconContainedCondition("button_ok").checkNode(null, createNodeWithIcon("node", "button_cancel")));
+        }
+
+        @Test
+        @DisplayName("checkNode matches a state icon when no regular icon has that name")
+        void stateIconPresent() {
+            MindMapNodeModel node = new MindMapNodeModel("node", mapMock);
+            node.setStateIcon("button_ok", new ImageIcon());
+            assertTrue(new IconContainedCondition("button_ok").checkNode(null, node));
+            MindMapNodeModel other = new MindMapNodeModel("node", mapMock);
+            other.setStateIcon("button_cancel", new ImageIcon());
+            assertFalse(new IconContainedCondition("button_ok").checkNode(null, other));
         }
 
         @Test
@@ -321,6 +352,16 @@ class FilterConditionAttributeIconTest {
         @DisplayName("checkNode returns false when icon IS present")
         void iconPresent() {
             assertFalse(new IconNotContainedCondition("button_ok").checkNode(null, createNodeWithIcon("node", "button_ok")));
+        }
+
+        @Test
+        @DisplayName("iconFirstIndex returns the position of a later matching icon")
+        void iconFirstIndexOfLaterIcon() {
+            MindMapNodeModel node = new MindMapNodeModel("node", mapMock);
+            node.addIcon(MindIcon.factory("button_cancel"), MindIcon.LAST);
+            node.addIcon(MindIcon.factory("button_ok"), MindIcon.LAST);
+            assertEquals(1, IconNotContainedCondition.iconFirstIndex(node, "button_ok"));
+            assertEquals(-1, IconNotContainedCondition.iconFirstIndex(node, "idea"));
         }
 
         @Test

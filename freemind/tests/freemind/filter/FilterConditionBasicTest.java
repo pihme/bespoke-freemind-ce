@@ -15,6 +15,7 @@ import freemind.controller.filter.condition.IconNotContainedCondition;
 import freemind.controller.filter.condition.NoFilteringCondition;
 import freemind.controller.filter.condition.SelectedViewCondition;
 import freemind.main.HeadlessFreeMind;
+import freemind.main.Resources;
 import freemind.main.XMLElement;
 import freemind.modes.MindIcon;
 import freemind.modes.MindMapNode;
@@ -211,10 +212,18 @@ class FilterConditionBasicTest {
         }
 
         @Test
-        @DisplayName("createDesctiption returns non-null string")
-        void descriptionNotNull() {
-            Condition cond = factory.createCondition(FILTER_NODE, FILTER_CONTAINS, "test", true);
-            assertNotNull(cond.toString());
+        @DisplayName("empty value returns null when ignore case is set")
+        void emptyValueReturnsNull() {
+            assertNull(factory.createCondition(FILTER_NODE, FILTER_CONTAINS, "", true));
+        }
+
+        @Test
+        @DisplayName("createDesctiption quotes the value and names ignore case")
+        void descriptionQuotesTheValue() {
+            Condition cond = factory.createCondition(FILTER_NODE, FILTER_CONTAINS, "Hello", true);
+            String ignoreCase = Resources.getInstance().getResourceString("filter_ignore_case");
+            assertEquals(FILTER_NODE.getName() + " " + FILTER_CONTAINS.getName() + " \"hello\", " + ignoreCase,
+                    cond.toString());
         }
     }
 
@@ -308,13 +317,19 @@ class FilterConditionBasicTest {
             assertNotNull(loaded);
             assertEquals(original.checkNode(null, createNode("xyz")), loaded.checkNode(null, createNode("xyz")));
             assertEquals(original.checkNode(null, createNode("abc")), loaded.checkNode(null, createNode("abc")));
+
+            Condition greater = factory.createCondition(FILTER_NODE, FILTER_GT, "5", false);
+            Condition loadedGreater = factory.loadCondition(saveCondition(greater));
+            assertNotNull(loadedGreater);
+            assertTrue(loadedGreater.checkNode(null, createNode("10")));
+            assertFalse(loadedGreater.checkNode(null, createNode("3")));
         }
 
         @Test
-        @DisplayName("createDesctiption returns non-null string")
-        void descriptionNotNull() {
+        @DisplayName("createDesctiption names the node, the operator, and the value")
+        void descriptionNamesTheComparison() {
             Condition cond = factory.createCondition(FILTER_NODE, FILTER_IS_EQUAL_TO, "test", false);
-            assertNotNull(cond.toString());
+            assertEquals(FILTER_NODE.getName() + " " + FILTER_IS_EQUAL_TO.getName() + " \"test\"", cond.toString());
         }
     }
 

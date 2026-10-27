@@ -15,6 +15,7 @@ import freemind.controller.filter.condition.IconNotContainedCondition;
 import freemind.controller.filter.condition.NoFilteringCondition;
 import freemind.controller.filter.condition.SelectedViewCondition;
 import freemind.main.HeadlessFreeMind;
+import freemind.main.Resources;
 import freemind.main.XMLElement;
 import freemind.modes.MindIcon;
 import freemind.modes.MindMapNode;
@@ -270,9 +271,19 @@ class FilterConditionCompositeTest {
         }
 
         @Test
-        @DisplayName("createCondition returns singleton")
-        void singleton() {
-            assertSame(NoFilteringCondition.createCondition(), NoFilteringCondition.createCondition());
+        @DisplayName("createCondition returns the same instance after the cache is empty")
+        void singleton() throws Exception {
+            Field condition = NoFilteringCondition.class.getDeclaredField("condition");
+            condition.setAccessible(true);
+            Object previous = condition.get(null);
+            try {
+                condition.set(null, null);
+                Condition created = NoFilteringCondition.createCondition();
+                assertNotNull(created);
+                assertSame(created, NoFilteringCondition.createCondition());
+            } finally {
+                condition.set(null, previous);
+            }
         }
 
         @Test
@@ -285,9 +296,18 @@ class FilterConditionCompositeTest {
         }
 
         @Test
-        @DisplayName("toString returns non-null string")
-        void toStringNotNull() {
-            assertNotNull(NoFilteringCondition.createCondition().toString());
+        @DisplayName("toString names no filtering after the description cache is empty")
+        void toStringNamesNoFiltering() throws Exception {
+            NoFilteringCondition created = (NoFilteringCondition) NoFilteringCondition.createCondition();
+            Field description = NoFilteringCondition.class.getDeclaredField("description");
+            description.setAccessible(true);
+            Object previous = description.get(created);
+            try {
+                description.set(created, null);
+                assertEquals(Resources.getInstance().getResourceString("filter_no_filtering"), created.toString());
+            } finally {
+                description.set(created, previous);
+            }
         }
     }
 
@@ -298,9 +318,19 @@ class FilterConditionCompositeTest {
     @DisplayName("SelectedViewCondition")
     class SelectedViewConditionTests {
         @Test
-        @DisplayName("CreateCondition returns singleton")
-        void singleton() {
-            assertSame(SelectedViewCondition.CreateCondition(), SelectedViewCondition.CreateCondition());
+        @DisplayName("CreateCondition returns the same instance after the cache is empty")
+        void singleton() throws Exception {
+            Field condition = SelectedViewCondition.class.getDeclaredField("condition");
+            condition.setAccessible(true);
+            Object previous = condition.get(null);
+            try {
+                condition.set(null, null);
+                Condition created = SelectedViewCondition.CreateCondition();
+                assertNotNull(created);
+                assertSame(created, SelectedViewCondition.CreateCondition());
+            } finally {
+                condition.set(null, previous);
+            }
         }
 
         @Test
@@ -313,9 +343,18 @@ class FilterConditionCompositeTest {
         }
 
         @Test
-        @DisplayName("toString returns non-null string")
-        void toStringNotNull() {
-            assertNotNull(SelectedViewCondition.CreateCondition().toString());
+        @DisplayName("toString names the selected nodes after the description cache is empty")
+        void toStringNamesSelectedNodes() throws Exception {
+            Field description = SelectedViewCondition.class.getDeclaredField("description");
+            description.setAccessible(true);
+            Object previous = description.get(null);
+            try {
+                description.set(null, null);
+                assertEquals(Resources.getInstance().getResourceString("filter_selected_node_view"),
+                        SelectedViewCondition.CreateCondition().toString());
+            } finally {
+                description.set(null, previous);
+            }
         }
     }
 
