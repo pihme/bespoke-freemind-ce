@@ -51,38 +51,11 @@ public class TransformTest extends FreeMindTestBase {
 	public TransformTest() throws IOException {
 	}
 
-	public void testExportHtml() throws Exception {
-		String mapFileToBeExported = TESTMAP_MM;
-		String destinationFileName = TMPDIR + "test1.html";
-		Properties properties = getProperties(EXPORT_WITH_XSLT_XML,
-				"accessories/plugins/ExportWithXSLT_HTML.properties");
-		doExportWithExportPlugin(mapFileToBeExported, destinationFileName,
-				properties);
-	}
-
-	public void testExportHtmlWithImage() throws Exception {
-		String mapFileToBeExported = TESTMAP_MM;
-		String destinationFileName = TMPDIR + "test2.html";
-		Properties properties = getProperties(EXPORT_WITH_XSLT_XML,
-				"accessories/plugins/ExportWithXSLT_HTML3.properties");
-		doExportWithExportPlugin(mapFileToBeExported, destinationFileName,
-				properties);
-	}
-
 	public void testExportLatex() throws Exception {
 		String mapFileToBeExported = TESTMAP_MM;
 		String destinationFileName = TMPDIR + "test_latex.tex";
 		Properties properties = getProperties(EXPORT_WITH_XSLT_XML,
 				"accessories/plugins/ExportToLatex.properties");
-		doExportWithExportPlugin(mapFileToBeExported, destinationFileName,
-				properties);
-	}
-
-	public void testExportStandaloneHtml() throws Exception {
-		String mapFileToBeExported = TESTMAP_MM;
-		String destinationFileName = TMPDIR + "test_standalone.html";
-		Properties properties = getProperties(EXPORT_WITH_XSLT_XML,
-				"accessories/plugins/ExportWithXSLT_StandaloneHTML.properties");
 		doExportWithExportPlugin(mapFileToBeExported, destinationFileName,
 				properties);
 	}

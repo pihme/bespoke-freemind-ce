@@ -842,13 +842,6 @@ public class OptionPanel implements TextTranslator {
 		controls.add(new KeyProperty(frame, null, "keystroke_option_dialog")); // control
 																				// COMMA
 
-		controls.add(new KeyProperty(frame, null, "keystroke_export_to_html")); // control
-		// E
-
-		controls.add(new KeyProperty(frame, null,
-				"keystroke_export_branch_to_html")); // control
-		// H
-
 		controls.add(new KeyProperty(frame, null,
 				"keystroke_open_first_in_history")); // control
 		// shift

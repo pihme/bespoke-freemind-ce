@@ -81,16 +81,6 @@ class ContentPreservationExportTest {
     // ── Script tag content ──────────────────────────────────────────────
 
     @Test
-    @DisplayName("HTML export preserves script tag text -- not sanitized")
-    void htmlExportPreservesScriptTag() throws Exception {
-        String result = applyXslt("mm2html.xsl", mapWithText("<script>alert(1)</script>"));
-        // In HTML output the text may be escaped as &lt;script&gt; which is correct
-        // preservation -- the user typed it, and it shows as literal text
-        assertTrue(result.contains("alert(1)"),
-                "HTML export must preserve alert(1) text from user content");
-    }
-
-    @Test
     @DisplayName("Text export preserves script tag text verbatim")
     void textExportPreservesScriptTag() throws Exception {
         String result = applyXslt("mm2text.xsl", mapWithText("<script>alert(1)</script>"));
@@ -101,14 +91,6 @@ class ContentPreservationExportTest {
     // ── File path content ───────────────────────────────────────────────
 
     @Test
-    @DisplayName("HTML export preserves file:///etc/passwd text")
-    void htmlExportPreservesFilePath() throws Exception {
-        String result = applyXslt("mm2html.xsl", mapWithText("file:///etc/passwd"));
-        assertTrue(result.contains("file:///etc/passwd"),
-                "HTML export must preserve file path content");
-    }
-
-    @Test
     @DisplayName("Text export preserves file:///etc/passwd text")
     void textExportPreservesFilePath() throws Exception {
         String result = applyXslt("mm2text.xsl", mapWithText("file:///etc/passwd"));
@@ -117,14 +99,6 @@ class ContentPreservationExportTest {
     }
 
     // ── SQL injection string ────────────────────────────────────────────
-
-    @Test
-    @DisplayName("HTML export preserves SQL injection string")
-    void htmlExportPreservesSqlInjection() throws Exception {
-        String result = applyXslt("mm2html.xsl", mapWithText("' OR 1=1 --"));
-        assertTrue(result.contains("OR 1=1"),
-                "HTML export must preserve SQL injection string");
-    }
 
     @Test
     @DisplayName("CSV export preserves SQL injection string")
@@ -166,14 +140,6 @@ class ContentPreservationExportTest {
                 "Text export must preserve Arabic text");
     }
 
-    @Test
-    @DisplayName("HTML export preserves Hebrew RTL text")
-    void htmlExportPreservesHebrewText() throws Exception {
-        String result = applyXslt("mm2html.xsl", mapWithText("\u05e9\u05dc\u05d5\u05dd"));
-        assertTrue(result.contains("\u05e9\u05dc\u05d5\u05dd"),
-                "HTML export must preserve Hebrew text");
-    }
-
     // ── Very long text ──────────────────────────────────────────────────
 
     @Test
@@ -204,45 +170,29 @@ class ContentPreservationExportTest {
     // ── Multi-format comparison ─────────────────────────────────────────
 
     @Test
-    @DisplayName("Same map exported to HTML, text, CSV all contain root node text")
+    @DisplayName("Same map exported to text and CSV contains the root and the children")
     void multiFormatExportAllContainRootText() throws Exception {
         String mapXml = "<map><node TEXT=\"MultiFormatRoot\">"
                 + "<node TEXT=\"ChildAlpha\"/>"
                 + "<node TEXT=\"ChildBeta\"/>"
                 + "</node></map>";
 
-        String html = applyXslt("mm2html.xsl", mapXml);
         String text = applyXslt("mm2text.xsl", mapXml);
         String csv = applyXslt("mm2csv.xsl", mapXml);
 
-        assertAll("All export formats must contain root text",
-                () -> assertTrue(html.contains("MultiFormatRoot"), "HTML must contain root text"),
+        assertAll("Text and CSV must contain root text",
                 () -> assertTrue(text.contains("MultiFormatRoot"), "Text must contain root text"),
                 () -> assertTrue(csv.contains("MultiFormatRoot"), "CSV must contain root text")
         );
-        assertAll("All export formats must contain child texts",
-                () -> assertTrue(html.contains("ChildAlpha"), "HTML must contain ChildAlpha"),
+        assertAll("Text and CSV must contain child texts",
                 () -> assertTrue(text.contains("ChildAlpha"), "Text must contain ChildAlpha"),
                 () -> assertTrue(csv.contains("ChildAlpha"), "CSV must contain ChildAlpha"),
-                () -> assertTrue(html.contains("ChildBeta"), "HTML must contain ChildBeta"),
                 () -> assertTrue(text.contains("ChildBeta"), "Text must contain ChildBeta"),
                 () -> assertTrue(csv.contains("ChildBeta"), "CSV must contain ChildBeta")
         );
     }
 
     // ── Edge-case map from MindMapGenerator ─────────────────────────────
-
-    @Test
-    @DisplayName("Edge-case map exports to HTML with all content present")
-    void edgeCaseMapHtmlExportContainsContent() throws Exception {
-        String edgeCaseXml = MindMapGenerator.edgeCases().toXmlString();
-        String result = applyXslt("mm2html.xsl", edgeCaseXml);
-        assertFalse(result.isBlank(), "Edge-case map HTML export must not be blank");
-        assertTrue(result.contains("Root"), "Edge-case HTML must contain Root");
-        // Edge cases include file paths, SQL strings, etc.
-        assertTrue(result.contains("OR 1=1"),
-                "Edge-case HTML must preserve SQL injection string");
-    }
 
     @Test
     @DisplayName("Edge-case map exports to text with all content present")

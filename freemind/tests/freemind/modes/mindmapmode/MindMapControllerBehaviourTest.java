@@ -318,31 +318,6 @@ class MindMapControllerBehaviourTest {
 	}
 
 	@Test
-	void htmlExportWritesTheMapAndTheSelectedBranch() throws Exception {
-		// backwards compatibility
-		Opened opened = MapFixture.open("Leaf");
-		File dir = Files.createTempDirectory("mm-html").toFile();
-		File map = new File(dir, "host.mm");
-		writeMap(map, "Host", null);
-		remember(opened, map);
-		opened.mode.select(opened.child("Leaf"), List.of(opened.child("Leaf")));
-		opened.mode.exportToHTML.actionPerformed(new ActionEvent(opened.mode.exportToHTML,
-				ActionEvent.ACTION_PERFORMED, "html"));
-		File whole = new File(map.getPath() + ".html");
-		assertTrue(whole.isFile());
-		assertTrue(Files.readString(whole.toPath()).contains("ROOT"));
-
-		List<String> before = htmlNames(dir);
-		opened.mode.exportBranchToHTML.actionPerformed(new ActionEvent(opened.mode.exportBranchToHTML,
-				ActionEvent.ACTION_PERFORMED, "branch"));
-		File branch = newHtml(dir, before);
-		assertNotNull(branch);
-		assertTrue(Files.readString(branch.toPath()).contains("Leaf"));
-		assertTrue(whole.delete());
-		assertTrue(branch.delete());
-	}
-
-	@Test
 	void linkedBranchesPasteTheImportedRootOrItsChildren() throws Exception {
 		// backwards compatibility
 		Opened opened = MapFixture.open("Host");
@@ -691,31 +666,6 @@ class MindMapControllerBehaviourTest {
 		return names;
 	}
 
-	private static List<String> htmlNames(File dir) {
-		List<String> names = new ArrayList<>();
-		File[] files = dir.listFiles();
-		if (files != null) {
-			for (File file : files) {
-				if (file.getName().endsWith(".html")) {
-					names.add(file.getName());
-				}
-			}
-		}
-		return names;
-	}
-
-	private static File newHtml(File dir, List<String> before) {
-		File[] files = dir.listFiles();
-		if (files == null) {
-			return null;
-		}
-		for (File file : files) {
-			if (file.getName().endsWith(".html") && !before.contains(file.getName())) {
-				return file;
-			}
-		}
-		return null;
-	}
 
 	private static String readAll(Reader reader) throws IOException {
 		StringBuilder text = new StringBuilder();

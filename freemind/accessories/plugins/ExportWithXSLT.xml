@@ -5,47 +5,6 @@
 		<plugin_menu location="menu_bar/file/export/other/exportXslt"/>
 		<plugin_property name="file_type" value="user"/>
 	</plugin_action>
-	<plugin_action documentation="%accessories/plugins/ExportWithXSLT_HTML.properties_documentation" name="%accessories/plugins/ExportWithXSLT_HTML.properties_name" base="freemind.extensions.ModeControllerHookAdapter" label="accessories/plugins/ExportWithXSLT_HTML.properties" class_name="accessories.plugins.ExportWithXSLT">
-		<plugin_mode class_name="freemind.modes.mindmapmode"/>
-		<plugin_menu location="menu_bar/file/export/html/exportHTML_II"/>
-		<plugin_property name="file_type" value="html"/>
-		<plugin_property name="file_description" value="%accessories/plugins/ExportWithXSLT_Applet.properties_webpage"/>
-		<plugin_property name="xslt_file" value="accessories/toxhtml.xsl"/>
-		<plugin_property name="create_dir" value="true"/>
-		<plugin_property name="files_to_copy" value="marktree.js,minus.png,plus.png,ilink.png,treestyles.css,map_location.png"/>
-		<plugin_property name="file_prefix" value="accessories/"/>
-		<plugin_property name="copy_icons" value="true"/>
-		<plugin_property name="load_file" value="true"/>
-		<plugin_property name="create_html_linked_image" value="false"/>
-	</plugin_action>
-	<plugin_action documentation="%accessories/plugins/ExportWithXSLT_HTML3.properties_documentation" name="%accessories/plugins/ExportWithXSLT_HTML3.properties_name" base="freemind.extensions.ModeControllerHookAdapter" label="accessories/plugins/ExportWithXSLT_HTML3.properties" class_name="accessories.plugins.ExportWithXSLT">
-		<plugin_mode class_name="freemind.modes.mindmapmode"/>
-		<plugin_menu location="menu_bar/file/export/html/exportHTML_III"/>
-		<plugin_property name="file_type" value="html"/>
-		<plugin_property name="file_description" value="%accessories/plugins/ExportWithXSLT_Applet.properties_webpage"/>
-		<plugin_property name="xslt_file" value="accessories/freemind2html.xsl"/>
-		<plugin_property name="create_dir" value="true"/>
-		<plugin_property name="files_to_copy" value="freemind2html.css,hide.png,leaf.png,show.png,ilink.png,map_location.png"/>
-		<plugin_property name="file_prefix" value="accessories/"/>
-		<plugin_property name="copy_icons" value="true"/>
-		<plugin_property name="load_file" value="true"/>
-		<plugin_property name="create_html_linked_image" value="true"/>
-		<plugin_property name="link_replacement_format_string" value="#FM{0}FM"/>
-	</plugin_action>
-	<plugin_action documentation="%accessories/plugins/ExportWithXSLT_HTML_Links.properties_documentation" name="%accessories/plugins/ExportWithXSLT_HTML_Links.properties_name" base="freemind.extensions.ModeControllerHookAdapter" label="accessories/plugins/ExportWithXSLT_HTML_Links.properties" class_name="accessories.plugins.ExportWithXSLT">
-		<plugin_mode class_name="freemind.modes.mindmapmode"/>
-		<plugin_menu location="menu_bar/file/export/html/exportHTML_Image"/>
-		<plugin_property name="file_type" value="html"/>
-		<plugin_property name="file_description" value="%accessories/plugins/ExportWithXSLT_HTML_Links.properties_webpage"/>
-		<plugin_property name="xslt_file" value="accessories/freemind2html_links.xsl"/>
-		<plugin_property name="create_dir" value="true"/>
-		<plugin_property name="files_to_copy" value=""/>
-		<plugin_property name="file_prefix" value="accessories/"/>
-		<plugin_property name="copy_icons" value="false"/>
-		<plugin_property name="load_file" value="true"/>
-		<plugin_property name="create_html_linked_image" value="true"/>
-		<plugin_property name="link_replacement_format_string" value="{1}"/>
-	</plugin_action>
 	<plugin_action documentation="%accessories/plugins/ExportWithXSLT_TASKSTJI.properties_documentation" name="%accessories/plugins/ExportWithXSLT_TASKSTJI.properties_name" base="freemind.extensions.ModeControllerHookAdapter" label="accessories/plugins/ExportWithXSLT_TASKSTJI.properties" class_name="accessories.plugins.ExportWithXSLT">
 		<plugin_mode class_name="freemind.modes.mindmapmode"/>
 		<plugin_menu location="menu_bar/file/export/other/exportTASKSTJI"/>
@@ -80,17 +39,6 @@
 		<plugin_property name="copy_map" value="false"/>
 		<plugin_property name="load_file" value="false"/>
 		<plugin_property name="create_dir" value="false"/>
-		<plugin_property name="create_html_linked_image" value="false"/>
-	</plugin_action>
-	<plugin_action documentation="%accessories/plugins/ExportWithXSLT_StandaloneHTML.properties_documentation" name="%accessories/plugins/ExportWithXSLT_StandaloneHTML.properties_name" base="freemind.extensions.ModeControllerHookAdapter" label="accessories/plugins/ExportWithXSLT_StandaloneHTML.properties" class_name="accessories.plugins.ExportWithXSLT">
-		<plugin_mode class_name="freemind.modes.mindmapmode"/>
-		<plugin_menu location="menu_bar/file/export/html/exportHTML_Standalone"/>
-		<plugin_property name="file_type" value="html"/>
-		<plugin_property name="file_description" value="%accessories/plugins/ExportWithXSLT_StandaloneHTML.properties_webpage"/>
-		<plugin_property name="xslt_file" value="accessories/freemind2html_standalone.xsl"/>
-		<plugin_property name="create_dir" value="false"/>
-		<plugin_property name="copy_icons" value="false"/>
-		<plugin_property name="load_file" value="true"/>
 		<plugin_property name="create_html_linked_image" value="false"/>
 	</plugin_action>
 	<plugin_action documentation="%accessories/plugins/ExportToLatex.properties_documentation" name="%accessories/plugins/ExportToLatex.properties_name" base="freemind.extensions.ModeControllerHookAdapter" label="accessories/plugins/ExportToLatex.properties" class_name="accessories.plugins.ExportWithXSLT">

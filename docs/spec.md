@@ -57,7 +57,7 @@ A line marked **docs** comes from `README.md` or `docs/`. A line marked **menu**
 
 | ID | What the user can do | Entry points | Source |
 |----|----------------------|--------------|--------|
-| REQ-FILE-01 | Export the map or a branch to HTML. | File → Export. README records standalone HTML export as done. | docs |
+| ~~REQ-FILE-01~~ REMOVED (TAI-012) | Export the map or a branch to HTML. | File → Export. README records standalone HTML export as done. | docs |
 | ~~REQ-FILE-02~~ REMOVED (TAI-011) | Export to SVG and to PDF, with a PDF options dialog. | SVG/PDF plugin. | docs |
 | REQ-FILE-03 | Export a picture. The release checklist accepts PNG as one of HTML, PDF, or PNG. | File → Export → picture. | docs for the checklist; menu for the slot |
 | ~~REQ-FILE-04~~ REMOVED (TAI-016) | Export a context graph as Markdown, or as XML with node count, depth, and date. | Context Graph plugin. | docs |

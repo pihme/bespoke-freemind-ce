@@ -375,8 +375,6 @@ public class MindMapController extends ControllerAdapter implements
 	public Action open = new OpenAction(this);
 	public Action save = new SaveAction();
 	public Action saveAs = new SaveAsAction();
-	public Action exportToHTML = new ExportToHTMLAction(this);
-	public Action exportBranchToHTML = new ExportBranchToHTMLAction(this);
 
 	public Action editLong = new EditLongAction();
 	public Action newSibling = new NewSiblingAction(this);
@@ -1273,7 +1271,6 @@ public class MindMapController extends ControllerAdapter implements
 		increaseNodeFont.setEnabled(enabled);
 		decreaseNodeFont.setEnabled(enabled);
 		exportBranch.setEnabled(enabled);
-		exportBranchToHTML.setEnabled(enabled);
 		editLong.setEnabled(enabled);
 		newSibling.setEnabled(enabled);
 		newPreviousSibling.setEnabled(enabled);
@@ -1287,7 +1284,6 @@ public class MindMapController extends ControllerAdapter implements
 		saveAs.setEnabled(enabled);
 		getToolBar().setAllActions(enabled);
 		exportBranch.setEnabled(enabled);
-		exportToHTML.setEnabled(enabled);
 		importBranch.setEnabled(enabled);
 		importLinkedBranch.setEnabled(enabled);
 		importLinkedBranchWithoutRoot.setEnabled(enabled);
@@ -1355,58 +1351,6 @@ public class MindMapController extends ControllerAdapter implements
 
 	// This may later be moved to ControllerAdapter. So far there is no reason
 	// for it.
-	protected class ExportToHTMLAction extends MindmapAction {
-
-		public ExportToHTMLAction(MindMapController controller) {
-			super("export_to_html", controller);
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			// from
-			// https://sourceforge.net/tracker2/?func=detail&atid=307118&aid=1789765&group_id=7118
-			if (getMap().getFile() == null) {
-				JOptionPane.showMessageDialog(getFrame().getContentPane(),
-						getText("map_not_saved"), "FreeMind",
-						JOptionPane.WARNING_MESSAGE);
-				return;
-			}
-			try {
-				File file = new File(getMindMapMapModel().getFile() + ".html");
-				saveHTML((MindMapNodeModel) getMindMapMapModel().getRoot(),
-						file);
-				loadURL(file.toString());
-			} catch (IOException ex) {
-				freemind.main.Resources.getInstance().logException(ex);
-			}
-		}
-	}
-
-	protected class ExportBranchToHTMLAction extends MindmapAction {
-
-		public ExportBranchToHTMLAction(MindMapController controller) {
-			super("export_branch_to_html", controller);
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			File mindmapFile = getMap().getFile();
-			if (mindmapFile == null) {
-				JOptionPane.showMessageDialog(getFrame().getContentPane(),
-						getText("map_not_saved"), "FreeMind",
-						JOptionPane.WARNING_MESSAGE);
-				return;
-			}
-			try {
-				File file = File.createTempFile(
-						mindmapFile.getName().replace(
-								FreeMindCommon.FREEMIND_FILE_EXTENSION, "_"),
-						".html", mindmapFile.getParentFile());
-				saveHTML((MindMapNodeModel) getSelected(), file);
-				loadURL(file.toString());
-			} catch (IOException ex) {
-			}
-		}
-	}
-
 	private class ImportBranchAction extends MindmapAction {
 		ImportBranchAction() {
 			super("import_branch", MindMapController.this);
@@ -2020,14 +1964,6 @@ public class MindMapController extends ControllerAdapter implements
 		public void actionPerformed(ActionEvent e) {
 			edit(null, false, true);
 		}
-	}
-
-	static public void saveHTML(MindMapNodeModel rootNodeOfBranch, File file)
-			throws IOException {
-		BufferedWriter fileout = new BufferedWriter(new OutputStreamWriter(
-				new FileOutputStream(file), "UTF-8"));
-		MindMapHTMLWriter htmlWriter = new MindMapHTMLWriter(fileout);
-		htmlWriter.saveHTML(rootNodeOfBranch);
 	}
 
 	static public void saveHTML(List<MindMapNodeModel> mindMapNodes, Writer fileout)

@@ -77,15 +77,6 @@ class XsltExportTest {
     // ── Top 10 XSLT stylesheets: non-empty output ──────────────────────
 
     @Test
-    @DisplayName("mm2html.xsl produces non-empty HTML output")
-    void mm2htmlProducesOutput() throws Exception {
-        String result = applyXslt("mm2html.xsl", smallMapXml);
-        assertFalse(result.isBlank(), "mm2html output must not be blank");
-        assertTrue(result.toLowerCase().contains("<html"),
-                "mm2html output must contain <html> tag");
-    }
-
-    @Test
     @DisplayName("mm2text.xsl produces non-empty text output")
     void mm2textProducesOutput() throws Exception {
         String result = applyXslt("mm2text.xsl", smallMapXml);
@@ -156,33 +147,6 @@ class XsltExportTest {
         assertFalse(result.isBlank(), "mm2wordml output must not be blank");
     }
 
-    // ── HTML export: structure validation ───────────────────────────────
-
-    @Test
-    @DisplayName("HTML export contains root node text")
-    void htmlExportContainsRootNodeText() throws Exception {
-        String result = applyXslt("mm2html.xsl", smallMapXml);
-        assertTrue(result.contains("Root"), "HTML export must contain root node text 'Root'");
-    }
-
-    @Test
-    @DisplayName("HTML export contains child node texts")
-    void htmlExportContainsChildNodeTexts() throws Exception {
-        String result = applyXslt("mm2html.xsl", smallMapXml);
-        assertTrue(result.contains("Node_1"), "HTML export must contain child node text 'Node_1'");
-    }
-
-    @Test
-    @DisplayName("Standalone HTML export produces well-formed XHTML")
-    void standaloneHtmlExportIsWellFormed() throws Exception {
-        String result = applyXslt("freemind2html_standalone.xsl", smallMapXml);
-        assertFalse(result.isBlank(), "Standalone HTML must not be blank");
-        assertTrue(result.toLowerCase().contains("<html"),
-                "Standalone HTML must contain <html> tag");
-        assertTrue(result.contains("Root"),
-                "Standalone HTML must contain root node text");
-    }
-
     // ── CSV export: delimiter and content ───────────────────────────────
 
     @Test
@@ -223,16 +187,6 @@ class XsltExportTest {
     // ── Edge-case content: user content is sacred ───────────────────────
 
     @Test
-    @DisplayName("HTML export preserves script tag content from edge-case map")
-    void htmlExportPreservesScriptTagContent() throws Exception {
-        String result = applyXslt("mm2html.xsl", edgeCaseMapXml);
-        // The XSLT output should contain the user's text including <script> text
-        // (may be escaped as &lt;script&gt; in HTML output, which is correct)
-        assertTrue(result.contains("alert") || result.contains("script"),
-                "HTML export must preserve script-related user content");
-    }
-
-    @Test
     @DisplayName("Text export preserves file path content")
     void textExportPreservesFilePathContent() throws Exception {
         String result = applyXslt("mm2text.xsl", edgeCaseMapXml);
@@ -250,27 +204,7 @@ class XsltExportTest {
         assertFalse(result.isBlank(), "CSV export of edge-case map must not be blank");
     }
 
-    @Test
-    @DisplayName("HTML export preserves SQL injection string content")
-    void htmlExportPreservesSqlInjectionContent() throws Exception {
-        String result = applyXslt("mm2html.xsl", edgeCaseMapXml);
-        assertTrue(result.contains("OR 1=1"),
-                "HTML export must preserve SQL injection string content");
-    }
-
     // ── Large map export ────────────────────────────────────────────────
-
-    @Test
-    @DisplayName("HTML export handles 1K node map without error")
-    void htmlExportHandlesLargeMap() throws Exception {
-        String largeMapXml = MindMapGenerator.create()
-                .withNodes(1_000).withDepth(6).withWidth(5)
-                .toXmlString();
-        String result = applyXslt("mm2html.xsl", largeMapXml);
-        assertFalse(result.isBlank(), "HTML export of large map must not be blank");
-        assertTrue(result.length() > 1000,
-                "HTML export of 1K node map must produce substantial output");
-    }
 
     @Test
     @DisplayName("CSV export handles 1K node map without error")
@@ -293,16 +227,6 @@ class XsltExportTest {
     }
 
     // ── Unicode content in exports ──────────────────────────────────────
-
-    @Test
-    @DisplayName("HTML export preserves Turkish characters")
-    void htmlExportPreservesTurkishChars() throws Exception {
-        String mapXml = "<map><node TEXT=\"\u015e\u0131\u011f\u00fc\u00f6\u00e7\u0130\"></node></map>";
-        String result = applyXslt("mm2html.xsl", mapXml);
-        // HTML output may use entities or direct UTF-8; either way the text must be present
-        boolean hasTurkish = result.contains("\u015e\u0131\u011f") || result.contains("&#");
-        assertTrue(hasTurkish, "HTML export must preserve Turkish characters");
-    }
 
     @Test
     @DisplayName("Text export preserves Arabic text")

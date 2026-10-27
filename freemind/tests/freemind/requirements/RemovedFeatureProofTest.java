@@ -124,6 +124,23 @@ class RemovedFeatureProofTest {
 	}
 
 	@Test
+	void TestREQ_FILE_01_HtmlExportIsGone() throws Exception {
+		Path root = repoRoot();
+		String menus = Files.readString(root.resolve("freemind/mindmap_menus.xml"));
+		assertFalse(menus.contains("exportToHTML"));
+		assertFalse(menus.contains("exportBranchToHTML"));
+		String xslt = Files.readString(root.resolve("freemind/accessories/plugins/ExportWithXSLT.xml"));
+		assertFalse(xslt.contains("ExportWithXSLT_HTML"));
+		assertFalse(xslt.contains("freemind2html"));
+		assertFalse(xslt.contains("toxhtml.xsl"));
+		assertFalse(Files.exists(root.resolve("freemind/accessories/mm2html.xsl")));
+		assertFalse(Files.exists(root.resolve("freemind/accessories/toxhtml.xsl")));
+		assertFalse(Files.readString(root.resolve("freemind/freemind.properties")).contains("keystroke_export_to_html"));
+		assertFalse(Files.readString(root.resolve("freemind/freemind.properties")).contains("keystroke_export_branch_to_html"));
+		assertNotNull(Class.forName("freemind.modes.mindmapmode.MindMapHTMLWriter"));
+	}
+
+	@Test
 	void TestREQ_SEC_01_EncryptCommandIsGone() throws Exception {
 		assertThrows(ClassNotFoundException.class,
 				() -> Class.forName("accessories.plugins.EncryptNode"));

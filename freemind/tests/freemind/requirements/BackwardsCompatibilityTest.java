@@ -406,22 +406,6 @@ class BackwardsCompatibilityTest {
 	}
 
 	@Test
-	void htmlExportWritesTheNodeText() throws Exception {
-		Opened opened = openMap("Käse", "Bread");
-		File file = File.createTempFile("bespoke-html", ".html");
-		file.deleteOnExit();
-
-		MindMapController.saveHTML(opened.root, file);
-
-		String html = Files.readString(file.toPath());
-		assertTrue(html.contains("<html>"), html);
-		assertTrue(html.contains("&auml;"), html);
-		assertTrue(html.contains("se"), html);
-		assertTrue(html.contains("Bread"), html);
-		assertTrue(html.contains("</html>"), html);
-	}
-
-	@Test
 	void encryptedNodeHidesTheChildUntilThePasswordMatches() throws Exception {
 		Opened opened = openMap("Visible");
 		EncryptedMindMapNode locked = new EncryptedMindMapNode("Locked", opened.model);
@@ -921,46 +905,6 @@ class BackwardsCompatibilityTest {
 		assertNotNull(tip);
 		assertTrue(tip.startsWith("created "), tip);
 		assertNotNull(opened.child("Dated").getToolTip().get("created"));
-	}
-
-	@Test
-	void htmlExportWithFoldingWritesTheScriptAndAHeading() throws Exception {
-		String folding = resourcesProperty("html_export_folding");
-		String icons = resourcesProperty("export_icons_in_html");
-		try {
-			setResourcesProperty("html_export_folding", "html_export_fold_all");
-			setResourcesProperty("export_icons_in_html", "true");
-			Opened opened = openMap("Child");
-			MindMapNode child = opened.child("Child");
-			opened.mode.addNewNode(child, 0, false);
-			opened.mode.setNodeText((MindMapNode) child.getChildAt(0), "Grand");
-			opened.mode.addIcon(child, MindIcon.factory("button_ok"));
-			opened.mode.setBold(child, true);
-			opened.mode.setLink(child, "notes.mm");
-			File folded = File.createTempFile("bespoke-html-fold", ".html");
-			folded.deleteOnExit();
-
-			MindMapController.saveHTML(opened.root, folded);
-
-			String html = Files.readString(folded.toPath());
-			assertTrue(html.contains("fold_document"), html);
-			assertTrue(html.contains("show_folder"), html);
-			assertTrue(html.contains("button_ok"), html);
-			assertTrue(html.contains("notes.mm.html"), html);
-			assertTrue(html.contains("font-weight: bold;"), html);
-
-			setResourcesProperty("html_export_folding", "html_export_based_on_headings");
-			File headings = File.createTempFile("bespoke-html-head", ".html");
-			headings.deleteOnExit();
-			MindMapController.saveHTML(opened.root, headings);
-			String headed = Files.readString(headings.toPath());
-			assertTrue(headed.contains("<h1>"), headed);
-			assertTrue(headed.contains("ROOT"), headed);
-			assertTrue(headed.contains("Child"), headed);
-		} finally {
-			setResourcesProperty("html_export_folding", folding);
-			setResourcesProperty("export_icons_in_html", icons);
-		}
 	}
 
 	@Test

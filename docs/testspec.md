@@ -103,7 +103,7 @@ Slices 1 and 2 also have deduced requirement tests. This table is the reference 
 | 1 | A pattern copies bold, italic, and color. The intersection of a bold node and a plain node drops the bold property. Applying the pattern makes the plain node bold. | `BackwardsCompatibilityTest.patternCopiesBoldItalicAndColor` | passed |
 | 2 | An arrow link stores red. After layout, both inclinations are set and the inner bounds are positive. The bitmap is not asserted. | `BackwardsCompatibilityTest.arrowLinkPaintsRedBetweenTwoNodes` | passed |
 | 2 | A red cloud paints red pixels around the node. | `BackwardsCompatibilityTest.cloudPaintsRedAroundTheNode` | passed |
-| 1 | HTML export writes `<html>` and escapes `ä` as `&auml;`. | `BackwardsCompatibilityTest.htmlExportWritesTheNodeText` | passed |
+| 1 | HTML export writes `<html>` and escapes `ä` as `&auml;`. | Removed with TAI-012. | removed |
 | 6 | An encrypted node hides its child until the password matches. A wrong password does not. | `BackwardsCompatibilityTest.encryptedNodeHidesTheChildUntilThePasswordMatches` | passed |
 | 6 | A table sorter orders rows ascending, then descending. | `BackwardsCompatibilityTest.tableSorterOrdersRows` | passed |
 | 4 | `C+ENTER` is key Enter with the modifier word `control`. Tab is consumed. Control-space is a space. Typed `B` stays `B`. `SPACE` parses as a space. An unknown key name is rejected. | `BackwardsCompatibilityTest.keyTranslatorReadsControlEnter` | passed |
@@ -130,7 +130,7 @@ Slices 1 and 2 also have deduced requirement tests. This table is the reference 
 | 6 | After the revision plugin is on, editing a node sets its background to yellow. | `BackwardsCompatibilityTest.revisionPluginColorsAnEditedNode` | passed |
 | 6 | Automatic layout paints the root black and the child `#0033ff`. | `BackwardsCompatibilityTest.automaticLayoutAppliesTheDepthColor` | passed |
 | 6 | Creation/modification stores a tooltip that starts with `created `. | `BackwardsCompatibilityTest.creationModificationStoresATooltip` | passed |
-| 6 | HTML export with folding writes `fold_document`, a fold button, the icon, a `.mm.html` link, and bold. Heading export writes `<h1>` and the root text. | `BackwardsCompatibilityTest.htmlExportWithFoldingWritesTheScriptAndAHeading` | passed |
+| 6 | HTML export with folding writes `fold_document`, a fold button, the icon, a `.mm.html` link, and bold. Heading export writes `<h1>` and the root text. | Removed with TAI-012. | removed |
 | 1 | Applying a pattern directly sets the text, red, green, bubble, a blue bezier edge of width 4, `button_ok`, size 20, bold, italic, strikethrough, and a serif family. A child pattern named `ChildMark` sets the child text to `FromChild`. A blank font size and font name restore the default font. Clearing the icon, text, width, and font name empties the text and the icons, stores the default edge width, and the visible width is thin. | `BackwardsCompatibilityTest.directPatternApplySetsFontEdgeIconAndText` | passed |
 | 6 | Saving a pattern named `Marked` with red and loading it back keeps the name and the color. | `BackwardsCompatibilityTest.savedPatternRoundTripsTheNameAndTheColor` | passed |
 | 1 | Pasting a copy of `Alpha` adds a second `Alpha` with a different id. | `BackwardsCompatibilityTest.pastingACopyAddsTheChildAgain` | passed |
@@ -484,12 +484,9 @@ The find dialog is not opened. `FindTextTests` still checks HTML tag stripping, 
 
 ## Files in and out
 
-### REQ-FILE-01 — Checked
+### ~~REQ-FILE-01~~ REMOVED (TAI-012)
 
-- `export/XsltExportTest.java` `htmlExportContainsRootNodeText`, `htmlExportContainsChildNodeTexts`, `standaloneHtmlExportIsWellFormed`.
-- `export/ContentPreservationExportTest.java` `htmlExportPreservesHebrewText`.
-
-`gui/ExportGuiTest.java` methods named `export_html*` only assert `.mm` XML and are not counted.
+HTML export is gone. `RemovedFeatureProofTest.TestREQ_FILE_01_HtmlExportIsGone` checks that the export menu no longer names `exportToHTML` or `exportBranchToHTML`, that the HTML actions are absent from `ExportWithXSLT.xml`, and that `mm2html.xsl` is absent. Rich text stored on a node stays. Copy still uses `MindMapHTMLWriter`. `gui/ExportGuiTest.java` methods named `export_html*` only assert `.mm` XML and stay.
 
 ### ~~REQ-FILE-02~~ REMOVED (TAI-011)
 
