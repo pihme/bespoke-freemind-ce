@@ -143,7 +143,6 @@ HookAdapter (base)
 | SVG/PDF Export | `ExportSvg`, `ExportPdf` | `ExportSvg.xml` | Batik 1.17, FOP 2.9 |
 | Scripting | `ScriptingEngine` | `ScriptingEngine.xml` | Groovy, Rhino 1.7.14 |
 | Map Viewer | `MapDialog` | `MapViewer.xml` | JMapViewer |
-| Help | `FreemindHelpStarter` | `FreemindHelp.xml` | JavaHelp |
 | Collaboration | Socket-based | `CollaborationSocket.xml` | TCP |
 | LaTeX | `LatexNodeHook` | `Latex.xml` | HotEqn |
 
@@ -160,7 +159,6 @@ HookAdapter (base)
 :freemind:plugins:svg                  (SVG/PDF export)
 :freemind:plugins:script               (scripting)
 :freemind:plugins:map                  (map viewer)
-:freemind:plugins:help                 (help)
 :freemind:plugins:collaboration:socket (collaboration)
 ```
 

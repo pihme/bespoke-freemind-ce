@@ -137,9 +137,6 @@
 - `LatexNodeHook` - LaTeX rendering hook
 - `JZoomedHotEqn` - Equation renderer with zoom
 
-### Help
-- `FreemindHelpStarter` - Help system integrator
-
 ### Collaboration (Socket)
 - TCP socket-based real-time collaboration
 

@@ -44,7 +44,7 @@ freemind-ce/
 │   │   ├── svg/                       # SVG/PDF export (Batik + FOP)
 │   │   ├── script/                    # Groovy scripting engine
 │   │   ├── map/                       # OpenStreetMap integration (JMapViewer)
-│   │   ├── help/                      # Integrated help system (JavaHelp)
+│   │   ├── help/                      # jhall.jar kept for the trimmed stage
 │   │   ├── latex/                     # LaTeX formula rendering (not in Gradle yet)
 │   │   └── collaboration/             # Real-time collaboration
 │   │       ├── socket/                # ★ TCP socket-based (in Gradle)

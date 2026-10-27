@@ -37,7 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import javax.help.HelpSet;
 import javax.swing.JPanel;
 
 import org.junit.jupiter.api.DisplayName;
@@ -291,20 +290,6 @@ class DeducedBehaviourTest {
 		}
 		assertTrue(SpellChecker.isDictionaryLoaded());
 		assertEquals("en", SpellChecker.getCurrentLocale().getLanguage());
-	}
-
-	@Test
-	void TestREQ_PLUG_04_HelpSetLoads() throws Exception {
-		Path dir = Path.of(System.getProperty("user.dir"));
-		while (dir != null && !Files.exists(dir.resolve("plugins/help/doc/freemind.hs"))) {
-			dir = dir.getParent();
-		}
-		assertNotNull(dir);
-		URL url = dir.resolve("plugins/help/doc/freemind.hs").toUri().toURL();
-		HelpSet helpSet = new HelpSet(null, url);
-
-		assertTrue(helpSet.getTitle().contains("FreeMind Help"));
-		assertEquals("top", helpSet.getHomeID().getIDString());
 	}
 
 	private static Opened openMap(String... childTexts) throws Exception {

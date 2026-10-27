@@ -93,7 +93,6 @@ For cases where you need direct Gradle access (CI, IDE integration, advanced opt
 :freemind:plugins:svg                  → SVG/PDF export
 :freemind:plugins:script               → Groovy scripting
 :freemind:plugins:map                  → OpenStreetMap viewer
-:freemind:plugins:help                 → Help system
 :freemind:plugins:collaboration:socket → Real-time collaboration
 ```
 

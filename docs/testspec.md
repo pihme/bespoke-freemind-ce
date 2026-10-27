@@ -68,7 +68,7 @@ Labeled **Deduced**. Each row is a test the requirement sentence does not spell 
 | REQ-DED-04 | A node whose text is an `<img>` is shown with a `<base href>` of the map. The stored text stays without that base tag. | `DeducedBehaviourTest.TestREQ_NODE_08_ImageHtmlGainsBaseHrefInTheView` | passed |
 | REQ-DED-05 | A new LaTeX hook reads back `E = mc^{2}`, saves that equation, and loads a replacement. | `DeducedBehaviourTest.TestREQ_PLUG_05_LatexHookStoresEquation` | passed |
 | REQ-DED-06 | Registering the English dictionary from `dictionaries.cnf` loads a dictionary whose locale language is `en`. | `DeducedBehaviourTest.TestREQ_PLUG_07_EnglishDictionaryLoads` | passed |
-| REQ-DED-07 | The help set file loads. Its title contains `FreeMind Help` and its home id is `top`. The help window is not opened. | `DeducedBehaviourTest.TestREQ_PLUG_04_HelpSetLoads` | passed |
+| ~~REQ-DED-07~~ REMOVED (TAI-004) | Integrated help. | Removed with TAI-004. | removed |
 | REQ-DED-08 | The recent-files list keeps the shipped 25, one under that, drops the oldest past the limit, stays empty at 0, throws `IndexOutOfBoundsException` at -1 after emptying, and a value past the `int` range leaves the limit at 25. | `LastOpenedListBehaviourTest.TestREQ_DED_08_ShippedLimitKeepsTwentyFiveAndDropsTheOldest`, `TestREQ_DED_08_ZeroKeepsTheListEmpty`, `TestREQ_DED_08_NegativeThrowsAfterEmptyingTheList`, `TestREQ_DED_08_ValuePastIntRangeLeavesTheLimitAtTwentyFive` | passed |
 | REQ-DED-09 | The undo list keeps the shipped 100, one under that, drops the oldest past the limit, stays empty at 0, throws `IndexOutOfBoundsException` at -1 after emptying, and a value past the `int` range leaves the limit at 100. Pairs inside 100 ms count as one and do not apply the limit. | `UndoActionBehaviourTest.TestREQ_DED_09_ShippedLimitKeepsOneHundredAndDropsTheOldest`, `TestREQ_DED_09_ZeroKeepsTheListEmpty`, `TestREQ_DED_09_NegativeThrowsAfterEmptyingTheList`, `TestREQ_DED_09_ValuePastIntRangeLeavesTheLimitAtOneHundred`, `TestREQ_DED_09_FoldedPairDoesNotApplyTheLimit` | passed |
 | REQ-DED-10 | Remembered map states keep 49 and 50, drop the oldest at 51, and an unreadable store has no entry. | `LastStateStorageManagementBehaviourTest.TestREQ_DED_10_FiftyStatesAreKeptAndTheOldestIsDropped` | passed |
@@ -554,13 +554,9 @@ Nominatim XML unmarshalls to places. A map viewer builds its menus, reads tile-s
 
 Lucene search of map files is gone. In-map find stays. `RemovedFeatureProofTest.TestREQ_PLUG_03_LuceneSearchIsGone` checks that `plugins.search.SearchControllerHook` does not load and that `freemind/plugins/Search.xml` is absent.
 
-### REQ-PLUG-04 — Partial
+### ~~REQ-PLUG-04~~ REMOVED (TAI-004)
 
-The help set loads. The help window is not opened.
-
-- `requirements/DeducedBehaviourTest.java` `TestREQ_PLUG_04_HelpSetLoads`: the title contains `FreeMind Help` and the home id is `top`.
-
-The help GUI tests still check version strings and non-null objects.
+Integrated help is gone. `RemovedFeatureProofTest.TestREQ_PLUG_04_IntegratedHelpIsGone` checks that `plugins.help.FreemindHelpStarter` does not load and that `freemind/plugins/FreemindHelp.xml` and the help set are absent. `plugins/help/jhall.jar` stays until the trimmed stage. `HelpMenuGuiTest` still checks version strings and is not this feature.
 
 ### REQ-PLUG-05 — Partial
 

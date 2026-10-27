@@ -3,6 +3,7 @@ package tests.freemind.requirements;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,6 +28,16 @@ class RemovedFeatureProofTest {
 		Path root = repoRoot();
 		assertFalse(Files.exists(root.resolve("freemind/plugins/Search.xml")));
 		assertFalse(Files.exists(root.resolve("freemind/plugins/search")));
+	}
+
+	@Test
+	void TestREQ_PLUG_04_IntegratedHelpIsGone() throws Exception {
+		assertThrows(ClassNotFoundException.class,
+				() -> Class.forName("plugins.help.FreemindHelpStarter"));
+		Path root = repoRoot();
+		assertFalse(Files.exists(root.resolve("freemind/plugins/FreemindHelp.xml")));
+		assertFalse(Files.exists(root.resolve("freemind/plugins/help/doc/freemind.hs")));
+		assertTrue(Files.exists(root.resolve("freemind/plugins/help/jhall.jar")));
 	}
 
 	private static Path repoRoot() {
