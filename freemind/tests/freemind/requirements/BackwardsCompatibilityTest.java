@@ -48,7 +48,6 @@ import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.Paper;
 import java.awt.print.Printable;
-import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -180,7 +179,6 @@ import freemind.controller.actions.generated.instance.PatternNodeStyle;
 import freemind.controller.actions.generated.instance.PatternNodeText;
 import freemind.controller.filter.util.SortedMapVector;
 import freemind.extensions.ExportHook;
-import freemind.extensions.HookAdapter;
 import freemind.extensions.NodeHook;
 import freemind.extensions.PermanentNodeHook;
 import freemind.main.ExampleFileFilter;
@@ -265,14 +263,7 @@ import freemind.view.mindmapview.MainView;
 import freemind.view.mindmapview.MapView;
 import freemind.view.mindmapview.NodeFoldingComponent;
 import freemind.view.mindmapview.NodeView;
-import plugins.contextgraph.CleanJsonExport;
-import plugins.contextgraph.CleanXmlExport;
-import plugins.contextgraph.CleanYamlExport;
-import plugins.contextgraph.ContextGraphMarkdownExport;
-import plugins.contextgraph.ContextGraphXmlExport;
-import plugins.contextgraph.JsonExport;
 import plugins.latex.LatexNodeHook;
-import plugins.contextgraph.YamlExport;
 import plugins.map.MapNodePositionHolder;
 import plugins.map.TileImage;
 
@@ -1302,73 +1293,6 @@ class BackwardsCompatibilityTest {
 	}
 
 	@Test
-	void contextGraphExportsWriteTheNodeText() throws Exception {
-		Opened opened = openMap("Alpha");
-		MindMapNode alpha = opened.child("Alpha");
-		opened.mode.setLink(alpha, "https://example.test/a");
-		opened.mode.setNoteText(alpha, "a note");
-		opened.mode.addIcon(alpha, MindIcon.factory("button_ok"));
-		opened.mode.setBold(alpha, true);
-		opened.mode.setCloud(alpha, true);
-		opened.mode.setCloudColor(alpha, Color.RED);
-		opened.mode.addAttribute(alpha, new Attribute("Owner", "Ada"));
-		opened.mode.setEdgeStyle(alpha, EdgeAdapter.EDGESTYLE_LINEAR);
-		opened.mode.addNewNode(alpha, 0, false);
-		opened.mode.setNodeText((MindMapNode) alpha.getChildAt(0), "Gamma");
-
-		String json = writeWith(exportHook(new JsonExport(), opened), "writeNode",
-				new Class<?>[] { BufferedWriter.class, MindMapNode.class, String.class },
-				new Object[] { opened.root, "  " });
-		assertTrue(json.contains("Alpha"), json);
-		assertTrue(json.contains("https://example.test/a"), json);
-		assertTrue(json.contains("a note"), json);
-		assertTrue(json.contains("button_ok"), json);
-		assertTrue(json.contains("Gamma"), json);
-		assertTrue(json.contains("\"bold\": true"), json);
-		assertTrue(json.contains("\"cloud\""), json);
-		assertTrue(json.contains("#ff0000"), json);
-		assertTrue(json.contains("Ada"), json);
-		assertTrue(json.contains("linear"), json);
-
-		String yaml = writeWith(exportHook(new YamlExport(), opened), "writeNode",
-				new Class<?>[] { BufferedWriter.class, MindMapNode.class, String.class },
-				new Object[] { opened.root, "" });
-		assertTrue(yaml.contains("Alpha"), yaml);
-		assertTrue(yaml.contains("https://example.test/a"), yaml);
-		assertTrue(yaml.contains("Gamma"), yaml);
-		assertTrue(yaml.contains("cloud:"), yaml);
-		assertTrue(yaml.contains("Ada"), yaml);
-
-		String markdown = writeWith(exportHook(new ContextGraphMarkdownExport(), opened), "writeNode",
-				new Class<?>[] { BufferedWriter.class, MindMapNode.class, int.class },
-				new Object[] { opened.root, Integer.valueOf(0) });
-		assertTrue(markdown.contains("Alpha"), markdown);
-		assertTrue(markdown.contains("Gamma"), markdown);
-
-		String xml = writeWith(exportHook(new ContextGraphXmlExport(), opened), "writeNode",
-				new Class<?>[] { BufferedWriter.class, MindMapNode.class, int.class, String.class },
-				new Object[] { opened.root, Integer.valueOf(0), "" });
-		assertTrue(xml.contains("Alpha"), xml);
-		assertTrue(xml.contains("Gamma"), xml);
-
-		String cleanJson = writeWith(exportHook(new CleanJsonExport(), opened), "writeNodeValue",
-				new Class<?>[] { BufferedWriter.class, MindMapNode.class, String.class },
-				new Object[] { opened.root, "" });
-		assertTrue(cleanJson.contains("Alpha"), cleanJson);
-		assertTrue(cleanJson.contains("Gamma"), cleanJson);
-
-		String cleanYaml = writeWith(exportHook(new CleanYamlExport(), opened), "writeChildren",
-				new Class<?>[] { BufferedWriter.class, MindMapNode.class, String.class },
-				new Object[] { opened.root, "" });
-		assertTrue(cleanYaml.contains("Alpha"), cleanYaml);
-
-		String cleanXml = writeWith(exportHook(new CleanXmlExport(), opened), "writeChildren",
-				new Class<?>[] { BufferedWriter.class, MindMapNode.class, String.class },
-				new Object[] { opened.root, "" });
-		assertTrue(cleanXml.contains("Alpha"), cleanXml);
-	}
-
-	@Test
 	void arrowPopupListsTheLinkActions() throws Exception {
 		Opened opened = openMap("From", "To");
 		MindMapNode from = opened.child("From");
@@ -2232,31 +2156,6 @@ class BackwardsCompatibilityTest {
 	}
 
 	@Test
-	void yamlExportListsAnArrowTarget() throws Exception {
-		Opened opened = openMap("Alpha", "Beta");
-		MindMapNode alpha = opened.child("Alpha");
-		opened.mode.addLink(alpha, opened.child("Beta"));
-		opened.mode.setNoteText(alpha, "&#66; &#x41; &#nope;");
-		opened.mode.addNewNode(alpha, 0, false);
-		opened.mode.setNodeText((MindMapNode) alpha.getChildAt(0), "Gamma");
-		CleanYamlExport hook = (CleanYamlExport) exportHook(new CleanYamlExport(), opened);
-		Field registry = CleanYamlExport.class.getDeclaredField("linkRegistry");
-		registry.setAccessible(true);
-		registry.set(hook, opened.model.getLinkRegistry());
-
-		String yaml = writeWith(hook, "writeChildren",
-				new Class<?>[] { BufferedWriter.class, MindMapNode.class, String.class },
-				new Object[] { opened.root, "" });
-
-		assertTrue(yaml.contains("Alpha"), yaml);
-		assertTrue(yaml.contains("_references:"), yaml);
-		assertTrue(yaml.contains("Beta"), yaml);
-		assertTrue(yaml.contains("_note:"), yaml);
-		assertTrue(yaml.contains("B A"), yaml);
-		assertTrue(yaml.contains("nope"), yaml);
-	}
-
-	@Test
 	void unicodeReaderKeepsTheTextBehindTheBom() throws Exception {
 		byte[] utf8 = new byte[] { (byte) 0xEF, (byte) 0xBB, (byte) 0xBF, 'A', 'b' };
 		UnicodeReader utf8Reader = new UnicodeReader(new ByteArrayInputStream(utf8), "UTF-8");
@@ -2563,66 +2462,6 @@ class BackwardsCompatibilityTest {
 		selectOnly(opened, beta);
 		listener.keyPressed(key(opened.view, KeyEvent.VK_F, 0));
 		assertEquals("Child", opened.view.getSelected().getModel().getText());
-	}
-
-	@Test
-	void aJsonExportKeepsFoldedHtmlStyleAndEscapesText() throws Exception {
-		Opened opened = openMap("Alpha");
-		MindMapNode alpha = opened.child("Alpha");
-		String raw = "say \"hi\"\\\n\r\t\b\f\u0001";
-		opened.mode.setNodeText(alpha, "<html><b>A &amp; B</b></html>");
-		opened.mode.setNoteText(alpha, raw);
-		opened.mode.addIcon(alpha, MindIcon.factory("idea"));
-		opened.mode.addIcon(alpha, MindIcon.factory("button_ok"));
-		opened.mode.setNodeStyle(alpha, MindMapNode.STYLE_BUBBLE);
-		opened.mode.setItalic(alpha, true);
-		opened.mode.setNodeColor(alpha, Color.BLUE);
-		opened.mode.setNodeBackgroundColor(alpha, Color.YELLOW);
-		opened.mode.addAttribute(alpha, new Attribute("Owner", "Ada"));
-		opened.mode.addAttribute(alpha, new Attribute("Rank", "1"));
-		opened.mode.addNewNode(alpha, 0, false);
-		opened.mode.setNodeText((MindMapNode) alpha.getChildAt(0), "Gamma");
-		opened.mode.setFolded(alpha, true);
-		LatexNodeHook latex = new LatexNodeHook();
-		Field activated = NodeAdapter.class.getDeclaredField("activatedHooks");
-		activated.setAccessible(true);
-		HashSet<PermanentNodeHook> hooks = new HashSet<>();
-		hooks.add(latex);
-		activated.set(alpha, hooks);
-
-		String json = writeWith(exportHook(new JsonExport(), opened), "writeNode",
-				new Class<?>[] { BufferedWriter.class, MindMapNode.class, String.class },
-				new Object[] { alpha, "  " });
-		Method escape = JsonExport.class.getDeclaredMethod("jsonString", String.class);
-		escape.setAccessible(true);
-		String escaped = (String) escape.invoke(null, raw);
-
-		assertEquals("null", escape.invoke(null, new Object[] { null }));
-		assertFalse(escaped.contains("\n"), escaped);
-		assertTrue(escaped.contains("\\\""), escaped);
-		assertTrue(escaped.contains("\\\\"), escaped);
-		assertTrue(escaped.contains("\\n"), escaped);
-		assertTrue(escaped.contains("\\r"), escaped);
-		assertTrue(escaped.contains("\\t"), escaped);
-		assertTrue(escaped.contains("\\b"), escaped);
-		assertTrue(escaped.contains("\\f"), escaped);
-		assertTrue(escaped.contains("\\u0001"), escaped);
-		assertTrue(json.contains(escaped), json);
-		assertTrue(json.contains("A & B"), json);
-		assertTrue(json.contains("richContent"), json);
-		assertTrue(json.contains("<b>"), json);
-		assertTrue(json.contains("<html>"), json);
-		assertTrue(json.contains("\"folded\": true"), json);
-		assertTrue(json.contains("idea"), json);
-		assertTrue(json.contains("button_ok"), json);
-		assertTrue(json.contains("bubble"), json);
-		assertTrue(json.contains("\"italic\": true"), json);
-		assertTrue(json.contains("#0000ff"), json);
-		assertTrue(json.contains("#ffff00"), json);
-		assertTrue(json.contains("Ada"), json);
-		assertTrue(json.contains("Rank"), json);
-		assertTrue(json.contains("E = mc^{2}"), json);
-		assertTrue(json.contains("Gamma"), json);
 	}
 
 	@Test
@@ -3113,30 +2952,6 @@ class BackwardsCompatibilityTest {
 		assertSame(arrow.getModel(), opened.view.detectCollision(hit));
 		assertNull(opened.view.detectCollision(new Point(hit.x - 500, hit.y - 500)));
 		assertFalse(arrow.detectCollision(new Point(hit.x - 500, hit.y - 500)));
-	}
-
-	@Test
-	void cleanJsonListsAnArrowAndANumericNote() throws Exception {
-		Opened opened = openMap("Alpha", "Beta");
-		MindMapNode alpha = opened.child("Alpha");
-		opened.mode.addLink(alpha, opened.child("Beta"));
-		opened.mode.setNoteText(alpha, "A&#233; B&#xE9;");
-		opened.mode.setItalic(alpha, true);
-		opened.mode.setStrikethrough(alpha, true);
-		CleanJsonExport hook = (CleanJsonExport) exportHook(new CleanJsonExport(), opened);
-		Field registry = CleanJsonExport.class.getDeclaredField("linkRegistry");
-		registry.setAccessible(true);
-		registry.set(hook, opened.model.getLinkRegistry());
-
-		String json = writeWith(hook, "writeNodeValue",
-				new Class<?>[] { BufferedWriter.class, MindMapNode.class, String.class },
-				new Object[] { opened.root, "" });
-
-		assertTrue(json.contains("Beta"), json);
-		assertTrue(json.contains("_references"), json);
-		assertTrue(json.contains("italic"), json);
-		assertTrue(json.contains("strikethrough"), json);
-		assertTrue(json.contains("Aé Bé") || json.contains("A\u00e9 B\u00e9"), json);
 	}
 
 	@Test
@@ -4203,19 +4018,6 @@ class BackwardsCompatibilityTest {
 		assertTrue(copy.toString().contains("Source="), copy.toString());
 		assertTrue(opened.model.getLinkRegistry().getAllSources(beta).contains(alpha));
 
-		opened.mode.setNoteText(alpha, "&#66; &#x41; &#nope;");
-		CleanXmlExport xmlHook = (CleanXmlExport) exportHook(new CleanXmlExport(), opened);
-		Field registry = CleanXmlExport.class.getDeclaredField("linkRegistry");
-		registry.setAccessible(true);
-		registry.set(xmlHook, opened.model.getLinkRegistry());
-		String xml = writeWith(xmlHook, "writeChildren",
-				new Class<?>[] { BufferedWriter.class, MindMapNode.class, String.class },
-				new Object[] { opened.root, "" });
-		assertTrue(xml.contains("B"), xml);
-		assertTrue(xml.contains("~>"), xml);
-		assertTrue(xml.contains("Beta"), xml);
-		assertTrue(xml.contains("&amp;#nope;"), xml);
-
 		DepthUnfold unfold = new DepthUnfold();
 		bind(unfold, opened, new Properties());
 		assertEquals(2, unfold.maxDepth(opened.root));
@@ -4728,26 +4530,6 @@ class BackwardsCompatibilityTest {
 				return null;
 			}
 		}
-	}
-
-	private static HookAdapter exportHook(HookAdapter hook, Opened opened) {
-		hook.setController(opened.mode);
-		hook.setProperties(new Properties());
-		return hook;
-	}
-
-	private static String writeWith(HookAdapter hook, String name, Class<?>[] parameterTypes, Object[] arguments)
-			throws Exception {
-		Method method = hook.getClass().getDeclaredMethod(name, parameterTypes);
-		method.setAccessible(true);
-		StringWriter collected = new StringWriter();
-		BufferedWriter writer = new BufferedWriter(collected);
-		Object[] withWriter = new Object[arguments.length + 1];
-		withWriter[0] = writer;
-		System.arraycopy(arguments, 0, withWriter, 1, arguments.length);
-		method.invoke(hook, withWriter);
-		writer.flush();
-		return collected.toString();
 	}
 
 	private static String resourcesProperty(String key) throws Exception {

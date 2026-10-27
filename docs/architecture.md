@@ -163,7 +163,6 @@ HookAdapter (base)
 :freemind:plugins:map                  (map viewer)
 :freemind:plugins:search               (search)
 :freemind:plugins:help                 (help)
-:freemind:plugins:contextgraph         (context graph export)
 :freemind:plugins:collaboration:socket (collaboration)
 ```
 

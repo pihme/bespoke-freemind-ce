@@ -95,7 +95,6 @@ For cases where you need direct Gradle access (CI, IDE integration, advanced opt
 :freemind:plugins:map                  → OpenStreetMap viewer
 :freemind:plugins:search               → Full-text search
 :freemind:plugins:help                 → Help system
-:freemind:plugins:contextgraph         → Context graph export
 :freemind:plugins:collaboration:socket → Real-time collaboration
 ```
 
@@ -162,7 +161,6 @@ make coverage-report # Totals from exec files already on disk
 | `TransformTest.java` | XSLT transformation |
 | `CollaborationTests.java` | Collaboration module |
 | `ExportTests.java` | Export functionality |
-| `ContextGraphExportTest.java` | Context graph plugin |
 | `HtmlConversionTests.java` | HTML export |
 | `StandaloneMapTests.java` | Standalone map operations |
 

@@ -109,12 +109,13 @@ A modernized and streamlined version of Freemind. Modernized pertains to the UI.
 | TAI-013 | Remove the XSLT exports (REQ-FILE-07). | The user said XSLT exports go. | user | Remove the XSLT export accessories. Leave Xalan for the trimmed stage. |
 | TAI-014 | Remove folder-structure import. Branch import, linked-branch import, and Explorer-favorites import stay. | The user said importing a folder goes. | user | Delete `ImportFolderStructureAction`. Keep the rest of REQ-FILE-06. |
 | TAI-015 | Remove every language bundle except English (REQ-APP-03). | The user said languages besides English go. | user | Delete `Resources_*.properties` other than `Resources_en.properties` and the default bundle. |
-| TAI-016 | Remove context-graph export (REQ-FILE-04), including its Markdown, XML, JSON, and YAML writers. | The user confirmed this plugin goes. It is a plugin module listed under Files. | user | Delete `plugins/ContextGraph.xml` and `plugins/contextgraph`, and drop `:freemind:plugins:contextgraph` from `settings.gradle.kts`. A `.mm` file still opens. |
+| TAI-016 | Remove context-graph export (REQ-FILE-04), including its Markdown, XML, JSON, and YAML writers. Proof: `RemovedFeatureProofTest.TestREQ_FILE_04_ContextGraphExportIsGone`. | The user confirmed this plugin goes. It is a plugin module listed under Files. | user | Delete `plugins/ContextGraph.xml` and `plugins/contextgraph`, and drop `:freemind:plugins:contextgraph` from `settings.gradle.kts`. A `.mm` file still opens. |
 
 ### Last run
 
 - 2026-10-27. Branch opened from the exited covered stage. The gate passed on the unchanged tree: unit 1,749, GUI 524, performance 9, all passed.
-- 2026-10-27. The user named the removals above. MindMap mode stays. PNG export, branch export, and the imports other than a folder stay. The license and `.mm` compatibility stay. No feature is removed yet.
+- 2026-10-27. The user named the removals above. MindMap mode stays. PNG export, branch export, and the imports other than a folder stay. The license and `.mm` compatibility stay.
+- 2026-10-27. TAI-016 removed context-graph export. The proof test finds neither the class nor the plugin file. Dropped tests: `ContextGraphExportTest`, `tests.freemind.cov.contextgraph`, and the context-graph methods in `BackwardsCompatibilityTest` and `MultiLanguageFileTest`. The gate passed: unit 1,684, GUI 524, performance 9, all passed.
 
 ## 4 customized
 

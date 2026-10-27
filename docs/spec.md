@@ -60,7 +60,7 @@ A line marked **docs** comes from `README.md` or `docs/`. A line marked **menu**
 | REQ-FILE-01 | Export the map or a branch to HTML. | File → Export. README records standalone HTML export as done. | docs |
 | REQ-FILE-02 | Export to SVG and to PDF, with a PDF options dialog. | SVG/PDF plugin. | docs |
 | REQ-FILE-03 | Export a picture. The release checklist accepts PNG as one of HTML, PDF, or PNG. | File → Export → picture. | docs for the checklist; menu for the slot |
-| REQ-FILE-04 | Export a context graph as Markdown, or as XML with node count, depth, and date. | Context Graph plugin. | docs |
+| ~~REQ-FILE-04~~ REMOVED (TAI-016) | Export a context graph as Markdown, or as XML with node count, depth, and date. | Context Graph plugin. | docs |
 | REQ-FILE-05 | Export the current branch as its own map. | File → Export. | menu |
 | REQ-FILE-06 | Import a branch, a linked branch, Explorer favorites, or a folder structure. | File → Import. | menu |
 | REQ-FILE-07 | Further XSLT exports live under `freemind/accessories/` (text, CSV, OPML, LaTeX, word processor, and others). The docs do not list them one by one. | File → Export slots filled by accessories. | tree |
