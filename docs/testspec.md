@@ -79,7 +79,7 @@ Labeled **Deduced**. Each row is a test the requirement sentence does not spell 
 | REQ-STYLE-07 | Each of the four edge styles is stored and the node view paints ink. Color and width are stored. | `DeducedBehaviourTest.TestREQ_STYLE_07_FourEdgeShapesPaint` | passed. Included in the 29.2% measurement. |
 | REQ-STYLE-08 | Ctrl plus the mouse wheel reduces the zoom. | `DeducedBehaviourTest.TestREQ_STYLE_08_CtrlWheelChangesZoom` | passed. Included in the 29.2% measurement. |
 | REQ-MAP-02 | Revert restores the last saved file. | not in this change | open |
-| REQ-FILE-02 | PDF export writes a PDF and the options dialog is still open. | not in this change | open |
+| ~~REQ-FILE-02~~ REMOVED (TAI-011) | SVG and PDF export. | Removed with TAI-011. | removed |
 | ~~REQ-PLUG-01~~ REMOVED (TAI-001) | The script editor is still not opened. | Removed with TAI-001. | removed |
 | ~~REQ-PLUG-02~~ REMOVED (TAI-002) | A node stores a geographic position. | Removed with TAI-002. | removed |
 | REQ-APP-01 | The options panel reads and writes a preference. The dialog is still not opened. | not in this change | open |
@@ -250,7 +250,7 @@ Slices 1 and 2 also have deduced requirement tests. This table is the reference 
 | — | The classes in `accessories.plugins.util.xslt` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.xslt`. Each of those tests is labeled backwards compatibility. An identity stylesheet writes the source element text. A missing result directory throws `FileNotFoundException` before the transform. A broken stylesheet is caught and the result file still exists. The export dialog reads its title and then throws `HeadlessException` before a window exists. It is not uncoverable. The only `System.exit` in this package is inside a comment. | `tests.freemind.cov.xslt.*BehaviourTest` | passed |
 | — | The classes in `freemind.modes.common.actions` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.commonactions`. Each of those tests is labeled backwards compatibility. `prepareTextContent` turns null into an empty string, strips HTML, and lowercases only when the search is case-insensitive. Find selects a matching child and returns false for a missing or case-mismatched term. Find next selects the second match. A folded ancestor is unfolded for a match below it, and find next folds it again. With search-in-notes on, a note matches when the node text does not. A new map opens beside the previous one and leaves that root in place. No method in this package only exits the process or runs a system command. | `tests.freemind.cov.commonactions.*BehaviourTest` | passed |
 | — | LaTeX on a node behaviour tests. | Removed with TAI-005. | removed |
-| — | The classes in `plugins/svg` keep the results named by each `*BehaviourTest` in `plugins.svg`. Each of those tests is labeled backwards compatibility. `exportAsPdf` writes a file that starts with `%PDF` when hints are passed and when they are not, and a missing view writes nothing. A4 and LETTER resolve to a paper with a positive size, and an unknown name does not. An SVG export contains the node text when a file is chosen and writes nothing when it is not. A transform writes the styled text. The PDF dialog constructor throws `HeadlessException` before the window is shown. It is not uncoverable. No method in this package only exits the process or runs a system command. | `plugins.svg.*BehaviourTest` | passed |
+| — | SVG and PDF export behaviour tests. | Removed with TAI-011. | removed |
 | — | Lucene search behaviour tests. | Removed with TAI-003. | removed |
 | — | The classes in `freemind.modes.mindmapmode.actions.xml.actors` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.actors`. Each of those tests is labeled backwards compatibility. A child appears, moves up, is cut, or is deleted. Bold, italic, underline, strikethrough, font, color, style, cloud, edge, icon, attribute, note, link, and arrow changes are stored. Undo restores edited text, and undoing a paste removes the pasted child. A mail address paste stores a `mailto` link. An unsaved revert throws `HeadlessException` and keeps the text. A saved unchanged map reloads the file. XML with no file name opens that map. No method in this package only exits the process or runs a system command. | `tests.freemind.cov.actors.*BehaviourTest` | passed |
 
@@ -491,15 +491,9 @@ The find dialog is not opened. `FindTextTests` still checks HTML tag stripping, 
 
 `gui/ExportGuiTest.java` methods named `export_html*` only assert `.mm` XML and are not counted.
 
-### REQ-FILE-02 — Partial
+### ~~REQ-FILE-02~~ REMOVED (TAI-011)
 
-SVG is checked. `exportAsPdf` writes a file that starts with `%PDF`. The PDF options dialog keeps A4 and landscape and writes `pdf_page_format` and `pdf_page_orientation`.
-
-- `plugins/svg/TestREQ_FILE_02_SvgContainsNodeText.java` `TestREQ_FILE_02_SvgDocumentContainsNodeText`: `fillSVGGraphics2D` writes an SVG document that contains `SvgRoot` and `SvgChild`.
-- `plugins/svg/ExportPdfBehaviourTest.java` `exportAsPdfWritesAPdfForHintsAndForNoHintsAndRejectsAMissingView`: a chosen file starts with `%PDF`, and a missing view writes nothing.
-- `main/StartupBehaviourTest.java` `TestREQ_FILE_02_PdfDialogKeepsPaperAndOrientation`: the dialog title is the shipped PDF export settings title, A4 and landscape are selected, OK stores those two properties, and `getResult` is true.
-
-The GUI methods only assert `.mm` XML.
+SVG export and PDF export are gone. `RemovedFeatureProofTest.TestREQ_FILE_02_SvgAndPdfExportAreGone` checks that `plugins.svg.ExportSvg` and `plugins.svg.ExportPdf` do not load and that `freemind/plugins/ExportSvg.xml` is absent. PDF actions were registered in that file. Batik and FOP stay until the trimmed stage. PNG export stays. `ExportGuiTest` methods that only assert `.mm` XML stay.
 
 ### REQ-FILE-03 — Checked
 

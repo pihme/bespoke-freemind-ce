@@ -70,11 +70,10 @@ FreeMind CE uses an **MVC (Model-View-Controller)** architecture with a **Mode-b
 4. **Observer Pattern** - Event-driven map module lifecycle, tree model changes, property changes
 5. **Visitor Pattern** - Tree traversal via NodeViewVisitor
 
-### Plugin Modules (5 active in Gradle)
+### Plugin Modules (4 active in Gradle)
 
 | Plugin | Purpose | Key Dependency |
 |---|---|---|
-| SVG | SVG/PDF export | Apache Batik, FOP |
 | Map | OpenStreetMap integration | JMapViewer |
 | Search | Full-text search | Apache Lucene |
 | Help | Integrated help system | JavaHelp |

@@ -41,7 +41,6 @@ freemind-ce/
 │   ├── de/foltin/                     # CompileXsdStart (XSD compilation utility)
 │   │
 │   ├── plugins/                       # ★ PLUGIN MODULES (Gradle subprojects)
-│   │   ├── svg/                       # SVG/PDF export (Batik + FOP)
 │   │   ├── map/                       # JMapViewer.jar kept for the trimmed stage
 │   │   ├── help/                      # jhall.jar kept for the trimmed stage
 │   │   └── collaboration/             # Legacy collaboration sources

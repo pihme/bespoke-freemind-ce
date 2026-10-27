@@ -138,9 +138,7 @@ HookAdapter (base)
 
 ## Plugin Architecture Detail
 
-| Plugin | Entry Class | Registration XML | Dependencies |
-|---|---|---|---|
-| SVG/PDF Export | `ExportSvg`, `ExportPdf` | `ExportSvg.xml` | Batik 1.17, FOP 2.9 |
+No Gradle plugin module remains. Batik and FOP stay until the trimmed stage.
 
 ## Build Architecture
 
@@ -152,7 +150,6 @@ HookAdapter (base)
 **Gradle Module Structure:**
 ```
 :freemind                              (main application)
-:freemind:plugins:svg                  (SVG/PDF export)
 ```
 
 ## Deployment Architecture

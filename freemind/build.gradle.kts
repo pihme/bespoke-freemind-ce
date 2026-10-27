@@ -170,10 +170,10 @@ dependencies {
     // JLaTeXMath stays until the trimmed stage
     implementation("org.scilab.forge:jlatexmath:1.0.7")
 
-    // Batik (SVG Support) - for plugins
+    // Batik stays until the trimmed stage
     implementation("org.apache.xmlgraphics:batik-all:${batikVersion}")
 
-    // FOP (PDF Export) - for plugins
+    // FOP stays until the trimmed stage
     implementation("org.apache.xmlgraphics:fop:${fopVersion}")
 
     // Logging (SLF4J + Logback)

@@ -109,15 +109,6 @@
 | Undo Handler | `UndoActionHandler` | Undo/redo stack management |
 | Action Pair | `ActionPair` | Forward + backward action |
 
-## Plugin Components
-
-### SVG/PDF Export
-- `ExportVectorGraphic` - Base export logic
-- `ExportSvg` - SVG export action
-- `ExportPdf` - PDF export action
-- `ExportPdfDialog` - PDF options dialog
-- `ExportPdfPapers` - Paper size definitions
-
 ## Extension Framework
 
 | Component | Class | Purpose |

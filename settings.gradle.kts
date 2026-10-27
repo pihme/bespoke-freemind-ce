@@ -19,8 +19,4 @@ rootProject.name = "freemind-ce"
 // Include freemind as the main module
 include(":freemind")
 
-// Plugin modules (organized by category)
-include(":freemind:plugins:svg")
-
 project(":freemind").projectDir = file("freemind")
-project(":freemind:plugins:svg").projectDir = file("freemind/plugins/svg")

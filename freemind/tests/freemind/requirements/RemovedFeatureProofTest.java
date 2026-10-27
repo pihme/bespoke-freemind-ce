@@ -13,6 +13,17 @@ import org.junit.jupiter.api.Test;
 class RemovedFeatureProofTest {
 
 	@Test
+	void TestREQ_FILE_02_SvgAndPdfExportAreGone() throws Exception {
+		assertThrows(ClassNotFoundException.class,
+				() -> Class.forName("plugins.svg.ExportSvg"));
+		assertThrows(ClassNotFoundException.class,
+				() -> Class.forName("plugins.svg.ExportPdf"));
+		Path root = repoRoot();
+		assertFalse(Files.exists(root.resolve("freemind/plugins/ExportSvg.xml")));
+		assertFalse(Files.exists(root.resolve("freemind/plugins/svg")));
+	}
+
+	@Test
 	void TestREQ_PLUG_05_LatexOnANodeIsGone() throws Exception {
 		assertThrows(ClassNotFoundException.class,
 				() -> Class.forName("plugins.latex.LatexNodeHook"));

@@ -64,7 +64,6 @@ import accessories.plugins.time.CalendarMarkingDialog;
 import accessories.plugins.time.TimeList;
 import accessories.plugins.time.TimeManagement;
 import freemind.common.TextTranslator;
-import freemind.controller.Controller;
 import freemind.controller.MenuBar;
 import freemind.controller.actions.generated.instance.Pattern;
 import freemind.controller.color.ColorPair;
@@ -87,7 +86,6 @@ import freemind.view.mindmapview.EditNodeBase;
 import freemind.view.mindmapview.EditNodeTextField;
 import freemind.view.mindmapview.MapView;
 import freemind.view.mindmapview.NodeView;
-import plugins.svg.ExportPdfDialog;
 
 /**
  * Starts the real frame once. The methods check the mode, the options panel,
@@ -226,27 +224,6 @@ class StartupBehaviourTest {
 		JLabel label = assertInstanceOf(JLabel.class, rendered);
 		assertEquals(red.displayName, label.getText());
 		assertTrue(label.getText() != null && !label.getText().isBlank());
-	}
-
-	@Test
-	@Order(7)
-	void TestREQ_FILE_02_PdfDialogKeepsPaperAndOrientation() {
-		Controller controller = frame.getController();
-		ExportPdfDialog dialog = new ExportPdfDialog(frame,
-				new String[] { "A4", "A3", "LETTER" }, controller);
-		assertEquals(controller.getResourceString("ExportPdfDialog.PDF_Export_Settings"),
-				dialog.getTitle());
-		JComboBox<?> papers = findComboContaining(dialog.getContentPane(), "A4");
-		papers.setSelectedItem("A4");
-		String landscape = controller.getResourceString("ExportPdfDialog.Landscape");
-		assertTrue(selectedRadio(dialog.getContentPane(), landscape), landscape);
-		clickButton(dialog.getContentPane(), controller.getResourceString("ExportPdfDialog.OK"));
-		assertEquals("A4", dialog.getFormat());
-		assertEquals(PageFormat.LANDSCAPE, dialog.getOrientation());
-		assertEquals("A4", controller.getProperty("pdf_page_format"));
-		assertEquals("landscape", controller.getProperty("pdf_page_orientation"));
-		assertTrue(dialog.getResult());
-		dialog.dispose();
 	}
 
 	@Test

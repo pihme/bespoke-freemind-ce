@@ -90,7 +90,6 @@ For cases where you need direct Gradle access (CI, IDE integration, advanced opt
 
 ```
 :freemind                              → Main application
-:freemind:plugins:svg                  → SVG/PDF export
 ```
 
 ## Source Layout
