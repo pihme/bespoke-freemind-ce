@@ -48,10 +48,6 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
-import com.inet.jortho.SpellChecker;
-
-import freemind.main.FreeMindCommon;
-import freemind.main.Resources;
 import freemind.main.Tools;
 import freemind.modes.MindMapNode;
 import freemind.modes.ModeController;
@@ -226,9 +222,6 @@ public class EditNodeTextField extends EditNodeBase {
 		textfield.repaint();
 		redispatchKeyEvents(textfield, firstEvent);
 
-		if (checkSpelling) {
-			SpellChecker.register(textfield, false, true, true, true);
-		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				textfield.requestFocus();
@@ -242,8 +235,6 @@ public class EditNodeTextField extends EditNodeBase {
 	// listener class
 	class TextFieldListener implements KeyListener, FocusListener,
 			MouseListener, ComponentListener {
-		private boolean checkSpelling = Resources.getInstance()
-				.getBoolProperty(FreeMindCommon.CHECK_SPELLING);
 
 		public void focusGained(FocusEvent e) {
 		} // focus gained
@@ -255,9 +246,6 @@ public class EditNodeTextField extends EditNodeBase {
 			// other viewers)
 			// - block selected events while in editing mode
 			if (!textfield.isVisible() || mEventSource.getValue() == CANCEL) {
-				if (checkSpelling) {
-					mEventSource.setValue(EDIT); // allow focus lost again
-				}
 				return;
 			}
 			if (e == null) { // can be when called explicitly
@@ -328,11 +316,6 @@ public class EditNodeTextField extends EditNodeBase {
 		private void conditionallyShowPopup(MouseEvent e) {
 			if (e.isPopupTrigger()) {
 				JPopupMenu popupMenu = new EditPopupMenu(textfield);
-				if (checkSpelling) {
-					popupMenu.add(SpellChecker.createCheckerMenu());
-					popupMenu.add(SpellChecker.createLanguagesMenu());
-					mEventSource.setValue(CANCEL); // disallow real focus lost
-				}
 				popupMenu.show(e.getComponent(), e.getX(), e.getY());
 				e.consume();
 			}

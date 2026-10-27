@@ -33,7 +33,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.print.PageFormat;
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -383,33 +382,25 @@ class StartupBehaviourTest {
 		MindMapController mindMap = mindMap();
 		MindMapNode root = mindMap.getRootNode();
 		NodeView nodeView = mindMap.getView().getNodeView(root);
-		Field spelling = EditNodeBase.class.getDeclaredField("checkSpelling");
-		spelling.setAccessible(true);
-		boolean previous = spelling.getBoolean(null);
-		spelling.setBoolean(null, false);
-		try {
-			EditNodeTextField editor = new EditNodeTextField(nodeView, root.getText(), null, mindMap,
-					new EditNodeBase.EditControl() {
-						public void cancel() {
-						}
+		EditNodeTextField editor = new EditNodeTextField(nodeView, root.getText(), null, mindMap,
+				new EditNodeBase.EditControl() {
+					public void cancel() {
+					}
 
-						public void ok(String newText) {
-							mindMap.setNodeText(root, newText);
-						}
+					public void ok(String newText) {
+						mindMap.setNodeText(root, newText);
+					}
 
-						public void split(String newText, int position) {
-						}
-					});
-			editor.show();
-			JTextField field = findEditorField(mindMap.getView());
-			field.setText("Renamed root");
-			KeyEvent enter = new KeyEvent(field, KeyEvent.KEY_PRESSED, System.currentTimeMillis(),
-					0, KeyEvent.VK_ENTER, '\n');
-			for (java.awt.event.KeyListener listener : field.getKeyListeners()) {
-				listener.keyPressed(enter);
-			}
-		} finally {
-			spelling.setBoolean(null, previous);
+					public void split(String newText, int position) {
+					}
+				});
+		editor.show();
+		JTextField field = findEditorField(mindMap.getView());
+		field.setText("Renamed root");
+		KeyEvent enter = new KeyEvent(field, KeyEvent.KEY_PRESSED, System.currentTimeMillis(),
+				0, KeyEvent.VK_ENTER, '\n');
+		for (java.awt.event.KeyListener listener : field.getKeyListeners()) {
+			listener.keyPressed(enter);
 		}
 		assertEquals("Renamed root", root.getText());
 	}

@@ -66,8 +66,6 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import com.inet.jortho.SpellChecker;
-
 import freemind.controller.LastStateStorageManagement;
 import freemind.controller.actions.generated.instance.MindmapLastStateMapStorage;
 import freemind.controller.actions.generated.instance.MindmapLastStateStorage;
@@ -110,7 +108,6 @@ class FreeMindBehaviourTest {
 		Properties user = new Properties();
 		user.putAll(defaults);
 		user.setProperty(FreeMind.RESOURCE_LOOKANDFEEL, "metal");
-		user.setProperty(FreeMindCommon.CHECK_SPELLING, "false");
 		user.setProperty(FreeMind.PROXY_USE_SETTINGS, "false");
 		user.setProperty(FreeMindCommon.LOAD_LAST_MAPS_AND_LAYOUT, "false");
 		user.setProperty(FreeMindCommon.LOAD_LAST_MAP, "false");
@@ -214,7 +211,7 @@ class FreeMindBehaviourTest {
 
 	@Test
 	@Order(2)
-	void lookAndFeelBranchesAndSpellCheckRegister() throws Exception {
+	void lookAndFeelBranches() throws Exception {
 		// backwards compatibility
 		String[] names = { "metal", "nothing", "motif", "windows", "mac", "gtk",
 				"com.example.MissingLookAndFeel", "not-a-known-look" };
@@ -226,13 +223,6 @@ class FreeMindBehaviourTest {
 		invoke("updateLookAndFeel");
 		assertEquals("metal", frame.getProperty(FreeMind.RESOURCE_LOOKANDFEEL));
 		assertNotNull(frame.getRootPane());
-
-		assertNotNull(FreeMind.class.getClassLoader().getResource("dictionaries.cnf"));
-		java.util.Locale spellLocale = SpellChecker.getCurrentLocale();
-		frame.setProperty(FreeMindCommon.CHECK_SPELLING, "true");
-		invoke("setupSpellChecking");
-		assertEquals(spellLocale, SpellChecker.getCurrentLocale());
-		frame.setProperty(FreeMindCommon.CHECK_SPELLING, "false");
 	}
 
 	@Test

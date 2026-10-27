@@ -40,7 +40,6 @@ import javax.swing.text.html.HTMLDocument;
 
 import accessories.plugins.NodeNoteRegistration.SimplyHtmlResources;
 
-import com.inet.jortho.SpellChecker;
 import com.lightdev.app.shtm.SHTMLPanel;
 
 import freemind.main.FreeMindMain;
@@ -115,9 +114,6 @@ public class EditNodeWYSIWYG extends EditNodeBase {
 				}
 			});
 
-			if (checkSpelling) {
-				SpellChecker.register(htmlEditorPanel.getEditorPane());
-			}
 		}
 
 		private SHTMLPanel createEditorPanel() throws Exception {

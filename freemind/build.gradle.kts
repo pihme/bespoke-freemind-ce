@@ -60,10 +60,7 @@ tasks.processResources {
     from(layout.projectDirectory.file("patterns.xml"))
     from(layout.projectDirectory.file("patterns_updater.xslt"))
     from(layout.projectDirectory.file("mindmap_menus.xml"))
-    from(layout.projectDirectory.file("dictionaries.properties"))
-    from(layout.projectDirectory.file("dictionaries.cnf"))
     from(layout.projectDirectory.dir(".")) {
-        include("dictionary_*.ortho")
         include("Resources_*.properties")
     }
     // Images and doc need to preserve directory prefix in classpath
@@ -144,7 +141,7 @@ dependencies {
     implementation("com.jgoodies:jgoodies-forms:${jgoodiesFormsVersion}")
     implementation("com.jgoodies:jgoodies-common:${jgoodiesCommonVersion}")
 
-    // JOrtho (Spell Checker) - local JAR, not on Maven Central
+    // JOrtho stays until the trimmed stage
     implementation(files("lib/jortho.jar"))
 
     // SimplyHTML (WYSIWYG HTML Editor) - local JARs
@@ -245,8 +242,6 @@ sourceSets {
             include("**/*.jpg")
             include("**/*.gif")
             include("**/*.icns")
-            include("dictionaries.properties")
-            include("dictionary_*.ortho")
             include("patterns.xml")
             include("license*")
         }
@@ -318,8 +313,6 @@ tasks.jar {
     from("patterns.xml")
     from("patterns_updater.xslt")
     from("mindmap_menus.xml")
-    from("dictionaries.properties")
-    from(fileTree(".") { include("dictionary_*.ortho") })
     from(fileTree("images") { include("**/*") })
     from(fileTree("doc") { include("*.mm") })
 }

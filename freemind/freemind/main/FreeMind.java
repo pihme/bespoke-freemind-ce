@@ -47,10 +47,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import java.net.Authenticator;
 import java.net.InetAddress;
-import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URI;
 import java.net.URL;
@@ -59,7 +57,6 @@ import java.awt.Taskbar;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.Vector;
@@ -87,7 +84,6 @@ import javax.swing.UIManager;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
-import com.inet.jortho.SpellChecker;
 
 import freemind.controller.Controller;
 import freemind.view.ImageFactory;
@@ -410,7 +406,6 @@ public class FreeMind extends JFrame implements FreeMindMain, ActionListener {
 		controller.optionAntialiasAction
 				.changeAntialias(getProperty(FreeMindCommon.RESOURCE_ANTIALIAS));
 
-		setupSpellChecking();
 		setupProxy();
 		feedback.increase("FreeMind.progress.propageteLookAndFeel", null);
 		SwingUtilities.updateComponentTreeUI(this); // Propagate LookAndFeel to
@@ -762,37 +757,6 @@ public class FreeMind extends JFrame implements FreeMindMain, ActionListener {
 					"FreeMind can't be started: " + e.getLocalizedMessage()+"\n" + Tools.getStacktrace(e),
 					"Startup problem", JOptionPane.ERROR_MESSAGE);
 			System.exit(1);
-		}
-	}
-
-	private void setupSpellChecking() {
-		boolean checkSpelling =
-//			Resources.getInstance().getBoolProperty(FreeMindCommon.CHECK_SPELLING);
-			Tools.safeEquals("true", props.getProperty(FreeMindCommon.CHECK_SPELLING));
-		if (checkSpelling) {
-			try {
-				// Use classpath resource URL for spell checker dictionaries
-				// This works with both Gradle dev (resources in separate dir) and JAR packaging
-				URL dictUrl = FreeMind.class.getClassLoader().getResource("dictionaries.cnf");
-				URL url = null;
-				if (dictUrl != null) {
-					// Get the base URL (parent directory of dictionaries.cnf)
-					String dictUrlStr = dictUrl.toExternalForm();
-					url = new URL(dictUrlStr.substring(0, dictUrlStr.lastIndexOf('/') + 1));
-				} else {
-					// Fallback to file-based path for standalone installations
-					String decodedPath = Tools.getFreeMindBasePath();
-					if (new File(decodedPath).exists()) {
-						url = new URL("file", null, decodedPath);
-					}
-				}
-				SpellChecker.registerDictionaries(url, Locale.getDefault().getLanguage());
-			} catch (MalformedURLException e) {
-				freemind.main.Resources.getInstance().logException(e);
-			} catch (UnsupportedEncodingException e) {
-				freemind.main.Resources.getInstance().logException(e);
-
-			}
 		}
 	}
 

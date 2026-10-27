@@ -67,7 +67,7 @@ Labeled **Deduced**. Each row is a test the requirement sentence does not spell 
 | REQ-DED-03 | A folder import adds a named child per directory and file, with a file URL link. A directory that contains a file is folded. An empty directory stays unfolded. A non-root target that received children is folded. The root stays unfolded. | `DeducedBehaviourTest.TestREQ_FILE_06_ImportFolderAddsNamedChildren` | passed |
 | REQ-DED-04 | A node whose text is an `<img>` is shown with a `<base href>` of the map. The stored text stays without that base tag. | `DeducedBehaviourTest.TestREQ_NODE_08_ImageHtmlGainsBaseHrefInTheView` | passed |
 | ~~REQ-DED-05~~ REMOVED (TAI-005) | LaTeX on a node. | Removed with TAI-005. | removed |
-| REQ-DED-06 | Registering the English dictionary from `dictionaries.cnf` loads a dictionary whose locale language is `en`. | `DeducedBehaviourTest.TestREQ_PLUG_07_EnglishDictionaryLoads` | passed |
+| ~~REQ-DED-06~~ REMOVED (TAI-007) | Spell checking. | Removed with TAI-007. | removed |
 | ~~REQ-DED-07~~ REMOVED (TAI-004) | Integrated help. | Removed with TAI-004. | removed |
 | REQ-DED-08 | The recent-files list keeps the shipped 25, one under that, drops the oldest past the limit, stays empty at 0, throws `IndexOutOfBoundsException` at -1 after emptying, and a value past the `int` range leaves the limit at 25. | `LastOpenedListBehaviourTest.TestREQ_DED_08_ShippedLimitKeepsTwentyFiveAndDropsTheOldest`, `TestREQ_DED_08_ZeroKeepsTheListEmpty`, `TestREQ_DED_08_NegativeThrowsAfterEmptyingTheList`, `TestREQ_DED_08_ValuePastIntRangeLeavesTheLimitAtTwentyFive` | passed |
 | REQ-DED-09 | The undo list keeps the shipped 100, one under that, drops the oldest past the limit, stays empty at 0, throws `IndexOutOfBoundsException` at -1 after emptying, and a value past the `int` range leaves the limit at 100. Pairs inside 100 ms count as one and do not apply the limit. | `UndoActionBehaviourTest.TestREQ_DED_09_ShippedLimitKeepsOneHundredAndDropsTheOldest`, `TestREQ_DED_09_ZeroKeepsTheListEmpty`, `TestREQ_DED_09_NegativeThrowsAfterEmptyingTheList`, `TestREQ_DED_09_ValuePastIntRangeLeavesTheLimitAtOneHundred`, `TestREQ_DED_09_FoldedPairDoesNotApplyTheLimit` | passed |
@@ -86,7 +86,7 @@ Labeled **Deduced**. Each row is a test the requirement sentence does not spell 
 | REQ-APP-02 | Print preview shows a page. | not in this change | open |
 | REQ-MODE-01 | Browse mode is read-only and File mode lists a directory. | not in this change | open |
 
-The file chooser for an image, the join warning dialog, and the find dialog are not what the deduced tests call. `FreeMindBehaviourTest.lookAndFeelBranchesAndSpellCheckRegister` calls `setupSpellChecking` with the preference on, and that call leaves the current spell locale unchanged. That observation is backwards compatibility. It does not change REQ-DED-06.
+The file chooser for an image, the join warning dialog, and the find dialog are not what the deduced tests call.
 
 ## Backwards compatibility tests
 
@@ -229,7 +229,7 @@ Slices 1 and 2 also have deduced requirement tests. This table is the reference 
 | 6 | The password dialog keeps `secret` when OK is pressed. A short password is not submitted. | `StartupBehaviourTest.passwordDialogKeepsALongEnoughPassword` | passed |
 | 6 | The format dialog shows `Change format of nodes`, OK, and Cancel, and the result stays cancel. It is disposed. The close path is not called. | `StartupBehaviourTest.formatDialogShowsTheShippedTitleAndCancels` | passed |
 | 1 | The inline editor commits `Renamed root` when Enter is delivered to the field's key listener. | `StartupBehaviourTest.inlineEditorCommitsTheFieldTextOnEnter` | passed |
-| — | The classes in `freemind.main` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.main`. Each of those tests is labeled backwards compatibility. Turning spelling on leaves the current spell locale unchanged. A current-version map loads from the startup event. A dialog beside an on-screen component sits to its right and below it, and a component in the screen inset is clamped to that inset. Methods that exit the process or run a system command are in the uncoverable table. | `tests.freemind.cov.main.*BehaviourTest` | passed |
+| — | The classes in `freemind.main` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.main`. Each of those tests is labeled backwards compatibility. A current-version map loads from the startup event. A dialog beside an on-screen component sits to its right and below it, and a component in the screen inset is clamped to that inset. Methods that exit the process or run a system command are in the uncoverable table. | `tests.freemind.cov.main.*BehaviourTest` | passed |
 | — | Geographic map behaviour tests. | Removed with TAI-002. | removed |
 | — | The classes in `freemind.view.mindmapview` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.view`. Each of those tests is labeled backwards compatibility. The long-node dialog submits, splits, and cancels. The HTML dialog's south buttons do the same. `EditNodeTextField.show` still stops at the menu-shortcut lookup under the headless unit JVM. That method is not uncoverable. | `tests.freemind.cov.view.*BehaviourTest` | passed |
 | — | The classes in `accessories.plugins` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.accessories`. Each of those tests is labeled backwards compatibility. Node history keeps 100 entries and drops the tail. Save-all leaves the current map in place. The format, pattern, and icon dialogs, the note editor, the log viewer dialog, and the encrypt password frame still stop before they are shown when the suite is headless. They are not uncoverable. No method in this package only exits the process or runs a system command. | `tests.freemind.cov.accessories.*BehaviourTest` | passed |
@@ -552,11 +552,9 @@ LaTeX on a node is gone. `RemovedFeatureProofTest.TestREQ_PLUG_05_LatexOnANodeIs
 
 Socket collaboration is gone. `RemovedFeatureProofTest.TestREQ_PLUG_06_SocketCollaborationIsGone` checks that `plugins.collaboration.socket.MindMapMaster` does not load and that `freemind/plugins/CollaborationSocket.xml` is absent. The single-instance port file stays. `CollaborationGuiTest` still checks map save and reload.
 
-### REQ-PLUG-07 — Partial
+### ~~REQ-PLUG-07~~ REMOVED (TAI-007)
 
-An English dictionary loads. No word is checked, and `FreeMind.setupSpellChecking` is not called.
-
-- `requirements/DeducedBehaviourTest.java` `TestREQ_PLUG_07_EnglishDictionaryLoads`: after `SpellChecker.registerDictionaries` for `en`, a dictionary is loaded and the current locale language is `en`.
+Spell checking is gone. `RemovedFeatureProofTest.TestREQ_PLUG_07_SpellCheckingIsGone` checks that `FreeMind.setupSpellChecking` is absent, that `dictionaries.cnf` is not a resource, and that `lib/jortho.jar` stays. Node editing and notes stay.
 
 ### ~~REQ-PLUG-08~~ REMOVED (TAI-008)
 

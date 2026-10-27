@@ -30,12 +30,10 @@ import java.awt.event.InputEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.JPanel;
 
@@ -44,13 +42,10 @@ import org.junit.jupiter.api.Test;
 
 import accessories.plugins.SortNodes;
 
-import com.inet.jortho.SpellChecker;
-
 import freemind.controller.Controller;
 import freemind.main.HeadlessFreeMind;
 import freemind.modes.EdgeAdapter;
 import freemind.modes.common.listeners.MindMapMouseWheelEventHandler;
-import freemind.main.Tools;
 import freemind.modes.MapAdapter;
 import freemind.modes.MindMapNode;
 import freemind.modes.ModeController;
@@ -254,23 +249,6 @@ class DeducedBehaviourTest {
 		assertFalse(modelText.contains("<base "));
 		assertTrue(shown.contains("pic.png"));
 		assertTrue(shown.contains("<base href=\"" + view.getModel().getURL()));
-	}
-
-	@Test
-	void TestREQ_PLUG_07_EnglishDictionaryLoads() throws Exception {
-		URL dictUrl = Tools.class.getClassLoader().getResource("dictionaries.cnf");
-		assertNotNull(dictUrl);
-		String external = dictUrl.toExternalForm();
-		URL base = new URL(external.substring(0, external.lastIndexOf('/') + 1));
-
-		SpellChecker.registerDictionaries(base, "en");
-
-		long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(15);
-		while (!SpellChecker.isDictionaryLoaded() && System.nanoTime() < deadline) {
-			Thread.sleep(50);
-		}
-		assertTrue(SpellChecker.isDictionaryLoaded());
-		assertEquals("en", SpellChecker.getCurrentLocale().getLanguage());
 	}
 
 	private static Opened openMap(String... childTexts) throws Exception {

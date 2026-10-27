@@ -31,7 +31,7 @@ Read `BESPOKE.md` before changing behavior. A feature is added when `docs/spec.m
 
 A Gradle `--tests` filter is the class's `package` declaration. Read that line. Run a unit check that is already failing on its own, so `:freemind:testGui` and `jacocoTestReport` still run. Read pass and fail from `freemind/build/test-results/*/TEST-*.xml`. Read instruction, line, and branch totals from the root `counter` elements of `freemind/build/reports/jacoco/test/jacocoTestReport.xml`.
 
-One Gradle test task is one JVM. `FreeMind.props`, the `Resources` language bundle, and `SpellChecker.getCurrentLocale()` survive from one test class to the next. The test that asserts one of those resets it and keeps the original expected value. Test classes do not need a class-level `@DisplayName`. jqwik and Jazzer tests carry the tag `fuzz`. `:freemind:testFuzz` runs them. The unit task and the JaCoCo report leave them out.
+One Gradle test task is one JVM. `FreeMind.props` and the `Resources` language bundle survive from one test class to the next. The test that asserts one of those resets it and keeps the original expected value. Test classes do not need a class-level `@DisplayName`. jqwik and Jazzer tests carry the tag `fuzz`. `:freemind:testFuzz` runs them. The unit task and the JaCoCo report leave them out.
 
 | What | Where |
 |------|-------|

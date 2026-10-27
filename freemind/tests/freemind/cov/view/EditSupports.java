@@ -65,8 +65,7 @@ public final class EditSupports {
 		}
 	}
 
-	public static void spellOff() throws Exception {
-		ViewMaps.setBooleanField(EditNodeBase.class, "checkSpelling", false);
+	public static void spellOff() {
 	}
 
 	public static void windowProperties(Opened opened, String buttonPosition) {

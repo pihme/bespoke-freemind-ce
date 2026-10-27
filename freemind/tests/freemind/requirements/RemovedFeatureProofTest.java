@@ -2,11 +2,15 @@ package tests.freemind.requirements;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
+import freemind.main.FreeMind;
 
 import org.junit.jupiter.api.Test;
 
@@ -99,6 +103,24 @@ class RemovedFeatureProofTest {
 		assertFalse(Files.exists(root.resolve("freemind/plugins/FreemindHelp.xml")));
 		assertFalse(Files.exists(root.resolve("freemind/plugins/help/doc/freemind.hs")));
 		assertTrue(Files.exists(root.resolve("freemind/plugins/help/jhall.jar")));
+	}
+
+	@Test
+	void TestREQ_PLUG_07_SpellCheckingIsGone() throws Exception {
+		assertThrows(NoSuchMethodException.class,
+				() -> FreeMind.class.getDeclaredMethod("setupSpellChecking"));
+		assertNull(FreeMind.class.getClassLoader().getResource("dictionaries.cnf"));
+		Path root = repoRoot();
+		Path freemind = root.resolve("freemind");
+		assertFalse(Files.exists(freemind.resolve("dictionaries.cnf")));
+		assertFalse(Files.exists(freemind.resolve("dictionaries.properties")));
+		try (DirectoryStream<Path> dictionaries = Files.newDirectoryStream(freemind, "dictionary_*.ortho")) {
+			assertFalse(dictionaries.iterator().hasNext());
+		}
+		assertFalse(Files.readString(freemind.resolve("freemind.properties")).contains("check_spelling"));
+		assertFalse(Files.readString(freemind.resolve("Resources_en.properties"))
+				.contains("OptionPanel.check_spelling"));
+		assertTrue(Files.exists(freemind.resolve("lib/jortho.jar")));
 	}
 
 	private static Path repoRoot() {

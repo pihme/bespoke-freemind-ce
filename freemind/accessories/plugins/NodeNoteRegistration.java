@@ -44,7 +44,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.html.HTMLDocument;
 
-import com.inet.jortho.SpellChecker;
 import com.lightdev.app.shtm.SHTMLPanel;
 import com.lightdev.app.shtm.TextResources;
 
@@ -52,7 +51,6 @@ import freemind.controller.Controller.SplitComponentType;
 import freemind.controller.MenuItemSelectedListener;
 import freemind.extensions.HookRegistration;
 import freemind.main.FreeMind;
-import freemind.main.FreeMindCommon;
 import freemind.main.Resources;
 import freemind.main.Tools;
 import freemind.modes.MindMap;
@@ -449,12 +447,6 @@ public class NodeNoteRegistration implements HookRegistration,
 			SHTMLPanel.setResources(new SimplyHtmlResources());
 			htmlEditorPanel = SHTMLPanel.createSHTMLPanel();
 			htmlEditorPanel.setMinimumSize(new Dimension(100, 100));
-
-	        boolean checkSpelling = Resources.getInstance().
-	        		getBoolProperty(FreeMindCommon.CHECK_SPELLING);
-			if (checkSpelling) {
-				SpellChecker.register(htmlEditorPanel.getEditorPane());
-			}
 		}
 		return htmlEditorPanel;
 	}
