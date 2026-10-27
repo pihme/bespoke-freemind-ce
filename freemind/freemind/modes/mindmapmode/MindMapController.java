@@ -165,7 +165,6 @@ import freemind.modes.mindmapmode.actions.FontSizeAction;
 import freemind.modes.mindmapmode.actions.HookAction;
 import freemind.modes.mindmapmode.actions.IconAction;
 import freemind.modes.mindmapmode.actions.ImportExplorerFavoritesAction;
-import freemind.modes.mindmapmode.actions.ImportFolderStructureAction;
 import freemind.modes.mindmapmode.actions.ItalicAction;
 import freemind.modes.mindmapmode.actions.JoinNodesAction;
 import freemind.modes.mindmapmode.actions.MindMapControllerHookAction;
@@ -460,7 +459,6 @@ public class MindMapController extends ControllerAdapter implements
 	public JoinNodesAction joinNodes = null;
 	public MoveNodeAction moveNodeAction = null;
 	public ImportExplorerFavoritesAction importExplorerFavorites = null;
-	public ImportFolderStructureAction importFolderStructure = null;
 
 	public FindAction find = null;
 	public FindNextAction findNext = null;
@@ -613,7 +611,6 @@ public class MindMapController extends ControllerAdapter implements
 		moveNodeAction = new MoveNodeAction(this);
 		joinNodes = new JoinNodesAction(this);
 		importExplorerFavorites = new ImportExplorerFavoritesAction(this);
-		importFolderStructure = new ImportFolderStructureAction(this);
 		find = new FindAction(this);
 		findNext = new FindNextAction(this, find);
 		nodeHookAction = new NodeHookAction("no_title", this);
@@ -1315,7 +1312,6 @@ public class MindMapController extends ControllerAdapter implements
 		nodeBackgroundColor.setEnabled(enabled);
 		nodeDown.setEnabled(enabled);
 		importExplorerFavorites.setEnabled(enabled);
-		importFolderStructure.setEnabled(enabled);
 		joinNodes.setEnabled(enabled);
 		deleteChild.setEnabled(enabled);
 		cloud.setEnabled(enabled);

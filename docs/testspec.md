@@ -64,7 +64,7 @@ Labeled **Deduced**. Each row is a test the requirement sentence does not spell 
 |----|----------------------|------|--------|
 | REQ-DED-01 | Two leaf nodes join into the selected node's text with one space, and the other node is gone. | `DeducedBehaviourTest.TestREQ_NODE_07_JoinLeavesIntoSelectedText` | passed |
 | REQ-DED-02 | Find selects the first case-insensitive word match. Find next selects the later match. | `DeducedBehaviourTest.TestREQ_FIND_01_FindThenFindNext` | passed |
-| REQ-DED-03 | A folder import adds a named child per directory and file, with a file URL link. A directory that contains a file is folded. An empty directory stays unfolded. A non-root target that received children is folded. The root stays unfolded. | `DeducedBehaviourTest.TestREQ_FILE_06_ImportFolderAddsNamedChildren` | passed |
+| ~~REQ-DED-03~~ REMOVED (TAI-014) | Folder-structure import. | Removed with TAI-014. | removed |
 | REQ-DED-04 | A node whose text is an `<img>` is shown with a `<base href>` of the map. The stored text stays without that base tag. | `DeducedBehaviourTest.TestREQ_NODE_08_ImageHtmlGainsBaseHrefInTheView` | passed |
 | ~~REQ-DED-05~~ REMOVED (TAI-005) | LaTeX on a node. | Removed with TAI-005. | removed |
 | ~~REQ-DED-06~~ REMOVED (TAI-007) | Spell checking. | Removed with TAI-007. | removed |
@@ -510,9 +510,7 @@ The file chooser is not opened, and the original map is not given the linked stu
 
 ### REQ-FILE-06 — Partial
 
-Folder-structure import is checked. A branch, a linked branch, and Explorer favorites are not.
-
-- `requirements/DeducedBehaviourTest.java` `TestREQ_FILE_06_ImportFolderAddsNamedChildren`: the import adds `Sub`, `Empty`, and `note.txt` with file URL links. `Sub`, which contains `inner.txt`, is folded. `Empty` stays unfolded. The non-root target is folded. The root stays unfolded.
+Folder-structure import is removed (TAI-014). `RemovedFeatureProofTest.TestREQ_FILE_06_FolderImportIsGone` checks that `ImportFolderStructureAction` does not load and that the import menu no longer names `importFolderStructure`. Branch import, linked-branch import, and Explorer-favorites import stay.
 
 `gui/ImportGuiTest.java` still copies node text by hand or loads ordinary `.mm` XML.
 

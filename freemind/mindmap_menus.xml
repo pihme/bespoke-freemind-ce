@@ -25,7 +25,6 @@
 				<menu_action field="importLinkedBranchWithoutRoot"></menu_action>
 				<menu_separator/>
 				<menu_action field="importExplorerFavorites"></menu_action>
-				<menu_action field="importFolderStructure"></menu_action>
 			</menu_submenu>
 		</menu_category>
 		<menu_category name="edit">

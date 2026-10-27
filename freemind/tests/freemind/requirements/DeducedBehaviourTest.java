@@ -31,7 +31,6 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +53,6 @@ import freemind.modes.mindmapmode.MindMapController;
 import freemind.modes.mindmapmode.MindMapMapModel;
 import freemind.modes.mindmapmode.MindMapMode;
 import freemind.modes.mindmapmode.MindMapNodeModel;
-import freemind.modes.mindmapmode.actions.ImportFolderStructureAction;
 import freemind.modes.mindmapmode.actions.JoinNodesAction;
 import freemind.view.mindmapview.IndependantMapViewCreator;
 import freemind.view.mindmapview.MapView;
@@ -96,47 +94,6 @@ class DeducedBehaviourTest {
 
 		assertTrue(find.findNext());
 		assertEquals("prefix alpha two", opened.view.getSelected().getModel().getText());
-	}
-
-	@Test
-	void TestREQ_FILE_06_ImportFolderAddsNamedChildren() throws Exception {
-		Opened opened = openMap("Here");
-		Path folder = Files.createTempDirectory("bespoke-import");
-		Path sub = Files.createDirectory(folder.resolve("Sub"));
-		Path inner = Files.createFile(sub.resolve("inner.txt"));
-		Path empty = Files.createDirectory(folder.resolve("Empty"));
-		Path note = Files.createFile(folder.resolve("note.txt"));
-		try {
-			MindMapNode here = opened.child("Here");
-			ImportFolderStructureAction action = new ImportFolderStructureAction(opened.mode);
-			action.importFolderStructure(folder.toFile(), here, true);
-
-			assertTrue(childTexts(here).contains("Sub"), "children: " + childTexts(here));
-			assertTrue(childTexts(here).contains("Empty"), "children: " + childTexts(here));
-			assertTrue(childTexts(here).contains("note.txt"), "children: " + childTexts(here));
-			MindMapNode noteNode = childNamed(here, "note.txt");
-			MindMapNode subNode = childNamed(here, "Sub");
-			MindMapNode emptyNode = childNamed(here, "Empty");
-			assertTrue(noteNode.getLink().contains("note.txt"), "link: " + noteNode.getLink());
-			assertTrue(subNode.getLink().contains("Sub"), "link: " + subNode.getLink());
-			assertEquals("inner.txt", childNamed(subNode, "inner.txt").getText());
-			assertEquals(0, emptyNode.getChildCount());
-			assertFalse(emptyNode.isFolded(), "empty directory stays unfolded");
-			assertTrue(subNode.isFolded(), "directory with a file is folded");
-			assertTrue(here.isFolded(), "non-root target folded");
-			assertFalse(opened.root.isFolded(), "root stays unfolded");
-
-			action.importFolderStructure(folder.toFile(), opened.root, true);
-			assertFalse(opened.root.isFolded(), "root stays unfolded after import");
-			assertTrue(childTexts(opened.root).contains("note.txt"),
-					"root children: " + childTexts(opened.root));
-		} finally {
-			inner.toFile().delete();
-			note.toFile().delete();
-			sub.toFile().delete();
-			empty.toFile().delete();
-			folder.toFile().delete();
-		}
 	}
 
 	@Test

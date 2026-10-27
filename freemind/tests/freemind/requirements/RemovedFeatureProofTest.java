@@ -156,6 +156,21 @@ class RemovedFeatureProofTest {
 	}
 
 	@Test
+	void TestREQ_FILE_06_FolderImportIsGone() throws Exception {
+		assertThrows(ClassNotFoundException.class,
+				() -> Class.forName("freemind.modes.mindmapmode.actions.ImportFolderStructureAction"));
+		Path root = repoRoot();
+		String menus = Files.readString(root.resolve("freemind/mindmap_menus.xml"));
+		assertFalse(menus.contains("importFolderStructure"));
+		assertTrue(menus.contains("importBranch"));
+		assertTrue(menus.contains("importLinkedBranch"));
+		assertTrue(menus.contains("importExplorerFavorites"));
+		assertFalse(Files.readString(root.resolve("freemind/Resources_en.properties"))
+				.contains("import_folder_structure"));
+		assertNotNull(Class.forName("freemind.modes.mindmapmode.actions.ImportExplorerFavoritesAction"));
+	}
+
+	@Test
 	void TestREQ_SEC_01_EncryptCommandIsGone() throws Exception {
 		assertThrows(ClassNotFoundException.class,
 				() -> Class.forName("accessories.plugins.EncryptNode"));
