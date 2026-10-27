@@ -97,7 +97,7 @@ A modernized and streamlined version of Freemind. Modernized pertains to the UI.
 
 ### Last run
 
-- 2026-10-27. Branch opened from the exited covered stage. No feature is removed. The spec has no removal list. The license and `.mm` compatibility stay.
+- 2026-10-27. Branch opened from the exited covered stage. The gate passed on this unchanged tree: unit 1,749, GUI 524, performance 9, all passed. No feature is removed. The spec has no removal list. The license and `.mm` compatibility stay.
 
 ## 4 customized
 
