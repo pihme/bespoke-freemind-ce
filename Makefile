@@ -58,7 +58,7 @@ GRADLE       := ./gradlew
 GRADLE_FLAGS := --no-configuration-cache
 GRADLE_CMD   = JAVA_HOME=$(JAVA_HOME) $(GRADLE)
 
-.PHONY: help build run debug clean test test-gui test-performance test-fuzz coverage jaxb javadoc \
+.PHONY: help build run debug clean test test-gui test-performance test-fuzz mutate coverage jaxb javadoc \
         package package-mac package-win package-linux \
         dist-zip install-dist check audit audit-full info all
 
@@ -104,6 +104,11 @@ test-performance: ## Run performance tests
 
 test-fuzz: ## Run jqwik and Jazzer tests (not part of unit tests or coverage)
 	$(GRADLE_CMD) :freemind:testFuzz $(GRADLE_FLAGS)
+
+mutate: ## Mutation-test one package (override MUTATE and MUTATE_TESTS)
+	$(GRADLE_CMD) :freemind:pitest $(GRADLE_FLAGS) \
+		$(if $(MUTATE),-PmutateClasses=$(MUTATE),) \
+		$(if $(MUTATE_TESTS),-PmutateTests=$(MUTATE_TESTS),)
 
 coverage: ## Run tests with JaCoCo coverage report
 	$(GRADLE_CMD) :freemind:test :freemind:jacocoTestReport $(GRADLE_FLAGS)

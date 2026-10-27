@@ -15,6 +15,7 @@ plugins {
     id("com.github.spotbugs") version "6.5.1"
     id("org.owasp.dependencycheck") version "12.2.1"
     id("org.cyclonedx.bom") version "2.3.1"
+    id("info.solidsoft.pitest") version "1.19.0"
 }
 
 // ============================================================================
@@ -492,6 +493,43 @@ tasks.jacocoTestReport {
         xml.required.set(true)
         html.required.set(true)
     }
+}
+
+// Mutation uses the unit tests. Reasons for the excludes are in docs/testspec.md.
+fun csvGradleProperty(name: String, default: Set<String>): Set<String> {
+    val raw = findProperty(name) as String?
+    if (raw.isNullOrBlank()) {
+        return default
+    }
+    return raw.split(",").map { it.trim() }.filter { it.isNotEmpty() }.toSet()
+}
+
+pitest {
+    pitestVersion.set("1.30.1")
+    junit5PluginVersion.set("1.2.3")
+    targetClasses.set(csvGradleProperty("mutateClasses", setOf("freemind.controller.filter.condition.*")))
+    targetTests.set(csvGradleProperty("mutateTests", setOf(
+        "tests.freemind.filter.*",
+        "tests.freemind.ConditionFactoryBugFixTest"
+    )))
+    excludedClasses.set(setOf("freemind.controller.actions.generated.instance.*"))
+    excludedTestClasses.set(setOf(
+        "tests.freemind.fuzz.*",
+        "tests.freemind.property.*",
+        "tests.freemind.unicode.UnicodePropertyTests",
+        "tests.freemind.gui.*",
+        "tests.freemind.io.LargeFilePerformanceTest"
+    ))
+    excludedGroups.set(setOf("gui", "fuzz", "performance"))
+    threads.set(2)
+    mutators.set(setOf("DEFAULTS"))
+    outputFormats.set(setOf("XML", "HTML"))
+    timestampedReports.set(false)
+    timeoutFactor.set("2".toBigDecimal())
+    timeoutConstInMillis.set(10000)
+    jvmArgs.set(listOf("-Djava.awt.headless=true", "-Xmx512m"))
+    failWhenNoMutations.set(true)
+    verbosity.set("DEFAULT")
 }
 
 tasks.named<JacocoCoverageVerification>("jacocoTestCoverageVerification") {

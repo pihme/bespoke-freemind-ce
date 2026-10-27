@@ -1,0 +1,58 @@
+name: Mutation Testing
+
+on:
+  workflow_dispatch:
+    inputs:
+      mutate_classes:
+        description: 'PIT targetClasses, comma-separated'
+        required: false
+        default: 'freemind.controller.filter.condition.*'
+      mutate_tests:
+        description: 'PIT targetTests, comma-separated'
+        required: false
+        default: 'tests.freemind.filter.*,tests.freemind.ConditionFactoryBugFixTest'
+
+permissions: {}
+
+env:
+  JAVA_VERSION: '21'
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  mutate:
+    name: PIT
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e # v6.1.0
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Run PIT
+        run: |
+          ./gradlew :freemind:pitest --no-daemon --no-configuration-cache \
+            -PmutateClasses="${{ inputs.mutate_classes }}" \
+            -PmutateTests="${{ inputs.mutate_tests }}"
+
+      - name: Upload mutation report
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: pitest-report
+          path: |
+            freemind/build/reports/pitest/
+          retention-days: 14
