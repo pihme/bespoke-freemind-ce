@@ -24,7 +24,6 @@ import org.junit.jupiter.api.Test;
 import plugins.script.ScriptingEngine;
 import plugins.script.ScriptingRegistration;
 import plugins.script.SignedScriptHandler;
-import plugins.search.FileSearchModel;
 
 import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
@@ -416,35 +415,6 @@ class PluginLogicTest {
             boolean found = Arrays.stream(SignedScriptHandler.class.getDeclaredMethods())
                 .anyMatch(m -> m.getName().equals("isScriptSigned"));
             assertTrue(found, "SignedScriptHandler must have isScriptSigned method");
-        }
-    }
-
-    // ── Search plugin structural tests ──
-
-    @Nested
-    @DisplayName("Search Plugin")
-    class SearchPluginTests {
-
-        @Test
-        @DisplayName("FileSearchModel class exists and is loadable")
-        void fileSearchModelClassExists() {
-            assertNotNull(FileSearchModel.class, "FileSearchModel must be loadable");
-        }
-
-        @Test
-        @DisplayName("FileSearchModel has doSearch method")
-        void fileSearchModelHasDoSearchMethod() {
-            boolean found = Arrays.stream(FileSearchModel.class.getDeclaredMethods())
-                .anyMatch(m -> m.getName().equals("doSearch"));
-            assertTrue(found, "FileSearchModel must have doSearch method");
-        }
-
-        @Test
-        @DisplayName("FileSearchModel has FileAttribute enum")
-        void fileSearchModelHasFileAttributeEnum() {
-            boolean found = Arrays.stream(FileSearchModel.class.getDeclaredClasses())
-                .anyMatch(c -> c.getSimpleName().equals("FileAttribute") && c.isEnum());
-            assertTrue(found, "FileSearchModel must have FileAttribute enum");
         }
     }
 

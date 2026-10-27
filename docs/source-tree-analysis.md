@@ -44,7 +44,6 @@ freemind-ce/
 │   │   ├── svg/                       # SVG/PDF export (Batik + FOP)
 │   │   ├── script/                    # Groovy scripting engine
 │   │   ├── map/                       # OpenStreetMap integration (JMapViewer)
-│   │   ├── search/                    # Full-text search (Lucene)
 │   │   ├── help/                      # Integrated help system (JavaHelp)
 │   │   ├── latex/                     # LaTeX formula rendering (not in Gradle yet)
 │   │   └── collaboration/             # Real-time collaboration
@@ -144,6 +143,6 @@ freemind-ce/
 |---|---|---|
 | Core (`freemind/freemind/`) | ~379 | FreeMind, Controller, MapView, NodeView |
 | Accessories | ~59 | Plugin helpers, time manager, icon manager |
-| Plugins | ~57 | SVG export, scripting, map viewer, search |
+| Plugins | ~57 | SVG export, scripting, map viewer |
 | Tests | ~12 | JUnit + jqwik property tests |
 | **Total** | **~507** | |

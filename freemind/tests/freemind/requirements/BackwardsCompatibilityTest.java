@@ -256,7 +256,6 @@ import freemind.extensions.NodeHookAdapter;
 import freemind.preferences.layout.KeyEventTranslator;
 import freemind.preferences.layout.VariableSizeCardLayout;
 import freemind.preferences.layout.KeyEventWorkaround;
-import plugins.search.Search;
 import freemind.view.ScalableImageIcon;
 import freemind.view.mindmapview.ArrowLinkView;
 import freemind.view.mindmapview.MainView;
@@ -1710,22 +1709,6 @@ class BackwardsCompatibilityTest {
 		String stored = opened.mode.getFrame().getProperty(FreeMindCommon.MINDMAP_LAST_STATE_MAP_STORAGE);
 		assertNotNull(stored);
 		assertTrue(stored.contains("bespoke-close"), stored);
-	}
-
-	@Test
-	void searchingAMindMapFileFindsTheNodeText() throws Exception {
-		File directory = Files.createTempDirectory("bespoke-search").toFile();
-		directory.deleteOnExit();
-		File map = new File(directory, "notes.mm");
-		Files.writeString(map.toPath(), "<map version=\"1.0.0\"><node TEXT=\"Alpha token\"/></map>\n");
-		map.deleteOnExit();
-
-		Search search = new Search(Logger.getLogger("bespoke.search"));
-		Search.SearchResult[] results = search.runSearch("token", new File[] { directory });
-
-		assertTrue(results.length >= 1, "hits " + results.length);
-		assertTrue(results[0].getPath().contains("notes.mm"), results[0].getPath());
-		assertTrue(results[0].showDetails().contains("notes.mm"), results[0].showDetails());
 	}
 
 	@Test

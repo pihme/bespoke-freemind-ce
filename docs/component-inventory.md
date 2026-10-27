@@ -133,12 +133,6 @@
 - `MapMarkerLocation` - Location markers
 - `TileImage` - Map tile caching
 
-### Search
-- `SearchControllerHook` - Hook adapter
-- `Search` - Search logic
-- `SearchViewPanel` - Search UI
-- `FileSearchModel` - File indexing (Lucene)
-
 ### LaTeX
 - `LatexNodeHook` - LaTeX rendering hook
 - `JZoomedHotEqn` - Equation renderer with zoom
