@@ -87,19 +87,6 @@ class ThreadSafetyTest {
     }
 
     @Test
-    @DisplayName("CommunicationBase mutex is final Object, not String literal")
-    void communicationBaseMutexIsObject() throws Exception {
-        Class<?> clazz = Class.forName("plugins.collaboration.socket.CommunicationBase");
-        Field mutexField = clazz.getDeclaredField("mCurrentStateMutex");
-        mutexField.setAccessible(true);
-
-        assertEquals(Object.class, mutexField.getType(),
-            "mCurrentStateMutex must be Object, not String");
-        assertTrue(Modifier.isFinal(mutexField.getModifiers()),
-            "mCurrentStateMutex must be final");
-    }
-
-    @Test
     @DisplayName("CalendarMarkingEvaluator handler map is eagerly initialized (static final)")
     void calendarMarkingEvaluatorEagerInit() throws Exception {
         Class<?> clazz = Class.forName("accessories.plugins.time.CalendarMarkingEvaluator");

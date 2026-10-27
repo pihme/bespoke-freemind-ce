@@ -70,7 +70,7 @@ FreeMind CE uses an **MVC (Model-View-Controller)** architecture with a **Mode-b
 4. **Observer Pattern** - Event-driven map module lifecycle, tree model changes, property changes
 5. **Visitor Pattern** - Tree traversal via NodeViewVisitor
 
-### Plugin Modules (6 active in Gradle)
+### Plugin Modules (5 active in Gradle)
 
 | Plugin | Purpose | Key Dependency |
 |---|---|---|
@@ -79,7 +79,6 @@ FreeMind CE uses an **MVC (Model-View-Controller)** architecture with a **Mode-b
 | Search | Full-text search | Apache Lucene |
 | Help | Integrated help system | JavaHelp |
 | Context Graph | Markdown + XML context export | Built-in |
-| Collaboration (Socket) | Real-time collaboration | TCP Sockets |
 
 **Note:** LaTeX plugin exists in source but is not yet included in `settings.gradle.kts`.
 

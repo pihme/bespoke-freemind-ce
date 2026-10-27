@@ -74,7 +74,7 @@ A line marked **docs** comes from `README.md` or `docs/`. A line marked **menu**
 | ~~REQ-PLUG-03~~ REMOVED (TAI-003) | Search map files with a Lucene index. | Search plugin. | docs |
 | ~~REQ-PLUG-04~~ REMOVED (TAI-004) | Open integrated help. | Help plugin, JavaHelp. | docs |
 | REQ-PLUG-05 | Render LaTeX on a node. The architecture doc says this plugin is not in the Gradle settings. At this commit `settings.gradle.kts` includes `:freemind:plugins:latex` and the dependency is JLaTeXMath 1.0.7. | LaTeX plugin. | tree; the older doc is stale |
-| REQ-PLUG-06 | Collaborate on a map in real time over a TCP socket. | Extras → collaboration. | docs |
+| ~~REQ-PLUG-06~~ REMOVED (TAI-006) | Collaborate on a map in real time over a TCP socket. | Extras → collaboration. | docs |
 | REQ-PLUG-07 | Check spelling. JOrtho is a documented dependency. | Not named in the menu file read for this spec. | docs |
 | REQ-PLUG-08 | Database collaboration and Jabber collaboration are legacy. The Gradle build excludes them. The Palm OS tree under `pda/` is historical and is not a Gradle module. | Not in the active build. | docs |
 | REQ-MODE-01 | Edit in MindMap mode, navigate read-only in Browse mode, or browse files in File mode. | Declared in `freemind.properties`. | docs |

@@ -122,9 +122,6 @@
 - `LatexNodeHook` - LaTeX rendering hook
 - `JZoomedHotEqn` - Equation renderer with zoom
 
-### Collaboration (Socket)
-- TCP socket-based real-time collaboration
-
 ## Extension Framework
 
 | Component | Class | Purpose |
@@ -171,7 +168,7 @@
 | `DialogsGuiTest` | Dialog interactions |
 | `ExportGuiTest` | Export operations |
 | `ImportGuiTest` | Import operations |
-| `CollaborationGuiTest` | Collaboration features |
+| `CollaborationGuiTest` | Map save and reload |
 | `EdgeCaseGuiTest` | Edge cases and error paths |
 | `MapViewUnicodeGuiTest` | Unicode rendering in map view |
 | `NoteEditorUnicodeGuiTest` | Unicode in note editor |

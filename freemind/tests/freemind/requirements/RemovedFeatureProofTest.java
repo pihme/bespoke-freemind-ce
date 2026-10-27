@@ -13,6 +13,15 @@ import org.junit.jupiter.api.Test;
 class RemovedFeatureProofTest {
 
 	@Test
+	void TestREQ_PLUG_06_SocketCollaborationIsGone() throws Exception {
+		assertThrows(ClassNotFoundException.class,
+				() -> Class.forName("plugins.collaboration.socket.MindMapMaster"));
+		Path root = repoRoot();
+		assertFalse(Files.exists(root.resolve("freemind/plugins/CollaborationSocket.xml")));
+		assertFalse(Files.exists(root.resolve("freemind/plugins/collaboration/socket")));
+	}
+
+	@Test
 	void TestREQ_PLUG_01_GroovyScriptingIsGone() throws Exception {
 		assertThrows(ClassNotFoundException.class,
 				() -> Class.forName("plugins.script.ScriptingEngine"));

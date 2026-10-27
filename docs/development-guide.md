@@ -91,7 +91,6 @@ For cases where you need direct Gradle access (CI, IDE integration, advanced opt
 ```
 :freemind                              → Main application
 :freemind:plugins:svg                  → SVG/PDF export
-:freemind:plugins:collaboration:socket → Real-time collaboration
 ```
 
 ## Source Layout
@@ -155,7 +154,6 @@ make coverage-report # Totals from exec files already on disk
 | `MarshallerTests.java` | JAXB XML serialization |
 | `LayoutTests.java` | UI layout verification |
 | `TransformTest.java` | XSLT transformation |
-| `CollaborationTests.java` | Collaboration module |
 | `ExportTests.java` | Export functionality |
 | `HtmlConversionTests.java` | HTML export |
 | `StandaloneMapTests.java` | Standalone map operations |

@@ -45,8 +45,7 @@ freemind-ce/
 │   │   ├── map/                       # JMapViewer.jar kept for the trimmed stage
 │   │   ├── help/                      # jhall.jar kept for the trimmed stage
 │   │   ├── latex/                     # LaTeX formula rendering (not in Gradle yet)
-│   │   └── collaboration/             # Real-time collaboration
-│   │       ├── socket/                # ★ TCP socket-based (in Gradle)
+│   │   └── collaboration/             # Legacy collaboration sources
 │   │       ├── database/              # Database-based (legacy)
 │   │       └── jabber/                # XMPP-based (legacy)
 │   │
