@@ -247,7 +247,7 @@ Slices 1 and 2 also have deduced requirement tests. This table is the reference 
 | — | Browse mode behaviour tests. | Removed with TAI-009. | removed |
 | — | The classes in `freemind.modes.mindmapmode.listeners` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.listeners`. Each of those tests is labeled backwards compatibility. A left drag scrolls the map. Dragging an arrow bends it and release hides the handles. Dragging a node on the right increases its gap, control-drag changes the parent gap, and a left node flips the horizontal gap. A double click restores one axis. A drop copies onto the target, a move reparents the node, and a link joins the selection. A move onto the selected node is refused. A move onto a descendant of another selected node, a copy onto a protected node, and five or more links stop with `HeadlessException` before a dialog is shown. They are not uncoverable. No method in this package only exits the process or runs a system command. | `tests.freemind.cov.listeners.*BehaviourTest` | passed |
 | — | The classes in `accessories.plugins.dialogs` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.dialogs`. Each of those tests is labeled backwards compatibility. A list drag copies the selected row. A drop appends when nothing is selected and inserts after the selected row. Dropping onto the same selection leaves it. A move removes the adjusted source index, and a copy leaves the source. A flavor that cannot be read is refused. The format dialog and the pattern dialog throw `HeadlessException` before they are shown. They are not uncoverable. No method in this package only exits the process or runs a system command. | `tests.freemind.cov.dialogs.*BehaviourTest` | passed |
-| — | The classes in `accessories.plugins.util.xslt` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.xslt`. Each of those tests is labeled backwards compatibility. An identity stylesheet writes the source element text. A missing result directory throws `FileNotFoundException` before the transform. A broken stylesheet is caught and the result file still exists. The export dialog reads its title and then throws `HeadlessException` before a window exists. It is not uncoverable. The only `System.exit` in this package is inside a comment. | `tests.freemind.cov.xslt.*BehaviourTest` | passed |
+| — | XSLT export behaviour tests. | Removed with TAI-013. | removed |
 | — | The classes in `freemind.modes.common.actions` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.commonactions`. Each of those tests is labeled backwards compatibility. `prepareTextContent` turns null into an empty string, strips HTML, and lowercases only when the search is case-insensitive. Find selects a matching child and returns false for a missing or case-mismatched term. Find next selects the second match. A folded ancestor is unfolded for a match below it, and find next folds it again. With search-in-notes on, a note matches when the node text does not. A new map opens beside the previous one and leaves that root in place. No method in this package only exits the process or runs a system command. | `tests.freemind.cov.commonactions.*BehaviourTest` | passed |
 | — | LaTeX on a node behaviour tests. | Removed with TAI-005. | removed |
 | — | SVG and PDF export behaviour tests. | Removed with TAI-011. | removed |
@@ -486,7 +486,7 @@ The find dialog is not opened. `FindTextTests` still checks HTML tag stripping, 
 
 ### ~~REQ-FILE-01~~ REMOVED (TAI-012)
 
-HTML export is gone. `RemovedFeatureProofTest.TestREQ_FILE_01_HtmlExportIsGone` checks that the export menu no longer names `exportToHTML` or `exportBranchToHTML`, that the HTML actions are absent from `ExportWithXSLT.xml`, and that `mm2html.xsl` is absent. Rich text stored on a node stays. Copy still uses `MindMapHTMLWriter`. `gui/ExportGuiTest.java` methods named `export_html*` only assert `.mm` XML and stay.
+HTML export is gone. `RemovedFeatureProofTest.TestREQ_FILE_01_HtmlExportIsGone` checks that the export menu no longer names `exportToHTML` or `exportBranchToHTML`, and that `mm2html.xsl` and `ExportWithXSLT.xml` are absent. Rich text stored on a node stays. Copy still uses `MindMapHTMLWriter`. `gui/ExportGuiTest.java` methods named `export_html*` only assert `.mm` XML and stay.
 
 ### ~~REQ-FILE-02~~ REMOVED (TAI-011)
 
@@ -516,12 +516,9 @@ Folder-structure import is checked. A branch, a linked branch, and Explorer favo
 
 `gui/ImportGuiTest.java` still copies node text by hand or loads ordinary `.mm` XML.
 
-### REQ-FILE-07 — Partial
+### ~~REQ-FILE-07~~ REMOVED (TAI-013)
 
-These accessory outputs are checked: plain text, CSV, OPML, a LaTeX article, WordML (non-blank), XBEL, TWiki, Redmine wiki, and an `.odt` file. The spec says further accessories exist and does not name them one by one. This row does not claim those others.
-
-- `export/XsltExportTest.java` `textExportContainsNodeTexts`, `csvExportContainsMultipleNodes`, `mm2opmlProducesOutput`, `mm2latexartclProducesOutput`, `mm2wordmlProducesOutput`, `mm2xbelProducesOutput`, `mm2twikiProducesOutput`, `mm2redminewikiProducesOutput`.
-- `TransformTest.java` `testExportOoo`: the OpenOffice export writes an `.odt` file.
+XSLT exports are gone. `RemovedFeatureProofTest.TestREQ_FILE_07_XsltExportsAreGone` checks that `accessories.plugins.ExportWithXSLT`, `accessories.plugins.ExportToOoWriter`, and the XSLT export dialog do not load, and that `mm2text.xsl` and `mm2latex.xsl` are absent. Mindmanager import still uses `mindmanager2mm.xsl`. Xalan stays until the trimmed stage. `gui/ExportGuiTest.java` methods that only assert `.mm` XML stay.
 
 ## Plugins and modes
 
@@ -543,7 +540,7 @@ Integrated help is gone. `RemovedFeatureProofTest.TestREQ_PLUG_04_IntegratedHelp
 
 ### ~~REQ-PLUG-05~~ REMOVED (TAI-005)
 
-LaTeX on a node is gone. `RemovedFeatureProofTest.TestREQ_PLUG_05_LatexOnANodeIsGone` checks that `plugins.latex.LatexNodeHook` does not load and that `freemind/plugins/Latex.xml` is absent. JLaTeXMath stays until the trimmed stage. XSLT LaTeX export stays under REQ-FILE-07.
+LaTeX on a node is gone. `RemovedFeatureProofTest.TestREQ_PLUG_05_LatexOnANodeIsGone` checks that `plugins.latex.LatexNodeHook` does not load and that `freemind/plugins/Latex.xml` is absent. JLaTeXMath stays until the trimmed stage. XSLT LaTeX export left with TAI-013.
 
 ### ~~REQ-PLUG-06~~ REMOVED (TAI-006)
 

@@ -129,15 +129,30 @@ class RemovedFeatureProofTest {
 		String menus = Files.readString(root.resolve("freemind/mindmap_menus.xml"));
 		assertFalse(menus.contains("exportToHTML"));
 		assertFalse(menus.contains("exportBranchToHTML"));
-		String xslt = Files.readString(root.resolve("freemind/accessories/plugins/ExportWithXSLT.xml"));
-		assertFalse(xslt.contains("ExportWithXSLT_HTML"));
-		assertFalse(xslt.contains("freemind2html"));
-		assertFalse(xslt.contains("toxhtml.xsl"));
+		assertFalse(Files.exists(root.resolve("freemind/accessories/plugins/ExportWithXSLT.xml")));
 		assertFalse(Files.exists(root.resolve("freemind/accessories/mm2html.xsl")));
 		assertFalse(Files.exists(root.resolve("freemind/accessories/toxhtml.xsl")));
 		assertFalse(Files.readString(root.resolve("freemind/freemind.properties")).contains("keystroke_export_to_html"));
 		assertFalse(Files.readString(root.resolve("freemind/freemind.properties")).contains("keystroke_export_branch_to_html"));
 		assertNotNull(Class.forName("freemind.modes.mindmapmode.MindMapHTMLWriter"));
+	}
+
+	@Test
+	void TestREQ_FILE_07_XsltExportsAreGone() throws Exception {
+		assertThrows(ClassNotFoundException.class,
+				() -> Class.forName("accessories.plugins.ExportWithXSLT"));
+		assertThrows(ClassNotFoundException.class,
+				() -> Class.forName("accessories.plugins.ExportToOoWriter"));
+		assertThrows(ClassNotFoundException.class,
+				() -> Class.forName("accessories.plugins.util.xslt.ExportDialog"));
+		assertThrows(ClassNotFoundException.class,
+				() -> Class.forName("accessories.plugins.util.xslt.XmlExporter"));
+		Path root = repoRoot();
+		assertFalse(Files.exists(root.resolve("freemind/accessories/plugins/ExportWithXSLT.xml")));
+		assertFalse(Files.exists(root.resolve("freemind/accessories/plugins/ExportToOoWriter.xml")));
+		assertFalse(Files.exists(root.resolve("freemind/accessories/mm2text.xsl")));
+		assertFalse(Files.exists(root.resolve("freemind/accessories/mm2latex.xsl")));
+		assertTrue(Files.exists(root.resolve("freemind/accessories/mindmanager2mm.xsl")));
 	}
 
 	@Test

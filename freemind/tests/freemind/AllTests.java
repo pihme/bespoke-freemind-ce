@@ -41,7 +41,6 @@ public class AllTests {
 		suite.addTest(new TestSuite(Base64Tests.class));
 		suite.addTest(new TestSuite(FindTextTests.class));
 		suite.addTest(new TestSuite(HtmlConversionTests.class));
-		suite.addTest(new TestSuite(TransformTest.class));
 		suite.addTest(new TestSuite(MarshallerTests.class));
 		suite.addTest(new TestSuite(LastStorageManagementTests.class));
 		suite.addTest(new TestSuite(ToolsTests.class));
