@@ -579,11 +579,7 @@ Paper size and imageable area survive a string round trip. Print preview shows t
 
 ### REQ-APP-03 — Partial
 
-Thirty or more language files are present, and English and German disagree on one label. The running UI language is not switched.
-
-- `requirements/RequirementBehaviourTest.java` `TestREQ_APP_03_AtLeastThirtyLanguages`: at least 30 `Resources_*.properties` files, `about` is `About` in English, and the German value is different.
-
-The unicode tests preserve map text. That is REQ-MAP-03, not this requirement.
+Other language bundles are removed (TAI-015). `RemovedFeatureProofTest.TestREQ_APP_03_OnlyEnglishRemains` checks that `Resources_en.properties` is the only `Resources_*.properties` file, that `about` is `About`, and that the language list is `automatic` and `en`. A stored language code still falls back to English. Unicode map text stays under REQ-MAP-03.
 
 ### REQ-APP-04 — Partial
 

@@ -24,15 +24,12 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.Properties;
 import java.util.Set;
-import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -255,23 +252,6 @@ class RequirementBehaviourTest {
 	}
 
 	@Test
-	void TestREQ_APP_03_AtLeastThirtyLanguages() throws Exception {
-		Path dir = moduleDir();
-		long count;
-		try (Stream<Path> files = Files.list(dir)) {
-			count = files.filter(path -> {
-				String name = path.getFileName().toString();
-				return name.startsWith("Resources_") && name.endsWith(".properties");
-			}).count();
-		}
-		assertTrue(count >= 30, "language files: " + count);
-		Properties english = loadProperties(dir.resolve("Resources_en.properties"));
-		Properties german = loadProperties(dir.resolve("Resources_de.properties"));
-		assertEquals("About", english.getProperty("about").trim());
-		assertNotEquals(english.getProperty("about").trim(), german.getProperty("about").trim());
-	}
-
-	@Test
 	void TestREQ_APP_04_FlatLafLightAndDark() throws Exception {
 		LookAndFeel previous = UIManager.getLookAndFeel();
 		try {
@@ -375,13 +355,5 @@ class RequirementBehaviourTest {
 			throw new IllegalStateException("Resources_en.properties not found from user.dir");
 		}
 		return dir;
-	}
-
-	private static Properties loadProperties(Path path) throws IOException {
-		Properties properties = new Properties();
-		try (Reader reader = Files.newBufferedReader(path)) {
-			properties.load(reader);
-		}
-		return properties;
 	}
 }

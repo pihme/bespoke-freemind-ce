@@ -1,5 +1,6 @@
 package tests.freemind.requirements;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -168,6 +169,23 @@ class RemovedFeatureProofTest {
 		assertFalse(Files.readString(root.resolve("freemind/Resources_en.properties"))
 				.contains("import_folder_structure"));
 		assertNotNull(Class.forName("freemind.modes.mindmapmode.actions.ImportExplorerFavoritesAction"));
+	}
+
+	@Test
+	void TestREQ_APP_03_OnlyEnglishRemains() throws Exception {
+		Path freemind = repoRoot().resolve("freemind");
+		int bundles = 0;
+		try (DirectoryStream<Path> files = Files.newDirectoryStream(freemind, "Resources_*.properties")) {
+			for (Path file : files) {
+				bundles++;
+				assertEquals("Resources_en.properties", file.getFileName().toString());
+			}
+		}
+		assertEquals(1, bundles);
+		assertTrue(Files.readString(freemind.resolve("Resources_en.properties")).contains("about = About"));
+		String panel = Files.readString(freemind.resolve("freemind/preferences/layout/OptionPanel.java"));
+		assertTrue(panel.contains("\"automatic\", \"en\""));
+		assertFalse(panel.contains("\"de\""));
 	}
 
 	@Test

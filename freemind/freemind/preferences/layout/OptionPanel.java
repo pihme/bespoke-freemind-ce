@@ -461,11 +461,7 @@ public class OptionPanel implements TextTranslator {
 		 * http://www.loc.gov/standards/iso639-2/php/English_list.php
 		 */
 		"language.tooltip", FreeMindCommon.RESOURCE_LANGUAGE,
-				new String[] { "automatic", "ar", "bg", "cs", "de", "dk", "en",
-						"el", "es", "et", "eu", "fr", "gl", "hr", "hu", "id",
-						"it", "ja", "ko", "lt", "nl", "nn", "nb", "pl",
-						"pt_BR", "pt_PT", "ro", "ru", "sk", "se", "sl", "sr",
-						"tr", "uk_UA", "vi", "zh_TW", "zh_CN" },
+				new String[] { "automatic", "en" },
 				new TextTranslator() {
 
 					public String getText(String pKey) {
