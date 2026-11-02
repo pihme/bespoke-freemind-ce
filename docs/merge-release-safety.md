@@ -54,7 +54,7 @@ All dependency updates follow risk-appropriate procedures. CI passing alone is N
 | 2 | CI matrix runs (48 jobs) — ALL must pass | Automatic |
 | 3 | Review changelog for relevant fixes | Maintainer |
 | 4 | Approve PR | Maintainer |
-| 5 | Merge | Automatic (after approval) |
+| 5 | Merge | QA (after `ready-for-qa`, see `docs/agents/team.md`) |
 
 ### Minor Updates (x.1.0 → x.2.0)
 
@@ -65,7 +65,7 @@ All dependency updates follow risk-appropriate procedures. CI passing alone is N
 | 3 | Review changelog for new features and deprecations | Maintainer |
 | 4 | Run `make build` locally to verify | Maintainer |
 | 5 | Approve PR | Maintainer |
-| 6 | Merge | Automatic (after approval) |
+| 6 | Merge | QA (after `ready-for-qa`, see `docs/agents/team.md`) |
 
 ### Major Updates (1.x → 2.x) — Special Handling Required
 
@@ -83,13 +83,13 @@ Major version bumps in **dependencies** may contain breaking API changes that re
 | 8 | Run `make run` — smoke-test the application | Maintainer |
 | 9 | Verify no dependency conflicts (`./gradlew dependencies`) | Maintainer |
 | 10 | Approve PR | Maintainer |
-| 11 | Merge | Automatic (after approval) |
+| 11 | Merge | QA (after `ready-for-qa`, see `docs/agents/team.md`) |
 
 **If a major update cannot be made compatible:** close the Dependabot PR with a comment explaining why, and create a GitHub issue to track the migration for a future release.
 
 ### Dependency Update Rules
 
-- Dependabot auto-merge workflow MUST NOT merge without maintainer approval
+- There is no Dependabot auto-merge: every Dependabot PR follows the Dependabot flow in `docs/agents/team.md` (Maintainer reviews the content and sets `ready-for-qa`; QA merges; decisions go to the owner with `ready-for-human`)
 - Even patch updates can introduce regressions — human review is always required
 - CI passing does NOT mean safe to merge — tests do not cover 100% of runtime behavior
 - When multiple dependency PRs are open, merge smallest/safest first, largest/riskiest last
@@ -177,11 +177,11 @@ External contributors submit PRs from forks. GitHub Actions handles fork PRs wit
 | Bot | Creates PRs | Auto-merge Allowed | Maintainer Action |
 |-----|------------|-------------------|-------------------|
 | **release-please** | Release PR with CHANGELOG | NO — always manual review | Apply Release Checklist, then approve |
-| **Dependabot (patch)** | Dependency bump PR | YES — after CI passes | Monitor, intervene if CI fails |
-| **Dependabot (minor)** | Dependency bump PR | YES — after CI passes | Review changelog, then let auto-merge proceed |
+| **Dependabot (patch)** | Dependency bump PR | NO — Dependabot flow | Review, then set `ready-for-qa`; QA merges |
+| **Dependabot (minor)** | Dependency bump PR | NO — Dependabot flow | Review changelog, then set `ready-for-qa`; QA merges |
 | **Dependabot (major)** | Dependency bump PR | NO — manual review required | Follow Major Update Protocol |
 
-Dependabot auto-merge for patch/minor updates is an approved exception to the general "no auto-merge" rule. This is documented here as an explicit policy decision. Major version bumps always require manual review per the Dependency Update Protocol above.
+There is no auto-merge for Dependabot PRs. All of them follow the Dependabot flow in `docs/agents/team.md`: Maintainer reviews the content and sets `ready-for-qa`, QA merges, and decisions go to the owner with `ready-for-human`. Major version bumps also follow the Dependency Update Protocol above.
 
 ## AI Agent Policy
 
