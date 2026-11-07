@@ -250,7 +250,6 @@ updates:
           - "org.junit*"
           - "org.mockito*"
           - "org.assertj*"
-          - "net.jqwik*"
       logging:
         patterns:
           - "org.slf4j*"

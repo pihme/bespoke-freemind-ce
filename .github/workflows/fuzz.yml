@@ -20,10 +20,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: jqwik
-            timeout: 10
-            tests: "tests.freemind.property.*,tests.freemind.unicode.UnicodePropertyTests"
-            jazzer: "false"
           - name: jazzer
             timeout: 30
             tests: "tests.freemind.fuzz.*"

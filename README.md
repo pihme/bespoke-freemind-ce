@@ -42,6 +42,14 @@ build.gradle.kts        the build
 
 The entry point is `freemind.main.FreeMindStarter`.
 
+## How this project is built
+
+bespoke-freemind-ce is a fork of FreeMind CE, which was built by humans and by agents. Changes in this fork are made by AI coding agents. They write the code, the tests, and the documentation for those changes, and they review each other's work, under human direction: specs, design decisions, and acceptance based on observed behaviour and test results. No human reads the code line by line. This is a deliberate choice. Quality rests on automated tests, CI, and independent agent review.
+
+Evaluate the code against your own requirements before you depend on it.
+
+jqwik was removed, respecting its author's stated preference that coding agents not use the library. The property tests that depended on it are gone. Fuzzing stays on Jazzer.
+
 ## License
 
 GNU General Public License version 2. The text is [LICENSE](LICENSE).

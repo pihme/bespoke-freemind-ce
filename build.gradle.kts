@@ -138,10 +138,6 @@ dependencies {
     testImplementation("junit:junit:${junitVersion}")
     testImplementation("org.mockito:mockito-core:5.24.0")
 
-    // Property-Based Testing (jqwik)
-    testImplementation("net.jqwik:jqwik:1.10.1")
-    testImplementation("net.jqwik:jqwik-engine:1.10.1")
-
     // Fuzz Testing (Jazzer via JUnit integration)
     testImplementation("com.code-intelligence:jazzer-api:0.30.0")
     testImplementation("com.code-intelligence:jazzer-junit:0.30.0")
@@ -289,10 +285,7 @@ tasks.test {
     useJUnitPlatform {
         excludeTags("gui", "fuzz")
     }
-    // jqwik does not publish the JUnit tag, so the class patterns exclude it too.
     filter {
-        excludeTestsMatching("tests.freemind.property.*")
-        excludeTestsMatching("tests.freemind.unicode.UnicodePropertyTests")
         excludeTestsMatching("tests.freemind.fuzz.*")
     }
 
@@ -349,14 +342,12 @@ tasks.register<Test>("testPerformance") {
 }
 
 tasks.register<Test>("testFuzz") {
-    description = "Run jqwik property tests and Jazzer fuzz tests"
+    description = "Run Jazzer fuzz tests"
     group = "verification"
     testClassesDirs = sourceSets["test"].output.classesDirs
     classpath = sourceSets["test"].runtimeClasspath
     useJUnitPlatform()
     filter {
-        includeTestsMatching("tests.freemind.property.*")
-        includeTestsMatching("tests.freemind.unicode.UnicodePropertyTests")
         includeTestsMatching("tests.freemind.fuzz.*")
     }
     systemProperty("java.awt.headless", "true")
@@ -442,8 +433,6 @@ pitest {
     excludedClasses.set(setOf("freemind.controller.actions.generated.instance.*"))
     excludedTestClasses.set(setOf(
         "tests.freemind.fuzz.*",
-        "tests.freemind.property.*",
-        "tests.freemind.unicode.UnicodePropertyTests",
         "tests.freemind.gui.*",
         "tests.freemind.io.LargeFilePerformanceTest"
     ))

@@ -242,8 +242,10 @@ A modernized and streamlined version of Freemind. Modernized pertains to the UI.
 | ID | Decision | Reason | Decided by | Replay hint |
 |----|----------|--------|------------|-------------|
 | BSP-001 | Do not shrink a package. This is a desktop app. There is no container image, and shrink-wrap does not run. The jpackage outputs stay as the build already produces them. No requirement changes. | The user said there is nothing to shrink, because this is a desktop app. | user | Do not add a Dockerfile. Do not cut the jpackage outputs. Leave this stage with this decision and no size ledger. |
+| BSP-002 | Remove jqwik 1.10.1 and the tests that call it: `tests.freemind.property` and `UnicodePropertyTests`. Jazzer stays. `HtmlUnicodeTests` stays. No requirement changes. This supersedes the jqwik half of COV-007. | The user asked to remove jqwik, respecting the author's stated preference that coding agents not use the library. | user | Do not add `net.jqwik` again. Do not restore those property tests. Keep Jazzer and `testFuzz` for `tests.freemind.fuzz.*`. |
 
 ### Last run
 
 - 2026-11-07. Stage opened from the trimmed exit at `9c6cd5f7`. This tree has no container image. The packages it builds are jpackage outputs. The artifact to shrink is not named. No shrink pass yet.
 - 2026-11-07. BSP-001. Nothing to shrink. The program is unchanged. The bespoke stage exits.
+- 2026-11-07. BSP-002. jqwik and the property tests that used it are gone. Jazzer stays. The program is unchanged.

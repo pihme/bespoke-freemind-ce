@@ -50,7 +50,7 @@ test-gui: ## Run GUI tests with screenshots (requires display)
 test-performance: ## Run performance tests
 	$(GRADLE_CMD) testPerformance $(GRADLE_FLAGS)
 
-test-fuzz: ## Run jqwik and Jazzer tests (not part of unit tests or coverage)
+test-fuzz: ## Run Jazzer tests (not part of unit tests or coverage)
 	$(GRADLE_CMD) testFuzz $(GRADLE_FLAGS)
 
 mutate: ## Mutation-test one package (override MUTATE and MUTATE_TESTS)
