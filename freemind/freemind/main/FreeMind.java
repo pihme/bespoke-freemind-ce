@@ -67,7 +67,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -283,8 +282,6 @@ public class FreeMind extends JFrame implements FreeMindMain, ActionListener {
 	private JComponent mContentComponent = null;
 
 	private JTabbedPane mTabbedPane = null;
-
-	private ImageIcon mWindowIcon;
 
 	private boolean mStartupDone = false;
 
@@ -714,15 +711,9 @@ public class FreeMind extends JFrame implements FreeMindMain, ActionListener {
 				UIManager.put("RadioButtonMenuItem.acceleratorFont",
 						SEGOE_UI_PLAIN_12);
 			}
-			IFreeMindSplash splash = null;
 			frame.checkForAnotherInstance(args);
 			frame.initServer();
-			final FeedBack feedBack;
-			splash = new FreeMindSplashModern(frame);
-			splash.setVisible(true);
-			feedBack = splash.getFeedBack();
-			frame.mWindowIcon = splash.getWindowIcon();
-
+			final FeedBack feedBack = new SilentFeedBack();
 			feedBack.setMaximumValue(10 + frame.getMaximumNumberOfMapsToLoad(args));
 			frame.init(feedBack);
 
@@ -747,9 +738,6 @@ public class FreeMind extends JFrame implements FreeMindMain, ActionListener {
 				}
 			});
 			frame.setVisible(true);
-			if (splash != null) {
-				splash.setVisible(false);
-			}
 			frame.fireStartupDone();
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -1347,8 +1335,22 @@ public class FreeMind extends JFrame implements FreeMindMain, ActionListener {
 			} catch (Exception e) {
 				logger.warning("Could not set taskbar icon: " + e.getMessage());
 			}
-		} else if (mWindowIcon != null) {
-			setIconImage(mWindowIcon.getImage());
+		}
+	}
+
+	/** Startup progress used to paint on the splash window. Nothing shows it now. */
+	private static final class SilentFeedBack implements FeedBack {
+		public void progress(int act, String messageId, Object[] pMessageParameters) {
+		}
+
+		public int getActualValue() {
+			return 0;
+		}
+
+		public void setMaximumValue(int max) {
+		}
+
+		public void increase(String messageId, Object[] pMessageParameters) {
 		}
 	}
 

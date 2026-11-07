@@ -274,6 +274,24 @@ class RemovedFeatureProofTest {
 	}
 
 	@Test
+	void TestTAI_020_StartupSplashIsGone() throws Exception {
+		assertThrows(ClassNotFoundException.class,
+				() -> Class.forName("freemind.main.FreeMindSplashModern"));
+		assertThrows(ClassNotFoundException.class,
+				() -> Class.forName("freemind.main.IFreeMindSplash"));
+		Path root = repoRoot();
+		assertFalse(Files.exists(root.resolve("freemind/freemind/main/FreeMindSplashModern.java")));
+		assertFalse(Files.exists(root.resolve("freemind/images/Freemind_Splash_Butterfly_Modern.png")));
+		assertFalse(Files.exists(root.resolve("freemind/images/splash.JPG")));
+		assertFalse(Files.exists(root.resolve("freemind/images/76812-freemind_v0.4.png")));
+		assertFalse(Files.exists(root.resolve("freemind/images/76812-freemind_v0.4.svg")));
+		assertFalse(Files.readString(root.resolve("freemind/freemind/main/FreeMind.java")).contains("FreeMindSplashModern"));
+		assertNotNull(Class.forName("freemind.main.FeedBack"));
+		assertTrue(Files.exists(root.resolve("freemind/images/FreeMindIcon256.png")));
+		assertTrue(Files.readString(root.resolve("freemind/freemind.properties")).contains("simplyhtml.splashImage"));
+	}
+
+	@Test
 	void TestTAI_017_OnekinWikiExportIsGone() throws Exception {
 		assertThrows(ClassNotFoundException.class,
 				() -> Class.forName("onekin.WSL.WSL_Main"));

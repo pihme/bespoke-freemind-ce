@@ -83,6 +83,8 @@ The repo-root tree `plugins/wsl` is an old Onekin MediaWiki export. It was never
 
 The Help menu is not a requirement. It held documentation, the project pages, the keyboard guide, the license dialog, and About. Integrated help was already removed (TAI-004). The menu is removed (TAI-019). The log-file viewer moves to Extras. `LICENSE` stays. `plugins/help/jhall.jar` stays until the trimmed stage.
 
+The startup splash is not a requirement. It is removed (TAI-020). The window icons stay. SimplyHTML's own splash image preference stays.
+
 ## Application
 
 | ID | What the user can do | Entry points | Source |

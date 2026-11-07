@@ -562,6 +562,10 @@ The default `initial_mode` property is `MindMap`. Browse mode and File mode are 
 
 This tree was not a requirement and was not compiled. `RemovedFeatureProofTest.TestTAI_017_OnekinWikiExportIsGone` checks that `onekin.WSL.WSL_Main` does not load and that repo-root `plugins/wsl` is absent. `freemind/plugins` stays.
 
+### Startup splash — removed (TAI-020)
+
+The startup splash was not a requirement. `RemovedFeatureProofTest.TestTAI_020_StartupSplashIsGone` checks that `FreeMindSplashModern` and `IFreeMindSplash` do not load, that the splash images are absent, and that `FeedBack`, the window icon, and SimplyHTML's splash image preference stay.
+
 ### Help menu — removed (TAI-019)
 
 The Help menu was not a requirement. Documentation, the project pages, the keyboard guide, the license dialog, and About are gone. Integrated help was already removed (TAI-004). `RemovedFeatureProofTest.TestTAI_019_HelpMenuIsGone` checks that the Help menu constant and the documentation, about, license, and homepage actions are absent, that the English keyboard guide is absent, and that the log-file viewer, `LICENSE`, and `plugins/help/jhall.jar` stay. The log-file viewer is under Extras. `HelpMenuGuiTest` still checks version strings and is not this menu.

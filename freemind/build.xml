@@ -529,8 +529,6 @@
 				<!--				<include name="*.xml"/>
 				<exclude name="build.xml"/> -->
 				<exclude name="images/*.svg"/>
-				<exclude name="images/splash.JPG"/>
-				<exclude name="images/Freemind_Splash_Butterfly_Modern.png"/>
 				<exclude name="images/FreeMindWindowIcon.icns"/>
 
 			</fileset>
