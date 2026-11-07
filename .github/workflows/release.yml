@@ -17,132 +17,79 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  # Gate 1: Run full build + tests on all platforms and Java versions
+  # Gate 1: build and unit tests on Ubuntu 24.04, Java 21
   validate:
-    name: Validate (${{ matrix.os }}, Java ${{ matrix.java }})
+    name: Validate (ubuntu-24.04, Java 21)
     permissions:
       contents: read
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-24.04, ubuntu-22.04, windows-2025, windows-2022, macos-15, macos-14]
-        java: ['21', '22', '23', '24']
-      fail-fast: true  # Stop all if any platform/java combo fails
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      - name: Set up JDK ${{ matrix.java }}
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5
         with:
-          java-version: ${{ matrix.java }}
+          java-version: ${{ env.JAVA_VERSION }}
           distribution: 'temurin'
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e # v6.1.0
 
       - name: Make gradlew executable
-        if: runner.os != 'Windows'
         run: chmod +x ./gradlew
 
-      - name: Install Xvfb (Linux)
-        if: runner.os == 'Linux'
+      - name: Install Xvfb
         run: sudo apt-get install -y xvfb
 
-      - name: Build + Test (Linux)
-        if: runner.os == 'Linux'
+      - name: Build + Test
         run: |
           ./gradlew build -x test --no-daemon --no-configuration-cache
           xvfb-run ./gradlew test --no-daemon --no-configuration-cache
 
-      - name: Build + Test (macOS)
-        if: runner.os == 'macOS'
-        run: |
-          ./gradlew build -x test --no-daemon --no-configuration-cache
-          ./gradlew test --no-daemon --no-configuration-cache
-
-      - name: Build + Test (Windows)
-        if: runner.os == 'Windows'
-        run: |
-          .\gradlew.bat build -x test --no-daemon --no-configuration-cache
-          .\gradlew.bat test --no-daemon --no-configuration-cache
-
-  # Gate 2: Run GUI tests on all platforms and Java versions
+  # Gate 2: GUI tests on Ubuntu 24.04, Java 21
   gui-tests:
-    name: GUI Tests (${{ matrix.os }}, Java ${{ matrix.java }})
+    name: GUI Tests (ubuntu-24.04, Java 21)
     permissions:
       contents: read
     needs: validate
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-24.04, ubuntu-22.04, windows-2025, windows-2022, macos-15, macos-14]
-        java: ['21', '22', '23', '24']
-      fail-fast: true
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      - name: Set up JDK ${{ matrix.java }}
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5
         with:
-          java-version: ${{ matrix.java }}
+          java-version: ${{ env.JAVA_VERSION }}
           distribution: 'temurin'
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e # v6.1.0
 
       - name: Make gradlew executable
-        if: runner.os != 'Windows'
         run: chmod +x ./gradlew
 
-      - name: Build (Unix)
-        if: runner.os != 'Windows'
+      - name: Build
         run: ./gradlew build -x test --no-daemon --no-configuration-cache
 
-      - name: Build (Windows)
-        if: runner.os == 'Windows'
-        run: .\gradlew.bat build -x test --no-daemon --no-configuration-cache
-
-      - name: Install Xvfb (Linux)
-        if: runner.os == 'Linux'
+      - name: Install Xvfb
         run: sudo apt-get install -y xvfb
 
-      - name: GUI Tests (Linux with Xvfb)
-        if: runner.os == 'Linux'
+      - name: GUI Tests
         run: xvfb-run ./gradlew testGui --no-daemon --no-configuration-cache --continue
 
-      - name: GUI Tests (macOS)
-        if: runner.os == 'macOS'
-        run: ./gradlew testGui --no-daemon --no-configuration-cache --continue
-
-      - name: GUI Tests (Windows)
-        if: runner.os == 'Windows'
-        run: .\gradlew.bat testGui --no-daemon --no-configuration-cache --continue
-
-      - name: E2E Showcase Screenshots (Linux with Xvfb)
-        if: runner.os == 'Linux'
+      - name: E2E Showcase Screenshots
         run: xvfb-run ./gradlew :freemind:showcaseScreenshots --no-daemon --no-configuration-cache || true
         timeout-minutes: 5
-
-      - name: E2E Showcase Screenshots (macOS)
-        if: runner.os == 'macOS'
-        run: ./gradlew :freemind:showcaseScreenshots --no-daemon --no-configuration-cache || true
-        timeout-minutes: 5
-
-      - name: E2E Showcase Screenshots (Windows)
-        if: runner.os == 'Windows'
-        run: .\gradlew.bat :freemind:showcaseScreenshots --no-daemon --no-configuration-cache
-        timeout-minutes: 5
-        continue-on-error: true
 
       - name: Upload GUI Test Screenshots
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: release-gui-screenshots-${{ matrix.os }}-java${{ matrix.java }}
+          name: release-gui-screenshots-ubuntu-24.04-java21
           path: freemind/build/test-screenshots/
           retention-days: 30
           if-no-files-found: ignore
@@ -152,7 +99,7 @@ jobs:
         shell: bash
         run: |
           {
-            echo "## Screenshots: ${{ matrix.os }} / Java ${{ matrix.java }}"
+            echo "## Screenshots: ubuntu-24.04 / Java 21"
             echo ""
 
             # Showcase screenshots

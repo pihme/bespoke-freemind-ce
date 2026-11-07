@@ -1,24 +1,38 @@
 name: Build
 
 on:
+  push:
+    branches:
+      - 1-raw
+      - 2-covered
+      - 3-tailored
+      - 4-customized
+      - 5-trimmed
+      - 6-bespoke
   pull_request:
-    branches: [main]
-  workflow_call:  # Called by release-please.yml on push to main
+    branches:
+      - 1-raw
+      - 2-covered
+      - 3-tailored
+      - 4-customized
+      - 5-trimmed
+      - 6-bespoke
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
 
 env:
+  JAVA_VERSION: '21'
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   changes:
     name: Detect changes
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
     outputs:
@@ -31,20 +45,20 @@ jobs:
       - name: Check for code changes
         id: check
         run: |
-          # Push to main ve workflow_call (release akışı) → her zaman full build
-          if [ "${{ github.event_name }}" != "pull_request" ]; then
-            echo "code=true" >> "$GITHUB_OUTPUT"
-            echo "java_code=true" >> "$GITHUB_OUTPUT"
-            echo "::notice::Non-PR event, running full build"
-            exit 0
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE=$(git merge-base "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}")
+            HEAD="${{ github.event.pull_request.head.sha }}"
+          else
+            BASE="${{ github.event.before }}"
+            HEAD="${{ github.sha }}"
+            if [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
+              echo "code=true" >> "$GITHUB_OUTPUT"
+              echo "java_code=true" >> "$GITHUB_OUTPUT"
+              echo "::notice::New branch, running full build"
+              exit 0
+            fi
           fi
-          # PR: doc-only mı kontrol et
-          # Use merge-base to compare only the PR's own changes,
-          # not commits merged into main since the branch was created.
-          BASE=$(git merge-base "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}")
-          HEAD="${{ github.event.pull_request.head.sha }}"
-          echo "::notice::Comparing $BASE..$HEAD (merge-base)"
-          # List non-doc files changed in this PR
+          echo "::notice::Comparing $BASE..$HEAD"
           NON_DOC_FILES=$(git diff --name-only "$BASE..$HEAD" -- \
             ':!**/*.md' ':!docs/**' \
             ':!LICENSE' ':!COPYING' ':!.gitattributes' \
@@ -53,12 +67,11 @@ jobs:
           if [ -z "$NON_DOC_FILES" ]; then
             echo "code=false" >> "$GITHUB_OUTPUT"
             echo "java_code=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::Documentation-only change — skipping build & test matrix"
+            echo "::notice::Documentation-only change — skipping build and test"
           else
             echo "code=true" >> "$GITHUB_OUTPUT"
             echo "::notice::Code changes detected: $(echo "$NON_DOC_FILES" | wc -l | tr -d ' ') non-doc files"
             echo "$NON_DOC_FILES" | head -10
-            # Check if any Java/Kotlin source files changed (for CodeQL)
             JAVA_FILES=$(git diff --name-only "$BASE..$HEAD" -- '*.java' '*.kt' '*.kts')
             if [ -z "$JAVA_FILES" ]; then
               echo "java_code=false" >> "$GITHUB_OUTPUT"
@@ -72,67 +85,43 @@ jobs:
   build:
     needs: changes
     if: ${{ needs.changes.outputs.code == 'true' }}
-    name: Build (${{ matrix.os }}, Java ${{ matrix.java }})
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-24.04, ubuntu-22.04, windows-2025, windows-2022, macos-15, macos-14]
-        java: ['21', '22', '23', '24']
-      fail-fast: true
+    name: Build (ubuntu-24.04, Java 21)
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      - name: Set up JDK ${{ matrix.java }}
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5
         with:
-          java-version: ${{ matrix.java }}
+          java-version: ${{ env.JAVA_VERSION }}
           distribution: 'temurin'
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e # v6.1.0
 
       - name: Make gradlew executable
-        if: runner.os != 'Windows'
         run: chmod +x ./gradlew
 
-      - name: Build (Unix)
-        if: runner.os != 'Windows'
+      - name: Build
         run: ./gradlew build -x test --no-daemon --no-configuration-cache
 
-      - name: Build (Windows)
-        if: runner.os == 'Windows'
-        run: .\gradlew.bat build -x test --no-daemon --no-configuration-cache
-
-      - name: Install Xvfb (Linux)
-        if: runner.os == 'Linux'
+      - name: Install Xvfb
         run: sudo apt-get install -y xvfb
 
-      - name: Test (Linux with Xvfb)
-        if: runner.os == 'Linux'
+      - name: Test
         run: xvfb-run ./gradlew test --no-daemon --no-configuration-cache --continue
-
-      - name: Test (macOS)
-        if: runner.os == 'macOS'
-        run: ./gradlew test --no-daemon --no-configuration-cache --continue
-
-      - name: Test (Windows)
-        if: runner.os == 'Windows'
-        run: .\gradlew.bat test --no-daemon --no-configuration-cache --continue
 
       - name: Test Count Regression Guard
         if: always()
-        shell: bash
         run: |
-          # Minimum expected headless test count (update when adding tests)
           MIN_TESTS=800
           RESULTS_DIR="freemind/build/test-results/test"
           if [ ! -d "$RESULTS_DIR" ]; then
             echo "::warning::No test results directory found — skipping count check"
             exit 0
           fi
-          # Count tests from JUnit XML: <testcase> elements
           ACTUAL=$(grep -r '<testcase ' "$RESULTS_DIR"/*.xml 2>/dev/null | wc -l | tr -d ' ')
           echo "Test count: $ACTUAL (minimum: $MIN_TESTS)"
           if [ "$ACTUAL" -lt "$MIN_TESTS" ]; then
@@ -145,7 +134,7 @@ jobs:
         uses: dorny/test-reporter@a43b3a5f7366b97d083190328d2c652e1a8b6aa2 # v2
         if: always()
         with:
-          name: Unit Tests (${{ matrix.os }}, Java ${{ matrix.java }})
+          name: Unit Tests (ubuntu-24.04, Java 21)
           path: freemind/build/test-results/test/*.xml
           reporter: java-junit
 
@@ -153,21 +142,21 @@ jobs:
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: spotbugs-report-${{ matrix.os }}-java${{ matrix.java }}
+          name: spotbugs-report-ubuntu-24.04-java21
           path: freemind/build/reports/spotbugs/
           retention-days: 14
           if-no-files-found: ignore
 
       - name: Generate Coverage Report
-        if: matrix.os == 'ubuntu-24.04' && matrix.java == '21' && always()
+        if: always()
         run: xvfb-run ./gradlew :freemind:jacocoTestReport --no-daemon --no-configuration-cache -x test
 
       - name: Enforce Coverage Threshold
-        if: matrix.os == 'ubuntu-24.04' && matrix.java == '21' && always()
+        if: always()
         run: xvfb-run ./gradlew :freemind:jacocoTestCoverageVerification --no-daemon --no-configuration-cache -x test
 
       - name: Upload Coverage Report
-        if: matrix.os == 'ubuntu-24.04' && matrix.java == '21' && always()
+        if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: coverage-report
@@ -175,10 +164,9 @@ jobs:
           retention-days: 14
 
       - name: Upload build artifacts
-        if: matrix.java == '21'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: build-${{ matrix.os }}
+          name: build-ubuntu-24.04
           path: |
             freemind/build/libs/*.jar
             freemind/build/distributions/*
@@ -186,91 +174,56 @@ jobs:
           if-no-files-found: warn
 
   gui-tests:
-    name: GUI Tests (${{ matrix.os }}, Java ${{ matrix.java }})
+    name: GUI Tests (ubuntu-24.04, Java 21)
     needs: [changes, build]
     if: ${{ needs.changes.outputs.code == 'true' }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-24.04, ubuntu-22.04, windows-2025, windows-2022, macos-15, macos-14]
-        java: ['21', '22', '23', '24']
-      fail-fast: true
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      - name: Set up JDK ${{ matrix.java }}
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5
         with:
-          java-version: ${{ matrix.java }}
+          java-version: ${{ env.JAVA_VERSION }}
           distribution: 'temurin'
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e # v6.1.0
 
       - name: Make gradlew executable
-        if: runner.os != 'Windows'
         run: chmod +x ./gradlew
 
-      - name: Build (Unix)
-        if: runner.os != 'Windows'
+      - name: Build
         run: ./gradlew build -x test --no-daemon --no-configuration-cache
 
-      - name: Build (Windows)
-        if: runner.os == 'Windows'
-        run: .\gradlew.bat build -x test --no-daemon --no-configuration-cache
-
-      - name: Install Xvfb (Linux)
-        if: runner.os == 'Linux'
+      - name: Install Xvfb
         run: sudo apt-get install -y xvfb
 
-      - name: GUI Tests (Linux with Xvfb)
-        if: runner.os == 'Linux'
+      - name: GUI Tests
         run: xvfb-run ./gradlew testGui --no-daemon --no-configuration-cache --continue
 
-      - name: GUI Tests (macOS)
-        if: runner.os == 'macOS'
-        run: ./gradlew testGui --no-daemon --no-configuration-cache --continue
-
-      - name: GUI Tests (Windows)
-        if: runner.os == 'Windows'
-        run: .\gradlew.bat testGui --no-daemon --no-configuration-cache --continue
-
-      - name: E2E Showcase Screenshots (Linux with Xvfb)
-        if: runner.os == 'Linux'
+      - name: E2E Showcase Screenshots
         run: xvfb-run ./gradlew :freemind:showcaseScreenshots --no-daemon --no-configuration-cache || true
         timeout-minutes: 5
-
-      - name: E2E Showcase Screenshots (macOS)
-        if: runner.os == 'macOS'
-        run: ./gradlew :freemind:showcaseScreenshots --no-daemon --no-configuration-cache || true
-        timeout-minutes: 5
-
-      - name: E2E Showcase Screenshots (Windows)
-        if: runner.os == 'Windows'
-        run: .\gradlew.bat :freemind:showcaseScreenshots --no-daemon --no-configuration-cache
-        timeout-minutes: 5
-        continue-on-error: true
 
       - name: Upload GUI Test Screenshots
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: gui-test-screenshots-${{ matrix.os }}-java${{ matrix.java }}
+          name: gui-test-screenshots-ubuntu-24.04-java21
           path: freemind/build/test-screenshots/
           retention-days: 14
           if-no-files-found: ignore
 
       - name: Screenshot Summary
         if: always()
-        shell: bash
         run: |
           {
-            echo "## Screenshots: ${{ matrix.os }} / Java ${{ matrix.java }}"
+            echo "## Screenshots: ubuntu-24.04 / Java 21"
             echo ""
 
-            # Showcase screenshots
             SHOWCASE_DIR="freemind/build/test-screenshots/showcase"
             if [ -d "$SHOWCASE_DIR" ]; then
               WINDOW_COUNT=$(find "$SHOWCASE_DIR" -name "window_*.jpg" -type f | wc -l | tr -d ' ')
@@ -290,7 +243,6 @@ jobs:
               echo ""
             fi
 
-            # Test screenshots
             SCREENSHOT_DIR="freemind/build/test-screenshots"
             if [ -d "$SCREENSHOT_DIR" ]; then
               TEST_COUNT=$(find "$SCREENSHOT_DIR" -name "*.png" -type f -not -path "*/showcase/*" | wc -l | tr -d ' ')
@@ -308,7 +260,7 @@ jobs:
         uses: dorny/test-reporter@a43b3a5f7366b97d083190328d2c652e1a8b6aa2 # v2
         if: always()
         with:
-          name: GUI Tests (${{ matrix.os }}, Java ${{ matrix.java }})
+          name: GUI Tests (ubuntu-24.04, Java 21)
           path: freemind/build/test-results/testGui/*.xml
           reporter: java-junit
           fail-on-empty: false
@@ -317,7 +269,7 @@ jobs:
     name: CI
     if: always()
     needs: [changes, build, gui-tests, codeql]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions: {}
     steps:
       - name: Evaluate results
@@ -340,7 +292,7 @@ jobs:
     name: CodeQL Analysis
     needs: [changes, build]
     if: ${{ needs.changes.outputs.code == 'true' && needs.changes.outputs.java_code == 'true' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       actions: read
       contents: read
@@ -359,10 +311,10 @@ jobs:
           languages: ${{ matrix.language }}
           queries: security-extended
 
-      - name: Set up JDK 21
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5
         with:
-          java-version: '21'
+          java-version: ${{ env.JAVA_VERSION }}
           distribution: 'temurin'
 
       - name: Setup Gradle

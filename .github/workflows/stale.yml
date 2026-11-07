@@ -1,8 +1,7 @@
 name: Stale Issues
 
 on:
-  schedule:
-    - cron: '0 8 * * *'  # Daily 8am UTC
+  workflow_dispatch:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true

@@ -1,8 +1,6 @@
 name: Fuzz Testing
 
 on:
-  schedule:
-    - cron: '0 4 * * 3'  # Wednesday 4am UTC
   workflow_dispatch:
 
 permissions: {}

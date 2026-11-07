@@ -2,6 +2,13 @@ name: Dependabot Auto-Merge
 
 on:
   pull_request:
+    branches:
+      - 1-raw
+      - 2-covered
+      - 3-tailored
+      - 4-customized
+      - 5-trimmed
+      - 6-bespoke
     types: [opened, synchronize, reopened]
 
 env:

@@ -1,19 +1,6 @@
 name: OpenSSF Scorecard
 
 on:
-  schedule:
-    - cron: '0 7 * * 1'  # Monday 7am UTC
-  push:
-    branches: [main]
-    paths-ignore:
-      - '**/*.md'
-      - 'docs/**'
-      - 'LICENSE'
-      - 'COPYING'
-      - '.gitattributes'
-      - '.github/ISSUE_TEMPLATE/**'
-      - '.github/PULL_REQUEST_TEMPLATE/**'
-      - '.github/release-notes-template.md'
   workflow_dispatch:
 
 permissions: read-all
