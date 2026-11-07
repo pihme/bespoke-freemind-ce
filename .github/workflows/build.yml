@@ -62,8 +62,7 @@ jobs:
           NON_DOC_FILES=$(git diff --name-only "$BASE..$HEAD" -- \
             ':!**/*.md' ':!docs/**' \
             ':!LICENSE' ':!COPYING' ':!.gitattributes' \
-            ':!.github/ISSUE_TEMPLATE/**' ':!.github/PULL_REQUEST_TEMPLATE/**' \
-            ':!.github/release-notes-template.md')
+            ':!.github/ISSUE_TEMPLATE/**' ':!.github/PULL_REQUEST_TEMPLATE/**')
           if [ -z "$NON_DOC_FILES" ]; then
             echo "code=false" >> "$GITHUB_OUTPUT"
             echo "java_code=false" >> "$GITHUB_OUTPUT"

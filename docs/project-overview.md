@@ -26,11 +26,11 @@ FreeMind CE preserves the classic FreeMind mind-mapping experience (speed, simpl
 | Look & Feel | Metal/System | FlatLaf 3.7 (light/dark) | Done |
 | SVG/PDF | Batik 1.6 | Batik 1.19 / FOP 2.11 | Done |
 | Logging | java.util.logging | SLF4J 2.0.17 + Logback 1.5.32 | Done |
-| CI/CD | None | GitHub Actions (6 OS × 4 Java, path filtering) | Done |
+| CI/CD | None | GitHub Actions (Ubuntu 24.04, Java 21, stage branches) | Done |
 | Packaging | Manual | jpackage (DMG/EXE/DEB) | Done |
 | Testing | None | JUnit 5 (vintage) + jqwik + AssertJ Swing GUI tests | Done |
 | Static Analysis | None | SpotBugs + OWASP dependency check | Done |
-| Release Automation | None | release-please + Conventional Commits | Done |
+| Release Automation | None | none in this fork | Done |
 
 ## Technology Stack
 

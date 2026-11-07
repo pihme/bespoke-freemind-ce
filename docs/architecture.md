@@ -155,10 +155,8 @@ No Gradle plugin module remains. Batik and FOP stay until the trimmed stage.
 - Linux: `.deb` package
 
 **CI/CD:** GitHub Actions — see [Development Guide](./development-guide.md#cicd-pipeline) for full details.
-- **Build matrix:** 6 OS runners × 4 Java versions (21–24) = 48 checks
-- **Path filtering:** Doc-only PRs skip the matrix, pass via `CI` aggregator (~30s)
-- **Required check:** Single `CI` aggregator job in GitHub Ruleset
-- **Artifact retention:** 14 days
+- **Build:** Ubuntu 24.04 and Java 21, on the stage branches. `main` does not run Build.
+- **Path filtering:** A documentation-only push skips the build.
 
 ## Testing Strategy
 

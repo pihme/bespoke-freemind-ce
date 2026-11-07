@@ -142,21 +142,21 @@ A modernized and streamlined version of Freemind. Modernized pertains to the UI.
 
 ## 4 customized
 
-- Upstream commit: <sha of 1-raw this run started from>
-- Built from: 3-tailored@<sha>
+- Upstream commit: 88075b1ed47f8e58d813775e41836e08d0681f1f
+- Built from: 3-tailored@0fb8cfd4c61c30b5b3872fb926fd00027974e1e6
 - Skill: customize-features
-- Gate: <command(s) that must pass at the end of this stage>
-- Details: none (or bespoke/4-customized.md)
+- Gate: `./gradlew :freemind:test :freemind:testGui :freemind:testPerformance --no-configuration-cache`
+- Details: none
 
 ### Decisions
 
 | ID | Decision | Reason | Decided by | Replay hint |
 |----|----------|--------|------------|-------------|
-| CUS-001 | | | user / agent | |
+| CUS-001 | Remove setup the program does not load: the Eclipse project files, the `eclipe_templates` folder, `kaldigimiz-yerden-devam-ederken-yapilacaklar.md`, and the Release Please config, manifest, and release-notes template. The source-tree note and the setup facts in the docs match this tree. Java sources, resources, and tests stay where they are. No requirement changes. | The user said to clean the setup and the folder layout, and not to change the program yet. | user | Delete `freemind/.classpath`, `freemind/.project`, `freemind/eclipe_templates`, `kaldigimiz-yerden-devam-ederken-yapilacaklar.md`, `release-please-config.json`, `.release-please-manifest.json`, and `.github/release-notes-template.md`. Drop the Release Please version marker. Do not move the Java tree in this decision. |
 
 ### Last run
 
-- Date, result (passed / failed at decision ID), notes
+- 2026-11-07. Branch opened from the tailored stage at `0fb8cfd4`. CUS-001 removes leftover setup only. The program is unchanged. The gate passed: unit 1,407, GUI 510, performance 9, all passed.
 
 ## 5 trimmed
 

@@ -38,8 +38,8 @@ We are proud to share this project with the community.
 ### Build & Run
 
 ```bash
-git clone https://github.com/Denomas/freemind-ce.git
-cd freemind-ce
+git clone https://github.com/pihme/bespoke-freemind-ce.git
+cd bespoke-freemind-ce
 ./gradlew build
 ./gradlew :freemind:run
 ```

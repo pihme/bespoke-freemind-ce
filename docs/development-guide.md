@@ -13,8 +13,8 @@
 
 ```bash
 # Clone repository
-git clone https://github.com/Denomas/freemind-ce.git
-cd freemind-ce
+git clone https://github.com/pihme/bespoke-freemind-ce.git
+cd bespoke-freemind-ce
 
 # Build and run using Make (recommended)
 make build    # Compile + test
@@ -201,12 +201,10 @@ Static analysis tools (PMD + SpotBugs), configuration, reports, and the early de
 
 | Remote | URL | Purpose |
 |--------|-----|---------|
-| `origin` | `https://github.com/Denomas/freemind-ce.git` | Primary repository (push/pull) |
-| `upstream` | `git://git.code.sf.net/p/freemind/code` | Original FreeMind on SourceForge (read-only) |
+| `origin` | `https://github.com/pihme/bespoke-freemind-ce.git` | This fork (push/pull) |
+| `upstream` | `https://github.com/Denomas/freemind-ce.git` | The project this fork follows |
 
-- **Branch:** `main` — trunk-based development, all work here
-- **Tracking:** `main` tracks `origin/main`
-- **Releases:** Tag `v*.*.*` on `main` triggers GitHub Actions release workflow
+Stage branches are `1-raw` through `6-bespoke`. `main` is not a stage branch.
 
 ## CI/CD Pipeline
 

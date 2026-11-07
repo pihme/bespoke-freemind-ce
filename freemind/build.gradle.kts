@@ -36,7 +36,7 @@ tasks.withType<Javadoc> {
     options.encoding = "UTF-8"
 }
 
-// Generate version.properties from Gradle project version (synced by release-please)
+// Generate version.properties from the project version
 val generateVersionProperties by tasks.registering {
     description = "Generates version.properties with the current project version"
     group = "Generation"

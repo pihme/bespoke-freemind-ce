@@ -13,9 +13,9 @@
 - **Entry Point:** `freemind.main.FreeMindStarter`
 - **Tech Stack:** Java 21, Swing, FlatLaf 3.7, JAXB 2.3.9, Batik 1.19, FOP 2.11
 - **Architecture Pattern:** MVC + Action/Actor (undo/redo) + Hook/Plugin
-- **Plugins:** SVG, Script, Map, Search, Help, Context Graph, Collaboration (Socket)
+- **Plugins:** Accessory plugins live in `freemind/accessories`. The separate plugin modules are gone. `jhall.jar` and `JMapViewer.jar` stay until the trimmed stage.
 - **Platforms:** macOS, Windows, Linux
-- **CI/CD:** GitHub Actions (6 OS × 4 Java versions = 48 checks, path filtering, single `CI` required check)
+- **CI/CD:** GitHub Actions Build on the stage branches, Ubuntu 24.04, Java 21. `main` does not run Build.
 
 ## Documentation
 
@@ -36,8 +36,8 @@
 
 ```bash
 # Clone and build
-git clone https://github.com/Denomas/freemind-ce.git
-cd freemind-ce
+git clone https://github.com/pihme/bespoke-freemind-ce.git
+cd bespoke-freemind-ce
 
 # Build and run using Make (recommended)
 make build    # Compile + test

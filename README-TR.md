@@ -36,8 +36,8 @@ Bu projeyi toplulukla paylasmanin gururunu yasiyoruz.
 ### Kurulum ve Calistirma
 
 ```bash
-git clone https://github.com/Denomas/freemind-ce.git
-cd freemind-ce
+git clone https://github.com/pihme/bespoke-freemind-ce.git
+cd bespoke-freemind-ce
 ./gradlew build
 ./gradlew :freemind:run
 ```
