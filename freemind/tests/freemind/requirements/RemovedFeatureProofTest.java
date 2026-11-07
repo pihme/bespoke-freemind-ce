@@ -11,7 +11,9 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import freemind.controller.Controller;
 import freemind.main.FreeMind;
+import freemind.view.mindmapview.MapView;
 
 import org.junit.jupiter.api.Test;
 
@@ -214,6 +216,31 @@ class RemovedFeatureProofTest {
 		assertFalse(modes.contains("freemind.modes.browsemode"));
 		assertFalse(modes.contains("freemind.modes.filemode"));
 		assertTrue(modes.contains("freemind.modes.mindmapmode.MindMapMode,MindMap"));
+	}
+
+	@Test
+	void TestREQ_APP_02_PrintingIsGone() throws Exception {
+		assertThrows(ClassNotFoundException.class,
+				() -> Class.forName("freemind.controller.printpreview.PreviewDialog"));
+		assertFalse(java.awt.print.Printable.class.isAssignableFrom(MapView.class));
+		assertNotNull(MapView.class.getMethod("preparePrinting"));
+		assertNotNull(MapView.class.getMethod("endPrinting"));
+		assertThrows(NoSuchMethodException.class, () -> MapView.class.getMethod("print",
+				java.awt.Graphics.class, java.awt.print.PageFormat.class, int.class));
+		assertThrows(NoSuchFieldException.class, () -> Controller.class.getField("print"));
+		assertThrows(NoSuchFieldException.class, () -> Controller.class.getField("printDirect"));
+		assertThrows(NoSuchFieldException.class, () -> Controller.class.getField("printPreview"));
+		assertThrows(NoSuchFieldException.class, () -> Controller.class.getField("page"));
+		Path root = repoRoot();
+		assertFalse(Files.exists(root.resolve("freemind/freemind/controller/printpreview")));
+		assertFalse(Files.exists(root.resolve("freemind/images/fileprint.png")));
+		assertFalse(Files.readString(root.resolve("freemind/mindmap_menus.xml")).contains("printDirect"));
+		String properties = Files.readString(root.resolve("freemind/freemind.properties"));
+		assertFalse(properties.contains("keystroke_print"));
+		assertFalse(properties.contains("fit_to_page"));
+		assertTrue(properties.contains("printonwhitebackground"));
+		assertNotNull(Class.forName("freemind.extensions.ExportHook"));
+		assertNotNull(Class.forName("accessories.plugins.FitToPage"));
 	}
 
 	@Test

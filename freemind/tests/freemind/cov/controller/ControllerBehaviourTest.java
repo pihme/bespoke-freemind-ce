@@ -28,11 +28,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.print.PageFormat;
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +43,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import freemind.common.JOptionalSplitPane;
@@ -61,14 +58,13 @@ import freemind.main.FreeMindCommon;
 import freemind.main.FreeMindMain;
 import freemind.main.HeadlessFreeMind;
 import freemind.main.Resources;
-import freemind.main.Tools;
 import freemind.modes.mindmapmode.MindMapMapModel;
 import freemind.modes.mindmapmode.MindMapNodeModel;
 import freemind.preferences.FreemindPropertyListener;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
-/** The controller keeps zoom, titles, tabs, and page format. Quit is not called. */
+/** The controller keeps zoom, titles, and tabs. Quit is not called. */
 @DisplayName("ControllerBehaviourTest")
 class ControllerBehaviourTest {
 
@@ -199,26 +195,6 @@ class ControllerBehaviourTest {
 		URL url = Controller.localDocumentationLinkConverter.convertLocalLink("./doc/map.mm");
 		assertTrue(url.getPath().endsWith("doc/map.mm"));
 		assertTrue(opened.app.createNewMode("MindMap"));
-	}
-
-	@Test
-	void aStoredPageFormatKeepsOrientationAndPaper() throws Exception {
-		// backwards compatibility
-		FormattingController app = new FormattingController(new HeadlessFreeMind());
-		remember(app, PageFormat.LANDSCAPE, "landscape");
-		remember(app, PageFormat.PORTRAIT, "portrait");
-		remember(app, PageFormat.REVERSE_LANDSCAPE, "reverse_landscape");
-	}
-
-	@Test
-	@Tag("gui")
-	void aPrinterJobUsesTheLandscapeOrientation() throws Exception {
-		// backwards compatibility
-		FormattingController app = new FormattingController(new HeadlessFreeMind());
-		app.setProperty("page_orientation", "landscape");
-		app.setProperty("page_format", "");
-		assertTrue(app.acquire());
-		assertEquals(PageFormat.LANDSCAPE, app.getPageFormat().getOrientation());
 	}
 
 	@Test
@@ -395,32 +371,18 @@ class ControllerBehaviourTest {
 	}
 
 	@Test
-	void printingActionsStayOffWhenPrintingIsNotAllowed() throws Exception {
+	void closeFollowsWhetherActionsAreEnabled() throws Exception {
 		// backwards compatibility
 		FormattingController app = new FormattingController(new HeadlessFreeMind());
-		Action print = (Action) newInner(app, "PrintAction", new Class<?>[] { Controller.class, boolean.class },
-				new Object[] { app, true });
-		Action printDirect = (Action) newInner(app, "PrintAction",
-				new Class<?>[] { Controller.class, boolean.class }, new Object[] { app, false });
-		setAction(app, "print", print);
-		setAction(app, "printDirect", printDirect);
-		setAction(app, "printPreview", (Action) newInner(app, "PrintPreviewAction"));
-		setAction(app, "page", (Action) newInner(app, "PageAction"));
 		setAction(app, "close", (Action) newStatic("CloseAction", app));
 		setAction(app, "moveToRoot", (Action) newInner(app, "MoveToRootAction"));
 		setAction(app, "showSelectionAsRectangle",
 				(Action) newInner(app, "ShowSelectionAsRectangleAction"));
 		setField(app, "toolbar", new MainToolBar(app));
-		setField(app, "isPrintingAllowed", Boolean.FALSE);
 		app.setAllActions(true);
-		assertFalse(print.isEnabled());
-		assertFalse(printDirect.isEnabled());
-		assertFalse(app.page.isEnabled());
 		assertTrue(app.close.isEnabled());
-		setField(app, "isPrintingAllowed", Boolean.TRUE);
 		app.setAllActions(false);
 		assertFalse(app.close.isEnabled());
-		assertFalse(print.isEnabled());
 	}
 
 	@Test
@@ -437,14 +399,6 @@ class ControllerBehaviourTest {
 		assertTrue(filters.isVisible());
 		show.actionPerformed(event("filter"));
 		assertFalse(filters.isVisible());
-	}
-
-	private static void remember(FormattingController app, int orientation, String name) throws Exception {
-		PageFormat format = new PageFormat();
-		format.setOrientation(orientation);
-		app.keep(format);
-		assertEquals(name, app.getProperty("page_orientation"));
-		assertEquals(Tools.getPageFormatAsString(format.getPaper()), app.getProperty("page_format"));
 	}
 
 	private static String formattedZoom(float zoom) {
@@ -506,19 +460,6 @@ class ControllerBehaviourTest {
 	static final class FormattingController extends Controller {
 		FormattingController(FreeMindMain frame) {
 			super(frame);
-		}
-
-		void keep(PageFormat format) throws Exception {
-			Field field = Controller.class.getDeclaredField("pageFormat");
-			field.setAccessible(true);
-			field.set(this, format);
-			storePageFormat();
-		}
-
-		boolean acquire() throws Exception {
-			Method method = Controller.class.getDeclaredMethod("acquirePrinterJobAndPageFormat");
-			method.setAccessible(true);
-			return (Boolean) method.invoke(this);
 		}
 	}
 

@@ -459,30 +459,6 @@ class FileOperationsGuiTest extends GuiTestBase {
     }
 
     @Test
-    void fileMenu_pageSetup() throws Exception {
-        // Page setup is a dialog operation; verify map can produce XML for printing
-        loadMap(map, "<map><node TEXT='PageSetup'/></map>");
-        String xml = saveMapToXml(map);
-        assertThat(xml).startsWith("<map");
-    }
-
-    @Test
-    void fileMenu_print() throws Exception {
-        // Print requires GUI; verify the map model can export for print
-        loadMap(map, "<map><node TEXT='PrintTest'/></map>");
-        String xml = saveMapToXml(map);
-        assertThat(xml).contains("PrintTest");
-    }
-
-    @Test
-    void fileMenu_printPreview() throws Exception {
-        loadMap(map, "<map><node TEXT='PreviewTest'><node TEXT='Child'/></node></map>");
-        String xml = saveMapToXml(map);
-        assertThat(xml).contains("PreviewTest");
-        assertThat(xml).contains("Child");
-    }
-
-    @Test
     void fileMenu_quit() throws Exception {
         // Quit flow: verify map state is accessible before quit
         MindMapNode root = loadMap(map, "<map><node TEXT='QuitTest'/></map>");

@@ -31,7 +31,6 @@ import java.awt.Container;
 import java.awt.Window;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
-import java.awt.print.PageFormat;
 import java.io.File;
 import java.util.Properties;
 import java.util.Vector;
@@ -67,7 +66,6 @@ import freemind.controller.MenuBar;
 import freemind.controller.actions.generated.instance.Pattern;
 import freemind.controller.color.ColorPair;
 import freemind.controller.color.JColorCombo;
-import freemind.controller.printpreview.PreviewDialog;
 import freemind.main.Tools;
 import freemind.modes.MindIcon;
 import freemind.modes.MindMapNode;
@@ -81,7 +79,6 @@ import freemind.modes.mindmapmode.dialogs.StylePatternFrame.StylePatternFrameTyp
 import freemind.preferences.layout.OptionPanel;
 import freemind.view.mindmapview.EditNodeBase;
 import freemind.view.mindmapview.EditNodeTextField;
-import freemind.view.mindmapview.MapView;
 import freemind.view.mindmapview.NodeView;
 
 /**
@@ -200,18 +197,6 @@ class StartupBehaviourTest {
 		JLabel label = assertInstanceOf(JLabel.class, rendered);
 		assertEquals(red.displayName, label.getText());
 		assertTrue(label.getText() != null && !label.getText().isBlank());
-	}
-
-	@Test
-	@Order(8)
-	void TestREQ_APP_02_PrintPreviewShowsTheFirstPage() {
-		MindMapController mindMap = mindMap();
-		MapView view = mindMap.getController().getView();
-		assertNotNull(view);
-		PreviewDialog dialog = new PreviewDialog("Print preview", view, new PageFormat());
-		assertTrue(containsLabel(dialog.getContentPane(), "- 1 -"), "page label");
-		clickButton(dialog.getContentPane(), "OK");
-		assertTrue(!dialog.isDisplayable());
 	}
 
 	@Test

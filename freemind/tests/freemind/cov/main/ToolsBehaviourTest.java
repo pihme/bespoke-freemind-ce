@@ -39,7 +39,6 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
-import java.awt.print.Paper;
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
@@ -306,19 +305,6 @@ class ToolsBehaviourTest {
 		}
 		assertThrows(IllegalArgumentException.class,
 				() -> new Tools.FileReaderCreator(new File(tooLong.toString())));
-
-		Paper untouched = new Paper();
-		double width = untouched.getWidth();
-		Tools.setPageFormatFromString(untouched, "1;2");
-		assertEquals(width, untouched.getWidth(), 0.001);
-		Paper paper = new Paper();
-		Tools.setPageFormatFromString(paper, "100;200;1;2;80;bad");
-		assertEquals(100d, paper.getWidth(), 0.001);
-		assertEquals(200d, paper.getHeight(), 0.001);
-		assertEquals(1d, paper.getImageableX(), 0.001);
-		assertEquals(2d, paper.getImageableY(), 0.001);
-		assertEquals(80d, paper.getImageableWidth(), 0.001);
-		assertEquals(0d, paper.getImageableHeight(), 0.001);
 
 		File hiddenCandidate = File.createTempFile("cov-hidden", ".txt");
 		Tools.setHidden(hiddenCandidate, true, true);

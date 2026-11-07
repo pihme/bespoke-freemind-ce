@@ -368,13 +368,6 @@ class DialogsGuiTest extends GuiTestBase {
     }
 
     @Test
-    void dialog_printPreview() throws Exception {
-        MindMapNode root = loadMap(map, "<map><node TEXT='Root'><node TEXT='Preview'/></node></map>");
-        String xml = saveMapToXml(map);
-        assertThat(xml).contains("Preview");
-    }
-
-    @Test
     void dialog_iconSelection() throws Exception {
         MindMapNode root = loadMap(map, "<map><node TEXT='Root'/></map>");
         MindMapNode child = createChildNode(mapFeedback, root, "IconNode");

@@ -86,7 +86,7 @@ The repo-root tree `plugins/wsl` is an old Onekin MediaWiki export. It was never
 | ID | What the user can do | Entry points | Source |
 |----|----------------------|--------------|--------|
 | REQ-APP-01 | Change preferences. | Extras → options. `freemind.properties`, with user overrides in `~/.freemind/auto.properties`. | docs |
-| REQ-APP-02 | Print, and look at a print preview. | Toolbar Print. Preview dialog. | docs for preview; menu for direct print |
+| ~~REQ-APP-02~~ REMOVED (TAI-018) | Print, and look at a print preview. | Toolbar Print. Preview dialog. | docs for preview; menu for direct print |
 | REQ-APP-03 | The interface is English. Other language bundles are removed (TAI-015). | `Resources_en.properties`. | docs |
 | REQ-APP-04 | Use a FlatLaf light or dark look. | Documented as the CE look and feel, replacing Metal. | docs |
 | REQ-APP-05 | Run on Java 21 on macOS (including Apple Silicon), Windows, and Linux. | `freemind.main.FreeMindStarter`. | docs |
@@ -125,5 +125,5 @@ The tests are added in slices. A slice is finished when its assertions are in an
 2. Map view painting that the picture tests still do not reach: edge shapes, clouds, arrow links, mouse-wheel zoom, and an image pixel.
 3. The map plugin (`plugins/map`), including an attached geographic position.
 4. The preferences panel (`OptionPanel` and the layout package).
-5. Browse mode, File mode, print preview, the script editor, the PDF options dialog, the LaTeX viewer, the help window, and the spelling menu.
+5. Browse mode, File mode, the script editor, the PDF options dialog, the LaTeX viewer, the help window, and the spelling menu.
 6. Accessory dialogs the requirements do not name. Time-management calendars are in this slice. Every backwards-compatibility test, including the calendar day check, is listed in `docs/testspec.md` under **Backwards compatibility tests**. That list is the reference. It does not add a product requirement.

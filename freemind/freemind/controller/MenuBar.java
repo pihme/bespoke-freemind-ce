@@ -102,8 +102,6 @@ public class MenuBar extends JMenuBar {
 		menuHolder.addSeparator(FILE_MENU);
 		menuHolder.addCategory(FILE_MENU + "import");
 		menuHolder.addSeparator(FILE_MENU);
-		menuHolder.addCategory(FILE_MENU + "print");
-		menuHolder.addSeparator(FILE_MENU);
 		menuHolder.addCategory(FILE_MENU + "last");
 		menuHolder.addSeparator(FILE_MENU);
 		menuHolder.addCategory(FILE_MENU + "quit");
@@ -268,17 +266,6 @@ public class MenuBar extends JMenuBar {
 	}
 
 	private void updateFileMenu() {
-
-		menuHolder.addAction(c.page, FILE_MENU + "print/pageSetup");
-		JMenuItem print = menuHolder.addAction(c.print, FILE_MENU
-				+ "print/print");
-		print.setAccelerator(KeyStroke.getKeyStroke(c.getFrame()
-				.getAdjustableProperty("keystroke_print")));
-
-		JMenuItem printPreview = menuHolder.addAction(c.printPreview, FILE_MENU
-				+ "print/printPreview");
-		printPreview.setAccelerator(KeyStroke.getKeyStroke(c.getFrame()
-				.getAdjustableProperty("keystroke_print_preview")));
 
 		JMenuItem close = menuHolder.addAction(c.close, FILE_MENU
 				+ "close/close");

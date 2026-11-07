@@ -24,24 +24,16 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
-import java.awt.Insets;
 import java.awt.KeyboardFocusManager;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.font.TextAttribute;
-import java.awt.print.PageFormat;
-import java.awt.print.Paper;
-import java.awt.print.PrinterJob;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -64,18 +56,14 @@ import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.Icon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
@@ -87,7 +75,6 @@ import freemind.common.JOptionalSplitPane;
 import freemind.controller.MapModuleManager.MapModuleChangeObserver;
 import freemind.controller.actions.generated.instance.MindmapLastStateStorage;
 import freemind.controller.filter.FilterController;
-import freemind.controller.printpreview.PreviewDialog;
 import freemind.main.FreeMind;
 import freemind.main.FreeMindCommon;
 import freemind.main.FreeMindMain;
@@ -112,7 +99,6 @@ public class Controller implements MapModuleChangeObserver {
 
 
 
-	private static final String PAGE_FORMAT_PROPERTY = "page_format";
 	private HashSet<MapModuleManager.MapTitleChangeListener> mMapTitleChangeListenerSet = new HashSet<>();
 	private HashSet<ZoomListener> mZoomListenerSet = new HashSet<>();
 	private HashSet<MapModuleManager.MapTitleContributor> mMapTitleContributorSet = new HashSet<>();
@@ -141,22 +127,15 @@ public class Controller implements MapModuleChangeObserver {
 	private MapMouseMotionListener mapMouseMotionListener;
 	private MapMouseWheelListener mapMouseWheelListener;
 	private ModesCreator mModescreator = new ModesCreator(this);
-	private PageFormat pageFormat = null;
-	private PrinterJob printerJob = null;
 	private Map<String, Font> fontMap = new HashMap<>();
 
 	private FilterController mFilterController;
 
-	boolean isPrintingAllowed = true;
 	boolean menubarVisible = true;
 	boolean toolbarVisible = true;
 	boolean leftToolbarVisible = true;
 
 	public CloseAction close;
-	public Action print;
-	public Action printDirect;
-	public Action printPreview;
-	public Action page;
 	public Action quit;
 
 	public OptionAntialiasAction optionAntialiasAction;
@@ -217,11 +196,6 @@ public class Controller implements MapModuleChangeObserver {
 		mapMouseWheelListener = new MapMouseWheelListener(this);
 
 		close = new CloseAction(this);
-
-		print = new PrintAction(this, true);
-		printDirect = new PrintAction(this, false);
-		printPreview = new PrintPreviewAction(this);
-		page = new PageAction(this);
 		quit = new QuitAction(this);
 		about = new AboutAction(this);
 		freemindUrl = new OpenURLAction(this, getResourceString("FreeMind"),
@@ -914,10 +888,6 @@ public class Controller implements MapModuleChangeObserver {
 	 * or not
 	 */
 	public void setAllActions(boolean enabled) {
-		print.setEnabled(enabled && isPrintingAllowed);
-		printDirect.setEnabled(enabled && isPrintingAllowed);
-		printPreview.setEnabled(enabled && isPrintingAllowed);
-		page.setEnabled(enabled && isPrintingAllowed);
 		close.setEnabled(enabled);
 		moveToRoot.setEnabled(enabled);
 		((MainToolBar) getToolBar()).setAllActions(enabled);
@@ -1008,37 +978,6 @@ public class Controller implements MapModuleChangeObserver {
 		System.exit(0);
 	}
 
-	private boolean acquirePrinterJobAndPageFormat() {
-		if (printerJob == null) {
-			try {
-				printerJob = PrinterJob.getPrinterJob();
-			} catch (SecurityException ex) {
-				isPrintingAllowed = false;
-				return false;
-			}
-		}
-		if (pageFormat == null) {
-			pageFormat = printerJob.defaultPage();
-		}
-		if (Tools.safeEquals(getProperty("page_orientation"), "landscape")) {
-			pageFormat.setOrientation(PageFormat.LANDSCAPE);
-		} else if (Tools
-				.safeEquals(getProperty("page_orientation"), "portrait")) {
-			pageFormat.setOrientation(PageFormat.PORTRAIT);
-		} else if (Tools.safeEquals(getProperty("page_orientation"),
-				"reverse_landscape")) {
-			pageFormat.setOrientation(PageFormat.REVERSE_LANDSCAPE);
-		}
-		String pageFormatProperty = getProperty(PAGE_FORMAT_PROPERTY);
-		if (!pageFormatProperty.isEmpty()) {
-			logger.info("Page format (stored): " + pageFormatProperty);
-			final Paper storedPaper = new Paper();
-			Tools.setPageFormatFromString(storedPaper, pageFormatProperty);
-			pageFormat.setPaper(storedPaper);
-		}
-		return true;
-	}
-
 	// ////////////
 	// Inner Classes
 	// //////////
@@ -1074,182 +1013,6 @@ public class Controller implements MapModuleChangeObserver {
 
 		public void actionPerformed(ActionEvent e) {
 			controller.close(false);
-		}
-	}
-
-	private class PrintAction extends AbstractAction {
-
-		boolean isDlg;
-
-		PrintAction(Controller controller, boolean isDlg) {
-			super(isDlg ? controller.getResourceString("print_dialog")
-					: controller.getResourceString("print"), freemind.view.ImageFactory.getInstance().createIcon(
-					getResource("images/fileprint.png")));
-			setEnabled(false);
-			this.isDlg = isDlg;
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			if (!acquirePrinterJobAndPageFormat()) {
-				return;
-			}
-
-			printerJob.setPrintable(getView(), pageFormat);
-
-			if (!isDlg || printerJob.printDialog()) {
-				try {
-					frame.setWaitingCursor(true);
-					printerJob.print();
-					storePageFormat();
-				} catch (Exception ex) {
-					freemind.main.Resources.getInstance().logException(ex);
-				} finally {
-					frame.setWaitingCursor(false);
-				}
-			}
-		}
-	}
-
-	private class PrintPreviewAction extends AbstractAction {
-		Controller controller;
-
-		PrintPreviewAction(Controller controller) {
-			super(controller.getResourceString("print_preview"));
-			this.controller = controller;
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			if (!acquirePrinterJobAndPageFormat()) {
-				return;
-			}
-			PreviewDialog previewDialog = new PreviewDialog(
-					controller.getResourceString("print_preview_title"),
-					getView(),
-					getPageFormat());
-			previewDialog.pack();
-			previewDialog.setLocationRelativeTo(JOptionPane
-					.getFrameForComponent(getView()));
-			previewDialog.setVisible(true);
-		}
-	}
-
-	private class PageAction extends AbstractAction {
-
-		PageAction(Controller controller) {
-			super(controller.getResourceString("page"));
-			setEnabled(false);
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			if (!acquirePrinterJobAndPageFormat()) {
-				return;
-			}
-
-			// Ask about custom printing settings
-			final JDialog dialog = new JDialog((JFrame) getFrame(),
-					getResourceString("printing_settings"), /* modal= */true);
-			final JCheckBox fitToPage = new JCheckBox(
-					getResourceString("fit_to_page"), Resources.getInstance()
-							.getBoolProperty("fit_to_page"));
-			final JLabel userZoomL = new JLabel(getResourceString("user_zoom"));
-			final JTextField userZoom = new JTextField(
-					getProperty("user_zoom"), 3);
-			boolean isFitToPage = fitToPage.isSelected();
-			userZoom.setEditable(!isFitToPage);
-
-			// Fit to N pages wide
-			int currentPagesWide = 1;
-			try {
-				currentPagesWide = Integer.parseInt(getProperty("pages_wide"));
-			} catch (Exception ex) {
-				// default 1
-			}
-			final JLabel pagesWideL = new JLabel(getResourceString("pages_wide"));
-			final javax.swing.JSpinner pagesWide = new javax.swing.JSpinner(
-					new javax.swing.SpinnerNumberModel(
-							Math.max(1, currentPagesWide), 1, 99, 1));
-			pagesWide.setEnabled(isFitToPage);
-
-			final JButton okButton = new JButton();
-			Tools.setLabelAndMnemonic(okButton, getResourceString("ok"));
-			final Tools.IntHolder eventSource = new Tools.IntHolder();
-			JPanel panel = new JPanel();
-
-			GridBagLayout gridbag = new GridBagLayout();
-			GridBagConstraints c = new GridBagConstraints();
-
-			eventSource.setValue(0);
-			okButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					eventSource.setValue(1);
-					dialog.dispose();
-				}
-			});
-			fitToPage.addItemListener(new ItemListener() {
-				public void itemStateChanged(ItemEvent e) {
-					boolean selected = e.getStateChange() == ItemEvent.SELECTED;
-					userZoom.setEditable(!selected);
-					pagesWide.setEnabled(selected);
-				}
-			});
-
-			c.gridx = 0;
-			c.gridy = 0;
-			c.gridwidth = 2;
-			c.anchor = GridBagConstraints.WEST;
-			c.insets = new Insets(0, 0, 6, 0);
-			gridbag.setConstraints(fitToPage, c);
-			panel.add(fitToPage);
-			c.gridy = 1;
-			c.gridwidth = 1;
-			c.insets = new Insets(4, 24, 4, 8);
-			gridbag.setConstraints(pagesWideL, c);
-			panel.add(pagesWideL);
-			c.gridx = 1;
-			c.insets = new Insets(4, 0, 4, 0);
-			gridbag.setConstraints(pagesWide, c);
-			panel.add(pagesWide);
-			c.gridx = 0;
-			c.gridy = 2;
-			c.gridwidth = 1;
-			c.insets = new Insets(8, 0, 4, 8);
-			gridbag.setConstraints(userZoomL, c);
-			panel.add(userZoomL);
-			c.gridx = 1;
-			c.gridwidth = 1;
-			c.insets = new Insets(8, 0, 4, 0);
-			gridbag.setConstraints(userZoom, c);
-			panel.add(userZoom);
-			c.gridy = 3;
-			c.gridx = 0;
-			c.gridwidth = 2;
-			c.insets = new Insets(14, 0, 0, 0);
-			c.anchor = GridBagConstraints.CENTER;
-			gridbag.setConstraints(okButton, c);
-			panel.add(okButton);
-			panel.setLayout(gridbag);
-			panel.setBorder(javax.swing.BorderFactory.createEmptyBorder(
-					16, 20, 16, 20));
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setContentPane(panel);
-			dialog.setLocationRelativeTo((JFrame) getFrame());
-			dialog.getRootPane().setDefaultButton(okButton);
-			dialog.pack();
-			dialog.setMinimumSize(dialog.getSize());
-			dialog.setVisible(true);
-
-			if (eventSource.getValue() == 1) {
-				setProperty("user_zoom", userZoom.getText());
-				setProperty("fit_to_page", fitToPage.isSelected() ? "true"
-						: "false");
-				setProperty("pages_wide",
-						String.valueOf(pagesWide.getValue()));
-			} else
-				return;
-
-			// Ask user for page format (e.g., portrait/landscape)
-			pageFormat = printerJob.pageDialog(pageFormat);
-			storePageFormat();
 		}
 	}
 
@@ -1829,9 +1592,6 @@ public class Controller implements MapModuleChangeObserver {
 		return mFilterController;
 	}
 
-	public PageFormat getPageFormat() {
-		return pageFormat;
-	}
 
 	public void addTabbedPane(JTabbedPane pTabbedPane) {
 		mTabbedPane = pTabbedPane;
@@ -1935,17 +1695,6 @@ public class Controller implements MapModuleChangeObserver {
 		obtainFocusForSelected();
 	}
 
-	protected void storePageFormat() {
-		if (pageFormat.getOrientation() == PageFormat.LANDSCAPE) {
-			setProperty("page_orientation", "landscape");
-		} else if (pageFormat.getOrientation() == PageFormat.PORTRAIT) {
-			setProperty("page_orientation", "portrait");
-		} else if (pageFormat.getOrientation() == PageFormat.REVERSE_LANDSCAPE) {
-			setProperty("page_orientation", "reverse_landscape");
-		}
-		setProperty(PAGE_FORMAT_PROPERTY,
-				Tools.getPageFormatAsString(pageFormat.getPaper()));
-	}
 
 	public enum SplitComponentType {
 		NOTE_PANEL(0),

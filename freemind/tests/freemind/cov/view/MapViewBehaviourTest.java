@@ -36,9 +36,6 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.awt.print.PageFormat;
-import java.awt.print.Paper;
-import java.awt.print.Printable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -243,26 +240,10 @@ public class MapViewBehaviourTest {
 	}
 
 	@Test
-	void printingFitsOnePageSeveralPagesAndAUserZoom() throws Exception {
+	void preparePrintingUsesAWhiteBackgroundAndCanBeCalledTwice() throws Exception {
 		// backwards compatibility
 		Opened opened = ViewMaps.open("Alpha");
 		MapView view = opened.view;
-		PageFormat format = page();
-		BufferedImage image = new BufferedImage(420, 420, BufferedImage.TYPE_INT_RGB);
-		opened.frame.setProperty("fit_to_page", "true");
-		opened.frame.setProperty("pages_wide", "1");
-		opened.frame.setProperty("user_zoom", "not-a-number");
-		assertEquals(Printable.PAGE_EXISTS, view.print(image.createGraphics(), format, 0));
-		assertEquals(Printable.NO_SUCH_PAGE, view.print(image.createGraphics(), format, 3));
-		opened.frame.setProperty("pages_wide", "0");
-		assertEquals(Printable.PAGE_EXISTS, view.print(image.createGraphics(), format, 0));
-		opened.frame.setProperty("pages_wide", "2");
-		assertEquals(Printable.PAGE_EXISTS, view.print(image.createGraphics(), format, 0));
-		int far = view.print(image.createGraphics(), format, 40);
-		assertTrue(far == Printable.PAGE_EXISTS || far == Printable.NO_SUCH_PAGE);
-		opened.frame.setProperty("fit_to_page", "false");
-		opened.frame.setProperty("user_zoom", "3");
-		assertEquals(Printable.PAGE_EXISTS, view.print(image.createGraphics(), format, 0));
 		view.preparePrinting();
 		view.preparePrinting();
 		view.endPrinting();
@@ -289,7 +270,6 @@ public class MapViewBehaviourTest {
 			ViewMaps.setBooleanField(MapView.class, "printOnWhiteBackground", oldPrint);
 			ViewMaps.setBooleanField(MapView.class, "NEED_PREF_SIZE_BUG_FIX", oldFix);
 		}
-		opened.frame.setProperty("pages_wide", "nope");
 		view.preparePrinting();
 		view.endPrinting();
 		assertFalse(view.isCurrentlyPrinting());
@@ -401,12 +381,4 @@ public class MapViewBehaviourTest {
 		}
 	}
 
-	private static PageFormat page() {
-		PageFormat format = new PageFormat();
-		Paper paper = new Paper();
-		paper.setSize(400, 400);
-		paper.setImageableArea(20, 20, 360, 360);
-		format.setPaper(paper);
-		return format;
-	}
 }

@@ -826,9 +826,6 @@ public class OptionPanel implements TextTranslator {
 		// shift
 		// S
 
-		controls.add(new KeyProperty(frame, null, "keystroke_print")); // control
-		// P
-
 		controls.add(new KeyProperty(frame, null, "keystroke_close")); // control
 		// W
 

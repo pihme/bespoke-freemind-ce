@@ -173,8 +173,6 @@ class MenuBarBehaviourTest {
 		holder.addSeparator(MenuBar.FILE_MENU);
 		holder.addCategory(MenuBar.FILE_MENU + "import");
 		holder.addSeparator(MenuBar.FILE_MENU);
-		holder.addCategory(MenuBar.FILE_MENU + "print");
-		holder.addSeparator(MenuBar.FILE_MENU);
 		holder.addCategory(MenuBar.FILE_MENU + "last");
 		holder.addSeparator(MenuBar.FILE_MENU);
 		holder.addCategory(MenuBar.FILE_MENU + "quit");
@@ -221,10 +219,6 @@ class MenuBarBehaviourTest {
 				new Object[] { app, "web", "http://example.invalid/doc" }));
 		set(app, "license", (Action) inner(app, "LicenseAction"));
 		set(app, "about", (Action) inner(app, "AboutAction"));
-		set(app, "page", (Action) inner(app, "PageAction"));
-		set(app, "print", (Action) inner(app, "PrintAction",
-				new Class<?>[] { Controller.class, boolean.class }, new Object[] { app, true }));
-		set(app, "printPreview", (Action) inner(app, "PrintPreviewAction"));
 		set(app, "close", (Action) staticAction("CloseAction", app));
 		set(app, "quit", (Action) inner(app, "QuitAction"));
 		set(app, "moveToRoot", (Action) inner(app, "MoveToRootAction"));

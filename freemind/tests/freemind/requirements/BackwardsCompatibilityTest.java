@@ -45,9 +45,6 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.awt.print.PageFormat;
-import java.awt.print.Paper;
-import java.awt.print.Printable;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -1218,42 +1215,6 @@ class BackwardsCompatibilityTest {
 	}
 
 	@Test
-	void printingAFittedPageExistsAndLaterPagesDoNot() throws Exception {
-		String fit = resourcesProperty("fit_to_page");
-		String wide = resourcesProperty("pages_wide");
-		try {
-			setResourcesProperty("fit_to_page", "true");
-			setResourcesProperty("pages_wide", "1");
-			Opened opened = openMap("Alpha");
-			opened.mode.getFrame().setProperty("user_zoom", "1");
-			opened.view.getRoot().updateAll();
-			opened.view.getRoot().doLayout();
-			assertTrue(opened.view.getInnerBounds().width > 0);
-			assertTrue(opened.view.getInnerBounds().height > 0);
-
-			BufferedImage image = new BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB);
-			Graphics2D graphics = image.createGraphics();
-			PageFormat format = new PageFormat();
-			int first = opened.view.print(graphics, format, 0);
-			int second = opened.view.print(graphics, format, 1);
-			assertEquals(Printable.PAGE_EXISTS, first);
-			assertEquals(Printable.NO_SUCH_PAGE, second);
-			assertFalse(opened.view.isCurrentlyPrinting());
-
-			setResourcesProperty("pages_wide", "2");
-			assertEquals(Printable.PAGE_EXISTS, opened.view.print(graphics, format, 0));
-			assertEquals(Printable.NO_SUCH_PAGE, opened.view.print(graphics, format, 40));
-
-			setResourcesProperty("fit_to_page", "false");
-			assertEquals(Printable.PAGE_EXISTS, opened.view.print(graphics, format, 0));
-			graphics.dispose();
-		} finally {
-			setResourcesProperty("fit_to_page", fit);
-			setResourcesProperty("pages_wide", wide);
-		}
-	}
-
-	@Test
 	void keyboardMoveSelectsTheNextNode() throws Exception {
 		Opened opened = openMap("Alpha", "Beta", "Gamma");
 		opened.view.getRoot().updateAll();
@@ -1339,18 +1300,6 @@ class BackwardsCompatibilityTest {
 		assertEquals(EdgeAdapter.DEFAULT_WIDTH, Tools.edgeWidthStringToInt(null));
 		assertEquals(EdgeAdapter.WIDTH_THIN, Tools.edgeWidthStringToInt(EdgeAdapter.EDGE_WIDTH_THIN_STRING));
 		assertEquals(4, Tools.edgeWidthStringToInt("4"));
-		Paper paper = new Paper();
-		paper.setSize(200, 300);
-		paper.setImageableArea(10, 20, 150, 220);
-		String encoded = Tools.getPageFormatAsString(paper);
-		Paper decoded = new Paper();
-		Tools.setPageFormatFromString(decoded, encoded);
-		assertEquals(200d, decoded.getWidth());
-		assertEquals(300d, decoded.getHeight());
-		assertEquals(10d, decoded.getImageableX());
-		assertEquals(220d, decoded.getImageableHeight());
-		Tools.setPageFormatFromString(decoded, "not-a-format");
-		assertEquals(200d, decoded.getWidth());
 		HashMap<String, String> ids = new HashMap<>();
 		ids.put("ID_1", "taken");
 		assertEquals("ID_2", Tools.generateID("ID_2", ids, "ID_"));
@@ -3385,59 +3334,6 @@ class BackwardsCompatibilityTest {
 		assertTrue(Float.isFinite(fitted), String.valueOf(fitted));
 		assertTrue(fitted > 0f && fitted < 2f, String.valueOf(fitted));
 		parent.add(viewport);
-	}
-
-	@Test
-	@Tag("gui")
-	void aPrintPreviewPaintsAPage() throws Exception {
-		org.assertj.swing.edt.FailOnThreadViolationRepaintManager.install();
-		Class<?> previewClass = Class.forName("freemind.controller.printpreview.Preview");
-		java.lang.reflect.Constructor<?> previewConstructor = previewClass
-				.getDeclaredConstructor(MapView.class, double.class, PageFormat.class);
-		previewConstructor.setAccessible(true);
-		Method moveIndex = previewClass.getDeclaredMethod("moveIndex", int.class);
-		Method changeZoom = previewClass.getDeclaredMethod("changeZoom", double.class);
-		Method resize = previewClass.getDeclaredMethod("resize");
-		moveIndex.setAccessible(true);
-		changeZoom.setAccessible(true);
-		resize.setAccessible(true);
-		boolean[] ink = { false };
-		int[] preferredWidth = { 0 };
-		EventQueue.invokeAndWait(() -> {
-			try {
-				Opened opened = openMap("Alpha", "Beta");
-				opened.view.getRoot().updateAll();
-				Object preview = previewConstructor.newInstance(opened.view, 0.25d, new PageFormat());
-				JFrame frame = new JFrame("preview");
-				try {
-					java.awt.Component component = (java.awt.Component) preview;
-					frame.getContentPane().add(component);
-					frame.pack();
-					frame.setVisible(true);
-					assertTrue(component.getWidth() > 0);
-					BufferedImage image = new BufferedImage(component.getWidth(), component.getHeight(),
-							BufferedImage.TYPE_INT_RGB);
-					Graphics2D graphics = image.createGraphics();
-					graphics.setColor(Color.WHITE);
-					graphics.fillRect(0, 0, image.getWidth(), image.getHeight());
-					component.paint(graphics);
-					graphics.dispose();
-					ink[0] = nonWhitePixels(image) > 0;
-					moveIndex.invoke(preview, 1);
-					changeZoom.invoke(preview, -0.05d);
-					resize.invoke(preview);
-					preferredWidth[0] = component.getPreferredSize().width;
-				} finally {
-					frame.dispose();
-				}
-			} catch (RuntimeException ex) {
-				throw ex;
-			} catch (Exception ex) {
-				throw new RuntimeException(ex);
-			}
-		});
-		assertTrue(ink[0]);
-		assertTrue(preferredWidth[0] > 0);
 	}
 
 	@Test

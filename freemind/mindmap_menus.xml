@@ -337,7 +337,6 @@
 				<menu_action field="open" key_ref="keystroke_open"/>
 				<menu_action field="save" key_ref="keystroke_save"/>
 				<menu_action field="saveAs" key_ref="keystroke_saveAs"/>
-				<menu_action name="printDirect" field="printDirect"/>
 			</menu_category>
 			<menu_separator/>
 			<menu_category name="paste">

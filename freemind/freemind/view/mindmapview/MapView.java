@@ -42,8 +42,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.geom.CubicCurve2D;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -83,7 +82,7 @@ import freemind.preferences.FreemindPropertyListener;
  * This class represents the view of a whole MindMap (in analogy to class
  * JTree).
  */
-public class MapView extends JPanel implements ViewAbstraction, Printable, Autoscroll {
+public class MapView extends JPanel implements ViewAbstraction, Autoscroll {
 	private static final long serialVersionUID = 1L;
 
 
@@ -259,8 +258,7 @@ public class MapView extends JPanel implements ViewAbstraction, Printable, Autos
 	private int maxNodeWidth = 0;
 	private Color background = null;
 	private Rectangle boundingRectangle = null;
-	private boolean fitToPage = true;
-	private int pagesWide = 1;
+
 
 	long mPaintingTime;
 	long mPaintingAmount;
@@ -1416,15 +1414,6 @@ public class MapView extends JPanel implements ViewAbstraction, Printable, Autos
 				setBackground(Color.WHITE);
 			}
 			boundingRectangle = getInnerBounds();
-			fitToPage = Resources.getInstance().getBoolProperty("fit_to_page");
-			pagesWide = 1;
-			try {
-				pagesWide = Integer.parseInt(
-						Resources.getInstance().getProperty("pages_wide"));
-				if (pagesWide < 1) pagesWide = 1;
-			} catch (Exception e) {
-				pagesWide = 1;
-			}
 		} else {
 			logger.warning("Called preparePrinting although isPrinting is true.");
 		}
@@ -1460,111 +1449,6 @@ public class MapView extends JPanel implements ViewAbstraction, Printable, Autos
 			logger.warning("Called endPrinting although isPrinting is false.");
 		}
 	}
-
-	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) {
-		// TODO:
-		// ask user for :
-		// - center in page (in page format ?)
-		// - print zoom or maximize (in page format ?)
-		// - print selection only
-		// remember those parameters from one session to another
-		// (as orientation & margin from pf)
-
-		// User parameters
-
-		double userZoomFactor = 1;
-		try {
-			userZoomFactor = Double.parseDouble(mFeedback
-					.getProperty("user_zoom"));
-		} catch (Exception e) {
-			// freemind.main.Resources.getInstance().logException(e);
-		}
-		userZoomFactor = Math.max(0, userZoomFactor);
-		userZoomFactor = Math.min(2, userZoomFactor);
-
-		// TODO: read user parameters from properties, make sure the multiple
-		// page
-		// printing really works, have look at Book class.
-
-		Graphics2D graphics2D = (Graphics2D) graphics;
-
-		try {
-			preparePrinting();
-
-			double zoomFactor = 1;
-			int nrPagesInWidth = 1;
-			int nrPagesInHeight = 1;
-
-			if (fitToPage) {
-				if (pagesWide <= 1) {
-					// Fit entire map to single page
-					if (pageIndex > 0) {
-						return Printable.NO_SUCH_PAGE;
-					}
-					double zoomFactorX = pageFormat.getImageableWidth()
-							/ boundingRectangle.getWidth();
-					double zoomFactorY = pageFormat.getImageableHeight()
-							/ boundingRectangle.getHeight();
-					zoomFactor = Math.min(zoomFactorX, zoomFactorY);
-				} else {
-					// Fit to N pages wide, calculate height proportionally
-					zoomFactor = pagesWide * pageFormat.getImageableWidth()
-							/ boundingRectangle.getWidth();
-					nrPagesInWidth = pagesWide;
-					nrPagesInHeight = (int) Math.ceil(zoomFactor
-							* boundingRectangle.getHeight()
-							/ pageFormat.getImageableHeight());
-					if (pageIndex >= nrPagesInWidth * nrPagesInHeight) {
-						return Printable.NO_SUCH_PAGE;
-					}
-					int yPageCoord = (int) Math.floor(pageIndex / nrPagesInWidth);
-					int xPageCoord = pageIndex - yPageCoord * nrPagesInWidth;
-					graphics2D.translate(-pageFormat.getImageableWidth()
-							* xPageCoord, -pageFormat.getImageableHeight()
-							* yPageCoord);
-				}
-			} else {
-				zoomFactor = userZoomFactor;
-
-				nrPagesInWidth = (int) Math.ceil(zoomFactor
-						* boundingRectangle.getWidth()
-						/ pageFormat.getImageableWidth());
-				nrPagesInHeight = (int) Math.ceil(zoomFactor
-						* boundingRectangle.getHeight()
-						/ pageFormat.getImageableHeight());
-				if (pageIndex >= nrPagesInWidth * nrPagesInHeight) {
-					return Printable.NO_SUCH_PAGE;
-				}
-				int yPageCoord = (int) Math.floor(pageIndex / nrPagesInWidth);
-				int xPageCoord = pageIndex - yPageCoord * nrPagesInWidth;
-
-				graphics2D.translate(-pageFormat.getImageableWidth()
-						* xPageCoord, -pageFormat.getImageableHeight()
-						* yPageCoord);
-			}
-
-			graphics2D.translate(pageFormat.getImageableX(),
-					pageFormat.getImageableY());
-			graphics2D.scale(zoomFactor, zoomFactor);
-			graphics2D.translate(-boundingRectangle.getX(),
-					-boundingRectangle.getY());
-
-			print(graphics2D);
-		} finally {
-			endPrinting();
-		}
-		return Printable.PAGE_EXISTS;
-	}
-
-	// public void print(Graphics g) {
-	// try{
-	// preparePrinting();
-	// super.print(g);
-	// }
-	// finally{
-	// endPrinting();
-	// }
-	// }
 
 	/**
 	 * For nodes, they can ask, whether or not the width must be bigger to
