@@ -22,19 +22,23 @@ package tests.freemind.cov.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JToolBar;
 import javax.swing.event.MenuEvent;
 
@@ -118,6 +122,50 @@ class StructuredMenuHolderBehaviourTest {
 				Resources.getInstance().getProperties().setProperty(key, previous);
 			}
 		}
+	}
+
+	@Test
+	void checkAndRadioItemsKeepANullIconSoTheCheckMarkCanShow() {
+		// backwards compatibility
+		new HeadlessFreeMind();
+		StructuredMenuHolder holder = new StructuredMenuHolder();
+		holder.addMenu(new JMenu("View"), "root/view/.");
+		Checking toolbar = new Checking(true, true);
+		toolbar.putValue(Action.NAME, "Toolbar");
+		holder.addAction(toolbar, "root/view/toolbar");
+		holder.addAction(action("Zoom"), "root/view/zoom");
+		Checking iconed = new Checking(true, true);
+		iconed.putValue(Action.NAME, "Bold");
+		Icon mark = new ImageIcon(new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB));
+		iconed.putValue(Action.SMALL_ICON, mark);
+		holder.addAction(iconed, "root/view/bold");
+		JRadioButtonMenuItem mode = new JRadioButtonMenuItem("Mind map");
+		holder.addMenuItem(mode, "root/view/mode");
+
+		JMenuBar bar = new JMenuBar();
+		holder.updateMenus(bar, "root/");
+		JMenu view = bar.getMenu(0);
+		JCheckBoxMenuItem toolbarItem = null;
+		JMenuItem zoomItem = null;
+		JCheckBoxMenuItem boldItem = null;
+		for (int i = 0; i < view.getItemCount(); i++) {
+			JMenuItem item = view.getItem(i);
+			if (item == null) {
+				continue;
+			}
+			if ("Toolbar".equals(item.getText())) {
+				toolbarItem = (JCheckBoxMenuItem) item;
+			} else if ("Zoom".equals(item.getText())) {
+				zoomItem = item;
+			} else if ("Bold".equals(item.getText())) {
+				boldItem = (JCheckBoxMenuItem) item;
+			}
+		}
+		assertTrue(toolbarItem instanceof JCheckBoxMenuItem);
+		assertNull(toolbarItem.getIcon());
+		assertTrue(zoomItem.getIcon() instanceof freemind.controller.BlindIcon);
+		assertSame(mark, boldItem.getIcon());
+		assertNull(mode.getIcon());
 	}
 
 	@Test

@@ -36,6 +36,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.JToolBar;
 import javax.swing.event.MenuEvent;
@@ -377,6 +378,14 @@ public class StructuredMenuHolder {
 
 
 	static private void adjustMenuItem(JMenuItem item) {
+		// FlatLaf paints the check mark only when a check or radio item has no
+		// icon. A blank icon replaces that mark with an empty square.
+		if (item instanceof JCheckBoxMenuItem || item instanceof JRadioButtonMenuItem) {
+			if (item.getIcon() == null || item.getIcon() instanceof BlindIcon) {
+				item.setIcon(null);
+				return;
+			}
+		}
 		if (item.getIcon() == null) {
 			item.setIcon(blindIcon);
 		} else {
