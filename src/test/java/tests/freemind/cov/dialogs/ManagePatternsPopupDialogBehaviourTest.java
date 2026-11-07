@@ -31,7 +31,7 @@ import javax.swing.JPanel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.dialogs.ManagePatternsPopupDialog;
+import freemind.modes.mindmapmode.commands.dialogs.ManagePatternsPopupDialog;
 import freemind.controller.actions.generated.instance.Pattern;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;

@@ -30,7 +30,7 @@ import javax.swing.JMenuItem;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.ChangeRootNode;
+import freemind.modes.mindmapmode.commands.ChangeRootNode;
 import freemind.controller.actions.generated.instance.ChangeRootNodeAction;
 import freemind.modes.MindMapNode;
 import tests.freemind.cov.MapFixture;

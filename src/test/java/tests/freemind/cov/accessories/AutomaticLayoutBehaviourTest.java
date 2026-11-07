@@ -39,9 +39,9 @@ import org.junit.jupiter.api.Test;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
-import accessories.plugins.AutomaticLayout;
-import accessories.plugins.AutomaticLayout.StylePatternListProperty;
-import accessories.plugins.AutomaticLayout.StylePatternProperty;
+import freemind.modes.mindmapmode.features.AutomaticLayout;
+import freemind.modes.mindmapmode.features.AutomaticLayout.StylePatternListProperty;
+import freemind.modes.mindmapmode.features.AutomaticLayout.StylePatternProperty;
 import freemind.common.PropertyControl;
 import freemind.common.TextTranslator;
 import freemind.main.Tools;

@@ -30,7 +30,7 @@ import java.util.Properties;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.BlinkingNodeHook;
+import freemind.modes.mindmapmode.features.BlinkingNodeHook;
 import freemind.view.mindmapview.NodeView;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
@@ -49,7 +49,7 @@ class BlinkingNodeHookBehaviourTest {
 		hook.setNode(opened.child("Child"));
 		NodeView view = opened.view.getNodeView(opened.child("Child"));
 		view.setVisible(false);
-		Class<?> changerType = Class.forName("accessories.plugins.BlinkingNodeHook$TimerColorChanger");
+		Class<?> changerType = Class.forName("freemind.modes.mindmapmode.features.BlinkingNodeHook$TimerColorChanger");
 		Constructor<?> constructor = changerType.getDeclaredConstructor(BlinkingNodeHook.class);
 		constructor.setAccessible(true);
 		Runnable hidden = (Runnable) constructor.newInstance(hook);

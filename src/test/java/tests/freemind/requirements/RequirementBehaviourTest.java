@@ -43,7 +43,7 @@ import org.junit.jupiter.api.Test;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
-import accessories.plugins.SortNodes;
+import freemind.modes.mindmapmode.commands.SortNodes;
 import freemind.controller.actions.generated.instance.EditNodeAction;
 import freemind.main.HeadlessFreeMind;
 import freemind.main.Tools;
@@ -147,7 +147,7 @@ class RequirementBehaviourTest {
 		MindMapMapModel map = new MindMapMapModel(feedback);
 		feedback.setMap(map);
 		SortNodes sorter = new SortNodes();
-		Class<?> type = Class.forName("accessories.plugins.SortNodes$NodeTextComparator");
+		Class<?> type = Class.forName("freemind.modes.mindmapmode.commands.SortNodes$NodeTextComparator");
 		var constructor = type.getDeclaredConstructor(SortNodes.class);
 		constructor.setAccessible(true);
 		@SuppressWarnings("unchecked")

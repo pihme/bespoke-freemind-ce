@@ -33,7 +33,7 @@ import javax.swing.JViewport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.FitToPage;
+import freemind.modes.mindmapmode.commands.FitToPage;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 

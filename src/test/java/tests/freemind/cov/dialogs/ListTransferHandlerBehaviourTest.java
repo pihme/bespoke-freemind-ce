@@ -40,7 +40,7 @@ import javax.swing.TransferHandler;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.dialogs.ListTransferHandler;
+import freemind.modes.mindmapmode.commands.dialogs.ListTransferHandler;
 import freemind.swing.DefaultListModel;
 
 /** A list drag copies the selection, and a move drops it after the target row. */

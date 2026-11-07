@@ -27,7 +27,7 @@ import java.util.Properties;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.HierarchicalIcons;
+import freemind.modes.mindmapmode.features.HierarchicalIcons;
 import freemind.modes.MindIcon;
 import freemind.modes.MindMapNode;
 import tests.freemind.cov.MapFixture;

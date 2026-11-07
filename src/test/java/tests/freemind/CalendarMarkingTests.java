@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Set;
 
-import accessories.plugins.time.CalendarMarkingEvaluator;
+import freemind.modes.mindmapmode.commands.time.CalendarMarkingEvaluator;
 import freemind.common.XmlBindingTools;
 import freemind.controller.actions.generated.instance.CalendarMarking;
 import freemind.controller.actions.generated.instance.CalendarMarkings;

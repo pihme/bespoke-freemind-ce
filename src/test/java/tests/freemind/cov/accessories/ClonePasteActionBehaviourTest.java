@@ -40,8 +40,8 @@ import javax.swing.JMenuItem;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.ClonePasteAction;
-import accessories.plugins.ClonePlugin;
+import freemind.modes.mindmapmode.commands.ClonePasteAction;
+import freemind.modes.mindmapmode.features.Clone;
 import freemind.controller.actions.generated.instance.FoldAction;
 import freemind.controller.actions.generated.instance.NodeListMember;
 import freemind.extensions.MindMapHook.PluginBaseClassSearcher;
@@ -82,7 +82,7 @@ class ClonePasteActionBehaviourTest {
 		action.invoke(shelf);
 
 		assertTrue(opened.root.getChildCount() >= before);
-		assertNotNull(ClonePlugin.getHook(source));
+		assertNotNull(Clone.getHook(source));
 		boolean pasted = false;
 		for (int i = 0; i < shelf.getChildCount(); i++) {
 			if ("Source".equals(((MindMapNode) shelf.getChildAt(i)).getText())) {
@@ -118,13 +118,13 @@ class ClonePasteActionBehaviourTest {
 		beta.insert(new MindMapNodeModel("Kept", opened.mode.getMap()), 0);
 		registration(opened);
 		Properties properties = new Properties();
-		properties.setProperty(ClonePlugin.XML_STORAGE_CLONE_ID, "CLONE_paste");
-		properties.setProperty(ClonePlugin.XML_STORAGE_CLONE_ITSELF, ClonePlugin.CLONE_ITSELF_FALSE);
-		properties.setProperty(ClonePlugin.XML_STORAGE_CLONES, opened.mode.getNodeID(beta));
-		opened.mode.addHook(alpha, Collections.singletonList(alpha), ClonePlugin.PLUGIN_LABEL, properties);
-		ClonePlugin.getHook(alpha).processUnfinishedLinks();
+		properties.setProperty(Clone.XML_STORAGE_CLONE_ID, "CLONE_paste");
+		properties.setProperty(Clone.XML_STORAGE_CLONE_ITSELF, Clone.CLONE_ITSELF_FALSE);
+		properties.setProperty(Clone.XML_STORAGE_CLONES, opened.mode.getNodeID(beta));
+		opened.mode.addHook(alpha, Collections.singletonList(alpha), Clone.PLUGIN_LABEL, properties);
+		Clone.getHook(alpha).processUnfinishedLinks();
 		ClonePasteAction.Registration registration = (ClonePasteAction.Registration) opened.mode.getHookFactory()
-				.getPluginBaseClass(ClonePlugin.PLUGIN_LABEL);
+				.getPluginBaseClass(Clone.PLUGIN_LABEL);
 
 		ClonePasteAction.CloneProperties observed = new ClonePasteAction.CloneProperties();
 		Vector<Boolean> seen = new Vector<>();
@@ -143,29 +143,29 @@ class ClonePasteActionBehaviourTest {
 		show.setAccessible(true);
 		boolean previous = show.getBoolean(null);
 		try {
-			beta.setStateIcon(ClonePlugin.PLUGIN_LABEL, null);
+			beta.setStateIcon(Clone.PLUGIN_LABEL, null);
 			show.setBoolean(null, false);
 			registration.markShadowNode(alpha, true);
-			assertFalse(beta.getStateIcons().containsKey(ClonePlugin.PLUGIN_LABEL));
+			assertFalse(beta.getStateIcons().containsKey(Clone.PLUGIN_LABEL));
 			show.setBoolean(null, true);
 			registration.markShadowNode(alpha, true);
-			assertTrue(beta.getStateIcons().containsKey(ClonePlugin.PLUGIN_LABEL));
+			assertTrue(beta.getStateIcons().containsKey(Clone.PLUGIN_LABEL));
 			registration.onFocusNode(null);
-			assertTrue(beta.getStateIcons().containsKey(ClonePlugin.PLUGIN_LABEL));
+			assertTrue(beta.getStateIcons().containsKey(Clone.PLUGIN_LABEL));
 			opened.view.getRoot().updateAll();
 			freemind.view.mindmapview.NodeView alphaView = opened.view.getNodeView(alpha);
 			assertNotNull(alphaView);
 			registration.markShadowNode(alphaView, false);
-			assertTrue(beta.getStateIcons().containsKey(ClonePlugin.PLUGIN_LABEL));
-			kept.setStateIcon(ClonePlugin.PLUGIN_LABEL, new javax.swing.ImageIcon());
+			assertTrue(beta.getStateIcons().containsKey(Clone.PLUGIN_LABEL));
+			kept.setStateIcon(Clone.PLUGIN_LABEL, new javax.swing.ImageIcon());
 			Field markedField = registration.getClass().getDeclaredField("mLastMarkedNodeViews");
 			markedField.setAccessible(true);
 			@SuppressWarnings("unchecked")
 			Vector<MindMapNode> marked = (Vector<MindMapNode>) markedField.get(registration);
 			marked.add(kept);
 			registration.markShadowNode(alphaView, false);
-			assertFalse(kept.getStateIcons().containsKey(ClonePlugin.PLUGIN_LABEL));
-			assertTrue(beta.getStateIcons().containsKey(ClonePlugin.PLUGIN_LABEL));
+			assertFalse(kept.getStateIcons().containsKey(Clone.PLUGIN_LABEL));
+			assertTrue(beta.getStateIcons().containsKey(Clone.PLUGIN_LABEL));
 		} finally {
 			show.setBoolean(null, previous);
 		}

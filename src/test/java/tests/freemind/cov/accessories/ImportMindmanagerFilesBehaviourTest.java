@@ -39,7 +39,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.ImportMindmanagerFiles;
+import freemind.modes.mindmapmode.commands.ImportMindmanagerFiles;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 

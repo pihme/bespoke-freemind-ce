@@ -255,6 +255,10 @@ public class MindMapHookFactory extends HookFactoryAdapter {
 	}
 
 
+	public Object registration(String pluginLabel) {
+		return lookupPluginBase(pluginLabel);
+	}
+
 	private Object lookupPluginBase(String pluginLabel) {
 		if (allRegistrationInstances.containsKey(pluginLabel)) {
 			return allRegistrationInstances.get(pluginLabel);

@@ -26,9 +26,9 @@ import java.util.regex.Pattern;
 import javax.swing.table.AbstractTableModel;
 
 import tests.freemind.FreeMindTestBase;
-import accessories.plugins.time.FlatNodeTableFilterModel;
-import accessories.plugins.time.TimeList;
-import accessories.plugins.time.TimeList.NodeHolder;
+import freemind.modes.mindmapmode.commands.time.FlatNodeTableFilterModel;
+import freemind.modes.mindmapmode.commands.time.TimeList;
+import freemind.modes.mindmapmode.commands.time.TimeList.NodeHolder;
 import freemind.main.HtmlTools;
 
 public class FindTextTests extends FreeMindTestBase {

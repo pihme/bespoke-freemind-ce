@@ -42,8 +42,8 @@ import org.mockito.Mockito;
 
 import com.lightdev.app.shtm.SHTMLPanel;
 
-import accessories.plugins.NodeNote;
-import accessories.plugins.NodeNoteRegistration;
+import freemind.modes.mindmapmode.commands.NodeNote;
+import freemind.modes.mindmapmode.commands.NodeNoteRegistration;
 import freemind.extensions.MindMapHook.PluginBaseClassSearcher;
 import freemind.main.FreeMind;
 import freemind.main.FreeMindMain;

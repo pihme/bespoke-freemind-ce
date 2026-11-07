@@ -28,9 +28,9 @@ import java.awt.EventQueue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.NewLineTable;
-import accessories.plugins.NodeAttributeTableRegistration;
-import accessories.plugins.NodeAttributeTableRegistration.AttributeTableModel;
+import freemind.modes.mindmapmode.commands.NewLineTable;
+import freemind.modes.mindmapmode.commands.NodeAttributeTableRegistration;
+import freemind.modes.mindmapmode.commands.NodeAttributeTableRegistration.AttributeTableModel;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 

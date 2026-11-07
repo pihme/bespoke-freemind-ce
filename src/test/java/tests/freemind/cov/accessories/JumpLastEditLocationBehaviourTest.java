@@ -31,7 +31,7 @@ import javax.swing.JMenuItem;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.JumpLastEditLocation;
+import freemind.modes.mindmapmode.commands.JumpLastEditLocation;
 import freemind.controller.actions.generated.instance.FoldAction;
 import freemind.controller.actions.generated.instance.HookNodeAction;
 import freemind.controller.actions.generated.instance.NewNodeAction;

@@ -31,7 +31,7 @@ import javax.swing.JMenuItem;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.RemoveNote;
+import freemind.modes.mindmapmode.commands.RemoveNote;
 import freemind.main.FreeMind;
 import freemind.modes.MindMapNode;
 import freemind.modes.mindmapmode.actions.NodeHookAction;

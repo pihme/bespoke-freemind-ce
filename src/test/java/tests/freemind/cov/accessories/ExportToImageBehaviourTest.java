@@ -37,7 +37,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.ExportToImage;
+import freemind.modes.mindmapmode.commands.ExportToImage;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 

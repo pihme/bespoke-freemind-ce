@@ -30,9 +30,9 @@ import java.util.Vector;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.ClonePasteAction;
-import accessories.plugins.ClonePlugin;
-import accessories.plugins.ShowCloneNodes;
+import freemind.modes.mindmapmode.commands.ClonePasteAction;
+import freemind.modes.mindmapmode.features.Clone;
+import freemind.modes.mindmapmode.commands.ShowCloneNodes;
 import freemind.modes.MindMapNode;
 import freemind.view.mindmapview.NodeView;
 import tests.freemind.cov.MapFixture;
@@ -52,8 +52,8 @@ class ShowCloneNodesBehaviourTest {
 		PluginBases.install(opened, "accessories/plugins/ClonePlugin", registration);
 		registration.register();
 		Properties properties = cloneProperties(opened, beta);
-		opened.mode.addHook(alpha, Collections.singletonList(alpha), ClonePlugin.PLUGIN_LABEL, properties);
-		ClonePlugin.getHook(alpha).processUnfinishedLinks();
+		opened.mode.addHook(alpha, Collections.singletonList(alpha), Clone.PLUGIN_LABEL, properties);
+		Clone.getHook(alpha).processUnfinishedLinks();
 		select(opened, alpha);
 		assertEquals("Alpha", opened.mode.getSelected().getText());
 
@@ -88,9 +88,9 @@ class ShowCloneNodesBehaviourTest {
 
 	private static Properties cloneProperties(Opened opened, MindMapNode other) {
 		Properties properties = new Properties();
-		properties.setProperty(ClonePlugin.XML_STORAGE_CLONE_ID, "CLONE_show");
-		properties.setProperty(ClonePlugin.XML_STORAGE_CLONE_ITSELF, ClonePlugin.CLONE_ITSELF_FALSE);
-		properties.setProperty(ClonePlugin.XML_STORAGE_CLONES, opened.mode.getNodeID(other));
+		properties.setProperty(Clone.XML_STORAGE_CLONE_ID, "CLONE_show");
+		properties.setProperty(Clone.XML_STORAGE_CLONE_ITSELF, Clone.CLONE_ITSELF_FALSE);
+		properties.setProperty(Clone.XML_STORAGE_CLONES, opened.mode.getNodeID(other));
 		return properties;
 	}
 

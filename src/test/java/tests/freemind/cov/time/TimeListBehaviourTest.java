@@ -57,9 +57,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.time.TimeList;
-import accessories.plugins.time.TimeManagement;
-import accessories.plugins.time.TimeManagementOrganizer;
+import freemind.modes.mindmapmode.commands.time.TimeList;
+import freemind.modes.mindmapmode.commands.time.TimeManagement;
+import freemind.modes.mindmapmode.commands.time.TimeManagementOrganizer;
 import freemind.controller.actions.generated.instance.TimeWindowColumnSetting;
 import freemind.controller.actions.generated.instance.TimeWindowConfigurationStorage;
 import freemind.main.Resources;
@@ -288,13 +288,13 @@ class TimeListBehaviourTest {
 		for (int i = 0; i < table.getColumnCount(); i++) {
 			TimeWindowColumnSetting setting = new TimeWindowColumnSetting();
 			setting.setColumnWidth(20 + i);
-			setting.setColumnSorting(Integer.valueOf(i == 0 ? accessories.plugins.time.TableSorter.ASCENDING
-					: accessories.plugins.time.TableSorter.NOT_SORTED));
+			setting.setColumnSorting(Integer.valueOf(i == 0 ? freemind.modes.mindmapmode.commands.time.TableSorter.ASCENDING
+					: freemind.modes.mindmapmode.commands.time.TableSorter.NOT_SORTED));
 			storage.addTimeWindowColumnSetting(setting);
 		}
 		list.configure(storage);
 		assertEquals(20, table.getColumnModel().getColumn(0).getPreferredWidth());
-		assertEquals(accessories.plugins.time.TableSorter.ASCENDING, sorterStatus(0));
+		assertEquals(freemind.modes.mindmapmode.commands.time.TableSorter.ASCENDING, sorterStatus(0));
 		list.configure(storage);
 		assertEquals(20, table.getColumnModel().getColumn(0).getPreferredWidth());
 		for (int i = 0; i < table.getColumnCount(); i++) {
@@ -303,7 +303,7 @@ class TimeListBehaviourTest {
 		TimeWindowConfigurationStorage read = list.configuration();
 		assertFalse(read.getViewFoldedNodes());
 		assertEquals(20, read.getListTimeWindowColumnSettingList().get(0).getColumnWidth());
-		assertEquals(Integer.valueOf(accessories.plugins.time.TableSorter.ASCENDING),
+		assertEquals(Integer.valueOf(freemind.modes.mindmapmode.commands.time.TableSorter.ASCENDING),
 				read.getListTimeWindowColumnSettingList().get(0).getColumnSorting());
 
 		String omega = alpha.getText();
@@ -344,7 +344,7 @@ class TimeListBehaviourTest {
 	}
 
 	private Object construct(String name) throws Exception {
-		Class<?> type = Class.forName("accessories.plugins.time.TimeList$" + name);
+		Class<?> type = Class.forName("freemind.modes.mindmapmode.commands.time.TimeList$" + name);
 		if (java.lang.reflect.Modifier.isStatic(type.getModifiers())) {
 			Constructor<?> constructor = type.getDeclaredConstructor();
 			constructor.setAccessible(true);
@@ -354,7 +354,7 @@ class TimeListBehaviourTest {
 	}
 
 	private Object construct(String name, Class<?>[] types, Object[] args) throws Exception {
-		Class<?> type = Class.forName("accessories.plugins.time.TimeList$" + name);
+		Class<?> type = Class.forName("freemind.modes.mindmapmode.commands.time.TimeList$" + name);
 		if (java.lang.reflect.Modifier.isStatic(type.getModifiers())) {
 			Constructor<?> constructor = type.getDeclaredConstructor(types);
 			constructor.setAccessible(true);

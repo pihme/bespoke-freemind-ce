@@ -28,7 +28,7 @@ import java.util.Properties;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.ApplyFormatPlugin;
+import freemind.modes.mindmapmode.commands.ApplyFormat;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
@@ -41,7 +41,7 @@ class ApplyFormatPluginBehaviourTest {
 		Opened opened = MapFixture.open("Child");
 		opened.view.getRoot().updateAll();
 		opened.view.selectAsTheOnlyOneSelected(opened.view.getNodeView(opened.child("Child")));
-		ApplyFormatPlugin hook = new ApplyFormatPlugin();
+		ApplyFormat hook = new ApplyFormat();
 		hook.setController(opened.mode);
 		hook.setMap(opened.mode.getMap());
 		hook.setProperties(new Properties());

@@ -28,8 +28,8 @@ import java.util.Properties;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.NodeAttributeTable;
-import accessories.plugins.NodeAttributeTableRegistration;
+import freemind.modes.mindmapmode.commands.NodeAttributeTable;
+import freemind.modes.mindmapmode.commands.NodeAttributeTableRegistration;
 import freemind.extensions.MindMapHook.PluginBaseClassSearcher;
 import freemind.main.FreeMind;
 import tests.freemind.cov.MapFixture;

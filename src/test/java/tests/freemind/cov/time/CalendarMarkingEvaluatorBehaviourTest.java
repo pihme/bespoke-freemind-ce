@@ -37,8 +37,8 @@ import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.time.CalendarMarkingEvaluator;
-import accessories.plugins.time.ICalendarMarkingEvaluator;
+import freemind.modes.mindmapmode.commands.time.CalendarMarkingEvaluator;
+import freemind.modes.mindmapmode.commands.time.ICalendarMarkingEvaluator;
 import freemind.controller.actions.generated.instance.CalendarMarking;
 import freemind.controller.actions.generated.instance.CalendarMarkings;
 

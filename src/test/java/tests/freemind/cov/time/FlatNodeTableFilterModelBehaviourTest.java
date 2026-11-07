@@ -32,9 +32,9 @@ import javax.swing.table.AbstractTableModel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.time.FlatNodeTableFilterModel;
-import accessories.plugins.time.TimeList.NodeHolder;
-import accessories.plugins.time.TimeList.NotesHolder;
+import freemind.modes.mindmapmode.commands.time.FlatNodeTableFilterModel;
+import freemind.modes.mindmapmode.commands.time.TimeList.NodeHolder;
+import freemind.modes.mindmapmode.commands.time.TimeList.NotesHolder;
 import freemind.modes.MindMapNode;
 import tests.freemind.cov.MapFixture;
 

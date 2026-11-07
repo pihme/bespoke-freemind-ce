@@ -37,7 +37,7 @@ import javax.swing.event.ChangeEvent;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.time.JSpinField;
+import freemind.modes.mindmapmode.commands.time.JSpinField;
 
 /** Backwards-compatible spin-field limits, colour, and commit behaviour. */
 @DisplayName("JSpinFieldBehaviourTest")

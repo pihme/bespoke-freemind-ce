@@ -89,7 +89,7 @@ class ThreadSafetyTest {
     @Test
     @DisplayName("CalendarMarkingEvaluator handler map is eagerly initialized (static final)")
     void calendarMarkingEvaluatorEagerInit() throws Exception {
-        Class<?> clazz = Class.forName("accessories.plugins.time.CalendarMarkingEvaluator");
+        Class<?> clazz = Class.forName("freemind.modes.mindmapmode.commands.time.CalendarMarkingEvaluator");
         Field field = clazz.getDeclaredField("sHandlerMap");
 
         assertTrue(Modifier.isStatic(field.getModifiers()), "sHandlerMap must be static");

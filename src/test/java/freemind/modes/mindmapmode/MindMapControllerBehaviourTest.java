@@ -19,6 +19,7 @@
 
 package freemind.modes.mindmapmode;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -84,6 +85,8 @@ import freemind.modes.MindMapLink;
 import freemind.modes.MindMapNode;
 import freemind.modes.mindmapmode.actions.ApplyPatternAction;
 import freemind.modes.mindmapmode.actions.IconAction;
+import freemind.modes.mindmapmode.actions.MenuCommandAction;
+import freemind.modes.mindmapmode.commands.MenuCommands;
 import freemind.view.mindmapview.MainView;
 import freemind.view.mindmapview.ViewFeedback;
 import tests.freemind.cov.MapFixture;
@@ -587,7 +590,16 @@ class MindMapControllerBehaviourTest {
 		opened.view.setSize(800, 600);
 		assertTrue(opened.view.getParent() instanceof JViewport);
 		float before = opened.view.getZoom();
-		opened.mode.createModeControllerHook("accessories/plugins/FitToPage.properties");
+		MenuCommandAction fit = new MenuCommandAction(
+				MenuCommands.command("accessories/plugins/FitToPage.properties"), opened.mode);
+		assertTrue(fit.isEnabled(new JMenuItem(), fit));
+		fit.actionPerformed(new ActionEvent(opened.view, ActionEvent.ACTION_PERFORMED, "fit"));
+		MenuCommandAction apply = new MenuCommandAction(
+				MenuCommands.command("accessories/plugins/ApplyFormatPlugin.properties"), opened.mode);
+		assertTrue(apply.isEnabled(new JMenuItem(), apply));
+		MenuCommandAction jump = new MenuCommandAction(
+				MenuCommands.command("accessories/plugins/JumpLastEditLocation.properties"), opened.mode);
+		assertDoesNotThrow(() -> jump.isEnabled(new JMenuItem(), jump));
 		EventQueue.invokeAndWait(() -> {
 		});
 		assertNotEquals(before, opened.view.getZoom(), 0.0001f);

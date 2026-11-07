@@ -33,7 +33,7 @@ import javax.swing.Timer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.time.ReminderHook;
+import freemind.modes.mindmapmode.features.time.ReminderHook;
 import freemind.modes.MindMapNode;
 import tests.freemind.cov.MapFixture;
 

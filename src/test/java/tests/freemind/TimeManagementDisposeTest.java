@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TimeManagementDisposeTest {
 
     private static final String SOURCE_PATH =
-        "src/main/java/accessories/plugins/time/TimeManagement.java";
+        "src/main/java/freemind/modes/mindmapmode/commands/time/TimeManagement.java";
 
     @Test
     @DisplayName("disposeDialog() contains try-finally pattern")

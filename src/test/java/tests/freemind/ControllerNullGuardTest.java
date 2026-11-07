@@ -23,7 +23,7 @@ class ControllerNullGuardTest {
     @DisplayName("ClonePasteAction uses correct String key for mCloneIdsMap.remove()")
     void clonePasteActionUsesCorrectRemoveKey() throws IOException {
         Path file = findProjectRoot()
-            .resolve("src/main/java/accessories/plugins/ClonePasteAction.java");
+            .resolve("src/main/java/freemind/modes/mindmapmode/commands/ClonePasteAction.java");
         String content = Files.readString(file);
 
         assertTrue(content.contains("mCloneIdsMap.remove(pCloneId)"),

@@ -29,9 +29,9 @@ import java.util.Properties;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.time.RemoveReminderHook;
-import accessories.plugins.time.TimeManagement;
-import accessories.plugins.time.TimeManagementOrganizer;
+import freemind.modes.mindmapmode.commands.time.RemoveReminder;
+import freemind.modes.mindmapmode.commands.time.TimeManagement;
+import freemind.modes.mindmapmode.commands.time.TimeManagementOrganizer;
 import freemind.modes.MindMapNode;
 import freemind.modes.common.plugins.ReminderHookBase;
 import tests.freemind.cov.MapFixture;
@@ -45,7 +45,7 @@ class RemoveReminderHookBehaviourTest {
 		// backwards compatibility
 		MapFixture.Opened opened = MapFixture.open("Child");
 		MindMapNode node = opened.child("Child");
-		RemoveReminderHook hook = new RemoveReminderHook();
+		RemoveReminder hook = new RemoveReminder();
 		hook.setController(opened.mode);
 		hook.invoke(node);
 		assertEquals("Child", node.getText());
@@ -64,7 +64,7 @@ class RemoveReminderHookBehaviourTest {
 		ReminderHookBase present = TimeManagementOrganizer.getHook(node);
 		assertNotNull(present);
 		try {
-			RemoveReminderHook hook = new RemoveReminderHook();
+			RemoveReminder hook = new RemoveReminder();
 			hook.setController(opened.mode);
 			hook.setMap(opened.mode.getMap());
 			hook.invoke(node);

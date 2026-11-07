@@ -12,7 +12,7 @@
 
     <!-- Intentional shared state across instances (last selected/position patterns) -->
     <Match>
-        <Class name="accessories.plugins.dialogs.ManagePatternsPopupDialog"/>
+        <Class name="freemind.modes.mindmapmode.commands.dialogs.ManagePatternsPopupDialog"/>
         <Method name="setLastSelectedPattern"/>
         <Bug pattern="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD"/>
     </Match>

@@ -44,7 +44,7 @@ import javax.swing.JTextArea;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.LogFileViewer;
+import freemind.modes.mindmapmode.commands.LogFileViewer;
 import freemind.extensions.MindMapHook.PluginBaseClassSearcher;
 import freemind.main.LogFileLogHandler;
 import tests.freemind.cov.MapFixture;
@@ -148,7 +148,7 @@ class LogFileViewerBehaviourTest {
 	}
 
 	private static Object newClose(LogFileViewer viewer) throws Exception {
-		Class<?> type = Class.forName("accessories.plugins.LogFileViewer$CloseAction");
+		Class<?> type = Class.forName("freemind.modes.mindmapmode.commands.LogFileViewer$CloseAction");
 		Constructor<?> constructor = type.getDeclaredConstructor(LogFileViewer.class);
 		constructor.setAccessible(true);
 		return constructor.newInstance(viewer);
@@ -171,21 +171,21 @@ class LogFileViewerBehaviourTest {
 	}
 
 	private static Action newLevel(LogFileViewer viewer, Level level) throws Exception {
-		Class<?> type = Class.forName("accessories.plugins.LogFileViewer$SetLogLevelAction");
+		Class<?> type = Class.forName("freemind.modes.mindmapmode.commands.LogFileViewer$SetLogLevelAction");
 		Constructor<?> constructor = type.getDeclaredConstructor(LogFileViewer.class, Level.class);
 		constructor.setAccessible(true);
 		return (Action) constructor.newInstance(viewer, level);
 	}
 
 	private static Action newPrint(LogFileViewer viewer) throws Exception {
-		Class<?> type = Class.forName("accessories.plugins.LogFileViewer$PrintOperationAction");
+		Class<?> type = Class.forName("freemind.modes.mindmapmode.commands.LogFileViewer$PrintOperationAction");
 		Constructor<?> constructor = type.getDeclaredConstructor(LogFileViewer.class);
 		constructor.setAccessible(true);
 		return (Action) constructor.newInstance(viewer);
 	}
 
 	private static Object newThread(LogFileViewer viewer) throws Exception {
-		Class<?> type = Class.forName("accessories.plugins.LogFileViewer$UpdateTextAreaThread");
+		Class<?> type = Class.forName("freemind.modes.mindmapmode.commands.LogFileViewer$UpdateTextAreaThread");
 		Constructor<?> constructor = type.getDeclaredConstructor(LogFileViewer.class);
 		constructor.setAccessible(true);
 		return constructor.newInstance(viewer);

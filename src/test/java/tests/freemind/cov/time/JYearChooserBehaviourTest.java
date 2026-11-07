@@ -27,8 +27,8 @@ import java.beans.PropertyChangeListener;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.time.JDayChooser;
-import accessories.plugins.time.JYearChooser;
+import freemind.modes.mindmapmode.commands.time.JDayChooser;
+import freemind.modes.mindmapmode.commands.time.JYearChooser;
 
 /** Backwards-compatible year limits and the day chooser they update. */
 @DisplayName("JYearChooserBehaviourTest")

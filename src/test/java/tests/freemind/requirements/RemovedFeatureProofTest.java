@@ -243,7 +243,7 @@ class RemovedFeatureProofTest {
 		assertFalse(properties.contains("fit_to_page"));
 		assertTrue(properties.contains("printonwhitebackground"));
 		assertNotNull(Class.forName("freemind.extensions.ExportHook"));
-		assertNotNull(Class.forName("accessories.plugins.FitToPage"));
+		assertNotNull(Class.forName("freemind.modes.mindmapmode.commands.FitToPage"));
 	}
 
 	@Test
@@ -255,10 +255,11 @@ class RemovedFeatureProofTest {
 		assertThrows(NoSuchFieldException.class, () -> Controller.class.getField("freemindUrl"));
 		assertThrows(NoSuchFieldException.class, () -> freemind.controller.MenuBar.class.getField("HELP_MENU"));
 		Path root = repoRoot();
-		String viewer = Files.readString(root.resolve("src/main/java/freemind/modes/mindmapmode/hooks/BuiltInHooks.java"));
-		assertFalse(viewer.contains("menu_bar/help/"));
-		assertTrue(viewer.contains("menu_bar/extras/first/logFileViewer"));
-		assertNotNull(Class.forName("accessories.plugins.LogFileViewer"));
+		String hooks = Files.readString(root.resolve("src/main/java/freemind/modes/mindmapmode/hooks/BuiltInHooks.java"));
+		assertFalse(hooks.contains("menu_bar/help/"));
+		String commands = Files.readString(root.resolve("src/main/java/freemind/modes/mindmapmode/commands/MenuCommands.java"));
+		assertTrue(commands.contains("menu_bar/extras/first/logFileViewer"));
+		assertNotNull(Class.forName("freemind.modes.mindmapmode.commands.LogFileViewer"));
 		assertTrue(Files.exists(root.resolve("LICENSE")));
 		assertFalse(Files.exists(root.resolve("license")));
 		assertFalse(Files.exists(root.resolve("plugins/help/jhall.jar")));

@@ -41,9 +41,9 @@ import javax.swing.JTextField;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.NodeAttributeTableRegistration;
-import accessories.plugins.NodeAttributeTableRegistration.AttributeHolder;
-import accessories.plugins.NodeAttributeTableRegistration.AttributeTableModel;
+import freemind.modes.mindmapmode.commands.NodeAttributeTableRegistration;
+import freemind.modes.mindmapmode.commands.NodeAttributeTableRegistration.AttributeHolder;
+import freemind.modes.mindmapmode.commands.NodeAttributeTableRegistration.AttributeTableModel;
 import freemind.main.FreeMind;
 import freemind.modes.MindMapNode;
 import freemind.modes.ModeController.NodeLifetimeListener;
@@ -177,7 +177,7 @@ class NodeAttributeTableRegistrationBehaviourTest {
 	}
 
 	private static Action jump(NodeAttributeTableRegistration registration) throws Exception {
-		Class<?> type = Class.forName("accessories.plugins.NodeAttributeTableRegistration$JumpToMapAction");
+		Class<?> type = Class.forName("freemind.modes.mindmapmode.commands.NodeAttributeTableRegistration$JumpToMapAction");
 		Constructor<?> constructor = type.getDeclaredConstructor(NodeAttributeTableRegistration.class);
 		constructor.setAccessible(true);
 		return (Action) constructor.newInstance(registration);

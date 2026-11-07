@@ -48,10 +48,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.time.JDayChooser;
-import accessories.plugins.time.JTripleCalendar;
-import accessories.plugins.time.TimeManagement;
-import accessories.plugins.time.TimeManagementOrganizer;
+import freemind.modes.mindmapmode.commands.time.JDayChooser;
+import freemind.modes.mindmapmode.commands.time.JTripleCalendar;
+import freemind.modes.mindmapmode.commands.time.TimeManagement;
+import freemind.modes.mindmapmode.commands.time.TimeManagementOrganizer;
 import freemind.common.XmlBindingTools;
 import freemind.controller.actions.generated.instance.CalendarMarking;
 import freemind.controller.actions.generated.instance.CalendarMarkings;
@@ -271,7 +271,7 @@ class TimeManagementBehaviourTest {
 	}
 
 	private Action action(String name) throws Exception {
-		Class<?> type = Class.forName("accessories.plugins.time.TimeManagement$" + name);
+		Class<?> type = Class.forName("freemind.modes.mindmapmode.commands.time.TimeManagement$" + name);
 		Constructor<?> constructor = type.getDeclaredConstructor(TimeManagement.class);
 		constructor.setAccessible(true);
 		return (Action) constructor.newInstance(management);

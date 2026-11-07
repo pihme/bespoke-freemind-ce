@@ -29,7 +29,7 @@ import java.util.Properties;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.ChangeNodeLevelAction;
+import freemind.modes.mindmapmode.commands.ChangeNodeLevelAction;
 import freemind.modes.MindMapNode;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;

@@ -34,8 +34,8 @@ import javax.swing.JMenuItem;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.time.TimeManagement;
-import accessories.plugins.time.TimeManagementOrganizer;
+import freemind.modes.mindmapmode.commands.time.TimeManagement;
+import freemind.modes.mindmapmode.commands.time.TimeManagementOrganizer;
 import freemind.modes.MindMapNode;
 import freemind.modes.common.plugins.ReminderHookBase;
 import freemind.modes.mindmapmode.actions.NodeHookAction;

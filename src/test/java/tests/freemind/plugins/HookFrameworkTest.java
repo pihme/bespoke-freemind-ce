@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import freemind.modes.mindmapmode.commands.MenuCommands;
 import freemind.modes.mindmapmode.hooks.BuiltInHooks;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -166,13 +167,25 @@ class HookFrameworkTest {
     @Test
     @DisplayName("Built-in hooks replace the plugin XML loader")
     void builtInHooksReplaceThePluginLoader() {
-        assertTrue(BuiltInHooks.hooks().size() >= 10);
+        assertEquals(Set.of(
+                "accessories/plugins/AutomaticLayout.properties",
+                "accessories/plugins/BlinkingNodeHook.properties",
+                "accessories/plugins/ClonePlugin.properties",
+                "accessories/plugins/CreationModificationPlugin_new.properties",
+                "accessories/plugins/HierarchicalIcons.properties",
+                "accessories/plugins/RevisionPlugin.properties",
+                "plugins/TimeManagementReminder.xml"),
+            BuiltInHooks.hooks().stream().map(hook -> hook.label).collect(Collectors.toSet()));
         for (BuiltInHooks.Hook hook : BuiltInHooks.hooks()) {
             assertTrue(MindMapHook.class.isAssignableFrom(hook.type), hook.label);
         }
         assertFalse(BuiltInHooks.registrations().isEmpty());
         assertThrows(ClassNotFoundException.class,
             () -> Class.forName("freemind.extensions.ImportWizard"));
+        assertFalse(BuiltInHooks.hooks().stream().anyMatch(hook -> hook.label.contains("FitToPage")));
+        assertTrue(MenuCommands.command("accessories/plugins/FitToPage.properties").modeController);
+        assertTrue(MenuCommands.command("accessories/plugins/LogFileViewer.properties").menus
+            .contains("menu_bar/extras/first/logFileViewer"));
     }
 
     // ── PermanentNodeHook interface tests ──

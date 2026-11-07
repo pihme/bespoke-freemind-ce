@@ -32,7 +32,7 @@ import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.time.CalendarMarkingDialog;
+import freemind.modes.mindmapmode.commands.time.CalendarMarkingDialog;
 import tests.freemind.cov.MapFixture;
 
 /** Backwards-compatible calendar-marking dialog under a headless JVM. */

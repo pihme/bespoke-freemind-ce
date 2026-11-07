@@ -1,10 +1,10 @@
 package tests.freemind.plugins;
 
-import accessories.plugins.AutomaticLayout;
-import accessories.plugins.ImportMindmanagerFiles;
-import accessories.plugins.NodeNote;
-import accessories.plugins.time.FlatNodeTableFilterModel;
-import accessories.plugins.time.ReminderHook;
+import freemind.modes.mindmapmode.features.AutomaticLayout;
+import freemind.modes.mindmapmode.commands.ImportMindmanagerFiles;
+import freemind.modes.mindmapmode.commands.NodeNote;
+import freemind.modes.mindmapmode.commands.time.FlatNodeTableFilterModel;
+import freemind.modes.mindmapmode.features.time.ReminderHook;
 import freemind.common.XmlBindingTools;
 import freemind.controller.actions.generated.instance.XmlAction;
 import freemind.extensions.ModeControllerHookAdapter;

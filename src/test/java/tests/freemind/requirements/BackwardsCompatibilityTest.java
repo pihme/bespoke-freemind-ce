@@ -99,28 +99,28 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.AutomaticLayout;
-import accessories.plugins.util.html.ClickableImageCreator;
-import accessories.plugins.ChangeNodeLevelAction;
-import accessories.plugins.ClonePasteAction;
-import accessories.plugins.ClonePlugin;
-import accessories.plugins.CreationModificationPlugin;
-import accessories.plugins.FitToPage;
-import accessories.plugins.FormatNewNodes;
-import accessories.plugins.FormatPaste;
-import accessories.plugins.JumpLastEditLocation;
-import accessories.plugins.HierarchicalIcons;
-import accessories.plugins.NewParentNode;
-import accessories.plugins.RevisionPlugin;
-import accessories.plugins.SortNodes;
-import accessories.plugins.SplitNode;
-import accessories.plugins.UnfoldAll;
-import accessories.plugins.time.CalendarMarkingEvaluator;
-import accessories.plugins.time.JCalendar;
-import accessories.plugins.time.JDayChooser;
-import accessories.plugins.time.JSpinField;
-import accessories.plugins.time.JTripleCalendar;
-import accessories.plugins.time.TableSorter;
+import freemind.modes.mindmapmode.features.AutomaticLayout;
+import freemind.modes.mindmapmode.commands.html.ClickableImageCreator;
+import freemind.modes.mindmapmode.commands.ChangeNodeLevelAction;
+import freemind.modes.mindmapmode.commands.ClonePasteAction;
+import freemind.modes.mindmapmode.features.Clone;
+import freemind.modes.mindmapmode.features.CreationModification;
+import freemind.modes.mindmapmode.commands.FitToPage;
+import freemind.modes.mindmapmode.commands.FormatNewNodes;
+import freemind.modes.mindmapmode.commands.FormatPaste;
+import freemind.modes.mindmapmode.commands.JumpLastEditLocation;
+import freemind.modes.mindmapmode.features.HierarchicalIcons;
+import freemind.modes.mindmapmode.commands.NewParentNode;
+import freemind.modes.mindmapmode.features.Revision;
+import freemind.modes.mindmapmode.commands.SortNodes;
+import freemind.modes.mindmapmode.commands.SplitNode;
+import freemind.modes.mindmapmode.commands.UnfoldAll;
+import freemind.modes.mindmapmode.commands.time.CalendarMarkingEvaluator;
+import freemind.modes.mindmapmode.commands.time.JCalendar;
+import freemind.modes.mindmapmode.commands.time.JDayChooser;
+import freemind.modes.mindmapmode.commands.time.JSpinField;
+import freemind.modes.mindmapmode.commands.time.JTripleCalendar;
+import freemind.modes.mindmapmode.commands.time.TableSorter;
 import freemind.common.ComboProperty;
 import freemind.common.JOptionalSplitPane;
 import freemind.common.NumberProperty;
@@ -505,12 +505,12 @@ class BackwardsCompatibilityTest {
 		XMLElement xml = new XMLElement();
 		XMLElement parameters = new XMLElement();
 		parameters.setName("Parameters");
-		parameters.setAttribute(ClonePlugin.XML_STORAGE_CLONES, "alpha,beta,");
-		parameters.setAttribute(ClonePlugin.XML_STORAGE_CLONE_ID, "id-1");
-		parameters.setAttribute(ClonePlugin.XML_STORAGE_CLONE_ITSELF, ClonePlugin.CLONE_ITSELF_TRUE);
+		parameters.setAttribute(Clone.XML_STORAGE_CLONES, "alpha,beta,");
+		parameters.setAttribute(Clone.XML_STORAGE_CLONE_ID, "id-1");
+		parameters.setAttribute(Clone.XML_STORAGE_CLONE_ITSELF, Clone.CLONE_ITSELF_TRUE);
 		xml.addChild(parameters);
 
-		ClonePlugin plugin = new ClonePlugin();
+		Clone plugin = new Clone();
 		plugin.loadFrom(xml);
 
 		assertEquals("alpha,beta,", plugin.getCloneIdsAsString());
@@ -852,11 +852,11 @@ class BackwardsCompatibilityTest {
 
 	@Test
 	void revisionPluginColorsAnEditedNode() throws Exception {
-		Field alreadyUsed = RevisionPlugin.class.getDeclaredField("alreadyUsed");
+		Field alreadyUsed = Revision.class.getDeclaredField("alreadyUsed");
 		alreadyUsed.setAccessible(true);
 		alreadyUsed.setBoolean(null, false);
 		Opened opened = openMap("Edited");
-		RevisionPlugin hook = new RevisionPlugin();
+		Revision hook = new Revision();
 		bind(hook, opened, new Properties());
 		hook.invoke(opened.root);
 
@@ -890,7 +890,7 @@ class BackwardsCompatibilityTest {
 	@Test
 	void creationModificationStoresATooltip() throws Exception {
 		Opened opened = openMap("Dated");
-		CreationModificationPlugin hook = new CreationModificationPlugin();
+		CreationModification hook = new CreationModification();
 		hook.setName("created");
 		Properties properties = new Properties();
 		properties.setProperty("tooltip_format", "created {0,date}");
@@ -2308,8 +2308,8 @@ class BackwardsCompatibilityTest {
 			assertSame(untouched, cloneFiltered(registration, untouched));
 
 			String cloneId = registration.generateNewCloneId(null);
-			ClonePlugin first = clonePlugin(opened, alpha);
-			ClonePlugin second = clonePlugin(opened, beta);
+			Clone first = clonePlugin(opened, alpha);
+			Clone second = clonePlugin(opened, beta);
 			assertTrue(registration.registerClone(cloneId, first));
 			assertFalse(registration.registerClone(cloneId, second));
 
@@ -2381,7 +2381,7 @@ class BackwardsCompatibilityTest {
 
 			HookNodeAction hookAction = new HookNodeAction();
 			hookAction.setNode(childAId);
-			hookAction.setHookName(ClonePlugin.PLUGIN_LABEL);
+			hookAction.setHookName(Clone.PLUGIN_LABEL);
 			NodeListMember hookMember = new NodeListMember();
 			hookMember.setNode(childAId);
 			hookAction.addNodeListMember(hookMember);
@@ -2389,7 +2389,7 @@ class BackwardsCompatibilityTest {
 			HookNodeAction copiedHook = (HookNodeAction) hookCompound.getListChoiceList().get(0);
 			assertEquals(childBId, copiedHook.getNode());
 			assertEquals(childBId, copiedHook.getNodeListMember(0).getNode());
-			assertEquals(ClonePlugin.PLUGIN_LABEL, copiedHook.getHookName());
+			assertEquals(Clone.PLUGIN_LABEL, copiedHook.getHookName());
 
 			CompoundAction outer = new CompoundAction();
 			FoldAction inner = new FoldAction();
@@ -2437,24 +2437,24 @@ class BackwardsCompatibilityTest {
 			assertTrue(markedNodes.isEmpty());
 			registration.onFocusNode(opened.view.getNodeView(childA));
 			assertTrue(markedNodes.contains(childB));
-			assertTrue(((NodeAdapter) childB).getStateIcons().containsKey(ClonePlugin.PLUGIN_LABEL));
+			assertTrue(((NodeAdapter) childB).getStateIcons().containsKey(Clone.PLUGIN_LABEL));
 			registration.onLostFocusNode(opened.view.getNodeView(childA));
 			assertTrue(markedNodes.isEmpty());
-			assertFalse(((NodeAdapter) childB).getStateIcons().containsKey(ClonePlugin.PLUGIN_LABEL));
+			assertFalse(((NodeAdapter) childB).getStateIcons().containsKey(Clone.PLUGIN_LABEL));
 		} finally {
 			registration.deRegister();
 		}
 
-		ClonePlugin stored = clonePlugin(opened, alpha);
+		Clone stored = clonePlugin(opened, alpha);
 		XMLElement raw = new XMLElement();
 		XMLElement parameters = new XMLElement();
 		parameters.setName("Parameters");
-		parameters.setAttribute(ClonePlugin.XML_STORAGE_CLONES, betaId + ",missing-id");
-		parameters.setAttribute(ClonePlugin.XML_STORAGE_CLONE_ID, "CLONE_saved");
-		parameters.setAttribute(ClonePlugin.XML_STORAGE_CLONE_ITSELF, ClonePlugin.CLONE_ITSELF_TRUE);
+		parameters.setAttribute(Clone.XML_STORAGE_CLONES, betaId + ",missing-id");
+		parameters.setAttribute(Clone.XML_STORAGE_CLONE_ID, "CLONE_saved");
+		parameters.setAttribute(Clone.XML_STORAGE_CLONE_ITSELF, Clone.CLONE_ITSELF_TRUE);
 		raw.addChild(parameters);
 		stored.loadFrom(raw);
-		Method clonesOf = ClonePlugin.class.getDeclaredMethod("getCloneNodes");
+		Method clonesOf = Clone.class.getDeclaredMethod("getCloneNodes");
 		clonesOf.setAccessible(true);
 		@SuppressWarnings("unchecked")
 		HashSet<MindMapNode> clones = (HashSet<MindMapNode>) clonesOf.invoke(stored);
@@ -2471,20 +2471,20 @@ class BackwardsCompatibilityTest {
 
 		ClonePasteAction.CloneProperties properties = new ClonePasteAction.CloneProperties();
 		properties.setCloneItself(true);
-		Field holder = ClonePlugin.class.getDeclaredField("mClonePropertiesHolder");
+		Field holder = Clone.class.getDeclaredField("mClonePropertiesHolder");
 		holder.setAccessible(true);
 		holder.set(stored, properties);
-		stored.setName(ClonePlugin.PLUGIN_LABEL);
+		stored.setName(Clone.PLUGIN_LABEL);
 		XMLElement saved = new XMLElement();
 		stored.save(saved);
-		assertEquals(ClonePlugin.PLUGIN_LABEL, saved.getStringAttribute("name"));
+		assertEquals(Clone.PLUGIN_LABEL, saved.getStringAttribute("name"));
 		XMLElement written = (XMLElement) saved.getChildren().get(0);
-		assertEquals(ClonePlugin.CLONE_ITSELF_TRUE, written.getStringAttribute(ClonePlugin.XML_STORAGE_CLONE_ITSELF));
-		assertEquals("CLONE_saved", written.getStringAttribute(ClonePlugin.XML_STORAGE_CLONE_ID));
-		assertTrue(written.getStringAttribute(ClonePlugin.XML_STORAGE_CLONES).contains(betaId));
+		assertEquals(Clone.CLONE_ITSELF_TRUE, written.getStringAttribute(Clone.XML_STORAGE_CLONE_ITSELF));
+		assertEquals("CLONE_saved", written.getStringAttribute(Clone.XML_STORAGE_CLONE_ID));
+		assertTrue(written.getStringAttribute(Clone.XML_STORAGE_CLONES).contains(betaId));
 		properties.setCloneItself(false);
 		stored.propertiesChanged(properties);
-		Field itself = ClonePlugin.class.getDeclaredField("mCloneItself");
+		Field itself = Clone.class.getDeclaredField("mCloneItself");
 		itself.setAccessible(true);
 		assertEquals(Boolean.FALSE, itself.get(stored));
 	}
@@ -2790,8 +2790,8 @@ class BackwardsCompatibilityTest {
 			assertTrue(registration.getCorrespondingNodes(childA, false).isEmpty());
 			String cloneId = registration.generateNewCloneId(null);
 			assertTrue(cloneId.startsWith("CLONE_"), cloneId);
-			ClonePlugin first = clonePlugin(opened, alpha);
-			ClonePlugin second = clonePlugin(opened, beta);
+			Clone first = clonePlugin(opened, alpha);
+			Clone second = clonePlugin(opened, beta);
 			assertTrue(registration.registerClone(cloneId, first));
 			assertFalse(registration.registerClone(cloneId, second));
 
@@ -4170,8 +4170,8 @@ class BackwardsCompatibilityTest {
 		return registration.filterAction(new ActionPair(action, new FoldAction())).getDoAction();
 	}
 
-	private static ClonePlugin clonePlugin(Opened opened, MindMapNode node) {
-		ClonePlugin plugin = new ClonePlugin();
+	private static Clone clonePlugin(Opened opened, MindMapNode node) {
+		Clone plugin = new Clone();
 		plugin.setController(opened.mode);
 		plugin.setNode(node);
 		XMLElement xml = new XMLElement();

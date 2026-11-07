@@ -39,7 +39,7 @@ import javax.swing.JPanel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.SortNodes;
+import freemind.modes.mindmapmode.commands.SortNodes;
 
 import freemind.controller.Controller;
 import freemind.main.HeadlessFreeMind;

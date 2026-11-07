@@ -20,8 +20,8 @@
 
 package freemind.extensions;
 
-import accessories.plugins.ApplyFormatPlugin;
-import accessories.plugins.AutomaticLayout;
+import freemind.modes.mindmapmode.commands.ApplyFormat;
+import freemind.modes.mindmapmode.features.AutomaticLayout;
 import freemind.modes.MindMap;
 import freemind.modes.MindMapNode;
 
@@ -37,7 +37,7 @@ import freemind.modes.MindMapNode;
  * </ol>
  * Examples are
  * <ul>
- * <li> {@link ApplyFormatPlugin}: non-permanent
+ * <li> {@link ApplyFormat}: non-permanent
  * <li> {@link AutomaticLayout}: a permanent hook that formats the node depending on its depth.
  * </ul>
  *

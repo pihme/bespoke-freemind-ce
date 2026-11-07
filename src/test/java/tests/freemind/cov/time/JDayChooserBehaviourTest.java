@@ -44,9 +44,9 @@ import javax.swing.JButton;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.time.JDayChooser;
-import accessories.plugins.time.JMonthChooser;
-import accessories.plugins.time.JYearChooser;
+import freemind.modes.mindmapmode.commands.time.JDayChooser;
+import freemind.modes.mindmapmode.commands.time.JMonthChooser;
+import freemind.modes.mindmapmode.commands.time.JYearChooser;
 import freemind.common.XmlBindingTools;
 import freemind.controller.actions.generated.instance.CalendarMarking;
 import freemind.controller.actions.generated.instance.CalendarMarkings;

@@ -32,9 +32,9 @@ import javax.swing.JMenuItem;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.ClonePasteAction;
-import accessories.plugins.ClonePlugin;
-import accessories.plugins.DeactivateCloneAction;
+import freemind.modes.mindmapmode.commands.ClonePasteAction;
+import freemind.modes.mindmapmode.features.Clone;
+import freemind.modes.mindmapmode.commands.DeactivateCloneAction;
 import freemind.extensions.MindMapHook.PluginBaseClassSearcher;
 import freemind.modes.MindMapNode;
 import freemind.modes.mindmapmode.actions.NodeHookAction;
@@ -53,10 +53,10 @@ class DeactivateCloneActionBehaviourTest {
 		select(opened, alpha);
 		ClonePasteAction.Registration registration = install(opened);
 		Properties properties = new Properties();
-		properties.setProperty(ClonePlugin.XML_STORAGE_CLONE_ID, "CLONE_off");
-		properties.setProperty(ClonePlugin.XML_STORAGE_CLONE_ITSELF, ClonePlugin.CLONE_ITSELF_FALSE);
-		opened.mode.addHook(alpha, Collections.singletonList(alpha), ClonePlugin.PLUGIN_LABEL, properties);
-		assertTrue(ClonePlugin.getHook(alpha) != null);
+		properties.setProperty(Clone.XML_STORAGE_CLONE_ID, "CLONE_off");
+		properties.setProperty(Clone.XML_STORAGE_CLONE_ITSELF, Clone.CLONE_ITSELF_FALSE);
+		opened.mode.addHook(alpha, Collections.singletonList(alpha), Clone.PLUGIN_LABEL, properties);
+		assertTrue(Clone.getHook(alpha) != null);
 		Exposed action = new Exposed();
 		action.setController(opened.mode);
 		action.setMap(opened.mode.getMap());
@@ -70,7 +70,7 @@ class DeactivateCloneActionBehaviourTest {
 
 		action.invoke(alpha);
 
-		assertNull(ClonePlugin.getHook(alpha));
+		assertNull(Clone.getHook(alpha));
 		assertFalse(action.isEnabled(new JMenuItem(), new NodeHookAction("other", opened.mode)));
 	}
 
@@ -92,7 +92,7 @@ class DeactivateCloneActionBehaviourTest {
 
 		assertFalse(action.isEnabled(new JMenuItem(), new NodeHookAction("other", opened.mode)));
 		action.invoke(plain);
-		assertNull(ClonePlugin.getHook(plain));
+		assertNull(Clone.getHook(plain));
 		assertEqualsText(plain, "Plain");
 	}
 

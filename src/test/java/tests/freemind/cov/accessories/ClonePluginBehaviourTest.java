@@ -36,8 +36,8 @@ import java.util.Properties;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.ClonePasteAction;
-import accessories.plugins.ClonePlugin;
+import freemind.modes.mindmapmode.commands.ClonePasteAction;
+import freemind.modes.mindmapmode.features.Clone;
 import freemind.extensions.MindMapHook.PluginBaseClassSearcher;
 import freemind.main.Tools;
 import freemind.main.XMLElement;
@@ -56,24 +56,24 @@ class ClonePluginBehaviourTest {
 		MindMapNode alpha = opened.child("Alpha");
 		MindMapNode beta = opened.child("Beta");
 		install(opened);
-		opened.mode.addHook(alpha, Collections.singletonList(alpha), ClonePlugin.PLUGIN_LABEL,
+		opened.mode.addHook(alpha, Collections.singletonList(alpha), Clone.PLUGIN_LABEL,
 				properties(opened, beta));
-		ClonePlugin hook = ClonePlugin.getHook(alpha);
+		Clone hook = Clone.getHook(alpha);
 		assertEquals("CLONE_link", hook.getCloneId());
-		assertNull(ClonePlugin.getHook(null));
+		assertNull(Clone.getHook(null));
 
 		hook.processUnfinishedLinks();
-		assertNotNull(ClonePlugin.getHook(beta));
+		assertNotNull(Clone.getHook(beta));
 		assertTrue(hook.getCloneIdsAsString().contains(opened.mode.getNodeID(beta)), hook.getCloneIdsAsString());
 
-		Method itself = ClonePlugin.class.getDeclaredMethod("getCloneItselfValue");
+		Method itself = Clone.class.getDeclaredMethod("getCloneItselfValue");
 		itself.setAccessible(true);
-		assertEquals(ClonePlugin.CLONE_ITSELF_FALSE, itself.invoke(hook));
-		Method printId = ClonePlugin.class.getDeclaredMethod("printNodeId", MindMapNode.class);
+		assertEquals(Clone.CLONE_ITSELF_FALSE, itself.invoke(hook));
+		Method printId = Clone.class.getDeclaredMethod("printNodeId", MindMapNode.class);
 		printId.setAccessible(true);
 		assertTrue(printId.invoke(hook, alpha).toString().contains("Alpha"));
 		assertTrue(printId.invoke(hook, new Object[] { null }).toString().startsWith("NOT FOUND"));
-		Method printIds = ClonePlugin.class.getDeclaredMethod("printNodeIds", java.util.Collection.class);
+		Method printIds = Clone.class.getDeclaredMethod("printNodeIds", java.util.Collection.class);
 		printIds.setAccessible(true);
 		String printed = printIds.invoke(hook, java.util.List.of(alpha)).toString();
 		assertTrue(printed.contains("Alpha"), printed);
@@ -82,10 +82,10 @@ class ClonePluginBehaviourTest {
 		hook.onPostDeleteNode(alpha, opened.root);
 		assertEquals("CLONE_link", hook.getCloneId());
 
-		ClonePlugin partner = ClonePlugin.getHook(beta);
+		Clone partner = Clone.getHook(beta);
 		partner.removeClone(alpha);
-		assertNull(ClonePlugin.getHook(beta));
-		assertNull(ClonePlugin.getHook(alpha));
+		assertNull(Clone.getHook(beta));
+		assertNull(Clone.getHook(alpha));
 		assertEquals("CLONE_link", hook.getCloneId());
 	}
 
@@ -97,18 +97,18 @@ class ClonePluginBehaviourTest {
 		MindMapNode nested = new MindMapNodeModel("Nested", opened.mode.getMap());
 		keeper.insert(nested, 0);
 		ClonePasteAction.Registration registration = install(opened);
-		ClonePlugin plugin = manual(opened, nested, registration);
+		Clone plugin = manual(opened, nested, registration);
 		XMLElement raw = stored(opened.mode.getNodeID(keeper));
 		plugin.loadFrom(raw);
 		assertThrows(HeadlessException.class, () -> plugin.invoke(nested));
-		Field disabled = ClonePlugin.class.getDeclaredField("mDisabled");
+		Field disabled = Clone.class.getDeclaredField("mDisabled");
 		disabled.setAccessible(true);
 		assertTrue(disabled.getBoolean(plugin));
-		assertNull(ClonePlugin.getHook(nested));
+		assertNull(Clone.getHook(nested));
 
-		opened.mode.addHook(keeper, Collections.singletonList(keeper), ClonePlugin.PLUGIN_LABEL,
+		opened.mode.addHook(keeper, Collections.singletonList(keeper), Clone.PLUGIN_LABEL,
 				properties(opened, keeper));
-		ClonePlugin live = ClonePlugin.getHook(keeper);
+		Clone live = Clone.getHook(keeper);
 		live.addClone(nested);
 		assertTrue(live.getCloneIdsAsString().contains(opened.mode.getNodeID(nested)));
 		live.onCreateNodeHook(opened.root);
@@ -117,7 +117,7 @@ class ClonePluginBehaviourTest {
 		live.shutdownMapHook();
 		List<Tools.MindMapNodePair> pairs = registration.getCorrespondingNodes(keeper, false);
 		assertTrue(pairs.isEmpty());
-		assertFalse(keeper.getStateIcons().containsKey(ClonePlugin.PLUGIN_LABEL));
+		assertFalse(keeper.getStateIcons().containsKey(Clone.PLUGIN_LABEL));
 	}
 
 	private static ClonePasteAction.Registration install(Opened opened) throws Exception {
@@ -128,13 +128,13 @@ class ClonePluginBehaviourTest {
 		return registration;
 	}
 
-	private static ClonePlugin manual(Opened opened, MindMapNode node,
+	private static Clone manual(Opened opened, MindMapNode node,
 			ClonePasteAction.Registration registration) {
-		ClonePlugin plugin = new ClonePlugin();
+		Clone plugin = new Clone();
 		plugin.setController(opened.mode);
 		plugin.setMap(opened.mode.getMap());
 		plugin.setNode(node);
-		plugin.setName(ClonePlugin.PLUGIN_LABEL);
+		plugin.setName(Clone.PLUGIN_LABEL);
 		plugin.setPluginBaseClass(new PluginBaseClassSearcher() {
 			public Object getPluginBaseObject() {
 				return registration;
@@ -147,18 +147,18 @@ class ClonePluginBehaviourTest {
 		XMLElement raw = new XMLElement();
 		XMLElement parameters = new XMLElement();
 		parameters.setName("Parameters");
-		parameters.setAttribute(ClonePlugin.XML_STORAGE_CLONES, cloneId);
-		parameters.setAttribute(ClonePlugin.XML_STORAGE_CLONE_ID, "CLONE_chain");
-		parameters.setAttribute(ClonePlugin.XML_STORAGE_CLONE_ITSELF, ClonePlugin.CLONE_ITSELF_FALSE);
+		parameters.setAttribute(Clone.XML_STORAGE_CLONES, cloneId);
+		parameters.setAttribute(Clone.XML_STORAGE_CLONE_ID, "CLONE_chain");
+		parameters.setAttribute(Clone.XML_STORAGE_CLONE_ITSELF, Clone.CLONE_ITSELF_FALSE);
 		raw.addChild(parameters);
 		return raw;
 	}
 
 	private static Properties properties(Opened opened, MindMapNode other) {
 		Properties properties = new Properties();
-		properties.setProperty(ClonePlugin.XML_STORAGE_CLONE_ID, "CLONE_link");
-		properties.setProperty(ClonePlugin.XML_STORAGE_CLONE_ITSELF, ClonePlugin.CLONE_ITSELF_FALSE);
-		properties.setProperty(ClonePlugin.XML_STORAGE_CLONES, opened.mode.getNodeID(other));
+		properties.setProperty(Clone.XML_STORAGE_CLONE_ID, "CLONE_link");
+		properties.setProperty(Clone.XML_STORAGE_CLONE_ITSELF, Clone.CLONE_ITSELF_FALSE);
+		properties.setProperty(Clone.XML_STORAGE_CLONES, opened.mode.getNodeID(other));
 		return properties;
 	}
 }

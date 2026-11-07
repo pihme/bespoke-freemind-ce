@@ -170,6 +170,7 @@ import freemind.modes.mindmapmode.actions.IconAction;
 import freemind.modes.mindmapmode.actions.ImportExplorerFavoritesAction;
 import freemind.modes.mindmapmode.actions.ItalicAction;
 import freemind.modes.mindmapmode.actions.JoinNodesAction;
+import freemind.modes.mindmapmode.actions.MenuCommandAction;
 import freemind.modes.mindmapmode.actions.MindMapControllerHookAction;
 import freemind.modes.mindmapmode.actions.MindmapAction;
 import freemind.modes.mindmapmode.actions.MoveNodeAction;
@@ -208,6 +209,7 @@ import freemind.modes.mindmapmode.actions.xml.ActionRegistry;
 import freemind.modes.mindmapmode.actions.xml.DefaultActionHandler;
 import freemind.modes.mindmapmode.actions.xml.UndoActionHandler;
 import freemind.modes.mindmapmode.actions.xml.actors.XmlActorFactory;
+import freemind.modes.mindmapmode.commands.MenuCommands;
 import freemind.modes.mindmapmode.hooks.MindMapHookFactory;
 import freemind.modes.mindmapmode.listeners.MindMapMouseMotionManager;
 import freemind.modes.mindmapmode.listeners.MindMapNodeDropListener;
@@ -361,6 +363,7 @@ public class MindMapController extends ControllerAdapter implements
 
 	private ActionRegistry actionFactory;
 	private Vector<HookAction> hookActions;
+	private Vector<MenuCommandAction> menuCommandActions;
 	// Mode mode;
 	private MindMapPopupMenu popupmenu;
 	// private JToolBar toolbar;
@@ -506,6 +509,7 @@ public class MindMapController extends ControllerAdapter implements
 		logger.info("createNodeHookActions");
 		// node hook actions:
 		createNodeHookActions();
+		createMenuCommandActions();
 
 		logger.info("mindmap_menus");
 		// load menus:
@@ -925,6 +929,15 @@ public class MindMapController extends ControllerAdapter implements
 		}
 	}
 
+	private void createMenuCommandActions() {
+		if (menuCommandActions == null) {
+			menuCommandActions = new Vector<>();
+			for (MenuCommands.Command command : MenuCommands.commands()) {
+				menuCommandActions.add(new MenuCommandAction(command, this));
+			}
+		}
+	}
+
 	public FileFilter getFileFilter() {
 		return filefilter;
 	}
@@ -1058,6 +1071,12 @@ public class MindMapController extends ControllerAdapter implements
 			List<String> hookMenuPositions = hookFactory.getHookMenuPositions(hookName);
 			for (String pos : hookMenuPositions) {
 				holder.addMenuItem(hookFactory.getMenuItem(hookName, hookAction), pos);
+			}
+		}
+		for (MenuCommandAction commandAction : menuCommandActions) {
+			MenuCommands.decorate(commandAction.command(), commandAction);
+			for (String pos : commandAction.command().menus) {
+				holder.addMenuItem(MenuCommands.menuItem(commandAction.command(), commandAction), pos);
 			}
 		}
 		// update popup and toolbar:
@@ -1285,6 +1304,9 @@ public class MindMapController extends ControllerAdapter implements
 		// hooks:
 		for (int i = 0; i < hookActions.size(); ++i) {
 			((Action) hookActions.get(i)).setEnabled(enabled);
+		}
+		for (MenuCommandAction commandAction : menuCommandActions) {
+			commandAction.setEnabled(enabled);
 		}
 		cut.setEnabled(enabled);
 		copy.setEnabled(enabled);

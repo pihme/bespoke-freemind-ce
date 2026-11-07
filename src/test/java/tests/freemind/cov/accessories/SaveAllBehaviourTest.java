@@ -30,7 +30,7 @@ import java.util.Properties;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.SaveAll;
+import freemind.modes.mindmapmode.commands.SaveAll;
 import freemind.view.MapModule;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;

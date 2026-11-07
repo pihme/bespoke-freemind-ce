@@ -28,7 +28,7 @@ import java.util.Properties;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.CreationModificationPlugin;
+import freemind.modes.mindmapmode.features.CreationModification;
 import freemind.modes.MindMapNode;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
@@ -43,7 +43,7 @@ class CreationModificationPluginBehaviourTest {
 		MindMapNode child = opened.child("Dated");
 		MindMapNode grand = opened.mode.addNewNode(child, 0, false);
 		opened.mode.setNodeText(grand, "Grand");
-		CreationModificationPlugin hook = new CreationModificationPlugin();
+		CreationModification hook = new CreationModification();
 		hook.setName("created");
 		hook.setController(opened.mode);
 		hook.setMap(opened.mode.getMap());

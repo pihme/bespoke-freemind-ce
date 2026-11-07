@@ -38,8 +38,8 @@ import javax.swing.border.LineBorder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.time.JCalendar;
-import accessories.plugins.time.JTripleCalendar;
+import freemind.modes.mindmapmode.commands.time.JCalendar;
+import freemind.modes.mindmapmode.commands.time.JTripleCalendar;
 
 /** Backwards-compatible twelve-month panel without a frame. */
 @DisplayName("JTripleCalendarBehaviourTest")

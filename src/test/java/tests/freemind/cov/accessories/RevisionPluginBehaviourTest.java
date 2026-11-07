@@ -29,7 +29,7 @@ import java.util.Properties;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.RevisionPlugin;
+import freemind.modes.mindmapmode.features.Revision;
 import freemind.modes.MindMapNode;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
@@ -40,11 +40,11 @@ class RevisionPluginBehaviourTest {
 	// backwards compatibility
 	@Test
 	void shutdownStopsColoringLaterEdits() throws Exception {
-		Field alreadyUsed = RevisionPlugin.class.getDeclaredField("alreadyUsed");
+		Field alreadyUsed = Revision.class.getDeclaredField("alreadyUsed");
 		alreadyUsed.setAccessible(true);
 		alreadyUsed.setBoolean(null, false);
 		Opened opened = MapFixture.open("Edited", "Later");
-		RevisionPlugin hook = new RevisionPlugin();
+		Revision hook = new Revision();
 		hook.setController(opened.mode);
 		hook.setMap(opened.mode.getMap());
 		hook.setProperties(new Properties());

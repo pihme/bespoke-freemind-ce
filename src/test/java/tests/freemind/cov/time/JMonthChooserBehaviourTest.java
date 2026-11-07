@@ -43,9 +43,9 @@ import javax.swing.event.ChangeEvent;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.time.JDayChooser;
-import accessories.plugins.time.JMonthChooser;
-import accessories.plugins.time.JYearChooser;
+import freemind.modes.mindmapmode.commands.time.JDayChooser;
+import freemind.modes.mindmapmode.commands.time.JMonthChooser;
+import freemind.modes.mindmapmode.commands.time.JYearChooser;
 
 /** Backwards-compatible month wrap, locale names, and spinner. */
 @DisplayName("JMonthChooserBehaviourTest")

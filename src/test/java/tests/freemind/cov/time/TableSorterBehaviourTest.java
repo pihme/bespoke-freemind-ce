@@ -43,7 +43,7 @@ import javax.swing.table.TableModel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.time.TableSorter;
+import freemind.modes.mindmapmode.commands.time.TableSorter;
 
 /** Backwards-compatible header sorting and comparators. */
 @DisplayName("TableSorterBehaviourTest")

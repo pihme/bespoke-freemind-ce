@@ -64,8 +64,8 @@ import org.mockito.Mockito;
 
 import com.lightdev.app.shtm.SHTMLPanel;
 
-import accessories.plugins.NodeNote;
-import accessories.plugins.NodeNoteRegistration;
+import freemind.modes.mindmapmode.commands.NodeNote;
+import freemind.modes.mindmapmode.commands.NodeNoteRegistration;
 import freemind.main.FreeMind;
 import freemind.main.FreeMindMain;
 import freemind.main.Resources;
@@ -363,7 +363,7 @@ class NodeNoteRegistrationBehaviourTest {
 	}
 
 	private static boolean spaceOrAltIsHandled() throws Exception {
-		Class<?> south = Class.forName("accessories.plugins.NodeNoteRegistration$SouthPanel");
+		Class<?> south = Class.forName("freemind.modes.mindmapmode.commands.NodeNoteRegistration$SouthPanel");
 		Constructor<?> constructor = south.getDeclaredConstructor();
 		constructor.setAccessible(true);
 		JComponent panel = (JComponent) constructor.newInstance();

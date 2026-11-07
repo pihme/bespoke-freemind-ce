@@ -56,11 +56,11 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import accessories.plugins.dialogs.ChooseFormatPopupDialog;
-import accessories.plugins.dialogs.ManagePatternsPopupDialog;
-import accessories.plugins.time.CalendarMarkingDialog;
-import accessories.plugins.time.TimeList;
-import accessories.plugins.time.TimeManagement;
+import freemind.modes.mindmapmode.commands.dialogs.ChooseFormatPopupDialog;
+import freemind.modes.mindmapmode.commands.dialogs.ManagePatternsPopupDialog;
+import freemind.modes.mindmapmode.commands.time.CalendarMarkingDialog;
+import freemind.modes.mindmapmode.commands.time.TimeList;
+import freemind.modes.mindmapmode.commands.time.TimeManagement;
 import freemind.common.TextTranslator;
 import freemind.controller.MenuBar;
 import freemind.controller.actions.generated.instance.Pattern;

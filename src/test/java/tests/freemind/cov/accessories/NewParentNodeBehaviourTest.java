@@ -33,7 +33,7 @@ import java.util.Properties;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.NewParentNode;
+import freemind.modes.mindmapmode.commands.NewParentNode;
 import freemind.modes.MindMapNode;
 import freemind.modes.mindmapmode.MindMapNodeModel;
 import tests.freemind.cov.MapFixture;

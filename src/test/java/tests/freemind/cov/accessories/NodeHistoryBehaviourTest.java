@@ -35,7 +35,7 @@ import javax.swing.JMenuItem;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import accessories.plugins.NodeHistory;
+import freemind.modes.mindmapmode.commands.NodeHistory;
 import freemind.modes.MindMapNode;
 import freemind.modes.mindmapmode.actions.NodeHookAction;
 import freemind.view.mindmapview.NodeView;
@@ -115,7 +115,7 @@ class NodeHistoryBehaviourTest {
 		registration.onFocusNode(alphaView);
 		registration.onFocusNode(betaView);
 		setPosition(1);
-		Field name = Class.forName("accessories.plugins.NodeHistory$NodeHolder").getDeclaredField("mMapModuleName");
+		Field name = Class.forName("freemind.modes.mindmapmode.commands.NodeHistory$NodeHolder").getDeclaredField("mMapModuleName");
 		name.setAccessible(true);
 		Vector<?> vector = vector();
 		name.set(vector.get(1), "closed-map");
