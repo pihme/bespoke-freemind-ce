@@ -55,8 +55,11 @@ import java.util.ListIterator;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
+import java.util.function.BiConsumer;
 
 import javax.swing.JComponent;
+import javax.swing.event.TreeModelEvent;
+import javax.swing.event.TreeModelListener;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
@@ -293,6 +296,7 @@ public class MapView extends JPanel implements ViewAbstraction, Autoscroll {
 	public MapView(MindMap model, ViewFeedback pFeedback) {
 		super();
 		this.model = model;
+		model.addTreeModelListener(pictureUpdates);
 		mFeedback = pFeedback;
 		logger = Resources.getInstance().getLogger(this.getClass().getName());
 		mCenterNodeTimer = new Timer();
@@ -1656,7 +1660,6 @@ public class MapView extends JPanel implements ViewAbstraction, Autoscroll {
 
 	public void addViewer(MindMapNode pNode, NodeView viewer) {
 		getViewers(pNode).add(viewer);
-		pNode.addTreeModelListener(viewer);
 	}
 
 	public void removeViewer(MindMapNode pNode, NodeView viewer) {
@@ -1665,7 +1668,44 @@ public class MapView extends JPanel implements ViewAbstraction, Autoscroll {
 		if(viewers.isEmpty()) {
 			views.remove(pNode);
 		}
-		pNode.removeTreeModelListener(viewer);
+	}
+
+	private final TreeModelListener pictureUpdates = new TreeModelListener() {
+		public void treeNodesChanged(TreeModelEvent event) {
+			updatePictures(event, NodeView::treeNodesChanged);
+		}
+
+		public void treeNodesInserted(TreeModelEvent event) {
+			updatePictures(event, NodeView::treeNodesInserted);
+		}
+
+		public void treeNodesRemoved(TreeModelEvent event) {
+			updatePictures(event, NodeView::treeNodesRemoved);
+		}
+
+		public void treeStructureChanged(TreeModelEvent event) {
+			updatePictures(event, NodeView::treeStructureChanged);
+		}
+	};
+
+	private void updatePictures(TreeModelEvent event,
+			BiConsumer<NodeView, TreeModelEvent> update) {
+		Object[] path = event.getPath();
+		if (path == null || path.length == 0 || views == null) {
+			return;
+		}
+		Object parent = path[path.length - 1];
+		if (!(parent instanceof MindMapNode)) {
+			return;
+		}
+		Vector<NodeView> viewers = views.get(parent);
+		if (viewers == null || viewers.isEmpty()) {
+			return;
+		}
+		NodeView[] copy = viewers.toArray(new NodeView[0]);
+		for (int i = copy.length - 1; i >= 0; i--) {
+			update.accept(copy[i], event);
+		}
 	}
 
 	/*

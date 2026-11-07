@@ -20,12 +20,21 @@
 package tests.freemind.cov.actors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.ActionEvent;
+import java.lang.reflect.Field;
+import java.util.Vector;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import freemind.controller.actions.generated.instance.UndoPasteNodeAction;
 import freemind.modes.MindMapNode;
+import freemind.modes.mindmapmode.MindMapController;
+import freemind.modes.mindmapmode.MindMapNodeModel;
+import freemind.modes.mindmapmode.actions.UndoAction;
 import tests.freemind.cov.MapFixture;
 import tests.freemind.cov.MapFixture.Opened;
 
@@ -46,5 +55,34 @@ class UndoPasteActorBehaviourTest {
 		undo.setNodeAmount(1);
 		opened.mode.getActorFactory().getUndoPasteActor().act(undo);
 		assertEquals(0, leaf.getChildCount());
+	}
+
+	@Test
+	void undoingAClipboardPasteRestoresTheEarlierChildren() throws Exception {
+		Opened opened = MapFixture.open("Keep");
+		assertTrue(opened.mode.paste(new StringSelection("Pasted"),
+				opened.root, false, false));
+		assertEquals(2, opened.root.getChildCount());
+		opened.mode.undo.actionPerformed(new ActionEvent(opened.mode.undo,
+				ActionEvent.ACTION_PERFORMED, "undo"));
+		assertEquals(1, opened.root.getChildCount());
+		assertEquals("Keep", ((MindMapNode) opened.root.getChildAt(0)).getText());
+	}
+
+	@Test
+	void branchImportRecordsNoUndoPair() throws Exception {
+		Opened opened = MapFixture.open("Keep");
+		int before = undoCount(opened.mode);
+		MindMapNode imported = new MindMapNodeModel("Imported", opened.mode.getMap());
+		opened.mode.paste(imported, opened.root);
+		assertEquals(before, undoCount(opened.mode));
+		assertEquals(2, opened.root.getChildCount());
+		assertEquals("Imported", ((MindMapNode) opened.root.getChildAt(1)).getText());
+	}
+
+	private static int undoCount(MindMapController mode) throws Exception {
+		Field field = UndoAction.class.getDeclaredField("actionPairList");
+		field.setAccessible(true);
+		return ((Vector<?>) field.get(mode.undo)).size();
 	}
 }

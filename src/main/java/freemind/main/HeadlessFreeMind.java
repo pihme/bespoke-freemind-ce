@@ -52,7 +52,7 @@ public class HeadlessFreeMind implements FreeMindMain {
 
 	public HeadlessFreeMind() {
 		super();
-		mProperties = new FreeMindStarter().readDefaultPreferences();
+		mProperties = UserSettings.defaults();
 		Resources.createInstance(this);
 	}
 

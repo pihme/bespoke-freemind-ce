@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -55,8 +54,6 @@ public class HtmlTools {
 
 	private static HtmlTools sInstance = new HtmlTools();
 
-	private static final Pattern HTML_PATTERN = Pattern
-			.compile("(?s).*<\\s*html.*?>.*");
 	private static final Pattern FIND_TAGS_PATTERN = Pattern
 			.compile("([^<]*)(<[^>]+>)");
 	private static final Pattern SLASHED_TAGS_PATTERN = Pattern.compile("<(("
@@ -310,7 +307,7 @@ public class HtmlTools {
 	 * Searches for {@code <html>} tag in text.
      */
 	public static boolean isHtmlNode(String text) {
-		return HTML_PATTERN.matcher(text.toLowerCase(Locale.ENGLISH)).matches();
+		return StoredNodeText.isHtml(text);
 	}
 
 	/**

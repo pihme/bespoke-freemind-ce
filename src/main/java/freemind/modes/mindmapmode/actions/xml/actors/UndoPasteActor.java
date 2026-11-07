@@ -20,6 +20,7 @@
 
 package freemind.modes.mindmapmode.actions.xml.actors;
 
+import freemind.controller.actions.generated.instance.DeleteNodeAction;
 import freemind.controller.actions.generated.instance.UndoPasteNodeAction;
 import freemind.controller.actions.generated.instance.XmlAction;
 import freemind.modes.ExtendedMapFeedback;
@@ -56,7 +57,9 @@ public class UndoPasteActor extends XmlActorAdapter {
 				NodeCoordinate coordinate = new NodeCoordinate(selectedNode,
 						undoAction.getAsSibling(), undoAction.getIsLeft());
 				MindMapNode targetNode = coordinate.getNode();
-				getXmlActorFactory().getDeleteChildActor().deleteWithoutUndo(targetNode);
+				DeleteNodeAction deleteAction = getXmlActorFactory().getDeleteChildActor()
+						.getDeleteNodeAction(getNodeID(targetNode));
+				getXmlActorFactory().getDeleteChildActor().act(deleteAction);
 				amount--;
 			}
 		}

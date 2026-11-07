@@ -42,10 +42,8 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.net.Authenticator;
 import java.net.InetAddress;
@@ -524,23 +522,12 @@ public class FreeMind extends JFrame implements FreeMindMain, ActionListener {
 	}
 
 	public String getFreemindDirectory() {
-		return System.getProperty("user.home") + File.separator
-				+ getProperty("properties_folder");
+		return UserSettings.directory(props);
 	}
 
 	public void saveProperties(boolean pIsShutdown) {
 		try {
-			OutputStreamWriter writer = new OutputStreamWriter(
-					new FileOutputStream(autoPropertiesFile),
-					java.nio.charset.StandardCharsets.UTF_8);
-			writer.write("#FreeMind ");
-			writer.write(VERSION.toString());
-			writer.write('\n');
-			writer.flush();
-			//to save as few props as possible.
-			Properties toBeStored = Tools.copyChangedProperties(props, defProps);
-			toBeStored.store(writer, null);
-			writer.close();
+			UserSettings.store(props, defProps, autoPropertiesFile, VERSION.toString());
 		} catch (Exception ex) {
 			Resources.getInstance().logException(ex);
 		}

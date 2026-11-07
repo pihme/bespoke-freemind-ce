@@ -394,4 +394,13 @@ public class MapViewBehaviourTest {
 		bare.centerNode(bare.getRoot());
 	}
 
+	@Test
+	void aNodeChangeUpdatesThePicture() throws Exception {
+		Opened opened = ViewMaps.open("Alpha");
+		MindMapNode alpha = opened.child("Alpha");
+		alpha.setText("Renamed");
+		opened.view.getModel().nodeChanged(alpha);
+		assertEquals("Renamed", opened.view.getNodeView(alpha).getText());
+	}
+
 }

@@ -133,7 +133,7 @@ public class PasteActor extends XmlActorAdapter {
 		return pasteAction;
 	}
 
-	/** URGENT: Change this method. */
+	/** Branch import. Records no undo pair. */
 	public void paste(MindMapNode node, MindMapNode parent) {
 		if (node != null) {
 			insertNodeInto(node, parent);

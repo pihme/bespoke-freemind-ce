@@ -31,8 +31,6 @@ import java.util.Map;
 import java.util.SortedMap;
 
 import javax.swing.ImageIcon;
-import javax.swing.event.EventListenerList;
-import javax.swing.event.TreeModelListener;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 
@@ -431,12 +429,6 @@ public interface MindMapNode extends MutableTreeNode {
 	 * @param pPosition
 	 */
 	void removeAttribute(int pPosition);
-
-	public void addTreeModelListener(TreeModelListener l);
-
-	public void removeTreeModelListener(TreeModelListener l);
-
-	EventListenerList getListeners();
 
 	boolean isNewChildLeft();
 

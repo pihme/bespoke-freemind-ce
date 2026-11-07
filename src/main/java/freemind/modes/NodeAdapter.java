@@ -43,8 +43,6 @@ import java.util.TreeMap;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
-import javax.swing.event.EventListenerList;
-import javax.swing.event.TreeModelListener;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
@@ -59,6 +57,7 @@ import freemind.main.FreeMind;
 import freemind.main.FreeMindCommon;
 import freemind.main.HtmlTools;
 import freemind.main.Resources;
+import freemind.main.StoredNodeText;
 import freemind.main.Tools;
 import freemind.main.XMLElement;
 import freemind.modes.attributes.Attribute;
@@ -66,7 +65,7 @@ import freemind.preferences.FreemindPropertyListener;
 
 /**
  * This class represents a single Node of a Tree. It contains direct handles to
- * its parent and children and to its view.
+ * its parent and children. The map view keeps the pictures.
  */
 public abstract class NodeAdapter implements MindMapNode {
 
@@ -199,7 +198,7 @@ public abstract class NodeAdapter implements MindMapNode {
 			xmlText = null;
 			return;
 		}
-		userObject = HtmlTools.makeValidXml(text);
+		userObject = StoredNodeText.clean(text);
 		xmlText = HtmlTools.getInstance().toXhtml((String) userObject);
 	}
 
@@ -208,7 +207,7 @@ public abstract class NodeAdapter implements MindMapNode {
 	}
 
 	public final void setXmlText(String pXmlText) {
-		this.xmlText = HtmlTools.makeValidXml(pXmlText);
+		this.xmlText = StoredNodeText.clean(pXmlText);
 		userObject = HtmlTools.getInstance().toHtml(xmlText);
 	}
 
@@ -232,7 +231,7 @@ public abstract class NodeAdapter implements MindMapNode {
 			noteText = null;
 			return;
 		}
-		this.xmlNoteText = HtmlTools.makeValidXml(pXmlNoteText);
+		this.xmlNoteText = StoredNodeText.clean(pXmlNoteText);
 		noteText = HtmlTools.getInstance().toHtml(xmlNoteText);
 	}
 
@@ -242,7 +241,7 @@ public abstract class NodeAdapter implements MindMapNode {
 			noteText = null;
 			return;
 		}
-		this.noteText = HtmlTools.makeValidXml(pNoteText);
+		this.noteText = StoredNodeText.clean(pNoteText);
 		this.xmlNoteText = HtmlTools.getInstance().toXhtml(noteText);
 	}
 
@@ -1126,7 +1125,7 @@ public abstract class NodeAdapter implements MindMapNode {
 
 		/** fc, 12.6.2005: XML must not contain any zero characters. */
 		String text = this.toString().replace('\0', ' ');
-		if (!HtmlTools.isHtmlNode(text)) {
+		if (!StoredNodeText.isHtml(text)) {
 			node.setAttribute(XMLElementAdapter.XML_NODE_TEXT, text);
 		} else {
 			// save <content> tag:
@@ -1315,8 +1314,7 @@ public abstract class NodeAdapter implements MindMapNode {
 		// Swing's HTMLWriter encodes non-ASCII characters as decimal
 		// entities (e.g. ü → &#252;). Since .mm files are written as
 		// UTF-8, decode them back to preserve readable Unicode text.
-		String cleaned = HtmlTools.makeValidXml(xmlText2);
-		return HtmlTools.unescapeHTMLUnicodeEntity(cleaned);
+		return StoredNodeText.htmlForFile(xmlText2);
 	}
 
 	private void saveChildren(Writer writer, MindMapLinkRegistry registry,
@@ -1427,20 +1425,6 @@ public abstract class NodeAdapter implements MindMapNode {
 	public boolean isVisible() {
 		Filter filter = getMap().getFilter();
 		return filter == null || filter.isVisible(this);
-	}
-
-	EventListenerList listenerList = new EventListenerList();
-
-	public void addTreeModelListener(TreeModelListener l) {
-		listenerList.add(TreeModelListener.class, l);
-	}
-
-	public void removeTreeModelListener(TreeModelListener l) {
-		listenerList.remove(TreeModelListener.class, l);
-	}
-
-	public EventListenerList getListeners() {
-		return listenerList;
 	}
 
 	//

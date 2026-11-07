@@ -36,7 +36,6 @@ import java.util.TimerTask;
 import java.util.Vector;
 import java.util.logging.Logger;
 
-import javax.swing.event.EventListenerList;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.DefaultTreeModel;
@@ -375,15 +374,8 @@ public abstract class MapAdapter extends DefaultTreeModel implements MindMap {
 	protected void fireTreeNodesInserted(Object source, Object[] path,
 			int[] childIndices, Object[] children) {
 		// Guaranteed to return a non-null array
-		Object[] listeners = listenerList.getListenerList();
-		TreeModelEvent e = null;
-		// Process the listeners last to first, notifying
-		// those that are interested in this event
-		e = fireTreeNodesInserted(source, path, childIndices, children,
-				listeners, e);
-		MindMapNode node = (MindMapNode) path[path.length - 1];
-		fireTreeNodesInserted(source, path, childIndices, children, node
-				.getListeners().getListenerList(), e);
+		fireTreeNodesInserted(source, path, childIndices, children,
+				listenerList.getListenerList(), null);
 	}
 
 	private TreeModelEvent fireTreeNodesInserted(Object source, Object[] path,
@@ -403,15 +395,8 @@ public abstract class MapAdapter extends DefaultTreeModel implements MindMap {
 	protected void fireTreeNodesRemoved(Object source, Object[] path,
 			int[] childIndices, Object[] children) {
 		// Guaranteed to return a non-null array
-		Object[] listeners = listenerList.getListenerList();
-		TreeModelEvent e = null;
-		// Process the listeners last to first, notifying
-		// those that are interested in this event
-		e = fireTreeNodesRemoved(source, path, childIndices, children,
-				listeners, e);
-		MindMapNode node = (MindMapNode) path[path.length - 1];
-		fireTreeNodesRemoved(source, path, childIndices, children, node
-				.getListeners().getListenerList(), e);
+		fireTreeNodesRemoved(source, path, childIndices, children,
+				listenerList.getListenerList(), null);
 	}
 
 	private TreeModelEvent fireTreeNodesRemoved(Object source, Object[] path,
@@ -431,15 +416,8 @@ public abstract class MapAdapter extends DefaultTreeModel implements MindMap {
 	protected void fireTreeStructureChanged(Object source, Object[] path,
 			int[] childIndices, Object[] children) {
 		// Guaranteed to return a non-null array
-		Object[] listeners = listenerList.getListenerList();
-		TreeModelEvent e = null;
-		// Process the listeners last to first, notifying
-		// those that are interested in this event
-		e = fireTreeStructureChanged(source, path, childIndices, children,
-				listeners, e);
-		MindMapNode node = (MindMapNode) path[path.length - 1];
-		fireTreeStructureChanged(source, path, childIndices, children, node
-				.getListeners().getListenerList(), e);
+		fireTreeStructureChanged(source, path, childIndices, children,
+				listenerList.getListenerList(), null);
 	}
 
 	private TreeModelEvent fireTreeStructureChanged(Object source,
@@ -459,15 +437,8 @@ public abstract class MapAdapter extends DefaultTreeModel implements MindMap {
 	protected void fireTreeNodesChanged(Object source, Object[] path,
 			int[] childIndices, Object[] children) {
 		// Guaranteed to return a non-null array
-		Object[] listeners = listenerList.getListenerList();
-		TreeModelEvent e = null;
-		// Process the listeners last to first, notifying
-		// those that are interested in this event
-		e = fireTreeNodesChanged(source, path, childIndices, children,
-				listeners, e);
-		MindMapNode node = (MindMapNode) path[path.length - 1];
-		fireTreeNodesChanged(source, path, childIndices, children, node
-				.getListeners().getListenerList(), e);
+		fireTreeNodesChanged(source, path, childIndices, children,
+				listenerList.getListenerList(), null);
 	}
 
 	private TreeModelEvent fireTreeNodesChanged(Object source, Object[] path,

@@ -33,8 +33,6 @@ import java.util.SortedMap;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
-import javax.swing.event.EventListenerList;
-import javax.swing.event.TreeModelListener;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
@@ -333,12 +331,6 @@ public final class TestMindMapNode implements MindMapNode {
 		return null;
 	}
 
-	public void addTreeModelListener(TreeModelListener l) {
-	}
-
-	public void removeTreeModelListener(TreeModelListener l) {
-	}
-
 	public void insert(MutableTreeNode child, int index) {
 		children.insertElementAt((TestMindMapNode) child, index);
 	}
@@ -439,11 +431,6 @@ public final class TestMindMapNode implements MindMapNode {
 
 	public int getAttributeTableLength() {
 		return 0;
-	}
-
-	public EventListenerList getListeners() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	public boolean isNewChildLeft() {

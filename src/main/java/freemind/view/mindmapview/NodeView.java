@@ -633,7 +633,7 @@ public class NodeView extends JComponent implements TreeModelListener {
 
 
 	public boolean isContentVisible() {
-		return getModel().isVisible();
+		return DrawnNodes.showsContent(getModel());
 	}
 
 	private NodeView getLast(Component startBefore, boolean leftOnly,
@@ -776,9 +776,8 @@ public class NodeView extends JComponent implements TreeModelListener {
 	//
 
 	void insert() {
-		ListIterator<MindMapNode> it = getModel().childrenFolded();
-		while (it.hasNext()) {
-			insert(it.next(), 0);
+		for (MindMapNode child : DrawnNodes.pictures(getModel())) {
+			insert(child, 0);
 		}
 	}
 

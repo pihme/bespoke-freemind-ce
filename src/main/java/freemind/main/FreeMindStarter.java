@@ -24,12 +24,8 @@ package freemind.main;
 
 import java.awt.Toolkit;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.lang.reflect.Method;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
-import java.net.URL;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -54,7 +50,7 @@ public class FreeMindStarter {
 		FreeMindStarter starter = new FreeMindStarter();
 		// First check version of Java
 		starter.checkJavaVersion();
-		Properties defaultPreferences = starter.readDefaultPreferences();
+		Properties defaultPreferences = UserSettings.defaults();
 		starter.createUserDirectory(defaultPreferences);
 		Properties userPreferences =
 				starter.readUsersPreferences(defaultPreferences);
@@ -134,55 +130,19 @@ public class FreeMindStarter {
 	}
 
 	private Properties readUsersPreferences(Properties defaultPreferences) {
-		Properties auto = null;
-		auto = new Properties(defaultPreferences);
-		try {
-			File autoPropertiesFile = getUserPreferencesFile(defaultPreferences);
-			java.io.InputStreamReader reader = new java.io.InputStreamReader(
-					new FileInputStream(autoPropertiesFile),
-					java.nio.charset.StandardCharsets.UTF_8);
-			auto.load(reader);
-			reader.close();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			System.err.println("Panic! Error while loading default properties.");
-		}
-		return auto;
+		return UserSettings.overlay(defaultPreferences);
 	}
 
 	private File getUserPreferencesFile(Properties defaultPreferences) {
-		if (defaultPreferences == null) {
-			System.err.println("Panic! Error while loading default properties.");
-			System.exit(1);
-		}
-		String freemindDirectory = getFreeMindDirectory(defaultPreferences);
-		File userPropertiesFolder = new File(freemindDirectory);
-		File autoPropertiesFile = new File(userPropertiesFolder,
-				defaultPreferences.getProperty("autoproperties"));
-		return autoPropertiesFile;
+		return UserSettings.file(defaultPreferences);
 	}
 
 	private String getFreeMindDirectory(Properties defaultPreferences) {
-		return System.getProperty("user.home") + File.separator
-				+ defaultPreferences.getProperty("properties_folder");
+		return UserSettings.directory(defaultPreferences);
 	}
 
 	public Properties readDefaultPreferences() {
-		String propsLoc = "freemind.properties";
-		URL defaultPropsURL =
-				this.getClass().getClassLoader().getResource(propsLoc);
-		Properties props = new Properties();
-		try {
-			java.io.InputStreamReader reader = new java.io.InputStreamReader(
-					defaultPropsURL.openStream(),
-					java.nio.charset.StandardCharsets.UTF_8);
-			props.load(reader);
-			reader.close();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			System.err.println("Panic! Error while loading default properties.");
-		}
-		return props;
+		return UserSettings.defaults();
 	}
 
 	public static class ProxyAuthenticator extends Authenticator {
