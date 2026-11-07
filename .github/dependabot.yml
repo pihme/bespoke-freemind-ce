@@ -259,3 +259,15 @@ updates:
         patterns:
           - "org.apache.xmlgraphics*"
           - "org.apache.batik*"
+
+  # flake.lock exists on this branch. Other stage branches have no flake.
+  - package-ecosystem: "nix"
+    directory: "/"
+    target-branch: "6-bespoke"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    commit-message:
+      prefix: "deps"
+    labels:
+      - "dependencies"

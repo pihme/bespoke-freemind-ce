@@ -24,7 +24,7 @@ Read `BESPOKE.md` before changing behavior. A feature is added when `docs/spec.m
 | Commits, the build, or tests | [CONTRIBUTING.md](CONTRIBUTING.md) |
 | Where a class lives | [docs/source-tree-analysis.md](docs/source-tree-analysis.md) |
 
-`make help` lists the build targets. `make` passes `--no-configuration-cache`. It keeps a `JAVA_HOME` that is already set. When `JAVA_HOME` is unset, it looks for a JDK 21 on the system paths and stops when it finds none. Set `JAVA_HOME` to a JDK 21 and run `make` again. The entry point is `freemind.main.FreeMindStarter`.
+The reference environment is the dev shell in `flake.nix`. It is binding for build and test. Run them as `nix develop -c <cmd>`, locally and in CI. `make` runs the Gradle targets inside that shell and passes `--no-configuration-cache`. The entry point is `freemind.main.FreeMindStarter`.
 
 A Gradle `--tests` filter is the class's `package` declaration. Read that line. Run a unit check that is already failing on its own, so `testGui` and `jacocoTestReport` still run. Read pass and fail from `build/test-results/*/TEST-*.xml`. Read instruction, line, and branch totals from the root `counter` elements of `build/reports/jacoco/test/jacocoTestReport.xml`.
 

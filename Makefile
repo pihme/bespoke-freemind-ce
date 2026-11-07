@@ -2,61 +2,10 @@
 # Cross-platform: macOS (Homebrew/MacPorts), Linux (apt/dnf/sdkman), Windows (WSL/Git Bash)
 # Run 'make help' to see all available targets.
 
-# ── Java Home Detection ──────────────────────────────────────────────
-# Priority: 1) existing JAVA_HOME env  2) OS-specific auto-detect  3) fail with message
-# Override: JAVA_HOME=/path/to/jdk make build
-
-ifndef JAVA_HOME
-  UNAME_S := $(shell uname -s 2>/dev/null || echo Windows)
-
-  ifeq ($(UNAME_S),Darwin)
-    # macOS: try Homebrew first, then MacPorts, then /usr/libexec
-    JAVA_HOME := $(shell \
-      if [ -d "/opt/homebrew/opt/openjdk@21" ]; then \
-        echo "/opt/homebrew/opt/openjdk@21"; \
-      elif [ -d "/usr/local/opt/openjdk@21" ]; then \
-        echo "/usr/local/opt/openjdk@21"; \
-      elif [ -d "/opt/homebrew/opt/openjdk" ]; then \
-        echo "/opt/homebrew/opt/openjdk"; \
-      elif [ -d "/usr/local/opt/openjdk" ]; then \
-        echo "/usr/local/opt/openjdk"; \
-      elif command -v /usr/libexec/java_home >/dev/null 2>&1; then \
-        /usr/libexec/java_home --version 21 2>/dev/null || /usr/libexec/java_home 2>/dev/null; \
-      fi)
-  else ifeq ($(UNAME_S),Linux)
-    # Linux: try common JDK 21 paths, then SDKMAN, then update-alternatives
-    JAVA_HOME := $(shell \
-      if [ -d "/usr/lib/jvm/java-21-openjdk-amd64" ]; then \
-        echo "/usr/lib/jvm/java-21-openjdk-amd64"; \
-      elif [ -d "/usr/lib/jvm/java-21-openjdk" ]; then \
-        echo "/usr/lib/jvm/java-21-openjdk"; \
-      elif [ -d "/usr/lib/jvm/java-21" ]; then \
-        echo "/usr/lib/jvm/java-21"; \
-      elif [ -d "$$HOME/.sdkman/candidates/java/current" ]; then \
-        echo "$$HOME/.sdkman/candidates/java/current"; \
-      elif command -v javac >/dev/null 2>&1; then \
-        dirname $$(dirname $$(readlink -f $$(which javac))); \
-      fi)
-  endif
-
-  ifeq ($(JAVA_HOME),)
-    $(warning *** JAVA_HOME not set and JDK 21 not found automatically.)
-    $(warning *** Install JDK 21 or set JAVA_HOME manually:)
-    $(warning ***   macOS:   brew install openjdk@21)
-    $(warning ***   Ubuntu:  sudo apt install openjdk-21-jdk)
-    $(warning ***   Fedora:  sudo dnf install java-21-openjdk-devel)
-    $(warning ***   SDKMAN:  sdk install java 21-open)
-    $(warning ***   Manual:  JAVA_HOME=/path/to/jdk make <target>)
-    $(error JAVA_HOME is required)
-  endif
-endif
-
-export JAVA_HOME
-
-# ── Gradle Configuration ─────────────────────────────────────────────
+# Reference environment is flake.nix. Gradle runs inside that dev shell.
 GRADLE       := ./gradlew
 GRADLE_FLAGS := --no-configuration-cache
-GRADLE_CMD   = JAVA_HOME=$(JAVA_HOME) $(GRADLE)
+GRADLE_CMD   = env -u JAVA_HOME nix develop -c $(GRADLE)
 
 .PHONY: help build run debug clean test test-gui test-performance test-fuzz mutate coverage jaxb javadoc \
         package package-mac package-win package-linux \
@@ -72,17 +21,16 @@ help: ## Show this help message
 		/^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2 } \
 		/^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
-info: ## Show detected Java and system info
-	@echo "JAVA_HOME  = $(JAVA_HOME)"
-	@echo "Java       = $$($(JAVA_HOME)/bin/java -version 2>&1 | head -1)"
+info: ## Show the reference environment
 	@echo "OS         = $$(uname -s 2>/dev/null || echo Windows) $$(uname -m 2>/dev/null)"
+	@env -u JAVA_HOME nix develop -c java -version
 	@echo "Gradle     = $$($(GRADLE_CMD) --version $(GRADLE_FLAGS) 2>/dev/null | grep '^Gradle' || echo 'run make build first')"
 
 # ── Development ──────────────────────────────────────────────────────
 ##@ Development
 
-build: ## Build the project (compile + test)
-	$(GRADLE_CMD) build $(GRADLE_FLAGS)
+build: ## Compile and package, without tests
+	$(GRADLE_CMD) assemble $(GRADLE_FLAGS)
 
 run: ## Run FreeMind CE
 	$(GRADLE_CMD) run $(GRADLE_FLAGS)

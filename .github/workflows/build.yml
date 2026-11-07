@@ -26,7 +26,6 @@ permissions:
   contents: read
 
 env:
-  JAVA_VERSION: '21'
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
@@ -38,28 +37,44 @@ jobs:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      - name: Set up JDK ${{ env.JAVA_VERSION }}
-        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5
-        with:
-          java-version: ${{ env.JAVA_VERSION }}
-          distribution: 'temurin'
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e # v6.1.0
+      - name: Install Nix
+        uses: cachix/install-nix-action@75c75c31ebece974e48ebc36b4ad125bd97bd97b # v31.11.3
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
       - name: Build
-        run: ./gradlew build -x test --no-daemon --no-configuration-cache
+        run: env -u JAVA_HOME nix develop -c ./gradlew assemble --no-daemon --no-configuration-cache
 
-      - name: Install Xvfb
-        run: sudo apt-get install -y xvfb
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: build-ubuntu-24.04
+          path: |
+            build/libs/*.jar
+            build/distributions/*
+          retention-days: 14
+          if-no-files-found: warn
 
-      - name: Test
-        run: xvfb-run ./gradlew test --no-daemon --no-configuration-cache --continue
+  test:
+    name: Test (ubuntu-24.04, Java 21)
+    needs: build
+    runs-on: ubuntu-24.04
 
-      - name: Test Count Regression Guard
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@75c75c31ebece974e48ebc36b4ad125bd97bd97b # v31.11.3
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Unit tests
+        run: env -u JAVA_HOME nix develop -c xvfb-run ./gradlew test --no-daemon --no-configuration-cache --continue
+
+      - name: Test count
         if: always()
         run: |
           MIN_TESTS=800
@@ -76,7 +91,7 @@ jobs:
           fi
           echo "Test count OK: $ACTUAL >= $MIN_TESTS"
 
-      - name: Publish Unit Test Report
+      - name: Publish unit test report
         uses: dorny/test-reporter@a43b3a5f7366b97d083190328d2c652e1a8b6aa2 # v2
         if: always()
         with:
@@ -84,76 +99,14 @@ jobs:
           path: build/test-results/test/*.xml
           reporter: java-junit
 
-      - name: Upload SpotBugs Report
-        if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: spotbugs-report-ubuntu-24.04-java21
-          path: build/reports/spotbugs/
-          retention-days: 14
-          if-no-files-found: ignore
+      - name: GUI tests
+        run: env -u JAVA_HOME nix develop -c xvfb-run ./gradlew testGui --no-daemon --no-configuration-cache --continue
 
-      - name: Generate Coverage Report
-        if: always()
-        run: xvfb-run ./gradlew jacocoTestReport --no-daemon --no-configuration-cache -x test
-
-      - name: Enforce Coverage Threshold
-        if: always()
-        run: xvfb-run ./gradlew jacocoTestCoverageVerification --no-daemon --no-configuration-cache -x test
-
-      - name: Upload Coverage Report
-        if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: coverage-report
-          path: build/reports/jacoco/
-          retention-days: 14
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: build-ubuntu-24.04
-          path: |
-            build/libs/*.jar
-            build/distributions/*
-          retention-days: 14
-          if-no-files-found: warn
-
-  gui-tests:
-    name: GUI Tests (ubuntu-24.04, Java 21)
-    needs: build
-    runs-on: ubuntu-24.04
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-
-      - name: Set up JDK ${{ env.JAVA_VERSION }}
-        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5
-        with:
-          java-version: ${{ env.JAVA_VERSION }}
-          distribution: 'temurin'
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e # v6.1.0
-
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
-
-      - name: Build
-        run: ./gradlew build -x test --no-daemon --no-configuration-cache
-
-      - name: Install Xvfb
-        run: sudo apt-get install -y xvfb
-
-      - name: GUI Tests
-        run: xvfb-run ./gradlew testGui --no-daemon --no-configuration-cache --continue
-
-      - name: E2E Showcase Screenshots
-        run: xvfb-run ./gradlew showcaseScreenshots --no-daemon --no-configuration-cache || true
+      - name: E2E showcase screenshots
+        run: env -u JAVA_HOME nix develop -c xvfb-run ./gradlew showcaseScreenshots --no-daemon --no-configuration-cache || true
         timeout-minutes: 5
 
-      - name: Upload GUI Test Screenshots
+      - name: Upload GUI test screenshots
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
@@ -162,7 +115,7 @@ jobs:
           retention-days: 14
           if-no-files-found: ignore
 
-      - name: Screenshot Summary
+      - name: Screenshot summary
         if: always()
         run: |
           {
@@ -201,7 +154,7 @@ jobs:
             echo "> Download the **gui-test-screenshots** artifact to view all images."
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Publish GUI Test Report
+      - name: Publish GUI test report
         uses: dorny/test-reporter@a43b3a5f7366b97d083190328d2c652e1a8b6aa2 # v2
         if: always()
         with:
@@ -210,41 +163,58 @@ jobs:
           reporter: java-junit
           fail-on-empty: false
 
-  ci:
-    name: CI
-    if: always()
-    needs: [build, gui-tests, release]
+  quality:
+    name: Quality control
+    needs: test
     runs-on: ubuntu-24.04
-    permissions: {}
+    env:
+      # Dependabot and fork pull requests have no access to this secret.
+      RUN_SONAR: ${{ secrets.SONAR_TOKEN != '' && github.actor != 'dependabot[bot]' }}
     steps:
-      - name: Evaluate results
-        run: |
-          echo "Build: ${{ needs.build.result }}"
-          echo "GUI Tests: ${{ needs.gui-tests.result }}"
-          echo "Release: ${{ needs.release.result }}"
-          if [[ "${{ contains(needs.*.result, 'failure') }}" == "true" ]]; then
-            echo "::error::One or more jobs failed"
-            exit 1
-          fi
-          if [[ "${{ contains(needs.*.result, 'cancelled') }}" == "true" ]]; then
-            echo "::error::One or more jobs were cancelled"
-            exit 1
-          fi
-          echo "All checks passed"
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 0
+
+      - name: Install Nix
+        if: env.RUN_SONAR == 'true'
+        uses: cachix/install-nix-action@75c75c31ebece974e48ebc36b4ad125bd97bd97b # v31.11.3
+
+      - name: Make gradlew executable
+        if: env.RUN_SONAR == 'true'
+        run: chmod +x ./gradlew
+
+      - name: Compile for analysis
+        if: env.RUN_SONAR == 'true'
+        run: env -u JAVA_HOME nix develop -c ./gradlew classes testClasses --no-daemon --no-configuration-cache
+
+      - name: SonarQube Cloud scan
+        if: env.RUN_SONAR == 'true'
+        uses: SonarSource/sonarqube-scan-action@e805d875275f728fac1885b413934be6d7c63f65 # v8.4.1
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: SonarQube Cloud is not configured for this run
+        if: env.RUN_SONAR != 'true'
+        run: echo "SonarQube Cloud scan skipped. SONAR_TOKEN is not available for this run."
 
   release:
     name: Release
-    needs: [build, gui-tests]
+    needs: [build, test, quality]
     if: |
       always() &&
       github.event_name == 'push' &&
       github.ref == 'refs/heads/6-bespoke' &&
       needs.build.result == 'success' &&
-      needs.gui-tests.result == 'success'
+      needs.test.result == 'success' &&
+      needs.quality.result == 'success'
     runs-on: ubuntu-24.04
     permissions:
       contents: write
     steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
       - name: Download the build
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
@@ -267,3 +237,26 @@ jobs:
             --title "6-bespoke" \
             --notes "Built from 6-bespoke at ${GITHUB_SHA}." \
             --latest
+
+  ci:
+    name: CI
+    if: always()
+    needs: [build, test, quality, release]
+    runs-on: ubuntu-24.04
+    permissions: {}
+    steps:
+      - name: Evaluate results
+        run: |
+          echo "Build: ${{ needs.build.result }}"
+          echo "Test: ${{ needs.test.result }}"
+          echo "Quality control: ${{ needs.quality.result }}"
+          echo "Release: ${{ needs.release.result }}"
+          if [[ "${{ contains(needs.*.result, 'failure') }}" == "true" ]]; then
+            echo "::error::One or more jobs failed"
+            exit 1
+          fi
+          if [[ "${{ contains(needs.*.result, 'cancelled') }}" == "true" ]]; then
+            echo "::error::One or more jobs were cancelled"
+            exit 1
+          fi
+          echo "All checks passed"

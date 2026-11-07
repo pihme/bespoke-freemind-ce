@@ -34,6 +34,9 @@ local.properties
 # Log files
 *.log
 
+# Nix build symlink
+result
+
 # Package Files — JAR/ZIP are NOT ignored (project uses local JARs as dependencies)
 #*.jar
 #*.zip
