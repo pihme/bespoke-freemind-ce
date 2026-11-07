@@ -381,4 +381,17 @@ public class MapViewBehaviourTest {
 		}
 	}
 
+	@Test
+	void centerNodeWithoutAViewportDoesNotThrow() throws Exception {
+		Opened opened = ViewMaps.open("Alpha");
+		MapView bare = new MapView(opened.view.getModel(), opened.mode) {
+			@Override
+			public boolean isValid() {
+				return true;
+			}
+		};
+		assertNull(bare.getViewportSize());
+		bare.centerNode(bare.getRoot());
+	}
+
 }

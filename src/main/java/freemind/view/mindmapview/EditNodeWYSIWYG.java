@@ -38,8 +38,6 @@ import javax.swing.JPanel;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.html.HTMLDocument;
 
-import accessories.plugins.NodeNoteRegistration.SimplyHtmlResources;
-
 import com.lightdev.app.shtm.SHTMLPanel;
 
 import freemind.main.FreeMindMain;
@@ -118,8 +116,7 @@ public class EditNodeWYSIWYG extends EditNodeBase {
 
 		private SHTMLPanel createEditorPanel() throws Exception {
 			if (htmlEditorPanel == null) {
-				SHTMLPanel.setResources(new SimplyHtmlResources());
-				htmlEditorPanel = SHTMLPanel.createSHTMLPanel();
+				htmlEditorPanel = SimplyHtmlPanel.create();
 //				htmlEditorPanel.getEditorPane().addMouseListener(new MouseAdapter () {
 //					public void mousePressed(MouseEvent e) {
 //						conditionallyShowPopup(e);

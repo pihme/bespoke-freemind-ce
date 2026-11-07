@@ -570,6 +570,9 @@ public class MapView extends JPanel implements ViewAbstraction, Autoscroll {
 			return;
 		}
 		Dimension d = getViewportSize();
+		if (d == null) {
+			return;
+		}
 		JComponent content = node.getContent();
 		Rectangle rect = new Rectangle(content.getWidth() / 2 - d.width / 2,
 				content.getHeight() / 2 - d.height / 2, d.width, d.height);

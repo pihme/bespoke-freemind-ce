@@ -45,7 +45,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.html.HTMLDocument;
 
 import com.lightdev.app.shtm.SHTMLPanel;
-import com.lightdev.app.shtm.TextResources;
 
 import freemind.controller.Controller.SplitComponentType;
 import freemind.controller.MenuItemSelectedListener;
@@ -61,32 +60,10 @@ import freemind.modes.ModeController.NodeSelectionListener;
 import freemind.modes.common.plugins.NodeNoteBase;
 import freemind.modes.mindmapmode.MindMapController;
 import freemind.view.mindmapview.NodeView;
+import freemind.view.mindmapview.SimplyHtmlPanel;
 
 public class NodeNoteRegistration implements HookRegistration,
 		MenuItemSelectedListener {
-	public static final class SimplyHtmlResources implements TextResources {
-		public String getString(String pKey) {
-			// no splash for SimplyHtml.
-			if (Tools.safeEquals("show_splash_screen", pKey)) {
-				return "false";
-			}
-			if (Tools.safeEquals("default_paste_mode", pKey)) {
-				return "PASTE_HTML";
-			}
-			pKey = "simplyhtml." + pKey;
-			String resourceString;
-			resourceString = Resources.getInstance().getResourceString(
-					pKey, null);
-			if (resourceString == null) {
-				resourceString = Resources.getInstance().getProperty(pKey);
-			}
-//			if(resourceString == null) {
-//				System.err.println("Can't find string " + pKey);
-//			}
-			return resourceString;
-		}
-	}
-
 	private static class SouthPanel extends JPanel {
 		private static final long serialVersionUID = -4624762713662343786L;
 
@@ -444,8 +421,7 @@ public class NodeNoteRegistration implements HookRegistration,
 
 	public static SHTMLPanel getHtmlEditorPanel() {
 		if (htmlEditorPanel == null) {
-			SHTMLPanel.setResources(new SimplyHtmlResources());
-			htmlEditorPanel = SHTMLPanel.createSHTMLPanel();
+			htmlEditorPanel = SimplyHtmlPanel.create();
 			htmlEditorPanel.setMinimumSize(new Dimension(100, 100));
 		}
 		return htmlEditorPanel;
