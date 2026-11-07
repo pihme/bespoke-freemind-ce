@@ -20,6 +20,8 @@ import java.util.stream.Stream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import freemind.modes.mindmapmode.hooks.BuiltInHooks;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -225,75 +227,35 @@ class StructuralQualityTest {
     }
 
     @Test
-    @DisplayName("Plugin XML descriptors reference existing classes")
-    void pluginXmlClassesExist() throws Exception {
+    @DisplayName("Built-in hooks name classes that exist")
+    void builtInHookClassesExist() throws Exception {
         Path root = findProjectRoot();
+        Path javaRoot = root.resolve("src/main/java");
         List<String> violations = new ArrayList<>();
-
-        // Gather all plugin XML files from both accessories/plugins and plugins/
-        List<Path> pluginXmls = new ArrayList<>();
-        Path accessoriesPlugins = root.resolve("src/main/resources/accessories/plugins");
-        Path pluginsDir = root.resolve("plugins");
-
-        if (Files.isDirectory(accessoriesPlugins)) {
-            try (Stream<Path> walk = Files.walk(accessoriesPlugins)) {
-                pluginXmls.addAll(walk
-                        .filter(p -> p.toString().endsWith(".xml"))
-                        .filter(p -> !p.getFileName().toString().startsWith("build"))
-                        .filter(Files::isRegularFile)
-                        .collect(Collectors.toList()));
-            }
+        assertFalse(BuiltInHooks.hooks().isEmpty(), "The built-in hooks must be registered");
+        for (BuiltInHooks.Hook hook : BuiltInHooks.hooks()) {
+            noteMissingClass(javaRoot, hook.type.getName(), violations);
         }
-        if (Files.isDirectory(pluginsDir)) {
-            try (Stream<Path> walk = Files.walk(pluginsDir)) {
-                pluginXmls.addAll(walk
-                        .filter(p -> p.toString().endsWith(".xml"))
-                        .filter(p -> !p.getFileName().toString().startsWith("build"))
-                        // Exclude help doc files
-                        .filter(p -> !p.toString().contains("/help/doc/"))
-                        .filter(Files::isRegularFile)
-                        .collect(Collectors.toList()));
-            }
+        for (BuiltInHooks.Registration registration : BuiltInHooks.registrations()) {
+            noteMissingClass(javaRoot, registration.type.getName(), violations);
         }
-
-        assertFalse(pluginXmls.isEmpty(), "Should find plugin XML descriptors");
-
-        // Extract class_name attributes from plugin_action and plugin_registration
-        Pattern classNameAttr = Pattern.compile(
-                "class_name=\"([^\"]+)\"");
-
-        // Known mode class names to skip (these are mode identifiers, not plugin classes)
-        List<String> modeClasses = List.of(
-                "freemind.modes.mindmapmode");
-
-        for (Path xmlFile : pluginXmls) {
-            String content = Files.readString(xmlFile);
-            Matcher matcher = classNameAttr.matcher(content);
-            while (matcher.find()) {
-                String className = matcher.group(1);
-                // Skip mode class references
-                if (modeClasses.contains(className)) {
-                    continue;
-                }
-                // Convert dotted class name to path, check if .java file exists
-                String relativePath = className.replace('.', '/') + ".java";
-                Path javaRoot = root.resolve("src/main/java");
-                Path javaFile = javaRoot.resolve(relativePath);
-                // Also check with $ for inner classes
-                String outerClass = className.contains("$")
-                        ? className.substring(0, className.indexOf('$')).replace('.', '/') + ".java"
-                        : null;
-                if (!Files.exists(javaFile)
-                        && (outerClass == null || !Files.exists(javaRoot.resolve(outerClass)))) {
-                    violations.add(root.getParent().relativize(xmlFile)
-                            + " -> " + className);
-                }
-            }
+        try (Stream<Path> walk = Files.walk(root.resolve("src/main/resources/accessories/plugins"))) {
+            long xmlDescriptors = walk.filter(path -> path.toString().endsWith(".xml")).count();
+            assertEquals(0, xmlDescriptors, "Plugin XML descriptors are gone");
         }
-
         assertTrue(violations.isEmpty(),
-                "Plugin XMLs reference non-existent classes:\n"
+                "Built-in hooks reference non-existent classes:\n"
                         + String.join("\n", violations));
+    }
+
+    private void noteMissingClass(Path javaRoot, String className, List<String> violations) {
+        String outerName = className.contains("$")
+                ? className.substring(0, className.indexOf('$'))
+                : className;
+        Path javaFile = javaRoot.resolve(outerName.replace('.', '/') + ".java");
+        if (!Files.exists(javaFile)) {
+            violations.add(className);
+        }
     }
 
     // --- Utility methods ---

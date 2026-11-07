@@ -25,17 +25,24 @@ package freemind.extensions;
 import java.util.List;
 import java.util.Vector;
 
-import freemind.controller.actions.generated.instance.Plugin;
+import freemind.modes.MindMap;
 import freemind.modes.MindMapNode;
+import freemind.modes.ModeController;
 
 public interface HookFactory {
+
+	public interface RegistrationFactory {
+		HookRegistration create(ModeController controller, MindMap map);
+	}
 
 	public static class RegistrationContainer {
 		public Class hookRegistrationClass;
 
 		public boolean isPluginBase;
 
-		public Plugin correspondingPlugin;
+		public String pluginLabel;
+
+		public RegistrationFactory newRegistration;
 
 		public RegistrationContainer() {
 		}

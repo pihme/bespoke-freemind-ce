@@ -72,29 +72,20 @@ class ControllerNullGuardTest {
     }
 
     @Test
-    @DisplayName("MindMapHookFactory uses getDeclaredConstructor().newInstance()")
-    void hookFactoryUsesModernReflection() throws IOException {
+    @DisplayName("MindMapHookFactory constructs the built-in hooks")
+    void hookFactoryUsesBuiltInHooks() throws IOException {
         Path file = findProjectRoot()
             .resolve("src/main/java/freemind/modes/mindmapmode/hooks/MindMapHookFactory.java");
         String content = Files.readString(file);
 
-        assertTrue(content.contains("getDeclaredConstructor().newInstance()"),
-            "MindMapHookFactory must use getDeclaredConstructor().newInstance()");
+        assertTrue(content.contains("BuiltInHooks.hooks()"),
+            "MindMapHookFactory must construct the built-in hooks");
+        assertFalse(content.contains("ImportWizard"),
+            "MindMapHookFactory must not scan the classpath for plugins");
+        assertFalse(content.contains("Class.forName"),
+            "MindMapHookFactory must not load hook classes by name");
         assertFalse(content.contains("hookClass.newInstance()"),
             "MindMapHookFactory must NOT use deprecated Class.newInstance()");
-    }
-
-    @Test
-    @DisplayName("MindMapHookFactory logs uncompiled plugins at FINE level, not WARNING")
-    void hookFactoryLogsPluginsAtFineLevel() throws IOException {
-        Path file = findProjectRoot()
-            .resolve("src/main/java/freemind/modes/mindmapmode/hooks/MindMapHookFactory.java");
-        String content = Files.readString(file);
-
-        assertTrue(content.contains("logger.fine(\"Plugin registration class not found"),
-            "MindMapHookFactory must log uncompiled plugins at FINE level");
-        assertFalse(content.contains("logger.warning(\"Plugin registration class not found"),
-            "MindMapHookFactory must NOT log uncompiled plugins at WARNING level");
     }
 
     private Path findProjectRoot() {

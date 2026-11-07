@@ -973,18 +973,7 @@ public class FreeMind extends JFrame implements FreeMindMain, ActionListener {
 	}
 
 	private ModeController createModeController(final String[] args) {
-		ModeController ctrl = controller.getModeController();
-		// try to load mac module:
-		try {
-			Class macClass = Class.forName("accessories.plugins.MacChanges");
-			// lazy programming. the mac class has exactly one
-			// constructor
-			// with a modeController.
-			macClass.getConstructors()[0].newInstance(new Object[] { this });
-		} catch (Exception e1) {
-			// freemind.main.Resources.getInstance().logExecption(e1);
-		}
-		return ctrl;
+		return controller.getModeController();
 	}
 
 	private int getMaximumNumberOfMapsToLoad(String[] args) {

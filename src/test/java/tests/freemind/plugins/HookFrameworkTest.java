@@ -2,7 +2,6 @@ package tests.freemind.plugins;
 
 import freemind.extensions.ExportHook;
 import freemind.extensions.HookAdapter;
-import freemind.extensions.ImportWizard;
 import freemind.extensions.MindMapHook;
 import freemind.extensions.ModeControllerHook;
 import freemind.extensions.ModeControllerHookAdapter;
@@ -15,15 +14,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.io.Writer;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
-import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.xml.parsers.DocumentBuilderFactory;
+import freemind.modes.mindmapmode.hooks.BuiltInHooks;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -166,39 +163,16 @@ class HookFrameworkTest {
             "chooseImageFile must be public");
     }
 
-    // ── ImportWizard tests ──
-
     @Test
-    @DisplayName("ImportWizard has buildClassList method")
-    void importWizardHasBuildClassListMethod() {
-        assertDoesNotThrow(() -> ImportWizard.class.getDeclaredMethod("buildClassList"),
-            "ImportWizard must have buildClassList method");
-    }
-
-    @Test
-    @DisplayName("ImportWizard has addClassesFromZip method")
-    void importWizardHasAddClassesFromZipMethod() {
-        assertDoesNotThrow(
-            () -> ImportWizard.class.getDeclaredMethod(
-                "addClassesFromZip", java.util.Vector.class, File.class),
-            "ImportWizard must have addClassesFromZip method");
-    }
-
-    @Test
-    @DisplayName("ImportWizard has addClassesFromDir method")
-    void importWizardHasAddClassesFromDirMethod() {
-        assertDoesNotThrow(
-            () -> ImportWizard.class.getDeclaredMethod(
-                "addClassesFromDir", java.util.Vector.class, File.class, File.class, int.class),
-            "ImportWizard must have addClassesFromDir method");
-    }
-
-    @Test
-    @DisplayName("ImportWizard lookFor field is .xml")
-    void importWizardLookForFieldIsXml() {
-        ImportWizard wizard = new ImportWizard();
-        assertEquals(".xml", wizard.lookFor,
-            "ImportWizard.lookFor must be .xml");
+    @DisplayName("Built-in hooks replace the plugin XML loader")
+    void builtInHooksReplaceThePluginLoader() {
+        assertTrue(BuiltInHooks.hooks().size() >= 10);
+        for (BuiltInHooks.Hook hook : BuiltInHooks.hooks()) {
+            assertTrue(MindMapHook.class.isAssignableFrom(hook.type), hook.label);
+        }
+        assertFalse(BuiltInHooks.registrations().isEmpty());
+        assertThrows(ClassNotFoundException.class,
+            () -> Class.forName("freemind.extensions.ImportWizard"));
     }
 
     // ── PermanentNodeHook interface tests ──
@@ -273,27 +247,15 @@ class HookFrameworkTest {
         assertTrue(found, "MindMapHook must contain PluginBaseClassSearcher inner interface");
     }
 
-    // ── Plugin XML descriptor validation ──
-
     @Test
-    @DisplayName("Plugin XML descriptors in accessories/plugins/ are well-formed XML")
-    void pluginXmlDescriptorsAreWellFormedXml() {
+    @DisplayName("Accessory resources are properties and icons, not plugin XML")
+    void accessoryResourcesAreNotPluginXml() {
         File pluginDir = new File("src/main/resources/accessories/plugins");
         assertTrue(pluginDir.isDirectory(), "accessories/plugins directory must exist");
         File[] xmlFiles = pluginDir.listFiles((dir, name) ->
             name.endsWith(".xml") && !name.equals("build.xml"));
-        assertNotNull(xmlFiles, "Must be able to list plugin XML files");
-        assertTrue(xmlFiles.length > 0, "At least one plugin XML descriptor must exist");
-
-        var factory = DocumentBuilderFactory.newInstance();
-        int validCount = 0;
-        for (File xmlFile : xmlFiles) {
-            assertDoesNotThrow(() -> factory.newDocumentBuilder().parse(xmlFile),
-                "Plugin XML must be well-formed: " + xmlFile.getName());
-            validCount++;
-        }
-        assertTrue(validCount >= 10,
-            "Expected at least 10 plugin XML descriptors, found " + validCount);
+        assertNotNull(xmlFiles);
+        assertEquals(0, xmlFiles.length);
     }
 
     // ── Hook registration / plugin directory structure ──

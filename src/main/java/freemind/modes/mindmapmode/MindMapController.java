@@ -44,7 +44,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.lang.reflect.Constructor;
+
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -808,10 +808,7 @@ public class MindMapController extends ControllerAdapter implements
 		for (RegistrationContainer container : pluginRegistrations) {
 			// call constructor:
 			try {
-				Class registrationClass = container.hookRegistrationClass;
-				Constructor hookConstructor = registrationClass.getConstructor(new Class[] { ModeController.class, MindMap.class });
-				HookRegistration registrationInstance = (HookRegistration) hookConstructor
-						.newInstance(new Object[] { this, getMap() });
+				HookRegistration registrationInstance = container.newRegistration.create(this, getMap());
 				// register the instance to enable basePlugins.
 				hookFactory.registerRegistrationContainer(container,
 						registrationInstance);

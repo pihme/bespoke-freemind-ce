@@ -27,7 +27,7 @@ make test     # Tests only
 make help     # Every target
 ```
 
-The Makefile sets `JAVA_HOME` and `--no-configuration-cache`. Command details are in [docs/development-guide.md](docs/development-guide.md).
+The Makefile sets `JAVA_HOME` and `--no-configuration-cache`. `make help` lists the targets.
 
 ## Other people's work
 
@@ -80,4 +80,4 @@ SpotBugs fails the build. PMD currently reports and does not fail the build, bec
 
 ## Tests
 
-Commands, base classes, and layout are in [docs/development-guide.md — Testing](docs/development-guide.md#testing). A test asserts the behavior it claims to check.
+A test asserts the behavior it claims to check.

@@ -253,7 +253,7 @@ class RemovedFeatureProofTest {
 		assertThrows(NoSuchFieldException.class, () -> Controller.class.getField("freemindUrl"));
 		assertThrows(NoSuchFieldException.class, () -> freemind.controller.MenuBar.class.getField("HELP_MENU"));
 		Path root = repoRoot();
-		String viewer = Files.readString(root.resolve("src/main/resources/accessories/plugins/LogFileViewer.xml"));
+		String viewer = Files.readString(root.resolve("src/main/java/freemind/modes/mindmapmode/hooks/BuiltInHooks.java"));
 		assertFalse(viewer.contains("menu_bar/help/"));
 		assertTrue(viewer.contains("menu_bar/extras/first/logFileViewer"));
 		assertNotNull(Class.forName("accessories.plugins.LogFileViewer"));

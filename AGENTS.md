@@ -23,7 +23,6 @@ Read `BESPOKE.md` before changing behavior. A feature is added when `docs/spec.m
 |---|---|
 | Commits, the build, or tests | [CONTRIBUTING.md](CONTRIBUTING.md) |
 | Where a class lives | [docs/source-tree-analysis.md](docs/source-tree-analysis.md) |
-| How to build, test, or package | [docs/development-guide.md](docs/development-guide.md) |
 
 `make help` lists the build targets. `make` passes `--no-configuration-cache`. It keeps a `JAVA_HOME` that is already set. When `JAVA_HOME` is unset, it looks for a JDK 21 on the system paths and stops when it finds none. Set `JAVA_HOME` to a JDK 21 and run `make` again. The entry point is `freemind.main.FreeMindStarter`.
 

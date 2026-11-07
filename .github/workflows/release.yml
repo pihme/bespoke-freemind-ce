@@ -286,7 +286,7 @@ jobs:
           README
 
           # Bundle doc/ at root level for portable (getFreemindBaseDir strips "lib")
-          cp -r doc build/install/freemind/doc
+          cp -r src/main/resources/doc build/install/freemind/doc
           # Remove jpackage-specific lib/doc/ to avoid double-bundling
           rm -rf build/install/freemind/lib/doc
           ls build/install/freemind/doc/freemind.mm || { echo "ERROR: doc/freemind.mm not found"; exit 1; }
@@ -348,7 +348,7 @@ jobs:
           ./gradlew installDist --no-daemon --no-configuration-cache
           VERSION="${GITHUB_REF_NAME#v}"
           # Bundle doc/ at root level for portable (getFreemindBaseDir strips "lib")
-          cp -r doc build/install/freemind/doc
+          cp -r src/main/resources/doc build/install/freemind/doc
           # Remove jpackage-specific lib/doc/ to avoid double-bundling
           rm -rf build/install/freemind/lib/doc
           ls build/install/freemind/doc/freemind.mm || { echo "ERROR: doc/freemind.mm not found"; exit 1; }

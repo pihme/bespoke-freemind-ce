@@ -2,7 +2,7 @@
 
 A bespoke fork of [FreeMind CE](https://github.com/Denomas/freemind-ce), a Java mind-map editor.
 
-Product direction is in [BESPOKE.md](BESPOKE.md). The feature list is [docs/spec.md](docs/spec.md). Build and test steps are in [CONTRIBUTING.md](CONTRIBUTING.md) and [docs/development-guide.md](docs/development-guide.md).
+Product direction is in [BESPOKE.md](BESPOKE.md). The feature list is [docs/spec.md](docs/spec.md). Build and test steps are in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Run
 
