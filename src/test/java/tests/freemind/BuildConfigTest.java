@@ -103,6 +103,22 @@ class BuildConfigTest {
     }
 
     @Test
+    @DisplayName("Unused local jars are gone and gnu-regexp comes from Maven")
+    void unusedLocalJarsAreGone() throws IOException {
+        Path root = findProjectRoot();
+        assertTrue(Files.exists(root.resolve("lib/SimplyHTML/SimplyHTML.jar")));
+        assertFalse(Files.exists(root.resolve("lib/SimplyHTML/gnu-regexp-1.1.4.jar")));
+        assertFalse(Files.exists(root.resolve("lib/jortho.jar")));
+        assertFalse(Files.exists(root.resolve("plugins")));
+        String content = Files.readString(root.resolve("build.gradle.kts"));
+        assertTrue(content.contains("gnu-regexp:gnu-regexp:1.1.4"));
+        assertTrue(content.contains("lib/SimplyHTML/SimplyHTML.jar"));
+        assertFalse(content.contains("jortho.jar"));
+        assertFalse(content.contains("jhall.jar"));
+        assertFalse(content.contains("JMapViewer.jar"));
+    }
+
+    @Test
     @DisplayName("gradle.properties uses 'Denomas' not 'Denomas Engineering'")
     void gradlePropertiesUseDenomas() throws IOException {
         Path root = findProjectRoot();

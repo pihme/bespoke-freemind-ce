@@ -79,9 +79,9 @@ A line marked **docs** comes from `README.md` or `docs/`. A line marked **menu**
 | ~~REQ-PLUG-08~~ REMOVED (TAI-008) | Database collaboration and Jabber collaboration are legacy. The Gradle build excludes them. The Palm OS tree under `pda/` is historical and is not a Gradle module. | Not in the active build. | docs |
 | REQ-MODE-01 | Edit in MindMap mode. Browse mode and File mode are removed (TAI-009). | Declared in `freemind.properties`. | docs |
 
-The repo-root tree `plugins/wsl` is an old Onekin MediaWiki export. It was never a requirement and was not compiled. It is removed (TAI-017). The jars under `plugins` stay. That directory is not a compile root.
+The repo-root tree `plugins/wsl` is an old Onekin MediaWiki export. It was never a requirement and was not compiled. It is removed (TAI-017). The `plugins` directory is removed (CUS-009).
 
-The Help menu is not a requirement. It held documentation, the project pages, the keyboard guide, the license dialog, and About. Integrated help was already removed (TAI-004). The menu is removed (TAI-019). The log-file viewer moves to Extras. `LICENSE` stays. `plugins/help/jhall.jar` stays until the trimmed stage.
+The Help menu is not a requirement. It held documentation, the project pages, the keyboard guide, the license dialog, and About. Integrated help was already removed (TAI-004). The menu is removed (TAI-019). The log-file viewer moves to Extras. `LICENSE` stays. The duplicate lowercase `license` file is removed (CUS-010). `plugins/help/jhall.jar` is removed (CUS-009).
 
 The startup splash is not a requirement. It is removed (TAI-020). The window icons stay. SimplyHTML's own splash image preference stays.
 

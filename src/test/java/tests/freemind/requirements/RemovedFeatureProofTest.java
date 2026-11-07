@@ -95,7 +95,8 @@ class RemovedFeatureProofTest {
 		Path root = repoRoot();
 		assertFalse(Files.exists(root.resolve("plugins/MapViewer.xml")));
 		assertFalse(Files.exists(root.resolve("plugins/map/MapDialog.java")));
-		assertTrue(Files.exists(root.resolve("plugins/map/JMapViewer.jar")));
+		assertFalse(Files.exists(root.resolve("plugins/map/JMapViewer.jar")));
+		assertFalse(Files.exists(root.resolve("plugins/map")));
 	}
 
 	@Test
@@ -105,7 +106,8 @@ class RemovedFeatureProofTest {
 		Path root = repoRoot();
 		assertFalse(Files.exists(root.resolve("plugins/FreemindHelp.xml")));
 		assertFalse(Files.exists(root.resolve("plugins/help/doc/freemind.hs")));
-		assertTrue(Files.exists(root.resolve("plugins/help/jhall.jar")));
+		assertFalse(Files.exists(root.resolve("plugins/help/jhall.jar")));
+		assertFalse(Files.exists(root.resolve("plugins/help")));
 	}
 
 	@Test
@@ -123,7 +125,7 @@ class RemovedFeatureProofTest {
 		assertFalse(Files.readString(freemind.resolve("src/main/resources/freemind.properties")).contains("check_spelling"));
 		assertFalse(Files.readString(freemind.resolve("src/main/resources/Resources_en.properties"))
 				.contains("OptionPanel.check_spelling"));
-		assertTrue(Files.exists(freemind.resolve("lib/jortho.jar")));
+		assertFalse(Files.exists(freemind.resolve("lib/jortho.jar")));
 	}
 
 	@Test
@@ -258,8 +260,8 @@ class RemovedFeatureProofTest {
 		assertTrue(viewer.contains("menu_bar/extras/first/logFileViewer"));
 		assertNotNull(Class.forName("accessories.plugins.LogFileViewer"));
 		assertTrue(Files.exists(root.resolve("LICENSE")));
-		assertTrue(Files.exists(root.resolve("license")));
-		assertTrue(Files.exists(root.resolve("plugins/help/jhall.jar")));
+		assertFalse(Files.exists(root.resolve("license")));
+		assertFalse(Files.exists(root.resolve("plugins/help/jhall.jar")));
 		assertTrue(Files.exists(root.resolve("src/main/resources/doc/freemind.mm")));
 		assertFalse(Files.exists(root.resolve("src/main/resources/doc/FM_Key_Mappings_Quick_Guide.pdf")));
 		String resources = Files.readString(root.resolve("src/main/resources/Resources_en.properties"));
@@ -298,7 +300,7 @@ class RemovedFeatureProofTest {
 				() -> Class.forName("onekin.WSL.WSL_Main"));
 		Path root = repoRoot();
 		assertFalse(Files.exists(root.resolve("plugins/wsl")));
-		assertTrue(Files.exists(root.resolve("plugins")));
+		assertFalse(Files.exists(root.resolve("plugins")));
 	}
 
 	private static Path repoRoot() {

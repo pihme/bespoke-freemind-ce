@@ -125,12 +125,10 @@ dependencies {
     implementation("com.jgoodies:jgoodies-forms:${jgoodiesFormsVersion}")
     implementation("com.jgoodies:jgoodies-common:${jgoodiesCommonVersion}")
 
-    // JOrtho stays until the trimmed stage
-    implementation(files("lib/jortho.jar"))
-
-    // SimplyHTML (WYSIWYG HTML Editor) - local JARs
+    // SimplyHTML has no matching artifact on Maven Central.
     implementation(files("lib/SimplyHTML/SimplyHTML.jar"))
-    implementation(files("lib/SimplyHTML/gnu-regexp-1.1.4.jar"))
+    // The note editor calls gnu.regexp.RE when it sets text.
+    implementation("gnu-regexp:gnu-regexp:1.1.4")
 
     // Apache Xalan (XSLT Processing)
     implementation("xalan:xalan:2.7.3")
@@ -141,13 +139,11 @@ dependencies {
     // Jsoup (HTML Parsing)
     implementation("org.jsoup:jsoup:1.22.2")
 
-    // Plugin dependencies
+    // Leftover coordinates stay until the trimmed stage
     implementation("org.codehaus.groovy:groovy-all:3.0.25")
-    implementation(files("plugins/map/JMapViewer.jar"))
     implementation("org.apache.lucene:lucene-core:10.4.0")
     implementation("org.apache.lucene:lucene-analysis-common:10.4.0")
     implementation("org.apache.lucene:lucene-queryparser:10.4.0")
-    implementation(files("plugins/help/jhall.jar"))
     // JLaTeXMath stays until the trimmed stage
     implementation("org.scilab.forge:jlatexmath:1.0.7")
 
@@ -522,7 +518,7 @@ pmd {
 }
 
 tasks.withType<Pmd>().configureEach {
-    ruleSetFiles = files("config/pmd-ruleset.xml")
+    ruleSetFiles = files("config/pmd/ruleset.xml")
     ruleSets = listOf()
 }
 
@@ -533,7 +529,7 @@ tasks.withType<Pmd>().configureEach {
 spotbugs {
     ignoreFailures.set(false)
     reportLevel.set(com.github.spotbugs.snom.Confidence.HIGH)
-    excludeFilter.set(file("config/spotbugs-exclude.xml"))
+    excludeFilter.set(file("config/spotbugs/exclude.xml"))
     showProgress.set(false)
 }
 
@@ -569,7 +565,7 @@ tasks.matching { it.name.startsWith("spotbugs") }.configureEach {
 
 dependencyCheck {
     failBuildOnCVSS = 7f  // block on High+ severity CVEs
-    suppressionFile = "config/owasp-suppressions.xml"
+    suppressionFile = "config/dependency-check/suppressions.xml"
     analyzers.assemblyEnabled = false
     failOnError = true
     analyzers.retirejs.enabled = false
@@ -615,7 +611,7 @@ tasks.register<Exec>("jpackageMac") {
         "--icon", "src/main/resources/images/FreeMindWindowIconModern.icns",
         "--app-version", jpackageVersion,
         "--vendor", "Denomas",
-        "--file-associations", "file-associations.properties",
+        "--file-associations", "jpackage/file-associations.properties",
         "--java-options", "-Xms64m",
         "--java-options", "-Xmx512m",
         "--java-options", "-Xss8M",
@@ -646,7 +642,7 @@ tasks.register<Exec>("jpackageWin") {
         "--icon", "src/main/resources/images/FreeMindWindowIcon.ico",
         "--app-version", jpackageVersion,
         "--vendor", "Denomas",
-        "--file-associations", "file-associations.properties",
+        "--file-associations", "jpackage/file-associations.properties",
         "--win-shortcut",
         "--win-menu",
         "--win-menu-group", "FreeMind CE",
@@ -679,7 +675,7 @@ tasks.register<Exec>("jpackageLinux") {
         "--icon", "src/main/resources/images/FreeMindWindowIcon.png",
         "--app-version", jpackageVersion,
         "--vendor", "Denomas",
-        "--file-associations", "file-associations.properties",
+        "--file-associations", "jpackage/file-associations.properties",
         "--java-options", "-Xms64m",
         "--java-options", "-Xmx512m",
         "--java-options", "-Xss8M",
@@ -709,7 +705,7 @@ tasks.register<Exec>("jpackageLinuxRpm") {
         "--icon", "src/main/resources/images/FreeMindWindowIcon.png",
         "--app-version", jpackageVersion,
         "--vendor", "Denomas",
-        "--file-associations", "file-associations.properties",
+        "--file-associations", "jpackage/file-associations.properties",
         "--java-options", "-Xms64m",
         "--java-options", "-Xmx512m",
         "--java-options", "-Xss8M",
@@ -739,7 +735,7 @@ tasks.register<Exec>("jpackageWinMsi") {
         "--icon", "src/main/resources/images/FreeMindWindowIcon.ico",
         "--app-version", jpackageVersion,
         "--vendor", "Denomas",
-        "--file-associations", "file-associations.properties",
+        "--file-associations", "jpackage/file-associations.properties",
         "--win-per-user-install",
         "--win-shortcut",
         "--win-menu",

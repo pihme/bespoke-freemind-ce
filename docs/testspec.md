@@ -526,7 +526,7 @@ Groovy scripting is gone. `RemovedFeatureProofTest.TestREQ_PLUG_01_GroovyScripti
 
 ### ~~REQ-PLUG-02~~ REMOVED (TAI-002)
 
-The geographic map plugin is gone. `RemovedFeatureProofTest.TestREQ_PLUG_02_GeographicMapIsGone` checks that `plugins.map.MapDialog` does not load and that `plugins/MapViewer.xml` is absent. `plugins/map/JMapViewer.jar` stays until the trimmed stage. `MapNodePositionHolderBase` left with Browse mode in TAI-009.
+The geographic map plugin is gone. `RemovedFeatureProofTest.TestREQ_PLUG_02_GeographicMapIsGone` checks that `plugins.map.MapDialog` does not load and that `plugins/MapViewer.xml` is absent. `plugins/map/JMapViewer.jar` and `plugins/map` are absent (CUS-009). `MapNodePositionHolderBase` left with Browse mode in TAI-009.
 
 ### ~~REQ-PLUG-03~~ REMOVED (TAI-003)
 
@@ -534,7 +534,7 @@ Lucene search of map files is gone. In-map find stays. `RemovedFeatureProofTest.
 
 ### ~~REQ-PLUG-04~~ REMOVED (TAI-004)
 
-Integrated help is gone. `RemovedFeatureProofTest.TestREQ_PLUG_04_IntegratedHelpIsGone` checks that `plugins.help.FreemindHelpStarter` does not load and that `plugins/FreemindHelp.xml` and the help set are absent. `plugins/help/jhall.jar` stays until the trimmed stage. `HelpMenuGuiTest` still checks version strings and is not this feature.
+Integrated help is gone. `RemovedFeatureProofTest.TestREQ_PLUG_04_IntegratedHelpIsGone` checks that `plugins.help.FreemindHelpStarter` does not load and that `plugins/FreemindHelp.xml` and the help set are absent. `plugins/help/jhall.jar` and `plugins/help` are absent (CUS-009). `HelpMenuGuiTest` still checks version strings and is not this feature.
 
 ### ~~REQ-PLUG-05~~ REMOVED (TAI-005)
 
@@ -546,7 +546,7 @@ Socket collaboration is gone. `RemovedFeatureProofTest.TestREQ_PLUG_06_SocketCol
 
 ### ~~REQ-PLUG-07~~ REMOVED (TAI-007)
 
-Spell checking is gone. `RemovedFeatureProofTest.TestREQ_PLUG_07_SpellCheckingIsGone` checks that `FreeMind.setupSpellChecking` is absent, that `dictionaries.cnf` is not a resource, and that `lib/jortho.jar` stays. Node editing and notes stay.
+Spell checking is gone. `RemovedFeatureProofTest.TestREQ_PLUG_07_SpellCheckingIsGone` checks that `FreeMind.setupSpellChecking` is absent, that `dictionaries.cnf` is not a resource, and that `lib/jortho.jar` is absent (CUS-009). Node editing and notes stay. `lib/SimplyHTML/SimplyHTML.jar` stays, and `gnu-regexp` 1.1.4 comes from Maven Central.
 
 ### ~~REQ-PLUG-08~~ REMOVED (TAI-008)
 
@@ -560,7 +560,7 @@ The default `initial_mode` property is `MindMap`. Browse mode and File mode are 
 
 ### Onekin MediaWiki export — removed (TAI-017)
 
-This tree was not a requirement and was not compiled. `RemovedFeatureProofTest.TestTAI_017_OnekinWikiExportIsGone` checks that `onekin.WSL.WSL_Main` does not load and that repo-root `plugins/wsl` is absent. `plugins` stays.
+This tree was not a requirement and was not compiled. `RemovedFeatureProofTest.TestTAI_017_OnekinWikiExportIsGone` checks that `onekin.WSL.WSL_Main` does not load and that repo-root `plugins/wsl` is absent. The `plugins` directory is absent (CUS-009).
 
 ### Startup splash — removed (TAI-020)
 
@@ -568,7 +568,7 @@ The startup splash was not a requirement. `RemovedFeatureProofTest.TestTAI_020_S
 
 ### Help menu — removed (TAI-019)
 
-The Help menu was not a requirement. Documentation, the project pages, the keyboard guide, the license dialog, and About are gone. Integrated help was already removed (TAI-004). `RemovedFeatureProofTest.TestTAI_019_HelpMenuIsGone` checks that the Help menu constant and the documentation, about, license, and homepage actions are absent, that the English keyboard guide is absent, and that the log-file viewer, `LICENSE`, and `plugins/help/jhall.jar` stay. The log-file viewer is under Extras. `HelpMenuGuiTest` still checks version strings and is not this menu.
+The Help menu was not a requirement. Documentation, the project pages, the keyboard guide, the license dialog, and About are gone. Integrated help was already removed (TAI-004). `RemovedFeatureProofTest.TestTAI_019_HelpMenuIsGone` checks that the Help menu constant and the documentation, about, license, and homepage actions are absent, that the English keyboard guide is absent, and that the log-file viewer and `LICENSE` stay. The lowercase `license` file is absent (CUS-010). `plugins/help/jhall.jar` is absent (CUS-009). The log-file viewer is under Extras. `HelpMenuGuiTest` still checks version strings and is not this menu.
 
 ## Application
 

@@ -58,7 +58,7 @@ make audit
 make audit-full
 ```
 
-Grype is `make audit`. The OWASP HTML report is `make audit-full`. Install Grype with `mise install grype` when it is missing. A high finding with a fix is updated. A high finding with no fix is written down in `config/owasp-suppressions.xml` with the reason.
+Grype is `make audit`. The OWASP HTML report is `make audit-full`. Install Grype with `mise install grype` when it is missing. A high finding with a fix is updated. A high finding with no fix is written down in `config/dependency-check/suppressions.xml` with the reason.
 
 ## Static analysis
 
@@ -66,8 +66,8 @@ Grype is `make audit`. The OWASP HTML report is `make audit-full`. Install Grype
 
 | Tool | Config | Report |
 |---|---|---|
-| PMD 7.21.0 | `config/pmd-ruleset.xml` | `build/reports/pmd/` |
-| SpotBugs 6.4.8, high confidence | `config/spotbugs-exclude.xml` | `build/reports/spotbugs/` |
+| PMD 7.21.0 | `config/pmd/ruleset.xml` | `build/reports/pmd/` |
+| SpotBugs 6.4.8, high confidence | `config/spotbugs/exclude.xml` | `build/reports/spotbugs/` |
 
 SpotBugs fails the build. PMD currently reports and does not fail the build, because the tree still has old violations.
 

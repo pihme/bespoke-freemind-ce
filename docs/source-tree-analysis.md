@@ -31,11 +31,13 @@ The repository root is the Gradle project `bespoke-freemind-ce`. Sources follow 
 ├── src/main/schema/                           # freemind.xsd, freemind_actions.xsd, jaxb-bindings.xjb
 ├── src/test/java/                             # directory matches the package
 ├── src/test/resources/
-├── plugins/                                   # jars kept for the trimmed stage
-│   ├── help/jhall.jar
-│   └── map/JMapViewer.jar
-├── lib/                                       # SimplyHTML, gnu-regexp, jortho
-├── config/                                    # SpotBugs, PMD, OWASP suppressions
+├── lib/                                       # SimplyHTML.jar
+├── config/                                    # Gradle tool files, not program preferences
+│   ├── dependency-check/suppressions.xml
+│   ├── pmd/ruleset.xml
+│   └── spotbugs/exclude.xml
+├── jpackage/                                  # .mm association for the installers
+│   └── file-associations.properties
 ├── appimage/                                  # desktop file
 ├── docs/                                      # spec, testspec, source tree
 ├── .github/workflows/                         # Build runs on the stage branches
@@ -50,7 +52,7 @@ The repository root is the Gradle project `bespoke-freemind-ce`. Sources follow 
 
 Production Java is `src/main/java`. JAXB classes are generated into `build/generated/sources/jaxb/java` when the main sources compile. They are not committed. `make jaxb` runs the same generator. `src/main/schema/jaxb-jibx-compat.patch` puts back the JiBX method names the program already calls. Do not hand-edit the generated classes.
 
-Classpath resources live in `src/main/resources`, including `freemind.properties`, `patterns.xml`, `mindmap_menus.xml`, `Resources_en.properties`, `images/**`, and `doc/**/*.mm`. Schemas stay in `src/main/schema` and are not on the runtime classpath. Notes, clones, icons, and the other former plugins are constructed from `BuiltInHooks`. The program does not scan plugin XML.
+Classpath resources live in `src/main/resources`, including `freemind.properties`, `patterns.xml`, `mindmap_menus.xml`, `Resources_en.properties`, `images/**`, and `doc/**/*.mm`. Schemas stay in `src/main/schema` and are not on the runtime classpath. `config/` is read by PMD, SpotBugs, and the dependency-check task. The program does not read it. Notes, clones, icons, and the other former plugins are constructed from `BuiltInHooks`. The program does not scan plugin XML.
 
 `FreeMindApplet.java` and `FreeMindSecurityManager.java` stay in the tree and are excluded from compilation.
 
@@ -63,4 +65,4 @@ Classpath resources live in `src/main/resources`, including `freemind.properties
 | Make | `Makefile` |
 | CI | `.github/workflows/build.yml` |
 
-MindMap mode is the only mode. The plugin Gradle modules are gone. `plugins/help/jhall.jar` and `plugins/map/JMapViewer.jar` stay until the trimmed stage.
+MindMap mode is the only mode. The plugin Gradle modules are gone. The `plugins` directory is gone. `lib/SimplyHTML/SimplyHTML.jar` stays. `gnu-regexp` 1.1.4 comes from Maven Central.

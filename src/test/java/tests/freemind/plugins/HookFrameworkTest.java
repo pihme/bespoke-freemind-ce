@@ -261,11 +261,11 @@ class HookFrameworkTest {
     // ── Hook registration / plugin directory structure ──
 
     @Test
-    @DisplayName("Plugin directories accessories/plugins and plugins/ exist")
-    void pluginDirectoriesExist() {
+    @DisplayName("Accessory resources directory exists")
+    void accessoryResourcesDirectoryExists() {
         assertTrue(new File("src/main/resources/accessories/plugins").isDirectory(),
             "src/main/resources/accessories/plugins directory must exist");
-        assertTrue(new File("plugins").isDirectory(),
-            "plugins directory must exist");
+        assertFalse(new File("plugins").exists(),
+            "plugins directory must be absent");
     }
 }
