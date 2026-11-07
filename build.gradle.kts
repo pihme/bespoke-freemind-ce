@@ -91,11 +91,8 @@ val jpackageVersion = project.version.toString().replace(Regex("-.*"), "")
 
 val jaxbApiVersion = "2.3.1"
 val jaxbImplVersion = "2.3.9"
-val batikVersion = "1.19"
-val fopVersion = "2.11"
 val flatlafVersion = "3.7.1"
 val jgoodiesFormsVersion = "1.9.0"
-val jgoodiesCommonVersion = "1.8.1"
 val junitVersion = "4.13.2"
 
 // ============================================================================
@@ -110,9 +107,6 @@ dependencies {
     implementation("javax.xml.bind:jaxb-api:${jaxbApiVersion}")
     implementation("org.glassfish.jaxb:jaxb-runtime:${jaxbImplVersion}")
 
-    // Activation (required for JAXB on JDK 11+)
-    implementation("javax.activation:activation:1.1.1")
-
     // XJC tool (code generation only - not needed at runtime)
     xjc("org.glassfish.jaxb:jaxb-xjc:${jaxbImplVersion}")
     xjc("org.glassfish.jaxb:jaxb-runtime:${jaxbImplVersion}")
@@ -121,41 +115,21 @@ dependencies {
     implementation("com.formdev:flatlaf:${flatlafVersion}")
     implementation("com.formdev:flatlaf-extras:${flatlafVersion}")
 
-    // JGoodies (Forms and Look) - 1.8.0 has setDefaultDialogBorder API
+    // Forms 1.9.0 already depends on jgoodies-common 1.8.1.
     implementation("com.jgoodies:jgoodies-forms:${jgoodiesFormsVersion}")
-    implementation("com.jgoodies:jgoodies-common:${jgoodiesCommonVersion}")
 
     // SimplyHTML has no matching artifact on Maven Central.
     implementation(files("lib/SimplyHTML/SimplyHTML.jar"))
     // The note editor calls gnu.regexp.RE when it sets text.
     implementation("gnu-regexp:gnu-regexp:1.1.4")
 
-    // Apache Xalan (XSLT Processing)
+    // Old maps are upgraded with XSLT. The JDK transformer rejects empty and
+    // non-XML input before the load path can report a parse error.
     implementation("xalan:xalan:2.7.3")
     implementation("xalan:serializer:2.7.3")
-    implementation("xml-apis:xml-apis:2.0.2")
-    implementation("xerces:xercesImpl:2.12.2")
 
     // Jsoup (HTML Parsing)
-    implementation("org.jsoup:jsoup:1.22.2")
-
-    // Leftover coordinates stay until the trimmed stage
-    implementation("org.codehaus.groovy:groovy-all:3.0.25")
-    implementation("org.apache.lucene:lucene-core:10.4.0")
-    implementation("org.apache.lucene:lucene-analysis-common:10.4.0")
-    implementation("org.apache.lucene:lucene-queryparser:10.4.0")
-    // JLaTeXMath stays until the trimmed stage
-    implementation("org.scilab.forge:jlatexmath:1.0.7")
-
-    // Batik stays until the trimmed stage
-    implementation("org.apache.xmlgraphics:batik-all:${batikVersion}")
-
-    // FOP stays until the trimmed stage
-    implementation("org.apache.xmlgraphics:fop:${fopVersion}")
-
-    // Logging (SLF4J + Logback)
-    implementation("org.slf4j:slf4j-api:2.0.20")
-    implementation("ch.qos.logback:logback-classic:1.6.5")
+    implementation("org.jsoup:jsoup:1.23.2")
 
     // Testing - JUnit 5 with vintage engine for JUnit 3 backward compatibility
     testImplementation("org.junit.jupiter:junit-jupiter:6.1.3")
