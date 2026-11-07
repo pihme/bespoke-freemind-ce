@@ -241,8 +241,9 @@ A modernized and streamlined version of Freemind. Modernized pertains to the UI.
 
 | ID | Decision | Reason | Decided by | Replay hint |
 |----|----------|--------|------------|-------------|
-| BSP-001 | | | user / agent | |
+| BSP-001 | Do not shrink a package. This is a desktop app. There is no container image, and shrink-wrap does not run. The jpackage outputs stay as the build already produces them. No requirement changes. | The user said there is nothing to shrink, because this is a desktop app. | user | Do not add a Dockerfile. Do not cut the jpackage outputs. Leave this stage with this decision and no size ledger. |
 
 ### Last run
 
 - 2026-11-07. Stage opened from the trimmed exit at `9c6cd5f7`. This tree has no container image. The packages it builds are jpackage outputs. The artifact to shrink is not named. No shrink pass yet.
+- 2026-11-07. BSP-001. Nothing to shrink. The program is unchanged. The bespoke stage exits.
