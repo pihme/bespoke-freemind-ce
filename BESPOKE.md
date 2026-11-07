@@ -231,11 +231,11 @@ A modernized and streamlined version of Freemind. Modernized pertains to the UI.
 
 ## 6 bespoke
 
-- Upstream commit: <sha of 1-raw this run started from>
-- Built from: 5-trimmed@<sha>
+- Upstream commit: 88075b1ed47f8e58d813775e41836e08d0681f1f
+- Built from: 5-trimmed@9c6cd5f73707a8ac2cc722221f262f16548cd5d2
 - Skill: shrink-wrap
-- Gate: <command(s) that must pass at the end of this stage>
-- Details: none (or bespoke/6-bespoke.md)
+- Gate: `./gradlew test testGui testPerformance --no-configuration-cache`
+- Details: none
 
 ### Decisions
 
@@ -245,4 +245,4 @@ A modernized and streamlined version of Freemind. Modernized pertains to the UI.
 
 ### Last run
 
-- Date, result (passed / failed at decision ID), notes
+- 2026-11-07. Stage opened from the trimmed exit at `9c6cd5f7`. This tree has no container image. The packages it builds are jpackage outputs. The artifact to shrink is not named. No shrink pass yet.
