@@ -91,6 +91,8 @@ import tests.freemind.cov.MapFixture.Opened;
 @DisplayName("ToolsBehaviourTest")
 class ToolsBehaviourTest {
 
+	private static final Logger TOOLS_LOGGER = Logger.getLogger("Tools");
+
 	@Test
 	void xmlColoursPointsAndDatesRoundTrip() {
 		// backwards compatibility
@@ -335,7 +337,6 @@ class ToolsBehaviourTest {
 		Tools.waitForEventQueue();
 		assertTrue(ran.get());
 
-		Logger toolsLogger = Logger.getLogger("Tools");
 		List<String> warnings = new ArrayList<>();
 		Handler handler = new Handler() {
 			@Override
@@ -352,14 +353,14 @@ class ToolsBehaviourTest {
 			}
 		};
 		handler.setLevel(Level.ALL);
-		Level previous = toolsLogger.getLevel();
-		toolsLogger.setLevel(Level.ALL);
-		toolsLogger.addHandler(handler);
+		Level previous = TOOLS_LOGGER.getLevel();
+		TOOLS_LOGGER.setLevel(Level.ALL);
+		TOOLS_LOGGER.addHandler(handler);
 		try {
 			SwingUtilities.invokeAndWait(Tools::waitForEventQueue);
 		} finally {
-			toolsLogger.removeHandler(handler);
-			toolsLogger.setLevel(previous);
+			TOOLS_LOGGER.removeHandler(handler);
+			TOOLS_LOGGER.setLevel(previous);
 		}
 		assertTrue(warnings.stream().anyMatch(message -> message != null && message.contains("Can't wait")));
 

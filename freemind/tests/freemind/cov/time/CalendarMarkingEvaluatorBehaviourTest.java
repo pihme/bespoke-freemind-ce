@@ -27,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -174,7 +175,7 @@ class CalendarMarkingEvaluatorBehaviourTest {
 		CalendarMarkingEvaluator evaluator = evaluator(mark(CalendarMarking.NEVER, start, 0L, 1, 0));
 		PrintStream original = System.out;
 		ByteArrayOutputStream captured = new ByteArrayOutputStream();
-		System.setOut(new PrintStream(captured));
+		System.setOut(new PrintStream(captured, true, StandardCharsets.UTF_8));
 		try {
 			evaluator.print();
 			int length = captured.size();
@@ -183,7 +184,7 @@ class CalendarMarkingEvaluatorBehaviourTest {
 		} finally {
 			System.setOut(original);
 		}
-		String printed = captured.toString().trim();
+		String printed = captured.toString(StandardCharsets.UTF_8).trim();
 		assertTrue(printed.contains("2015"), printed);
 		assertEquals(1, printed.split("\\R").length);
 	}

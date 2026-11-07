@@ -27,6 +27,7 @@ import java.awt.HeadlessException;
 import java.awt.Window;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -54,12 +55,12 @@ class CalendarMarkingDialogBehaviourTest {
 		// backwards compatibility
 		PrintStream original = System.err;
 		ByteArrayOutputStream captured = new ByteArrayOutputStream();
-		System.setErr(new PrintStream(captured));
+		System.setErr(new PrintStream(captured, true, StandardCharsets.UTF_8));
 		try {
 			CalendarMarkingDialog.main(new String[0]);
 		} finally {
 			System.setErr(original);
 		}
-		assertTrue(captured.toString().contains("MindMapController"));
+		assertTrue(captured.toString(StandardCharsets.UTF_8).contains("MindMapController"));
 	}
 }

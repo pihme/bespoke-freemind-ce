@@ -38,11 +38,12 @@ import org.junit.jupiter.api.Test;
 @DisplayName("LoggingOutputStreamBehaviourTest")
 class LoggingOutputStreamBehaviourTest {
 
+	private static final Logger LOGGER = Logger.getLogger("tests.freemind.cov.main.LoggingOutputStream");
+
 	@Test
 	void flushLogsTextAndDropsAnEmptyOrSeparatorOnlyBuffer() throws Exception {
 		// backwards compatibility
-		Logger logger = Logger.getLogger("tests.freemind.cov.main.LoggingOutputStream");
-		logger.setLevel(Level.ALL);
+		LOGGER.setLevel(Level.ALL);
 		List<String> messages = new ArrayList<>();
 		Handler handler = new Handler() {
 			@Override
@@ -59,12 +60,12 @@ class LoggingOutputStreamBehaviourTest {
 			}
 		};
 		handler.setLevel(Level.ALL);
-		logger.addHandler(handler);
+		LOGGER.addHandler(handler);
 		try {
 			Class<?> type = Class.forName("freemind.main.LoggingOutputStream");
 			Constructor<?> constructor = type.getDeclaredConstructor(Logger.class, Level.class);
 			constructor.setAccessible(true);
-			OutputStream stream = (OutputStream) constructor.newInstance(logger, Level.INFO);
+			OutputStream stream = (OutputStream) constructor.newInstance(LOGGER, Level.INFO);
 			stream.write("hello".getBytes(StandardCharsets.UTF_8));
 			stream.flush();
 			assertTrue(messages.stream().anyMatch(message -> message.contains("hello")));
@@ -74,7 +75,7 @@ class LoggingOutputStreamBehaviourTest {
 			stream.flush();
 			assertEquals(afterHello, messages.size());
 		} finally {
-			logger.removeHandler(handler);
+			LOGGER.removeHandler(handler);
 		}
 	}
 }

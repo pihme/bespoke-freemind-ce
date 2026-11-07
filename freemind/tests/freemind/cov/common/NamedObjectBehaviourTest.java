@@ -67,7 +67,8 @@ class NamedObjectBehaviourTest {
 		assertNull(named.getObject());
 		assertEquals("none", named.getName());
 		assertEquals(0, named.hashCode());
-		assertThrows(NullPointerException.class, () -> named.equals("x"));
+		Object other = "x";
+		assertThrows(NullPointerException.class, () -> named.equals(other));
 		assertThrows(NullPointerException.class, () -> named.equals(new NamedObject(null, "other")));
 	}
 }
