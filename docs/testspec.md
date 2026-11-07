@@ -19,19 +19,19 @@ Authoritative number: **85.03% instruction** (122,236 of 143,756), measured 2026
 Command. `jacocoTestReport` depends on the unit, GUI, and performance tasks and reads their exec files:
 
 ```
-DISPLAY=:0 ./gradlew :freemind:test :freemind:testGui :freemind:testPerformance :freemind:jacocoTestReport --no-configuration-cache
+DISPLAY=:0 ./gradlew test testGui testPerformance jacocoTestReport --no-configuration-cache
 ```
 
-HTML report: `freemind/build/reports/jacoco/test/html/index.html`. The CI check on Ubuntu with Java 21 fails under 85% instruction coverage. Per-module numbers are not a second score.
+HTML report: `build/reports/jacoco/test/html/index.html`. The CI check on Ubuntu with Java 21 fails under 85% instruction coverage. Per-module numbers are not a second score.
 
-`make coverage-report` rebuilds that report from the exec files already in `freemind/build/jacoco/` and prints the instruction, line, and branch totals. The command above is the run that executes the suites. The 83.9% figure includes jqwik and Jazzer execution from before those tests moved to `:freemind:testFuzz`.
+`make coverage-report` rebuilds that report from the exec files already in `build/jacoco/` and prints the instruction, line, and branch totals. The command above is the run that executes the suites. The 83.9% figure includes jqwik and Jazzer execution from before those tests moved to `testFuzz`.
 
 ## Test strategy
 
-- Unit tests: `:freemind:test`, headless, excludes tags `gui` and `fuzz`. GUI tests: `:freemind:testGui`, needs a display. Performance: `:freemind:testPerformance`, tag `performance`. jqwik property tests and Jazzer fuzz tests: `:freemind:testFuzz`, tag `fuzz`. That task is outside the unit run and outside JaCoCo.
+- Unit tests: `test`, headless, excludes tags `gui` and `fuzz`. GUI tests: `testGui`, needs a display. Performance: `testPerformance`, tag `performance`. jqwik property tests and Jazzer fuzz tests: `testFuzz`, tag `fuzz`. That task is outside the unit run and outside JaCoCo.
 - JUnit 5 is the runner. JaCoCo is the coverage tool. Fuzz stays on the tools already in the build: jqwik 1.10.1 and Jazzer 0.30.0, tag `fuzz`, `make test-fuzz`, and `.github/workflows/fuzz.yml`. No new fuzzer is added. Phase D2 added no new fuzz or property test. The one special case already on record is `HtmlTools.unicodeToHTMLUnicodeEntity`, which does not escape `&`. `UnicodePropertyTests.unicodeEntityRoundTrip_isIdentity` excludes those strings. That stays a pre-existing limitation, not a new requirement. No path with spaces, numeric overflow, or class of crashing inputs from this run was left without a test. `make test-fuzz` on 2026-10-27 passed: 18 tests, 0 failures, 6s wall, Gradle client max RSS 104 MB. That figure is the client, not the forked test JVM. The workflow runs the same target as two jobs, jqwik (10 minute budget) and Jazzer (30 minute budget, `-Djazzer.fuzz=true`, five minutes per test), on Wednesday and on `workflow_dispatch`. It does not run on push or pull request, and it does not gate a merge. Each job uses `--max-workers=2` and uploads the test results and `/usr/bin/time -v` output whether the job passes or fails.
-- Mutation is PIT 1.30.1, Gradle plugin `info.solidsoft.pitest` 1.19.0, JUnit 5 plugin 1.2.3. `make mutate` runs `:freemind:pitest` with 2 threads. The default package is `freemind.controller.filter.condition` and the default tests are `tests.freemind.filter.*` plus `tests.freemind.ConditionFactoryBugFixTest`. Override with `MUTATE` and `MUTATE_TESTS`. A wider run is manual: `.github/workflows/mutation.yml`. It does not run on push or pull request, and it does not gate a merge. `check` does not depend on it. `make mutate` on that default scope, JDK 21, finished in 17s (Gradle client max RSS 112 MB, child heap 512m): 286 mutants, 187 killed, boundary mutants included, killed and survived counted apart from uncovered lines. The same scope after the filter assertions finished in 14s (mutation analysis 13s): 286 mutants, 213 killed, 5 survived, 68 uncovered, test strength 98%. PIT was chosen because this repo already runs tests through Gradle and JUnit, and that run completed. LittleDarwin, Descartes, Jumble, Javalanche, MuJava, ArcMutate, and Stryker are not used here.
-- Generated sources: `freemind/generated-src/` is JAXB output (`freemind.controller.actions.generated.instance`). The JaCoCo agent excludes `freemind.controller.actions.generated.instance.*`, and `jacocoTestReport` drops `freemind/controller/actions/generated/**` from class and source directories. PIT excludes the same classes. Those classes are generated and cannot be edited as product behaviour. They are not in the authoritative count and are not in the test plan. The existing backwards-compatibility check `generatedActionsKeepTheValuesTheyAreGiven` stays; it is not a coverage target.
+- Mutation is PIT 1.30.1, Gradle plugin `info.solidsoft.pitest` 1.19.0, JUnit 5 plugin 1.2.3. `make mutate` runs `pitest` with 2 threads. The default package is `freemind.controller.filter.condition` and the default tests are `tests.freemind.filter.*` plus `tests.freemind.ConditionFactoryBugFixTest`. Override with `MUTATE` and `MUTATE_TESTS`. A wider run is manual: `.github/workflows/mutation.yml`. It does not run on push or pull request, and it does not gate a merge. `check` does not depend on it. `make mutate` on that default scope, JDK 21, finished in 17s (Gradle client max RSS 112 MB, child heap 512m): 286 mutants, 187 killed, boundary mutants included, killed and survived counted apart from uncovered lines. The same scope after the filter assertions finished in 14s (mutation analysis 13s): 286 mutants, 213 killed, 5 survived, 68 uncovered, test strength 98%. PIT was chosen because this repo already runs tests through Gradle and JUnit, and that run completed. LittleDarwin, Descartes, Jumble, Javalanche, MuJava, ArcMutate, and Stryker are not used here.
+- Generated sources: JAXB writes `freemind.controller.actions.generated.instance` into `build/generated/sources/jaxb/java` during compile. Those classes are not committed. The JaCoCo agent excludes `freemind.controller.actions.generated.instance.*`, and `jacocoTestReport` drops `freemind/controller/actions/generated/**` from class and source directories. PIT excludes the same classes. Those classes are generated and cannot be edited as product behaviour. They are not in the authoritative count and are not in the test plan. The existing backwards-compatibility check `generatedActionsKeepTheValuesTheyAreGiven` stays; it is not a coverage target.
 - PIT also skips test classes `tests.freemind.fuzz.*`, `tests.freemind.property.*`, `tests.freemind.unicode.UnicodePropertyTests`, `tests.freemind.gui.*`, and `tests.freemind.io.LargeFilePerformanceTest`, and JUnit tags `gui`, `fuzz`, and `performance`. Fuzz and performance are separate targets. GUI tests need a display, and the mutation JVM is the headless unit JVM. jqwik does not publish the `fuzz` tag, so the class patterns stay as well.
 - Resource limits that drive how much is kept: REQ-DED-08 (`last_opened_list_length`, shipped 25, options 0 through 200) and REQ-DED-09 (`undo_levels`, shipped 100, options 2 through 1000). Other numeric options (wheel velocity, proxy port, delayed-selection time) change a rate or a port. They do not size a collection.
 - A test that calls code and asserts nothing is not a check. `ExportTests.testExportPng` still calls `exportFileToPng` and asserts nothing. `TestREQ_FILE_03_PngExportWritesPngBytes` is the check.
@@ -260,21 +260,21 @@ A method is uncoverable when its only effect is `System.exit` or `Runtime.exec` 
 
 | Source | Method | Call |
 | --- | --- | --- |
-| `freemind/freemind/main/FreeMindStarter.java` | `main` | `System.exit(1)` after a failed startup |
-| `freemind/freemind/main/FreeMindStarter.java` | `getUserPreferencesFile` | `System.exit(1)` when `defaultPreferences` is null. The non-null path is tested. |
-| `freemind/freemind/main/FreeMind.java` | `main` | `System.exit(1)` in the startup catch |
-| `freemind/freemind/main/FreeMind.java` | `checkForAnotherInstance` | `System.exit(0)` after a successful read from another instance's socket. A missing or badly formatted port file is tested. |
-| `freemind/freemind/main/FreeMind.java` | `FreeMind$3.windowClosing` | `controller.quit` reaches `System.exit(0)` in `Controller.quit` |
-| `freemind/freemind/controller/Controller.java` | `quit` | `System.exit(0)` after storing the window and the open maps |
-| `freemind/freemind/controller/Controller.java` | `QuitAction.actionPerformed` | calls `quit()`, which reaches `System.exit(0)` |
-| `freemind/freemind/modes/FreeMindAwtFileDialog.java` | `main` | `System.exit(0)` after the open dialog |
-| `freemind/freemind/main/FreeMind.java` | `initServer` | `new EditServer`, whose constructor calls `Tools.setPermissions` |
-| `freemind/freemind/main/EditServer.java` | `EditServer` constructor | `Tools.setPermissions(portFile, 0600)`, which runs `Runtime.getRuntime().exec` |
-| `freemind/freemind/main/Tools.java` | `setPermissions` | `Runtime.getRuntime().exec` of `chmod` when `permissions != 0` and `isUnix()`. `setPermissions(path, 0)` is tested. |
-| `freemind/freemind/main/Tools.java` | `setHidden` | `Runtime.getRuntime().exec` of `attrib.exe` when `os.name` starts with `Win`. The non-Windows return is tested. |
-| `freemind/freemind/view/mindmapview/IndependantMapViewCreator.java` | `main` | `System.exit(0)` when the argument count is not 2, and `System.exit(0)` or `System.exit(1)` after an export attempt |
-| `freemind/freemind/view/mindmapview/EditNodeExternalApplication.java` | `EditNodeExternalApplication$1.run` | `Runtime.getRuntime().exec` of the `html_editing_command` property |
-| `freemind/freemind/common/FreeMindProgressMonitor.java` | `main` | `System.exit(1)` when the argument is not an integer, and `System.exit(0)` after the monitor is shown |
+| `src/main/java/freemind/main/FreeMindStarter.java` | `main` | `System.exit(1)` after a failed startup |
+| `src/main/java/freemind/main/FreeMindStarter.java` | `getUserPreferencesFile` | `System.exit(1)` when `defaultPreferences` is null. The non-null path is tested. |
+| `src/main/java/freemind/main/FreeMind.java` | `main` | `System.exit(1)` in the startup catch |
+| `src/main/java/freemind/main/FreeMind.java` | `checkForAnotherInstance` | `System.exit(0)` after a successful read from another instance's socket. A missing or badly formatted port file is tested. |
+| `src/main/java/freemind/main/FreeMind.java` | `FreeMind$3.windowClosing` | `controller.quit` reaches `System.exit(0)` in `Controller.quit` |
+| `src/main/java/freemind/controller/Controller.java` | `quit` | `System.exit(0)` after storing the window and the open maps |
+| `src/main/java/freemind/controller/Controller.java` | `QuitAction.actionPerformed` | calls `quit()`, which reaches `System.exit(0)` |
+| `src/main/java/freemind/modes/FreeMindAwtFileDialog.java` | `main` | `System.exit(0)` after the open dialog |
+| `src/main/java/freemind/main/FreeMind.java` | `initServer` | `new EditServer`, whose constructor calls `Tools.setPermissions` |
+| `src/main/java/freemind/main/EditServer.java` | `EditServer` constructor | `Tools.setPermissions(portFile, 0600)`, which runs `Runtime.getRuntime().exec` |
+| `src/main/java/freemind/main/Tools.java` | `setPermissions` | `Runtime.getRuntime().exec` of `chmod` when `permissions != 0` and `isUnix()`. `setPermissions(path, 0)` is tested. |
+| `src/main/java/freemind/main/Tools.java` | `setHidden` | `Runtime.getRuntime().exec` of `attrib.exe` when `os.name` starts with `Win`. The non-Windows return is tested. |
+| `src/main/java/freemind/view/mindmapview/IndependantMapViewCreator.java` | `main` | `System.exit(0)` when the argument count is not 2, and `System.exit(0)` or `System.exit(1)` after an export attempt |
+| `src/main/java/freemind/view/mindmapview/EditNodeExternalApplication.java` | `EditNodeExternalApplication$1.run` | `Runtime.getRuntime().exec` of the `html_editing_command` property |
+| `src/main/java/freemind/common/FreeMindProgressMonitor.java` | `main` | `System.exit(1)` when the argument is not an integer, and `System.exit(0)` after the monitor is shown |
 
 ## Map
 
@@ -490,7 +490,7 @@ HTML export is gone. `RemovedFeatureProofTest.TestREQ_FILE_01_HtmlExportIsGone` 
 
 ### ~~REQ-FILE-02~~ REMOVED (TAI-011)
 
-SVG export and PDF export are gone. `RemovedFeatureProofTest.TestREQ_FILE_02_SvgAndPdfExportAreGone` checks that `plugins.svg.ExportSvg` and `plugins.svg.ExportPdf` do not load and that `freemind/plugins/ExportSvg.xml` is absent. PDF actions were registered in that file. Batik and FOP stay until the trimmed stage. PNG export stays. `ExportGuiTest` methods that only assert `.mm` XML stay.
+SVG export and PDF export are gone. `RemovedFeatureProofTest.TestREQ_FILE_02_SvgAndPdfExportAreGone` checks that `plugins.svg.ExportSvg` and `plugins.svg.ExportPdf` do not load and that `plugins/ExportSvg.xml` is absent. PDF actions were registered in that file. Batik and FOP stay until the trimmed stage. PNG export stays. `ExportGuiTest` methods that only assert `.mm` XML stay.
 
 ### REQ-FILE-03 — Checked
 
@@ -500,7 +500,7 @@ SVG export and PDF export are gone. `RemovedFeatureProofTest.TestREQ_FILE_02_Svg
 
 ### ~~REQ-FILE-04~~ REMOVED (TAI-016)
 
-The context-graph plugin is gone. `RemovedFeatureProofTest.TestREQ_FILE_04_ContextGraphExportIsGone` checks that `plugins.contextgraph.ContextGraphMarkdownExport` does not load and that `freemind/plugins/ContextGraph.xml` is absent.
+The context-graph plugin is gone. `RemovedFeatureProofTest.TestREQ_FILE_04_ContextGraphExportIsGone` checks that `plugins.contextgraph.ContextGraphMarkdownExport` does not load and that `plugins/ContextGraph.xml` is absent.
 
 ### REQ-FILE-05 — Checked
 
@@ -522,27 +522,27 @@ XSLT exports are gone. `RemovedFeatureProofTest.TestREQ_FILE_07_XsltExportsAreGo
 
 ### ~~REQ-PLUG-01~~ REMOVED (TAI-001)
 
-Groovy scripting is gone. `RemovedFeatureProofTest.TestREQ_PLUG_01_GroovyScriptingIsGone` checks that `plugins.script.ScriptingEngine` does not load and that `freemind/plugins/ScriptingEngine.xml` is absent. The Groovy dependency stays until the trimmed stage. A stored script hook is skipped and the map still opens. The pattern dialog can still store a script string.
+Groovy scripting is gone. `RemovedFeatureProofTest.TestREQ_PLUG_01_GroovyScriptingIsGone` checks that `plugins.script.ScriptingEngine` does not load and that `plugins/ScriptingEngine.xml` is absent. The Groovy dependency stays until the trimmed stage. A stored script hook is skipped and the map still opens. The pattern dialog can still store a script string.
 
 ### ~~REQ-PLUG-02~~ REMOVED (TAI-002)
 
-The geographic map plugin is gone. `RemovedFeatureProofTest.TestREQ_PLUG_02_GeographicMapIsGone` checks that `plugins.map.MapDialog` does not load and that `freemind/plugins/MapViewer.xml` is absent. `plugins/map/JMapViewer.jar` stays until the trimmed stage. `MapNodePositionHolderBase` left with Browse mode in TAI-009.
+The geographic map plugin is gone. `RemovedFeatureProofTest.TestREQ_PLUG_02_GeographicMapIsGone` checks that `plugins.map.MapDialog` does not load and that `plugins/MapViewer.xml` is absent. `plugins/map/JMapViewer.jar` stays until the trimmed stage. `MapNodePositionHolderBase` left with Browse mode in TAI-009.
 
 ### ~~REQ-PLUG-03~~ REMOVED (TAI-003)
 
-Lucene search of map files is gone. In-map find stays. `RemovedFeatureProofTest.TestREQ_PLUG_03_LuceneSearchIsGone` checks that `plugins.search.SearchControllerHook` does not load and that `freemind/plugins/Search.xml` is absent.
+Lucene search of map files is gone. In-map find stays. `RemovedFeatureProofTest.TestREQ_PLUG_03_LuceneSearchIsGone` checks that `plugins.search.SearchControllerHook` does not load and that `plugins/Search.xml` is absent.
 
 ### ~~REQ-PLUG-04~~ REMOVED (TAI-004)
 
-Integrated help is gone. `RemovedFeatureProofTest.TestREQ_PLUG_04_IntegratedHelpIsGone` checks that `plugins.help.FreemindHelpStarter` does not load and that `freemind/plugins/FreemindHelp.xml` and the help set are absent. `plugins/help/jhall.jar` stays until the trimmed stage. `HelpMenuGuiTest` still checks version strings and is not this feature.
+Integrated help is gone. `RemovedFeatureProofTest.TestREQ_PLUG_04_IntegratedHelpIsGone` checks that `plugins.help.FreemindHelpStarter` does not load and that `plugins/FreemindHelp.xml` and the help set are absent. `plugins/help/jhall.jar` stays until the trimmed stage. `HelpMenuGuiTest` still checks version strings and is not this feature.
 
 ### ~~REQ-PLUG-05~~ REMOVED (TAI-005)
 
-LaTeX on a node is gone. `RemovedFeatureProofTest.TestREQ_PLUG_05_LatexOnANodeIsGone` checks that `plugins.latex.LatexNodeHook` does not load and that `freemind/plugins/Latex.xml` is absent. JLaTeXMath stays until the trimmed stage. XSLT LaTeX export left with TAI-013.
+LaTeX on a node is gone. `RemovedFeatureProofTest.TestREQ_PLUG_05_LatexOnANodeIsGone` checks that `plugins.latex.LatexNodeHook` does not load and that `plugins/Latex.xml` is absent. JLaTeXMath stays until the trimmed stage. XSLT LaTeX export left with TAI-013.
 
 ### ~~REQ-PLUG-06~~ REMOVED (TAI-006)
 
-Socket collaboration is gone. `RemovedFeatureProofTest.TestREQ_PLUG_06_SocketCollaborationIsGone` checks that `plugins.collaboration.socket.MindMapMaster` does not load and that `freemind/plugins/CollaborationSocket.xml` is absent. The single-instance port file stays. `CollaborationGuiTest` still checks map save and reload.
+Socket collaboration is gone. `RemovedFeatureProofTest.TestREQ_PLUG_06_SocketCollaborationIsGone` checks that `plugins.collaboration.socket.MindMapMaster` does not load and that `plugins/CollaborationSocket.xml` is absent. The single-instance port file stays. `CollaborationGuiTest` still checks map save and reload.
 
 ### ~~REQ-PLUG-07~~ REMOVED (TAI-007)
 
@@ -550,7 +550,7 @@ Spell checking is gone. `RemovedFeatureProofTest.TestREQ_PLUG_07_SpellCheckingIs
 
 ### ~~REQ-PLUG-08~~ REMOVED (TAI-008)
 
-Database collaboration, Jabber, and the Palm OS tree are gone. `RemovedFeatureProofTest.TestREQ_PLUG_08_LegacyCollaborationSourcesAreGone` checks that `plugins.collaboration.database.DatabaseStarter` and `plugins.collaboration.jabber.JabberStarter` do not load and that `freemind/plugins/collaboration` and `pda` are absent. The single-instance port file stays. `CollaborationGuiTest` still checks map save and reload.
+Database collaboration, Jabber, and the Palm OS tree are gone. `RemovedFeatureProofTest.TestREQ_PLUG_08_LegacyCollaborationSourcesAreGone` checks that `plugins.collaboration.database.DatabaseStarter` and `plugins.collaboration.jabber.JabberStarter` do not load and that `plugins/collaboration` and `pda` are absent. The single-instance port file stays. `CollaborationGuiTest` still checks map save and reload.
 
 ### REQ-MODE-01 — Partial
 
@@ -560,7 +560,7 @@ The default `initial_mode` property is `MindMap`. Browse mode and File mode are 
 
 ### Onekin MediaWiki export — removed (TAI-017)
 
-This tree was not a requirement and was not compiled. `RemovedFeatureProofTest.TestTAI_017_OnekinWikiExportIsGone` checks that `onekin.WSL.WSL_Main` does not load and that repo-root `plugins/wsl` is absent. `freemind/plugins` stays.
+This tree was not a requirement and was not compiled. `RemovedFeatureProofTest.TestTAI_017_OnekinWikiExportIsGone` checks that `onekin.WSL.WSL_Main` does not load and that repo-root `plugins/wsl` is absent. `plugins` stays.
 
 ### Startup splash — removed (TAI-020)
 
@@ -602,7 +602,7 @@ Both FlatLaf themes are applied to `UIManager`. The `lookandfeel` property in `F
 
 The build file names Java 21 and a package task for macOS, Windows, and Linux. Nothing is launched on those systems.
 
-- `requirements/RequirementBehaviourTest.java` `TestREQ_APP_05_Java21AndThreePackages`: `freemind/build.gradle.kts` sets `JavaLanguageVersion.of(21)`, registers `jpackageMac`, `jpackageWin`, and `jpackageLinux`, and names `freemind.main.FreeMindStarter`.
+- `requirements/RequirementBehaviourTest.java` `TestREQ_APP_05_Java21AndThreePackages`: `build.gradle.kts` sets `JavaLanguageVersion.of(21)`, registers `jpackageMac`, `jpackageWin`, and `jpackageLinux`, and names `freemind.main.FreeMindStarter`.
 
 ### REQ-SEC-01 — Partial
 

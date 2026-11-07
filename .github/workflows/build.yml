@@ -61,8 +61,7 @@ jobs:
           echo "::notice::Comparing $BASE..$HEAD"
           NON_DOC_FILES=$(git diff --name-only "$BASE..$HEAD" -- \
             ':!**/*.md' ':!docs/**' \
-            ':!LICENSE' ':!COPYING' ':!.gitattributes' \
-            ':!.github/ISSUE_TEMPLATE/**' ':!.github/PULL_REQUEST_TEMPLATE/**')
+            ':!LICENSE' ':!COPYING' ':!.gitattributes')
           if [ -z "$NON_DOC_FILES" ]; then
             echo "code=false" >> "$GITHUB_OUTPUT"
             echo "java_code=false" >> "$GITHUB_OUTPUT"
@@ -116,7 +115,7 @@ jobs:
         if: always()
         run: |
           MIN_TESTS=800
-          RESULTS_DIR="freemind/build/test-results/test"
+          RESULTS_DIR="build/test-results/test"
           if [ ! -d "$RESULTS_DIR" ]; then
             echo "::warning::No test results directory found — skipping count check"
             exit 0
@@ -134,7 +133,7 @@ jobs:
         if: always()
         with:
           name: Unit Tests (ubuntu-24.04, Java 21)
-          path: freemind/build/test-results/test/*.xml
+          path: build/test-results/test/*.xml
           reporter: java-junit
 
       - name: Upload SpotBugs Report
@@ -142,24 +141,24 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: spotbugs-report-ubuntu-24.04-java21
-          path: freemind/build/reports/spotbugs/
+          path: build/reports/spotbugs/
           retention-days: 14
           if-no-files-found: ignore
 
       - name: Generate Coverage Report
         if: always()
-        run: xvfb-run ./gradlew :freemind:jacocoTestReport --no-daemon --no-configuration-cache -x test
+        run: xvfb-run ./gradlew jacocoTestReport --no-daemon --no-configuration-cache -x test
 
       - name: Enforce Coverage Threshold
         if: always()
-        run: xvfb-run ./gradlew :freemind:jacocoTestCoverageVerification --no-daemon --no-configuration-cache -x test
+        run: xvfb-run ./gradlew jacocoTestCoverageVerification --no-daemon --no-configuration-cache -x test
 
       - name: Upload Coverage Report
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: coverage-report
-          path: freemind/build/reports/jacoco/
+          path: build/reports/jacoco/
           retention-days: 14
 
       - name: Upload build artifacts
@@ -167,8 +166,8 @@ jobs:
         with:
           name: build-ubuntu-24.04
           path: |
-            freemind/build/libs/*.jar
-            freemind/build/distributions/*
+            build/libs/*.jar
+            build/distributions/*
           retention-days: 14
           if-no-files-found: warn
 
@@ -204,7 +203,7 @@ jobs:
         run: xvfb-run ./gradlew testGui --no-daemon --no-configuration-cache --continue
 
       - name: E2E Showcase Screenshots
-        run: xvfb-run ./gradlew :freemind:showcaseScreenshots --no-daemon --no-configuration-cache || true
+        run: xvfb-run ./gradlew showcaseScreenshots --no-daemon --no-configuration-cache || true
         timeout-minutes: 5
 
       - name: Upload GUI Test Screenshots
@@ -212,7 +211,7 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: gui-test-screenshots-ubuntu-24.04-java21
-          path: freemind/build/test-screenshots/
+          path: build/test-screenshots/
           retention-days: 14
           if-no-files-found: ignore
 
@@ -223,7 +222,7 @@ jobs:
             echo "## Screenshots: ubuntu-24.04 / Java 21"
             echo ""
 
-            SHOWCASE_DIR="freemind/build/test-screenshots/showcase"
+            SHOWCASE_DIR="build/test-screenshots/showcase"
             if [ -d "$SHOWCASE_DIR" ]; then
               WINDOW_COUNT=$(find "$SHOWCASE_DIR" -name "window_*.jpg" -type f | wc -l | tr -d ' ')
               DESKTOP_COUNT=$(find "$SHOWCASE_DIR" -name "desktop_*.png" -type f | wc -l | tr -d ' ')
@@ -242,7 +241,7 @@ jobs:
               echo ""
             fi
 
-            SCREENSHOT_DIR="freemind/build/test-screenshots"
+            SCREENSHOT_DIR="build/test-screenshots"
             if [ -d "$SCREENSHOT_DIR" ]; then
               TEST_COUNT=$(find "$SCREENSHOT_DIR" -name "*.png" -type f -not -path "*/showcase/*" | wc -l | tr -d ' ')
               if [ "$TEST_COUNT" -gt 0 ]; then
@@ -260,7 +259,7 @@ jobs:
         if: always()
         with:
           name: GUI Tests (ubuntu-24.04, Java 21)
-          path: freemind/build/test-results/testGui/*.xml
+          path: build/test-results/testGui/*.xml
           reporter: java-junit
           fail-on-empty: false
 

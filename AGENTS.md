@@ -10,7 +10,7 @@ Read `BESPOKE.md` before changing behavior. A feature is added when `docs/spec.m
 - An existing `.mm` file opens. When a change cannot keep that, add an importer for freemind-ce files.
 - The license stays GPL-2.0.
 - The language and the JDK are not fixed. The toolchain in the build file is only what this tree uses today.
-- `generated-src/` is JAXB output. Regenerate it with `make jaxb`.
+- JAXB classes are generated into the build directory when the main sources compile. `make jaxb` runs the same generator. `src/main/schema/jaxb-jibx-compat.patch` puts back the JiBX method names. Do not commit the generated classes and do not hand-edit them.
 - `auto.properties` is a runtime file. Leave it uncommitted.
 - A warning is fixed at the cause. `@SuppressWarnings` is not the fix.
 - Local JARs that the build still uses stay tracked. A JAR nothing calls can leave in the trim stage.
@@ -22,24 +22,22 @@ Read `BESPOKE.md` before changing behavior. A feature is added when `docs/spec.m
 | Task | Read |
 |---|---|
 | Commits, the build, or tests | [CONTRIBUTING.md](CONTRIBUTING.md) |
-| Design of the current code | [docs/architecture.md](docs/architecture.md) |
-| Where a class lives | [docs/source-tree-analysis.md](docs/source-tree-analysis.md) and [docs/component-inventory.md](docs/component-inventory.md) |
+| Where a class lives | [docs/source-tree-analysis.md](docs/source-tree-analysis.md) |
 | How to build, test, or package | [docs/development-guide.md](docs/development-guide.md) |
-| An upstream-style release | [docs/contributor-workflows.md](docs/contributor-workflows.md) and [docs/merge-release-safety.md](docs/merge-release-safety.md). Those notes describe Denomas/freemind-ce. This fork's rules are this file and `BESPOKE.md`. |
 
 `make help` lists the build targets. `make` passes `--no-configuration-cache`. It keeps a `JAVA_HOME` that is already set. When `JAVA_HOME` is unset, it looks for a JDK 21 on the system paths and stops when it finds none. Set `JAVA_HOME` to a JDK 21 and run `make` again. The entry point is `freemind.main.FreeMindStarter`.
 
-A Gradle `--tests` filter is the class's `package` declaration. Read that line. Run a unit check that is already failing on its own, so `:freemind:testGui` and `jacocoTestReport` still run. Read pass and fail from `freemind/build/test-results/*/TEST-*.xml`. Read instruction, line, and branch totals from the root `counter` elements of `freemind/build/reports/jacoco/test/jacocoTestReport.xml`.
+A Gradle `--tests` filter is the class's `package` declaration. Read that line. Run a unit check that is already failing on its own, so `testGui` and `jacocoTestReport` still run. Read pass and fail from `build/test-results/*/TEST-*.xml`. Read instruction, line, and branch totals from the root `counter` elements of `build/reports/jacoco/test/jacocoTestReport.xml`.
 
-One Gradle test task is one JVM. `FreeMind.props` and the `Resources` language bundle survive from one test class to the next. The test that asserts one of those resets it and keeps the original expected value. Test classes do not need a class-level `@DisplayName`. jqwik and Jazzer tests carry the tag `fuzz`. `:freemind:testFuzz` runs them. The unit task and the JaCoCo report leave them out.
+One Gradle test task is one JVM. `FreeMind.props` and the `Resources` language bundle survive from one test class to the next. The test that asserts one of those resets it and keeps the original expected value. Test classes do not need a class-level `@DisplayName`. jqwik and Jazzer tests carry the tag `fuzz`. `testFuzz` runs them. The unit task and the JaCoCo report leave them out.
 
 | What | Where |
 |------|-------|
-| Main app class | `freemind/freemind/main/FreeMind.java` |
-| Controller hub | `freemind/freemind/controller/Controller.java` |
-| Primary mode | `freemind/freemind/modes/mindmapmode/MindMapController.java` |
-| Map view | `freemind/freemind/view/mindmapview/MapView.java` |
-| Node model | `freemind/freemind/modes/MindMapNode.java` |
+| Main app class | `src/main/java/freemind/main/FreeMind.java` |
+| Controller hub | `src/main/java/freemind/controller/Controller.java` |
+| Primary mode | `src/main/java/freemind/modes/mindmapmode/MindMapController.java` |
+| Map view | `src/main/java/freemind/view/mindmapview/MapView.java` |
+| Node model | `src/main/java/freemind/modes/MindMapNode.java` |
 
 ## Subagents
 

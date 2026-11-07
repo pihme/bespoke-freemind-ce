@@ -82,48 +82,48 @@ info: ## Show detected Java and system info
 ##@ Development
 
 build: ## Build the project (compile + test)
-	$(GRADLE_CMD) :freemind:build $(GRADLE_FLAGS)
+	$(GRADLE_CMD) build $(GRADLE_FLAGS)
 
 run: ## Run FreeMind CE
-	$(GRADLE_CMD) :freemind:run $(GRADLE_FLAGS)
+	$(GRADLE_CMD) run $(GRADLE_FLAGS)
 
 debug: ## Run in debug mode (attach debugger on port 5005)
-	$(GRADLE_CMD) :freemind:run $(GRADLE_FLAGS) --debug-jvm
+	$(GRADLE_CMD) run $(GRADLE_FLAGS) --debug-jvm
 
 clean: ## Clean all build artifacts
 	$(GRADLE_CMD) clean $(GRADLE_FLAGS)
 
 test: ## Run tests only
-	$(GRADLE_CMD) :freemind:test $(GRADLE_FLAGS)
+	$(GRADLE_CMD) test $(GRADLE_FLAGS)
 
 test-gui: ## Run GUI tests with screenshots (requires display)
-	$(GRADLE_CMD) :freemind:testGui $(GRADLE_FLAGS)
+	$(GRADLE_CMD) testGui $(GRADLE_FLAGS)
 
 test-performance: ## Run performance tests
-	$(GRADLE_CMD) :freemind:testPerformance $(GRADLE_FLAGS)
+	$(GRADLE_CMD) testPerformance $(GRADLE_FLAGS)
 
 test-fuzz: ## Run jqwik and Jazzer tests (not part of unit tests or coverage)
-	$(GRADLE_CMD) :freemind:testFuzz $(GRADLE_FLAGS)
+	$(GRADLE_CMD) testFuzz $(GRADLE_FLAGS)
 
 mutate: ## Mutation-test one package (override MUTATE and MUTATE_TESTS)
-	$(GRADLE_CMD) :freemind:pitest $(GRADLE_FLAGS) \
+	$(GRADLE_CMD) pitest $(GRADLE_FLAGS) \
 		$(if $(MUTATE),-PmutateClasses=$(MUTATE),) \
 		$(if $(MUTATE_TESTS),-PmutateTests=$(MUTATE_TESTS),)
 
 coverage: ## Run tests with JaCoCo coverage report
-	$(GRADLE_CMD) :freemind:test :freemind:jacocoTestReport $(GRADLE_FLAGS)
-	@echo "Coverage report: freemind/build/reports/jacoco/test/html/index.html"
+	$(GRADLE_CMD) test jacocoTestReport $(GRADLE_FLAGS)
+	@echo "Coverage report: build/reports/jacoco/test/html/index.html"
 
 coverage-report: ## Print JaCoCo totals from exec files already on disk
-	@if ! ls freemind/build/jacoco/*.exec >/dev/null 2>&1; then \
-		echo "No exec files in freemind/build/jacoco. Run the test tasks first."; \
+	@if ! ls build/jacoco/*.exec >/dev/null 2>&1; then \
+		echo "No exec files in build/jacoco. Run the test tasks first."; \
 		exit 1; \
 	fi
-	$(GRADLE_CMD) :freemind:jacocoTestReport -x :freemind:test -x :freemind:testGui -x :freemind:testPerformance $(GRADLE_FLAGS)
-	@python3 -c 'import xml.etree.ElementTree as ET; root = ET.parse("freemind/build/reports/jacoco/test/jacocoTestReport.xml").getroot(); counters = {c.get("type"): c for c in root.findall("counter")}; \
+	$(GRADLE_CMD) jacocoTestReport -x test -x testGui -x testPerformance $(GRADLE_FLAGS)
+	@python3 -c 'import xml.etree.ElementTree as ET; root = ET.parse("build/reports/jacoco/test/jacocoTestReport.xml").getroot(); counters = {c.get("type"): c for c in root.findall("counter")}; \
 order = ("INSTRUCTION", "LINE", "BRANCH"); \
 [print("%s: %.1f%% (%s of %s)" % (name, 100.0 * int(counters[name].get("covered")) / (int(counters[name].get("covered")) + int(counters[name].get("missed"))), format(int(counters[name].get("covered")), ","), format(int(counters[name].get("covered")) + int(counters[name].get("missed")), ","))) for name in order]'
-	@echo "Coverage report: freemind/build/reports/jacoco/test/html/index.html"
+	@echo "Coverage report: build/reports/jacoco/test/html/index.html"
 
 check: ## Run build + all quality checks
 	$(GRADLE_CMD) check $(GRADLE_FLAGS)
@@ -138,18 +138,18 @@ audit: ## Run security audit — Grype (fast, ~30s, fails on High+)
 	@echo "Full OWASP report: make audit-full"
 
 audit-full: ## Run full OWASP dependency-check (slower, detailed HTML report)
-	$(GRADLE_CMD) :freemind:dependencyCheckAnalyze $(GRADLE_FLAGS)
+	$(GRADLE_CMD) dependencyCheckAnalyze $(GRADLE_FLAGS)
 	@echo ""
-	@echo "Report: freemind/build/reports/dependency-check-report.html"
+	@echo "Report: build/reports/dependency-check-report.html"
 
 ##@ Code Generation
 
 jaxb: ## Regenerate JAXB classes from XSD schema
-	$(GRADLE_CMD) :freemind:generateJaxb $(GRADLE_FLAGS)
+	$(GRADLE_CMD) generateJaxb $(GRADLE_FLAGS)
 
 javadoc: ## Generate API documentation
 	$(GRADLE_CMD) javadoc $(GRADLE_FLAGS)
-	@echo "Javadoc: freemind/build/docs/javadoc/index.html"
+	@echo "Javadoc: build/docs/javadoc/index.html"
 
 # ── Packaging ────────────────────────────────────────────────────────
 ##@ Packaging
@@ -162,19 +162,19 @@ package: ## Build native package for current OS
 	esac
 
 package-mac: ## Build macOS DMG package
-	$(GRADLE_CMD) :freemind:jpackageMac $(GRADLE_FLAGS)
+	$(GRADLE_CMD) jpackageMac $(GRADLE_FLAGS)
 
 package-win: ## Build Windows EXE installer
-	$(GRADLE_CMD) :freemind:jpackageWin $(GRADLE_FLAGS)
+	$(GRADLE_CMD) jpackageWin $(GRADLE_FLAGS)
 
 package-linux: ## Build Linux DEB package
-	$(GRADLE_CMD) :freemind:jpackageLinux $(GRADLE_FLAGS)
+	$(GRADLE_CMD) jpackageLinux $(GRADLE_FLAGS)
 
 dist-zip: ## Create distribution ZIP archive
-	$(GRADLE_CMD) :freemind:distZip $(GRADLE_FLAGS)
+	$(GRADLE_CMD) distZip $(GRADLE_FLAGS)
 
 install-dist: ## Create local distribution layout
-	$(GRADLE_CMD) :freemind:installDist $(GRADLE_FLAGS)
+	$(GRADLE_CMD) installDist $(GRADLE_FLAGS)
 
 # ── Aliases ──────────────────────────────────────────────────────────
 ##@ Aliases

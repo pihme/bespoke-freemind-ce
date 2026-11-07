@@ -26,8 +26,8 @@ local.properties
 # Eclipse project files are not part of this tree.
 .project
 .classpath
-freemind/plugins/**/.project
-freemind/plugins/**/.classpath
+plugins/**/.project
+plugins/**/.classpath
 
 ### Java ###
 # Compiled class files
@@ -74,12 +74,11 @@ Desktop.ini
 ### FreeMind CE specific ###
 
 # Auto-generated at runtime
-freemind/version.properties
-freemind/auto.properties
-freemind/.jqwik-database
+/auto.properties
+/.jqwik-database
 
 # JiBX binding JAR (obsolete — replaced by JAXB)
-freemind/lib/bindings.jar
+/lib/bindings.jar
 
 # Build output directories (legacy Ant)
 bin/dist/
@@ -99,8 +98,8 @@ bin/reports/
 jacoco/
 coverage/
 
-# Legacy Ant build output inside freemind/
-freemind/bin/
+# Legacy Ant build output
+/bin/
 
 # Local agent settings. This fork does not ship these directories.
 .claude/

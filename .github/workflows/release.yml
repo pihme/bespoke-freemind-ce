@@ -82,7 +82,7 @@ jobs:
         run: xvfb-run ./gradlew testGui --no-daemon --no-configuration-cache --continue
 
       - name: E2E Showcase Screenshots
-        run: xvfb-run ./gradlew :freemind:showcaseScreenshots --no-daemon --no-configuration-cache || true
+        run: xvfb-run ./gradlew showcaseScreenshots --no-daemon --no-configuration-cache || true
         timeout-minutes: 5
 
       - name: Upload GUI Test Screenshots
@@ -90,7 +90,7 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: release-gui-screenshots-ubuntu-24.04-java21
-          path: freemind/build/test-screenshots/
+          path: build/test-screenshots/
           retention-days: 30
           if-no-files-found: ignore
 
@@ -103,7 +103,7 @@ jobs:
             echo ""
 
             # Showcase screenshots
-            SHOWCASE_DIR="freemind/build/test-screenshots/showcase"
+            SHOWCASE_DIR="build/test-screenshots/showcase"
             if [ -d "$SHOWCASE_DIR" ]; then
               WINDOW_COUNT=$(find "$SHOWCASE_DIR" -name "window_*.jpg" -type f | wc -l | tr -d ' ')
               DESKTOP_COUNT=$(find "$SHOWCASE_DIR" -name "desktop_*.png" -type f | wc -l | tr -d ' ')
@@ -123,7 +123,7 @@ jobs:
             fi
 
             # Test screenshots
-            SCREENSHOT_DIR="freemind/build/test-screenshots"
+            SCREENSHOT_DIR="build/test-screenshots"
             if [ -d "$SCREENSHOT_DIR" ]; then
               TEST_COUNT=$(find "$SCREENSHOT_DIR" -name "*.png" -type f -not -path "*/showcase/*" | wc -l | tr -d ' ')
               if [ "$TEST_COUNT" -gt 0 ]; then
@@ -163,19 +163,19 @@ jobs:
         run: ./gradlew build -x test --no-daemon --no-configuration-cache
 
       - name: Package DMG
-        run: ./gradlew :freemind:jpackageMac --no-daemon --no-configuration-cache
+        run: ./gradlew jpackageMac --no-daemon --no-configuration-cache
 
       - name: Rename artifacts
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
-          cd freemind/build/jpackage
+          cd build/jpackage
           for f in *.dmg; do [ -f "$f" ] && mv "$f" "FreeMind-CE-${VERSION}-macOS.dmg"; done
 
       - name: Upload packages
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: FreeMindCE-macOS
-          path: freemind/build/jpackage/FreeMind-CE-*
+          path: build/jpackage/FreeMind-CE-*
           if-no-files-found: error
 
   build-windows:
@@ -201,19 +201,19 @@ jobs:
         run: .\gradlew.bat build -x test --no-daemon --no-configuration-cache
 
       - name: Package EXE
-        run: .\gradlew.bat :freemind:jpackageWin --no-daemon --no-configuration-cache
+        run: .\gradlew.bat jpackageWin --no-daemon --no-configuration-cache
 
       - name: Package MSI
-        run: .\gradlew.bat :freemind:jpackageWinMsi --no-daemon --no-configuration-cache
+        run: .\gradlew.bat jpackageWinMsi --no-daemon --no-configuration-cache
 
       - name: Create portable archive (ZIP for Windows)
         shell: bash
         run: |
-          ./gradlew.bat :freemind:installDist --no-daemon --no-configuration-cache
+          ./gradlew.bat installDist --no-daemon --no-configuration-cache
           VERSION="${GITHUB_REF_NAME#v}"
 
           # Add a Windows-friendly launcher to the portable distribution
-          cat > freemind/build/install/freemind/freemind.bat << 'LAUNCHER'
+          cat > build/install/freemind/freemind.bat << 'LAUNCHER'
           @echo off
           setlocal
 
@@ -265,7 +265,7 @@ jobs:
               -cp "%APP_DIR%lib\*" freemind.main.FreeMindStarter %*
           LAUNCHER
 
-          cat > freemind/build/install/freemind/README.txt << 'README'
+          cat > build/install/freemind/README.txt << 'README'
           FreeMind CE — Portable Edition
           ==============================
 
@@ -286,19 +286,19 @@ jobs:
           README
 
           # Bundle doc/ at root level for portable (getFreemindBaseDir strips "lib")
-          cp -r freemind/doc freemind/build/install/freemind/doc
+          cp -r doc build/install/freemind/doc
           # Remove jpackage-specific lib/doc/ to avoid double-bundling
-          rm -rf freemind/build/install/freemind/lib/doc
-          ls freemind/build/install/freemind/doc/freemind.mm || { echo "ERROR: doc/freemind.mm not found"; exit 1; }
+          rm -rf build/install/freemind/lib/doc
+          ls build/install/freemind/doc/freemind.mm || { echo "ERROR: doc/freemind.mm not found"; exit 1; }
 
-          cd freemind/build/install
+          cd build/install
           powershell -Command "Compress-Archive -Path 'freemind\*' -DestinationPath '..\jpackage\FreeMind-CE-${VERSION}-Windows-portable.zip'"
 
       - name: Rename artifacts
         shell: bash
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
-          cd freemind/build/jpackage
+          cd build/jpackage
           for f in *.exe; do [ -f "$f" ] && mv "$f" "FreeMind-CE-${VERSION}-Windows.exe"; done
           for f in *.msi; do [ -f "$f" ] && mv "$f" "FreeMind-CE-${VERSION}-Windows.msi"; done
 
@@ -306,7 +306,7 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: FreeMindCE-Windows
-          path: freemind/build/jpackage/FreeMind-CE-*
+          path: build/jpackage/FreeMind-CE-*
           if-no-files-found: error
 
   build-linux:
@@ -338,21 +338,21 @@ jobs:
         run: ./gradlew build -x test --no-daemon --no-configuration-cache
 
       - name: Package DEB
-        run: ./gradlew :freemind:jpackageLinux --no-daemon --no-configuration-cache
+        run: ./gradlew jpackageLinux --no-daemon --no-configuration-cache
 
       - name: Package RPM
-        run: ./gradlew :freemind:jpackageLinuxRpm --no-daemon --no-configuration-cache
+        run: ./gradlew jpackageLinuxRpm --no-daemon --no-configuration-cache
 
       - name: Create portable archive (tar.gz for Linux)
         run: |
-          ./gradlew :freemind:installDist --no-daemon --no-configuration-cache
+          ./gradlew installDist --no-daemon --no-configuration-cache
           VERSION="${GITHUB_REF_NAME#v}"
           # Bundle doc/ at root level for portable (getFreemindBaseDir strips "lib")
-          cp -r freemind/doc freemind/build/install/freemind/doc
+          cp -r doc build/install/freemind/doc
           # Remove jpackage-specific lib/doc/ to avoid double-bundling
-          rm -rf freemind/build/install/freemind/lib/doc
-          ls freemind/build/install/freemind/doc/freemind.mm || { echo "ERROR: doc/freemind.mm not found"; exit 1; }
-          cd freemind/build/install
+          rm -rf build/install/freemind/lib/doc
+          ls build/install/freemind/doc/freemind.mm || { echo "ERROR: doc/freemind.mm not found"; exit 1; }
+          cd build/install
           tar -czf "../jpackage/FreeMind-CE-${VERSION}-portable.tar.gz" freemind/
 
       - name: Build AppImage
@@ -373,7 +373,7 @@ jobs:
           mkdir -p "${APPDIR}/usr/bin" "${APPDIR}/usr/lib" "${APPDIR}/usr/share/icons/hicolor/256x256/apps"
 
           # Copy application files
-          cp -r freemind/build/install/freemind/lib/* "${APPDIR}/usr/lib/"
+          cp -r build/install/freemind/lib/* "${APPDIR}/usr/lib/"
 
           # Create launcher script
           cat > "${APPDIR}/usr/bin/freemind-ce" << 'LAUNCHER'
@@ -384,9 +384,9 @@ jobs:
           chmod +x "${APPDIR}/usr/bin/freemind-ce"
 
           # Copy desktop file and icon
-          cp freemind/appimage/freemind-ce.desktop "${APPDIR}/"
-          cp freemind/images/FreeMindWindowIcon.png "${APPDIR}/freemind-ce.png"
-          cp freemind/images/FreeMindWindowIcon.png "${APPDIR}/usr/share/icons/hicolor/256x256/apps/freemind-ce.png"
+          cp appimage/freemind-ce.desktop "${APPDIR}/"
+          cp src/main/resources/images/FreeMindWindowIcon.png "${APPDIR}/freemind-ce.png"
+          cp src/main/resources/images/FreeMindWindowIcon.png "${APPDIR}/usr/share/icons/hicolor/256x256/apps/freemind-ce.png"
 
           # Create AppRun
           cat > "${APPDIR}/AppRun" << 'APPRUN'
@@ -397,12 +397,12 @@ jobs:
           chmod +x "${APPDIR}/AppRun"
 
           # Build AppImage
-          ARCH=x86_64 ./appimagetool "${APPDIR}" "freemind/build/jpackage/FreeMind-CE-${VERSION}-Linux-x86_64.AppImage"
+          ARCH=x86_64 ./appimagetool "${APPDIR}" "build/jpackage/FreeMind-CE-${VERSION}-Linux-x86_64.AppImage"
 
       - name: Rename artifacts
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
-          cd freemind/build/jpackage
+          cd build/jpackage
           for f in *.deb; do [ -f "$f" ] && mv "$f" "FreeMind-CE-${VERSION}-Linux.deb"; done
           for f in *.rpm; do [ -f "$f" ] && mv "$f" "FreeMind-CE-${VERSION}-Linux.rpm"; done
 
@@ -410,14 +410,14 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: FreeMindCE-Linux
-          path: freemind/build/jpackage/FreeMind-CE-*
+          path: build/jpackage/FreeMind-CE-*
           if-no-files-found: error
 
       - name: Upload JAR distribution
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: FreeMindCE-jar
-          path: freemind/build/distributions/*
+          path: build/distributions/*
 
   release:
     name: Create GitHub Release
@@ -446,10 +446,10 @@ jobs:
 
       - name: Generate SBOM
         run: |
-          ./gradlew :freemind:cyclonedxBom --no-daemon --no-configuration-cache
+          ./gradlew cyclonedxBom --no-daemon --no-configuration-cache
           mkdir -p artifacts/sbom
-          cp freemind/build/reports/bom.json artifacts/sbom/bom.json
-          cp freemind/build/reports/bom.xml artifacts/sbom/bom.xml
+          cp build/reports/bom.json artifacts/sbom/bom.json
+          cp build/reports/bom.xml artifacts/sbom/bom.xml
 
       - name: Install cosign
         uses: sigstore/cosign-installer@d7d6107eb3a806d6a4a2688cc4b9842945a27f5d # v3.9.0

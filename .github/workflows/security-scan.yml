@@ -33,7 +33,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Run OWASP Dependency Check
-        run: ./gradlew :freemind:dependencyCheckAnalyze --no-daemon --no-configuration-cache
+        run: ./gradlew dependencyCheckAnalyze --no-daemon --no-configuration-cache
         continue-on-error: true
 
       - name: Upload OWASP Report
@@ -41,7 +41,7 @@ jobs:
         if: always()
         with:
           name: owasp-dependency-check-report
-          path: freemind/build/reports/dependency-check-report.html
+          path: build/reports/dependency-check-report.html
           retention-days: 30
 
   codeql:

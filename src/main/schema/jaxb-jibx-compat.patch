@@ -1,0 +1,784 @@
+--- a/freemind/controller/actions/generated/instance/AddCloudXmlAction.java
++++ b/freemind/controller/actions/generated/instance/AddCloudXmlAction.java
+@@ -54,6 +54,11 @@
+         this.enabled = value;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public boolean getEnabled() {
++        return isEnabled();
++    }
++
+     /**
+      * Gets the value of the color property.
+      *
+--- a/freemind/controller/actions/generated/instance/AttributeTableProperties.java
++++ b/freemind/controller/actions/generated/instance/AttributeTableProperties.java
+@@ -6,6 +6,7 @@
+ import javax.xml.bind.annotation.XmlAccessType;
+ import javax.xml.bind.annotation.XmlAccessorType;
+ import javax.xml.bind.annotation.XmlElement;
++import javax.xml.bind.annotation.XmlRootElement;
+ import javax.xml.bind.annotation.XmlType;
+ 
+ 
+@@ -32,6 +33,7 @@
+ @XmlType(name = "attribute_table_properties", propOrder = {
+     "tableColumnOrder"
+ })
++@XmlRootElement(name = "attribute_table_properties")
+ public class AttributeTableProperties
+     extends XmlAction
+ {
+@@ -71,4 +73,15 @@
+         return this.tableColumnOrder;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++
++    public List<TableColumnOrder> getListTableColumnOrderList() {
++        return getTableColumnOrder();
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public void addTableColumnOrder(TableColumnOrder o) {
++        getTableColumnOrder().add(o);
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/BoldNodeAction.java
++++ b/freemind/controller/actions/generated/instance/BoldNodeAction.java
+@@ -51,4 +51,9 @@
+         this.bold = value;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public boolean getBold() {
++        return isBold();
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/CalendarMarking.java
++++ b/freemind/controller/actions/generated/instance/CalendarMarking.java
+@@ -36,7 +36,7 @@
+  *             &lt;enumeration value="monthly_every_nth_week"/&gt;
+  *             &lt;enumeration value="weekly"/&gt;
+  *             &lt;enumeration value="weekly_every_nth_day"/&gt;
+- *             &lt;enumeration value="daily"/&gt;
++ *             &lt;enumeration value="DAILY"/&gt;
+  *           &lt;/restriction&gt;
+  *         &lt;/simpleType&gt;
+  *       &lt;/attribute&gt;
+@@ -54,6 +54,19 @@
+ @XmlRootElement(name = "calendar_marking")
+ public class CalendarMarking {
+ 
++    // JiBX backward-compatibility constants (manual addition - preserve on regeneration)
++    public static final String NEVER = "never";
++    public static final String YEARLY = "yearly";
++    public static final String YEARLY_EVERY_NTH_DAY = "yearly_every_nth_day";
++    public static final String YEARLY_EVERY_NTH_WEEK = "yearly_every_nth_week";
++    public static final String YEARLY_EVERY_NTH_MONTH = "yearly_every_nth_month";
++    public static final String MONTHLY = "monthly";
++    public static final String MONTHLY_EVERY_NTH_DAY = "monthly_every_nth_day";
++    public static final String MONTHLY_EVERY_NTH_WEEK = "monthly_every_nth_week";
++    public static final String WEEKLY = "weekly";
++    public static final String WEEKLY_EVERY_NTH_DAY = "weekly_every_nth_day";
++    public static final String DAILY = "daily";
++
+     @XmlAttribute(name = "name", required = true)
+     protected String name;
+     @XmlAttribute(name = "color", required = true)
+--- a/freemind/controller/actions/generated/instance/CalendarMarkings.java
++++ b/freemind/controller/actions/generated/instance/CalendarMarkings.java
+@@ -10,25 +10,6 @@
+ import javax.xml.bind.annotation.XmlType;
+ 
+ 
+-/**
+- * <p>Java class for anonymous complex type</p>.
+- *
+- * <p>The following schema fragment specifies the expected content contained within this class.</p>
+- *
+- * <pre>
+- * &lt;complexType&gt;
+- *   &lt;complexContent&gt;
+- *     &lt;extension base="{}xml_action"&gt;
+- *       &lt;sequence&gt;
+- *         &lt;element ref="{}calendar_marking" maxOccurs="unbounded" minOccurs="0"/&gt;
+- *       &lt;/sequence&gt;
+- *     &lt;/extension&gt;
+- *   &lt;/complexContent&gt;
+- * &lt;/complexType&gt;
+- * </pre>
+- *
+- *
+- */
+ @XmlAccessorType(XmlAccessType.FIELD)
+ @XmlType(name = "", propOrder = {
+     "calendarMarking"
+@@ -41,31 +22,6 @@
+     @XmlElement(name = "calendar_marking")
+     protected List<CalendarMarking> calendarMarking;
+ 
+-    /**
+-     * Gets the value of the calendarMarking property.
+-     *
+-     * <p>This accessor method returns a reference to the live list,
+-     * not a snapshot. Therefore any modification you make to the
+-     * returned list will be present inside the JAXB object.
+-     * This is why there is not a <CODE>set</CODE> method for the calendarMarking property.</p>
+-     *
+-     * <p>
+-     * For example, to add a new item, do as follows:
+-     * </p>
+-     * <pre>
+-     * getCalendarMarking().add(newItem);
+-     * </pre>
+-     *
+-     *
+-     * <p>
+-     * Objects of the following type(s) are allowed in the list
+-     * {@link CalendarMarking }
+-     * </p>
+-     *
+-     *
+-     * @return
+-     *     The value of the calendarMarking property.
+-     */
+     public List<CalendarMarking> getCalendarMarking() {
+         if (calendarMarking == null) {
+             calendarMarking = new ArrayList<CalendarMarking>();
+@@ -73,4 +29,22 @@
+         return this.calendarMarking;
+     }
+ 
++    // JiBX backward-compatibility methods (manual addition - preserve on regeneration)
++
++    public int sizeCalendarMarkingList() {
++        return getCalendarMarking().size();
++    }
++
++    public CalendarMarking getCalendarMarking(int index) {
++        return getCalendarMarking().get(index);
++    }
++
++    public void addCalendarMarking(CalendarMarking marking) {
++        getCalendarMarking().add(marking);
++    }
++
++    public void removeFromCalendarMarkingElementAt(int index) {
++        getCalendarMarking().remove(index);
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/CollaborationOffers.java
++++ b/freemind/controller/actions/generated/instance/CollaborationOffers.java
+@@ -105,4 +105,24 @@
+         this.isSingleOffer = value;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public List<CollaborationMapOffer> getListCollaborationMapOfferList() {
++        return getCollaborationMapOffer();
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public void addCollaborationMapOffer(CollaborationMapOffer o) {
++        getCollaborationMapOffer().add(o);
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public CollaborationMapOffer getCollaborationMapOffer(int index) {
++        return getCollaborationMapOffer().get(index);
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public boolean getIsSingleOffer() {
++        return isIsSingleOffer();
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/CompoundAction.java
++++ b/freemind/controller/actions/generated/instance/CompoundAction.java
+@@ -199,4 +199,32 @@
+         return this.compoundActionOrSelectNodeActionOrCutNodeAction;
+     }
+ 
++    // JiBX backward-compatibility methods (manual addition - preserve on regeneration)
++
++    public List<XmlAction> getListChoiceList() {
++        return getCompoundActionOrSelectNodeActionOrCutNodeAction();
++    }
++
++    public void addChoice(XmlAction action) {
++        getCompoundActionOrSelectNodeActionOrCutNodeAction().add(action);
++    }
++
++    public int sizeChoiceList() {
++        return getCompoundActionOrSelectNodeActionOrCutNodeAction().size();
++    }
++
++    public XmlAction getChoice(int index) {
++        return getCompoundActionOrSelectNodeActionOrCutNodeAction().get(index);
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public void addAtChoice(int index, XmlAction action) {
++        getCompoundActionOrSelectNodeActionOrCutNodeAction().add(index, action);
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public void setAtChoice(int index, XmlAction action) {
++        getCompoundActionOrSelectNodeActionOrCutNodeAction().set(index, action);
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/FoldAction.java
++++ b/freemind/controller/actions/generated/instance/FoldAction.java
+@@ -51,4 +51,9 @@
+         this.folded = value;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public boolean getFolded() {
++        return isFolded();
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/HookNodeAction.java
++++ b/freemind/controller/actions/generated/instance/HookNodeAction.java
+@@ -137,4 +137,35 @@
+         this.hookName = value;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++
++    public List<NodeListMember> getListNodeListMemberList() {
++        return getNodeListMember();
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public void addNodeListMember(NodeListMember m) {
++        getNodeListMember().add(m);
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public void clearNodeListMemberList() {
++        getNodeListMember().clear();
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public NodeListMember getNodeListMember(int index) {
++        return getNodeListMember().get(index);
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public List<NodeChildParameter> getListNodeChildParameterList() {
++        return getNodeChildParameter();
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public void addNodeChildParameter(NodeChildParameter p) {
++        getNodeChildParameter().add(p);
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/ItalicNodeAction.java
++++ b/freemind/controller/actions/generated/instance/ItalicNodeAction.java
+@@ -51,4 +51,9 @@
+         this.italic = value;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public boolean getItalic() {
++        return isItalic();
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/MapWindowConfigurationStorage.java
++++ b/freemind/controller/actions/generated/instance/MapWindowConfigurationStorage.java
+@@ -512,4 +512,56 @@
+         this.mapLocationStorageIndex = value;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public boolean getHideFoldedNodes() {
++        return isHideFoldedNodes();
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public boolean getZoomControlsVisible() {
++        return isZoomControlsVisible();
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public boolean getTileGridVisible() {
++        return isTileGridVisible();
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public boolean getShowMapMarker() {
++        return isShowMapMarker();
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public boolean getSearchControlVisible() {
++        return isSearchControlVisible();
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public boolean getLimitSearchToVisibleArea() {
++        return isLimitSearchToVisibleArea();
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++
++    @SuppressWarnings("unchecked")
++    public List<TableColumnSetting> getListTableColumnSettingList() {
++        return (List<TableColumnSetting>)(List<?>)getTableColumnSetting();
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public void addTableColumnSetting(TableColumnSettingType t) {
++        getTableColumnSetting().add(t);
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public List<MapLocationStorage> getListMapLocationStorageList() {
++        return getMapLocationStorage();
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public void addMapLocationStorage(MapLocationStorage s) {
++        getMapLocationStorage().add(s);
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/MenuCategoryBase.java
++++ b/freemind/controller/actions/generated/instance/MenuCategoryBase.java
+@@ -93,6 +93,12 @@
+         return this.menuCategoryOrMenuSubmenuOrMenuAction;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++
++    public List<Object> getListChoiceList() {
++        return getMenuCategoryOrMenuSubmenuOrMenuAction();
++    }
++
+     /**
+      * Gets the value of the name property.
+      *
+--- a/freemind/controller/actions/generated/instance/MenuRadioAction.java
++++ b/freemind/controller/actions/generated/instance/MenuRadioAction.java
+@@ -63,4 +63,9 @@
+         this.selected = value;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public boolean getSelected() {
++        return isSelected();
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/MenuStructure.java
++++ b/freemind/controller/actions/generated/instance/MenuStructure.java
+@@ -73,4 +73,11 @@
+         return this.menuCategory;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++
++    @SuppressWarnings("unchecked")
++    public List<Object> getListChoiceList() {
++        return (List<Object>)(List<?>)getMenuCategory();
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/MindmapLastStateMapStorage.java
++++ b/freemind/controller/actions/generated/instance/MindmapLastStateMapStorage.java
+@@ -7,6 +7,7 @@
+ import javax.xml.bind.annotation.XmlAccessorType;
+ import javax.xml.bind.annotation.XmlAttribute;
+ import javax.xml.bind.annotation.XmlElement;
++import javax.xml.bind.annotation.XmlRootElement;
+ import javax.xml.bind.annotation.XmlType;
+ 
+ 
+@@ -34,6 +35,7 @@
+ @XmlType(name = "mindmap_last_state_map_storage", propOrder = {
+     "mindmapLastStateStorage"
+ })
++@XmlRootElement(name = "mindmap_last_state_map_storage")
+ public class MindmapLastStateMapStorage
+     extends XmlAction
+ {
+@@ -103,4 +105,25 @@
+         this.lastFocusedTab = value;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++
++    public List<MindmapLastStateStorage> getListMindmapLastStateStorageList() {
++        return getMindmapLastStateStorage();
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public void addMindmapLastStateStorage(MindmapLastStateStorage s) {
++        getMindmapLastStateStorage().add(s);
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public void clearMindmapLastStateStorageList() {
++        getMindmapLastStateStorage().clear();
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public int sizeMindmapLastStateStorageList() {
++        return getMindmapLastStateStorage().size();
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/MindmapLastStateStorage.java
++++ b/freemind/controller/actions/generated/instance/MindmapLastStateStorage.java
+@@ -221,4 +221,25 @@
+         this.lastSelected = value;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++
++    public List<NodeListMember> getListNodeListMemberList() {
++        return getNodeListMember();
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public void addNodeListMember(NodeListMember m) {
++        getNodeListMember().add(m);
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public void clearNodeListMemberList() {
++        getNodeListMember().clear();
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public NodeListMember getNodeListMember(int index) {
++        return getNodeListMember().get(index);
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/MoveNodesAction.java
++++ b/freemind/controller/actions/generated/instance/MoveNodesAction.java
+@@ -93,4 +93,25 @@
+         this.direction = value;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++
++    public List<NodeListMember> getListNodeListMemberList() {
++        return getNodeListMember();
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public void addNodeListMember(NodeListMember m) {
++        getNodeListMember().add(m);
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public void clearNodeListMemberList() {
++        getNodeListMember().clear();
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public NodeListMember getNodeListMember(int index) {
++        return getNodeListMember().get(index);
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/NodeList.java
++++ b/freemind/controller/actions/generated/instance/NodeList.java
+@@ -73,4 +73,25 @@
+         return this.nodeListMember;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++
++    public List<NodeListMember> getListNodeListMemberList() {
++        return getNodeListMember();
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public void addNodeListMember(NodeListMember m) {
++        getNodeListMember().add(m);
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public void clearNodeListMemberList() {
++        getNodeListMember().clear();
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public NodeListMember getNodeListMember(int index) {
++        return getNodeListMember().get(index);
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/PasteNodeAction.java
++++ b/freemind/controller/actions/generated/instance/PasteNodeAction.java
+@@ -86,6 +86,11 @@
+         this.isLeft = value;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public boolean getIsLeft() {
++        return isIsLeft();
++    }
++
+     /**
+      * Gets the value of the asSibling property.
+      *
+@@ -102,4 +107,9 @@
+         this.asSibling = value;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public boolean getAsSibling() {
++        return isAsSibling();
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/Patterns.java
++++ b/freemind/controller/actions/generated/instance/Patterns.java
+@@ -73,4 +73,22 @@
+         return this.pattern;
+     }
+ 
++    // JiBX backward-compatibility methods (manual addition - preserve on regeneration)
++
++    public List<Pattern> getListChoiceList() {
++        return getPattern();
++    }
++
++    public void addChoice(Pattern p) {
++        getPattern().add(p);
++    }
++
++    public int sizeChoiceList() {
++        return getPattern().size();
++    }
++
++    public Pattern getChoice(int index) {
++        return getPattern().get(index);
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/PluginAction.java
++++ b/freemind/controller/actions/generated/instance/PluginAction.java
+@@ -123,6 +123,12 @@
+         return this.pluginModeOrPluginMenuOrPluginProperty;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++
++    public List<Object> getListChoiceList() {
++        return getPluginModeOrPluginMenuOrPluginProperty();
++    }
++
+     /**
+      * Gets the value of the label property.
+      *
+@@ -347,4 +353,9 @@
+         this.isSelectable = value;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public boolean getIsSelectable() {
++        return isIsSelectable();
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/Plugin.java
++++ b/freemind/controller/actions/generated/instance/Plugin.java
+@@ -89,6 +89,12 @@
+         return this.pluginClasspathOrPluginRegistrationOrPluginAction;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++
++    public List<Object> getListChoiceList() {
++        return getPluginClasspathOrPluginRegistrationOrPluginAction();
++    }
++
+     /**
+      * Gets the value of the label property.
+      *
+--- a/freemind/controller/actions/generated/instance/PluginRegistration.java
++++ b/freemind/controller/actions/generated/instance/PluginRegistration.java
+@@ -130,4 +130,15 @@
+         this.isPluginBase = value;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++
++    public List<PluginMode> getListPluginModeList() {
++        return getPluginMode();
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public boolean getIsPluginBase() {
++        return isIsPluginBase();
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/Reversegeocode.java
++++ b/freemind/controller/actions/generated/instance/Reversegeocode.java
+@@ -148,4 +148,21 @@
+         this.timestamp = value;
+     }
+ 
++    // JiBX backward-compatibility methods (manual addition - preserve on regeneration)
++
++    public java.util.List<Result> getListResultList() {
++        java.util.List<Result> list = new java.util.ArrayList<>();
++        if (result != null) {
++            list.add(result);
++        }
++        return list;
++    }
++
++    public Result getResult(int index) {
++        if (index == 0 && result != null) {
++            return result;
++        }
++        throw new IndexOutOfBoundsException("Index: " + index);
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/Searchresults.java
++++ b/freemind/controller/actions/generated/instance/Searchresults.java
+@@ -234,4 +234,19 @@
+         this.moreUrl = value;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public List<Place> getListPlaceList() {
++        return getPlace();
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public void addPlace(Place p) {
++        getPlace().add(p);
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public int sizePlaceList() {
++        return getPlace().size();
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/StrikethroughNodeAction.java
++++ b/freemind/controller/actions/generated/instance/StrikethroughNodeAction.java
+@@ -51,4 +51,9 @@
+         this.strikethrough = value;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public boolean getStrikethrough() {
++        return isStrikethrough();
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/TableColumnSetting.java
++++ b/freemind/controller/actions/generated/instance/TableColumnSetting.java
+@@ -0,0 +1,23 @@
++
++package freemind.controller.actions.generated.instance;
++
++import javax.xml.bind.annotation.XmlAccessType;
++import javax.xml.bind.annotation.XmlAccessorType;
++import javax.xml.bind.annotation.XmlRootElement;
++import javax.xml.bind.annotation.XmlType;
++
++/**
++ * JiBX backward-compatibility class (manual addition - preserve on regeneration).
++ *
++ * <p>In the original JiBX-based model this class was named {@code TableColumnSetting}.
++ * JAXB generates it as {@link TableColumnSettingType} because the XSD names the
++ * complex type {@code table_column_setting_type}.  This subclass exists solely so
++ * that existing call-sites that reference {@code TableColumnSetting} continue to
++ * compile without modification.</p>
++ */
++@XmlAccessorType(XmlAccessType.FIELD)
++@XmlType(name = "table_column_setting")
++@XmlRootElement(name = "table_column_setting")
++public class TableColumnSetting extends TableColumnSettingType {
++
++}
+--- a/freemind/controller/actions/generated/instance/TimeWindowConfigurationStorage.java
++++ b/freemind/controller/actions/generated/instance/TimeWindowConfigurationStorage.java
+@@ -105,4 +105,18 @@
+         this.viewFoldedNodes = value;
+     }
+ 
++    // JiBX backward-compatibility methods (manual addition - preserve on regeneration)
++
++    public List<TimeWindowColumnSetting> getListTimeWindowColumnSettingList() {
++        return getTimeWindowColumnSetting();
++    }
++
++    public void addTimeWindowColumnSetting(TimeWindowColumnSetting setting) {
++        getTimeWindowColumnSetting().add(setting);
++    }
++
++    public boolean getViewFoldedNodes() {
++        return isViewFoldedNodes();
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/TransferableContent.java
++++ b/freemind/controller/actions/generated/instance/TransferableContent.java
+@@ -239,4 +239,15 @@
+         this.transferableAsImage = value;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++
++    public List<TransferableFile> getListTransferableFileList() {
++        return getTransferableFile();
++    }
++
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public void addTransferableFile(TransferableFile f) {
++        getTransferableFile().add(f);
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/UnderlinedNodeAction.java
++++ b/freemind/controller/actions/generated/instance/UnderlinedNodeAction.java
+@@ -51,4 +51,9 @@
+         this.underlined = value;
+     }
+ 
++    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
++    public boolean getUnderlined() {
++        return isUnderlined();
++    }
++
+ }
+--- a/freemind/controller/actions/generated/instance/UndoPasteNodeAction.java
++++ b/freemind/controller/actions/generated/instance/UndoPasteNodeAction.java
+@@ -89,4 +89,13 @@
+         this.nodeAmount = value;
+     }
+ 
++    // JiBX backward-compatibility methods (manual addition - preserve on regeneration)
++    public boolean getAsSibling() {
++        return isAsSibling();
++    }
++
++    public boolean getIsLeft() {
++        return isIsLeft();
++    }
++
+ }

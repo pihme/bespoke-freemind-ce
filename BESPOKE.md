@@ -20,7 +20,7 @@ A modernized and streamlined version of Freemind. Modernized pertains to the UI.
 ## Spec
 
 - Feature spec: `docs/spec.md`. Testspec: `docs/testspec.md`.
-- Upstream spec: none with numbered requirements. `docs/` is an architecture and component inventory, usable as a map of the code and not as a feature spec. The 2026-03-11 tech spec that used to live at `_bmad-output/implementation-artifacts/tech-spec-freemind-ce-next-gen-modernization.md` was an infrastructure plan, not a product feature list, and several of its claims were stale (it said tests never run, and that LaTeX was absent from the Gradle settings). It is not in this tree. See RAW-003 and RAW-006.
+- Upstream spec: none with numbered requirements. The feature list is `docs/spec.md`. The 2026-03-11 tech spec that used to live at `_bmad-output/implementation-artifacts/tech-spec-freemind-ce-next-gen-modernization.md` was an infrastructure plan, not a product feature list, and several of its claims were stale (it said tests never run, and that LaTeX was absent from the Gradle settings). It is not in this tree. See RAW-003 and RAW-006.
 
 ## 1 raw
 
@@ -145,7 +145,7 @@ A modernized and streamlined version of Freemind. Modernized pertains to the UI.
 - Upstream commit: 88075b1ed47f8e58d813775e41836e08d0681f1f
 - Built from: 3-tailored@0fb8cfd4c61c30b5b3872fb926fd00027974e1e6
 - Skill: customize-features
-- Gate: `./gradlew :freemind:test :freemind:testGui :freemind:testPerformance --no-configuration-cache`
+- Gate: `./gradlew test testGui testPerformance --no-configuration-cache`
 - Details: none
 
 ### Decisions
@@ -153,10 +153,16 @@ A modernized and streamlined version of Freemind. Modernized pertains to the UI.
 | ID | Decision | Reason | Decided by | Replay hint |
 |----|----------|--------|------------|-------------|
 | CUS-001 | Remove setup the program does not load: the Eclipse project files, the `eclipe_templates` folder, `kaldigimiz-yerden-devam-ederken-yapilacaklar.md`, and the Release Please config, manifest, and release-notes template. The source-tree note and the setup facts in the docs match this tree. Java sources, resources, and tests stay where they are. No requirement changes. | The user said to clean the setup and the folder layout, and not to change the program yet. | user | Delete `freemind/.classpath`, `freemind/.project`, `freemind/eclipe_templates`, `kaldigimiz-yerden-devam-ederken-yapilacaklar.md`, `release-please-config.json`, `.release-please-manifest.json`, and `.github/release-notes-template.md`. Drop the Release Please version marker. Do not move the Java tree in this decision. |
+| CUS-002 | Put the module on the Gradle source layout. Java is `freemind/src/main/java`. Classpath resources are `freemind/src/main/resources`. Schemas are `freemind/src/main/schema`. Tests are `freemind/src/test/java`, and the directory matches the package. Test resources are `freemind/src/test/resources`. JAXB output is generated into `build/generated/sources/jaxb/java` during compile and is not committed. `src/main/schema/jaxb-jibx-compat.patch` puts back the JiBX method names the program already calls. Remove upstream procedure the program does not load: `CLAUDE.md`, `freemind/freemind.bat`, `freemind/freemindw.bat`, `docs/contributor-workflows.md`, `docs/merge-release-safety.md`, the GitHub issue and pull-request templates, and the Ant `build.xml` files. `gradlew.bat` stays. The source-tree note and the setup facts in the docs match this tree. No requirement changes. | The user asked to drop Claude files, batch files, contributor workflows, and other upstream procedure, and to adopt Gradle conventions for sources, generated sources, and tests. | user | Delete those paths. Generate JAXB into the build directory from `src/main/schema/freemind_actions.xsd`, then apply `src/main/schema/jaxb-jibx-compat.patch`. Do not commit the generated classes and do not hand-edit them. |
+| CUS-003 | Make the repository root the Gradle project. `rootProject.name` is `bespoke-freemind-ce`. Java is `src/main/java`. Classpath resources are `src/main/resources`. Schemas are `src/main/schema`. Tests are `src/test/java`. The jar base name stays `freemind-ce`, and the install directory stays `freemind`. Remove the pre-commit checks (`.pre-commit-config.yaml` and `.gitlint`). No requirement changes. | The user asked to move the FreeMind project to the root folder, rename `rootProject.name` to `bespoke-freemind-ce`, and remove the pre-commit checks. | user | Move the `freemind/` Gradle project to the repository root and drop `include(":freemind")`. Set `rootProject.name = "bespoke-freemind-ce"`. Keep `applicationName = "freemind"` so the install directory does not follow the project name. Do not rename the `freemind` Java package or the `freemind-ce` jar. Delete `.pre-commit-config.yaml` and `.gitlint`. |
+| CUS-004 | Remove the stale upstream documents: `README-TR.md`, `CHANGELOG.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`, `docs/architecture.md`, `docs/component-inventory.md`, `docs/index.md`, `docs/project-overview.md`, and `docs/project-scan-report.json`. Replace `README.md` with a short description of this fork, how to run it, and the GPL-2.0 notice. No requirement changes. | The user asked to remove the stale documentation and to write a clean `README.md`. | user | Delete those files. Keep `BESPOKE.md`, `docs/spec.md`, `docs/testspec.md`, `docs/source-tree-analysis.md`, `docs/development-guide.md`, `AGENTS.md`, `CONTRIBUTING.md`, and `LICENSE`. The README states the fork, the run command, and the existing GPL notice. |
 
 ### Last run
 
 - 2026-11-07. Branch opened from the tailored stage at `0fb8cfd4`. CUS-001 removes leftover setup only. The program is unchanged. The gate passed: unit 1,407, GUI 510, performance 9, all passed.
+- 2026-11-07. CUS-002 moves the module onto the Gradle source layout and drops upstream procedure. The program is unchanged. The gate passed: unit 1,407, GUI 510, performance 9, all passed.
+- 2026-11-07. CUS-003 makes the repository root the Gradle project, names it `bespoke-freemind-ce`, and removes the pre-commit checks. The program is unchanged. The gate passed: unit 1,407, GUI 510, performance 9, all passed.
+- 2026-11-07. CUS-004 removes the stale upstream documents and replaces `README.md` with a short description of this fork. The program is unchanged. The gate passed: unit 1,407, GUI 510, performance 9, all passed.
 
 ## 5 trimmed
 

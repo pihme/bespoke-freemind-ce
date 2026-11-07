@@ -59,21 +59,21 @@ For cases where you need direct Gradle access (CI, IDE integration, advanced opt
 | Command | Purpose |
 |---|---|
 | `./gradlew build` | Full compilation, testing, packaging |
-| `./gradlew :freemind:run` | Run application with JVM args |
+| `./gradlew run` | Run application with JVM args |
 | `./gradlew test` | Run all unit tests |
-| `./gradlew :freemind:generateJaxb` | Generate JAXB classes from XSD |
-| `./gradlew :freemind:jar` | Build main JAR |
-| `./gradlew :freemind:installDist` | Create distribution layout |
-| `./gradlew :freemind:distZip` | Create distribution ZIP |
-| `./gradlew :freemind:jpackageMac` | Create macOS .dmg |
-| `./gradlew :freemind:jpackageWin` | Create Windows .exe |
-| `./gradlew :freemind:jpackageLinux` | Create Linux .deb |
-| `./gradlew :freemind:prepareMacDist` | Prepare macOS key mappings |
+| `./gradlew generateJaxb` | Generate JAXB classes from XSD |
+| `./gradlew jar` | Build main JAR |
+| `./gradlew installDist` | Create distribution layout |
+| `./gradlew distZip` | Create distribution ZIP |
+| `./gradlew jpackageMac` | Create macOS .dmg |
+| `./gradlew jpackageWin` | Create Windows .exe |
+| `./gradlew jpackageLinux` | Create Linux .deb |
+| `./gradlew prepareMacDist` | Prepare macOS key mappings |
 | `./gradlew javadoc` | Generate API documentation |
 
 > **Important:** Always use `--no-configuration-cache` flag with raw Gradle commands. The Makefile handles this automatically.
 
-## JVM Arguments (applied automatically via `./gradlew :freemind:run`)
+## JVM Arguments (applied automatically via `./gradlew run`)
 
 ```
 -Xms64m -Xmx512m -Xss8M
@@ -86,36 +86,33 @@ For cases where you need direct Gradle access (CI, IDE integration, advanced opt
 --add-opens=java.base/java.util=ALL-UNNAMED
 ```
 
-## Project Module Structure
+## Project layout
+
+The repository root is the Gradle project. `rootProject.name` is `bespoke-freemind-ce`.
 
 ```
-:freemind                              → Main application
+src/main/java/         → production sources; the directory matches the package
+src/main/resources/    → classpath resources, including images/ and doc/
+src/main/schema/       → freemind.xsd, freemind_actions.xsd, jaxb-bindings.xjb
+src/test/java/         → tests; the directory matches the package
+src/test/resources/    → test resources
+lib/                   → local jars the build still uses
+plugins/               → jhall.jar and JMapViewer.jar until the trimmed stage
 ```
 
-## Source Layout
-
-```
-freemind/
-├── freemind/          → Main Java sources (3 srcDirs)
-│   ├── freemind/      → Core application packages
-│   ├── accessories/   → Accessory/utility classes
-│   └── de/            → German-specific classes
-├── tests/             → Test sources (JUnit + jqwik)
-├── images/            → Icons and images (resources)
-└── doc/               → Template .mm files (resources)
-```
+JAXB classes are generated into `build/generated/sources/jaxb/java` when the main sources compile. They are not committed. `make jaxb` runs the same generator. `src/main/schema/jaxb-jibx-compat.patch` puts back the JiBX method names the program already calls. Do not hand-edit the generated classes.
 
 ## Configuration Files
 
 | File | Purpose | Location |
 |---|---|---|
-| `freemind.properties` | Default application settings | `freemind/` |
+| `freemind.properties` | Default application settings | `src/main/resources/` |
 | `auto.properties` | User overrides | `~/.freemind/` |
-| `patterns.xml` | Node styling patterns | `freemind/` |
-| `mindmap_menus.xml` | Menu structure definition | `freemind/` |
-| `freemind.xsd` | Mind map file format schema | `freemind/` |
-| `freemind_actions.xsd` | Action (undo/redo) schema | `freemind/` (root) |
-| `Resources_*.properties` | Language resource bundles | `freemind/freemind/` |
+| `patterns.xml` | Node styling patterns | `src/main/resources/` |
+| `mindmap_menus.xml` | Menu structure definition | `src/main/resources/` |
+| `freemind.xsd` | Mind map file format schema | `src/main/schema/` |
+| `freemind_actions.xsd` | Action (undo/redo) schema | `src/main/schema/` |
+| `Resources_*.properties` | Language resource bundles | `src/main/resources/` |
 
 ## Testing
 
@@ -143,11 +140,11 @@ make coverage-report # Totals from exec files already on disk
 
 | Directory/File | Purpose |
 |---|---|
-| `tests/freemind/gui/` | 22 GUI test classes (AssertJ Swing) |
-| `tests/freemind/property/` | Property-based tests (jqwik) |
-| `tests/freemind/fuzz/` | Fuzz tests |
-| `tests/freemind/findreplace/` | Search/replace tests |
-| `tests/freemind/unicode/` | Unicode handling tests |
+| `src/test/java/tests/freemind/gui/` | GUI test classes (AssertJ Swing) |
+| `src/test/java/tests/freemind/property/` | Property-based tests (jqwik) |
+| `src/test/java/tests/freemind/fuzz/` | Fuzz tests |
+| `src/test/java/tests/freemind/findreplace/` | Search/replace tests |
+| `src/test/java/tests/freemind/unicode/` | Unicode handling tests |
 | `FreeMindTestBase.java` | Unit test base class |
 | `GuiTestBase.java` | GUI test base class (robot, screenshots) |
 | `MarshallerTests.java` | JAXB XML serialization |
@@ -169,7 +166,7 @@ make audit            # ~30 seconds, fails on High+ with known fix
 
 # Full report — OWASP Dependency-Check (Gradle plugin)
 make audit-full       # ~5 minutes, HTML report
-open freemind/build/reports/dependency-check-report.html
+open build/reports/dependency-check-report.html
 ```
 
 ### What Gets Scanned
@@ -208,24 +205,11 @@ Stage branches are `1-raw` through `6-bespoke`. `main` is not a stage branch.
 
 ## CI/CD Pipeline
 
-CI pipeline details, path filtering, test matrix, workflows, and packaging are documented in **one place**:
-
-> **[docs/contributor-workflows.md — Section 6](contributor-workflows.md#section-6-ci-pipeline)** — CI flow diagrams, path filtering, doc-only detection, release gating.
-
-> **[docs/merge-release-safety.md](merge-release-safety.md)** — Merge protocol, release checklist, dependency updates.
-
-## Legacy Build (Ant)
-
-The original Ant build system (`freemind/build.xml`) is preserved for reference but **Gradle is the primary build system**:
-- Ant build targets Java 21 (`java_source_version=21`)
-- Contains macOS `.app` bundle creation scripts
-- Plugin builds: `build_svg.xml`, `build_map.xml`, etc.
-
-**Note:** Ant build references JiBX (legacy XML binding). The Gradle build uses JAXB 2.3.9 instead. Use Gradle for all development.
+Build runs from [`.github/workflows/build.yml`](../.github/workflows/build.yml) on the stage branches `1-raw` through `6-bespoke`. `main` does not run it. The job is Ubuntu 24.04 and Java 21. A documentation-only push skips the build.
 
 ## Dependency Management
 
-Dependencies are managed in `freemind/build.gradle.kts` with version variables:
+Dependencies are managed in `build.gradle.kts` with version variables:
 - `jaxbImplVersion = "2.3.9"` / `jaxbApiVersion = "2.3.1"`
 - `batikVersion = "1.19"`
 - `fopVersion = "2.11"`
@@ -237,20 +221,13 @@ Repositories: Maven Central + JitPack
 
 ## Common Development Tasks
 
-### Adding a new plugin
-1. Create directory under `freemind/plugins/<name>/`
-2. Create `build.gradle.kts` with `compileOnly(project(":freemind"))` dependency
-3. Add `include(":freemind:plugins:<name>")` to `settings.gradle.kts`
-4. Create plugin registration XML file
-5. Implement hook class extending appropriate adapter
-
 ### Modifying menus
-Edit `freemind/mindmap_menus.xml` - declarative menu hierarchy.
+Edit `src/main/resources/mindmap_menus.xml`.
 
 ### Adding a new action
-1. Create Actor class in `freemind/modes/mindmapmode/actions/`
-2. Define XML element in `freemind_actions.xsd`
-3. Register in `MindMapController`
+1. Create the actor class in `src/main/java/freemind/modes/mindmapmode/actions/`
+2. Define the XML element in `src/main/schema/freemind_actions.xsd`
+3. Register it in `MindMapController`
 
 ### Adding translations
-Create/edit `Resources_<locale>.properties` in `freemind/freemind/`
+Create or edit `Resources_<locale>.properties` in `src/main/resources/`.

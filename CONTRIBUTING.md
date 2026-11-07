@@ -15,7 +15,7 @@ This tree is a bespoke fork of FreeMind CE. Product direction lives in [BESPOKE.
 ## Prerequisites
 
 - Git
-- A JDK the Gradle toolchain can use. The version is set in `freemind/build.gradle.kts`.
+- A JDK the Gradle toolchain can use. The version is set in `build.gradle.kts`.
 - The Gradle wrapper (`./gradlew`)
 
 ## Build and test
@@ -66,8 +66,8 @@ Grype is `make audit`. The OWASP HTML report is `make audit-full`. Install Grype
 
 | Tool | Config | Report |
 |---|---|---|
-| PMD 7.21.0 | `freemind/config/pmd-ruleset.xml` | `freemind/build/reports/pmd/` |
-| SpotBugs 6.4.8, high confidence | `freemind/config/spotbugs-exclude.xml` | `freemind/build/reports/spotbugs/` |
+| PMD 7.21.0 | `config/pmd-ruleset.xml` | `build/reports/pmd/` |
+| SpotBugs 6.4.8, high confidence | `config/spotbugs-exclude.xml` | `build/reports/spotbugs/` |
 
 SpotBugs fails the build. PMD currently reports and does not fail the build, because the tree still has old violations.
 
@@ -75,7 +75,7 @@ SpotBugs fails the build. PMD currently reports and does not fail the build, bec
 
 - Match the surrounding code.
 - Fix a warning at the cause.
-- Regenerate `generated-src/` with `make jaxb`.
+- JAXB classes are generated into the build directory. `make jaxb` runs that generator. `src/main/schema/jaxb-jibx-compat.patch` puts back the JiBX method names. Do not commit the generated classes and do not hand-edit them.
 - Leave a local JAR tracked while the build still uses it.
 
 ## Tests

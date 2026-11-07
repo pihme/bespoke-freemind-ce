@@ -58,9 +58,9 @@ jobs:
           for pattern in "${patterns[@]}"; do
             args+=(--tests "$pattern")
           done
-          mkdir -p freemind/build/reports
-          /usr/bin/time -v -o freemind/build/reports/fuzz-time.txt \
-            ./gradlew :freemind:testFuzz --no-daemon --no-configuration-cache --max-workers=2 \
+          mkdir -p build/reports
+          /usr/bin/time -v -o build/reports/fuzz-time.txt \
+            ./gradlew testFuzz --no-daemon --no-configuration-cache --max-workers=2 \
             "${args[@]}"
 
       - name: Upload fuzz report
@@ -70,8 +70,8 @@ jobs:
           name: fuzz-${{ matrix.name }}
           if-no-files-found: ignore
           path: |
-            freemind/build/reports/fuzz-time.txt
-            freemind/build/test-results/testFuzz/
+            build/reports/fuzz-time.txt
+            build/test-results/testFuzz/
             crash-*
             **/crash-*
           retention-days: 14

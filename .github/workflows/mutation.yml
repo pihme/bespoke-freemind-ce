@@ -44,7 +44,7 @@ jobs:
 
       - name: Run PIT
         run: |
-          ./gradlew :freemind:pitest --no-daemon --no-configuration-cache \
+          ./gradlew pitest --no-daemon --no-configuration-cache \
             -PmutateClasses="${{ inputs.mutate_classes }}" \
             -PmutateTests="${{ inputs.mutate_tests }}"
 
@@ -54,5 +54,5 @@ jobs:
         with:
           name: pitest-report
           path: |
-            freemind/build/reports/pitest/
+            build/reports/pitest/
           retention-days: 14

@@ -1,15 +1,15 @@
 # Source tree
 
-The Gradle module is `freemind/`. Java sources are not under `src/main/java`. `freemind/build.gradle.kts` names the source directories.
+The repository root is the Gradle project `bespoke-freemind-ce`. Sources follow the usual Gradle layout. `build.gradle.kts` adds the generated JAXB directory and excludes two classes the current JDK cannot compile.
 
 ```
 .
-├── freemind/                         # module :freemind
-│   ├── freemind/                     # package freemind.*
-│   │   ├── main/                     # FreeMindStarter, FreeMind
-│   │   ├── controller/               # menus, toolbars, filter
-│   │   ├── view/mindmapview/         # map canvas
-│   │   ├── modes/mindmapmode/        # the editing mode
+├── src/main/java/
+│   ├── freemind/                              # package freemind.*
+│   │   ├── main/                              # FreeMindStarter, FreeMind
+│   │   ├── controller/                        # menus, toolbars, filter
+│   │   ├── view/mindmapview/                  # map canvas
+│   │   ├── modes/mindmapmode/                 # the editing mode
 │   │   ├── modes/common/
 │   │   ├── modes/attributes/
 │   │   ├── modes/viewmodes/
@@ -17,29 +17,30 @@ The Gradle module is `freemind/`. Java sources are not under `src/main/java`. `f
 │   │   ├── preferences/
 │   │   ├── common/
 │   │   └── swing/
-│   ├── accessories/                  # notes, icons, time, clone, and the other accessory plugins
-│   ├── de/foltin/                    # StringEncoder
-│   ├── generated-src/                # JAXB output. Regenerate with make jaxb. Do not edit.
-│   ├── plugins/                      # jars kept for the trimmed stage, plus leftover Ant files
-│   │   ├── help/jhall.jar
-│   │   └── map/JMapViewer.jar
-│   ├── tests/
-│   ├── images/                       # toolbar icons, node icons, window icons
-│   ├── doc/                          # freemind.mm and the translated copies
-│   ├── lib/                          # SimplyHTML, gnu-regexp, jortho
-│   ├── config/                       # SpotBugs, PMD, OWASP suppressions
-│   ├── appimage/                     # desktop file
-│   ├── build.gradle.kts
-│   ├── build.xml                     # Ant. Not the build.
+│   ├── accessories/                           # notes, icons, time, clone, and the other accessory plugins
+│   └── de/foltin/                             # StringEncoder
+├── src/main/resources/                        # classpath resources
 │   ├── freemind.properties
 │   ├── mindmap_menus.xml
 │   ├── patterns.xml
-│   ├── freemind.xsd
-│   └── freemind_actions.xsd
-├── docs/                             # spec, testspec, and older architecture notes
-├── .github/workflows/                # Build runs on the stage branches
+│   ├── Resources_en.properties
+│   ├── images/                                # toolbar icons, node icons, window icons
+│   ├── doc/                                   # freemind.mm and the translated copies
+│   ├── accessories/                           # plugin xml, xsl, icons
+│   └── freemind/modes/                        # mode xslt and xml
+├── src/main/schema/                           # freemind.xsd, freemind_actions.xsd, jaxb-bindings.xjb
+├── src/test/java/                             # directory matches the package
+├── src/test/resources/
+├── plugins/                                   # jars kept for the trimmed stage
+│   ├── help/jhall.jar
+│   └── map/JMapViewer.jar
+├── lib/                                       # SimplyHTML, gnu-regexp, jortho
+├── config/                                    # SpotBugs, PMD, OWASP suppressions
+├── appimage/                                  # desktop file
+├── docs/                                      # spec, testspec, source tree, development guide
+├── .github/workflows/                         # Build runs on the stage branches
 ├── build.gradle.kts
-├── settings.gradle.kts               # includes only :freemind
+├── settings.gradle.kts                        # rootProject.name = bespoke-freemind-ce
 ├── Makefile
 ├── AGENTS.md
 └── BESPOKE.md
@@ -47,14 +48,18 @@ The Gradle module is `freemind/`. Java sources are not under `src/main/java`. `f
 
 ## What the program loads
 
-The compile roots are `freemind`, `accessories`, `de`, `generated-src`, and `plugins`. The classpath resources include `freemind.properties`, `patterns.xml`, `mindmap_menus.xml`, `Resources_en.properties`, `images/**`, and `doc/**/*.mm`.
+Production Java is `src/main/java`. JAXB classes are generated into `build/generated/sources/jaxb/java` when the main sources compile. They are not committed. `make jaxb` runs the same generator. `src/main/schema/jaxb-jibx-compat.patch` puts back the JiBX method names the program already calls. Do not hand-edit the generated classes.
+
+Classpath resources live in `src/main/resources`, including `freemind.properties`, `patterns.xml`, `mindmap_menus.xml`, `Resources_en.properties`, `images/**`, and `doc/**/*.mm`. Schemas stay in `src/main/schema` and are not on the runtime classpath.
+
+`FreeMindApplet.java` and `FreeMindSecurityManager.java` stay in the tree and are excluded from compilation.
 
 ## Entry points
 
 | Entry | File |
 |---|---|
-| `freemind.main.FreeMindStarter` | `freemind/freemind/main/FreeMindStarter.java` |
-| Gradle | `freemind/build.gradle.kts` |
+| `freemind.main.FreeMindStarter` | `src/main/java/freemind/main/FreeMindStarter.java` |
+| Gradle | `build.gradle.kts` |
 | Make | `Makefile` |
 | CI | `.github/workflows/build.yml` |
 
