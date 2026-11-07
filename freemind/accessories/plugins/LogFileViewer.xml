@@ -13,6 +13,6 @@
 		key_stroke="%keystroke_accessories/plugins/LogFileViewer.properties_key"
 		icon_path="accessories/plugins/icons/tools-report-bug.png">
 		<plugin_mode class_name="freemind.modes.mindmapmode" />
-		<plugin_menu location="menu_bar/help/bugs/logFileViewer" />
+		<plugin_menu location="menu_bar/extras/first/logFileViewer" />
 	</plugin_action>
 </plugin>

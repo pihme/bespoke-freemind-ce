@@ -628,13 +628,7 @@ val copyDocForJpackage by tasks.registering(Copy::class) {
     into("build/install/freemind/lib/doc")
     doLast {
         require(file("build/install/freemind/lib/doc/freemind.mm").exists()) {
-            "doc/freemind.mm not found in jpackage input — Help menu will be broken!"
-        }
-        require(file("build/install/freemind/lib/doc/FM_Key_Mappings_Quick_Guide.pdf").exists()) {
-            "FM_Key_Mappings_Quick_Guide.pdf not found in jpackage input — Key Documentation will be broken!"
-        }
-        require(file("build/install/freemind/lib/doc/FM_Key_Mappings_Quick_Guide_ru.pdf").exists()) {
-            "Locale-specific PDFs not found in jpackage input — localized Help will be broken!"
+            "doc/freemind.mm not found in jpackage input"
         }
     }
 }

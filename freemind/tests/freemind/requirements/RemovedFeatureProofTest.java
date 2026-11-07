@@ -184,7 +184,7 @@ class RemovedFeatureProofTest {
 			}
 		}
 		assertEquals(1, bundles);
-		assertTrue(Files.readString(freemind.resolve("Resources_en.properties")).contains("about = About"));
+		assertTrue(Files.readString(freemind.resolve("Resources_en.properties")).contains("file = &File"));
 		String panel = Files.readString(freemind.resolve("freemind/preferences/layout/OptionPanel.java"));
 		assertTrue(panel.contains("\"automatic\", \"en\""));
 		assertFalse(panel.contains("\"de\""));
@@ -241,6 +241,36 @@ class RemovedFeatureProofTest {
 		assertTrue(properties.contains("printonwhitebackground"));
 		assertNotNull(Class.forName("freemind.extensions.ExportHook"));
 		assertNotNull(Class.forName("accessories.plugins.FitToPage"));
+	}
+
+	@Test
+	void TestTAI_019_HelpMenuIsGone() throws Exception {
+		assertThrows(NoSuchFieldException.class, () -> Controller.class.getField("documentation"));
+		assertThrows(NoSuchFieldException.class, () -> Controller.class.getField("about"));
+		assertThrows(NoSuchFieldException.class, () -> Controller.class.getField("license"));
+		assertThrows(NoSuchFieldException.class, () -> Controller.class.getField("keyDocumentation"));
+		assertThrows(NoSuchFieldException.class, () -> Controller.class.getField("freemindUrl"));
+		assertThrows(NoSuchFieldException.class, () -> freemind.controller.MenuBar.class.getField("HELP_MENU"));
+		Path root = repoRoot();
+		String viewer = Files.readString(root.resolve("freemind/accessories/plugins/LogFileViewer.xml"));
+		assertFalse(viewer.contains("menu_bar/help/"));
+		assertTrue(viewer.contains("menu_bar/extras/first/logFileViewer"));
+		assertNotNull(Class.forName("accessories.plugins.LogFileViewer"));
+		assertTrue(Files.exists(root.resolve("LICENSE")));
+		assertTrue(Files.exists(root.resolve("freemind/license")));
+		assertTrue(Files.exists(root.resolve("freemind/plugins/help/jhall.jar")));
+		assertTrue(Files.exists(root.resolve("freemind/doc/freemind.mm")));
+		assertFalse(Files.exists(root.resolve("freemind/doc/FM_Key_Mappings_Quick_Guide.pdf")));
+		String resources = Files.readString(root.resolve("freemind/Resources_en.properties"));
+		assertFalse(resources.contains("about = About"));
+		assertTrue(resources.contains("file = &File"));
+		assertFalse(Files.readString(root.resolve("freemind/freemind/controller/MenuBar.java")).contains("HELP_MENU"));
+		String properties = Files.readString(root.resolve("freemind/freemind.properties"));
+		assertFalse(properties.contains("webDocuLocation"));
+		assertFalse(properties.contains("webFreeMindLocation"));
+		assertFalse(properties.contains("webFAQLocation"));
+		assertTrue(properties.contains("simplyhtml.help"));
+		assertTrue(properties.contains("browsemode_initial_map"));
 	}
 
 	@Test

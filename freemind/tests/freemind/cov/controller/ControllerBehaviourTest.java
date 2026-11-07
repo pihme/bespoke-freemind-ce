@@ -192,8 +192,6 @@ class ControllerBehaviourTest {
 			Controller.removePropertyChangeListener(all);
 		}
 
-		URL url = Controller.localDocumentationLinkConverter.convertLocalLink("./doc/map.mm");
-		assertTrue(url.getPath().endsWith("doc/map.mm"));
 		assertTrue(opened.app.createNewMode("MindMap"));
 	}
 
@@ -352,22 +350,6 @@ class ControllerBehaviourTest {
 
 		opened.app.close(true);
 		assertNull(opened.app.getMapModule());
-	}
-
-	@Test
-	void openingAUrlAndTheKeyDocumentReachesTheFrame() throws Exception {
-		// backwards compatibility
-		Opened opened = MapFixture.open("Child");
-		RecordingFrame frame = install(opened);
-		Action keys = (Action) newInner(opened.app, "KeyDocumentationAction");
-		keys.actionPerformed(event("keys"));
-		assertTrue(frame.opened.get(0).getPath().endsWith("pdfKeyDocLocation"));
-
-		Action link = (Action) newInner(opened.app, "OpenURLAction",
-				new Class<?>[] { Controller.class, String.class, String.class },
-				new Object[] { opened.app, "FreeMind", "http://example.invalid/freemind" });
-		link.actionPerformed(event("link"));
-		assertEquals("http://example.invalid/freemind", frame.opened.get(1).toExternalForm());
 	}
 
 	@Test

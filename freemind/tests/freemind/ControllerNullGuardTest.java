@@ -14,40 +14,10 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Verifies Phase D null guard fixes in Controller.java and
- * Phase G FilterComposerDialog setVisible() refactor.
+ * Source checks for the clone-paste key and the setVisible replacements.
  */
 @DisplayName("Controller Null Guards & API Migration")
 class ControllerNullGuardTest {
-
-    @Test
-    @DisplayName("DocumentationAction has null guard for browsemode_initial_map resource")
-    void documentationActionHasNullGuard() throws IOException {
-        Path file = findProjectRoot()
-            .resolve("freemind/freemind/controller/Controller.java");
-        String content = Files.readString(file);
-
-        // The DocumentationAction inner class must check for null before new File(map)
-        assertTrue(content.contains("if (map == null)"),
-            "DocumentationAction must have null guard for map resource string");
-        assertTrue(content.contains("browsemode_initial_map resource not configured") ||
-                   content.contains("browsemode_initial_map not configured"),
-            "DocumentationAction must log warning when resource is null");
-    }
-
-    @Test
-    @DisplayName("KeyDocumentationAction has null guard for pdfKeyDocLocation resource")
-    void keyDocumentationActionHasNullGuard() throws IOException {
-        Path file = findProjectRoot()
-            .resolve("freemind/freemind/controller/Controller.java");
-        String content = Files.readString(file);
-
-        assertTrue(content.contains("if (urlText == null)"),
-            "KeyDocumentationAction must have null guard for urlText resource string");
-        assertTrue(content.contains("pdfKeyDocLocation resource not configured") ||
-                   content.contains("pdfKeyDocLocation not configured"),
-            "KeyDocumentationAction must log warning when resource is null");
-    }
 
     @Test
     @DisplayName("ClonePasteAction uses correct String key for mCloneIdsMap.remove()")

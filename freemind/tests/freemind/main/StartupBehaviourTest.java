@@ -145,7 +145,7 @@ class StartupBehaviourTest {
 			}
 		}
 		assertTrue(found, "wanted " + fileMenu + " in " + texts);
-		assertTrue(menu.getMenuCount() >= 9, texts.toString());
+		assertTrue(menu.getMenuCount() >= 8, texts.toString());
 		assertInstanceOf(MindMapController.class,
 				frame.getController().getMode().getDefaultModeController());
 	}

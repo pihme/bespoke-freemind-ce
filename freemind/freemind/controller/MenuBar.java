@@ -58,7 +58,6 @@ public class MenuBar extends JMenuBar {
 	public static final String INSERT_MENU = MENU_BAR_PREFIX + "insert/";
 	public static final String NAVIGATE_MENU = MENU_BAR_PREFIX + "navigate/";
 	public static final String VIEW_MENU = MENU_BAR_PREFIX + "view/";
-	public static final String HELP_MENU = MENU_BAR_PREFIX + "help/";
 	public static final String MINDMAP_MENU = MENU_BAR_PREFIX + "mindmaps/";
 	private static final String MENU_MINDMAP_CATEGORY = MINDMAP_MENU
 			+ "mindmaps";
@@ -163,20 +162,6 @@ public class MenuBar extends JMenuBar {
 		// we integrated it into the maps menu.
 		// JMenu modesmenu = menuHolder.addMenu(new
 		// JMenu(c.getResourceString("modes")), MODES_MENU+".");
-
-		menuHolder.addMenu(new JMenu(c.getResourceString("help")), HELP_MENU
-				+ ".");
-		menuHolder.addAction(c.documentation, HELP_MENU + "doc/documentation");
-		menuHolder.addAction(c.freemindUrl, HELP_MENU + "doc/freemind");
-		menuHolder.addAction(c.faq, HELP_MENU + "doc/faq");
-		menuHolder.addAction(c.keyDocumentation, HELP_MENU
-				+ "doc/keyDocumentation");
-		menuHolder.addAction(c.webDocu, HELP_MENU + "doc/webDocu");
-		menuHolder.addSeparator(HELP_MENU);
-		menuHolder.addCategory(HELP_MENU + "bugs");
-		menuHolder.addSeparator(HELP_MENU);
-		menuHolder.addAction(c.license, HELP_MENU + "about/license");
-		menuHolder.addAction(c.about, HELP_MENU + "about/about");
 
 		updateFileMenu();
 		updateViewMenu();

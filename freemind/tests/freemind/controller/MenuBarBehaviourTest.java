@@ -189,10 +189,6 @@ class MenuBarBehaviourTest {
 		holder.addSeparator(MenuBar.MINDMAP_MENU);
 		holder.addCategory(MenuBar.MODES_MENU);
 		holder.addCategory(MenuBar.POPUP_MENU + "navigate");
-		holder.addMenu(new JMenu(app.getResourceString("help")), MenuBar.HELP_MENU + ".");
-		holder.addSeparator(MenuBar.HELP_MENU);
-		holder.addCategory(MenuBar.HELP_MENU + "bugs");
-		holder.addSeparator(MenuBar.HELP_MENU);
 	}
 
 	private static void invoke(MenuBar bar, String name) throws Exception {
@@ -206,19 +202,6 @@ class MenuBarBehaviourTest {
 	}
 
 	private static void installActions(Controller app) throws Exception {
-		set(app, "documentation", (Action) inner(app, "DocumentationAction"));
-		set(app, "freemindUrl", (Action) inner(app, "OpenURLAction",
-				new Class<?>[] { Controller.class, String.class, String.class },
-				new Object[] { app, "FreeMind", "http://example.invalid/freemind" }));
-		set(app, "faq", (Action) inner(app, "OpenURLAction",
-				new Class<?>[] { Controller.class, String.class, String.class },
-				new Object[] { app, "FAQ", "http://example.invalid/faq" }));
-		set(app, "keyDocumentation", (Action) inner(app, "KeyDocumentationAction"));
-		set(app, "webDocu", (Action) inner(app, "OpenURLAction",
-				new Class<?>[] { Controller.class, String.class, String.class },
-				new Object[] { app, "web", "http://example.invalid/doc" }));
-		set(app, "license", (Action) inner(app, "LicenseAction"));
-		set(app, "about", (Action) inner(app, "AboutAction"));
 		set(app, "close", (Action) staticAction("CloseAction", app));
 		set(app, "quit", (Action) inner(app, "QuitAction"));
 		set(app, "moveToRoot", (Action) inner(app, "MoveToRootAction"));

@@ -535,8 +535,7 @@ public class OptionPanel implements TextTranslator {
 		// "The URL of the documentation mindmap (.mm)", "docmapurl")); //
 		// ./doc/freemind.mm
 
-		// replaced by browsemode_initial_map?? (See Controller,
-		// DocumentationAction).
+		// replaced by browsemode_initial_map.
 		// controls.add(new StringProperty(null,
 		// "docmapurl_since_version_0_7_0")); // ./doc/freemind.mm
 		//

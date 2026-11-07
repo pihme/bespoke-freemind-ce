@@ -38,7 +38,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.Serializable;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -102,13 +101,7 @@ public class Controller implements MapModuleChangeObserver {
 	private HashSet<MapModuleManager.MapTitleChangeListener> mMapTitleChangeListenerSet = new HashSet<>();
 	private HashSet<ZoomListener> mZoomListenerSet = new HashSet<>();
 	private HashSet<MapModuleManager.MapTitleContributor> mMapTitleContributorSet = new HashSet<>();
-	/**
-	 * Converts from a local link to the real file URL of the documentation map.
-	 * (Used to change this behaviour under MacOSX).
-	 */
 	private static final Logger logger = Logger.getLogger(Controller.class.getName());
-	/** Used for MAC!!! */
-	public static LocalLinkConverter localDocumentationLinkConverter;
 	private static JColorChooser colorChooser = new JColorChooser();
 	private LastOpenedList lastOpened;// A list of the pathnames of all the maps
 										// that were opened in the last time
@@ -142,12 +135,6 @@ public class Controller implements MapModuleChangeObserver {
 	public Action optionHTMLExportFoldingAction;
 	public Action optionSelectionMechanismAction;
 
-	public Action about;
-	public Action faq;
-	public Action keyDocumentation;
-	public Action webDocu;
-	public Action documentation;
-	public Action license;
 	public Action showFilterToolbarAction;
 	public Action navigationPreviousMap;
 	public Action navigationNextMap;
@@ -164,7 +151,6 @@ public class Controller implements MapModuleChangeObserver {
 
 	public Action showSelectionAsRectangle;
 	public PropertyAction propertyAction;
-	public OpenURLAction freemindUrl;
 
 	private static final float[] zoomValues = { 25 / 100f, 50 / 100f,
 			75 / 100f, 100 / 100f, 150 / 100f, 200 / 100f, 300 / 100f,
@@ -197,16 +183,6 @@ public class Controller implements MapModuleChangeObserver {
 
 		close = new CloseAction(this);
 		quit = new QuitAction(this);
-		about = new AboutAction(this);
-		freemindUrl = new OpenURLAction(this, getResourceString("FreeMind"),
-				getProperty("webFreeMindLocation"));
-		faq = new OpenURLAction(this, getResourceString("FAQ"),
-				getProperty("webFAQLocation"));
-		keyDocumentation = new KeyDocumentationAction(this);
-		webDocu = new OpenURLAction(this, getResourceString("webDocu"),
-				getProperty("webDocuLocation"));
-		documentation = new DocumentationAction(this);
-		license = new LicenseAction(this);
 		navigationPreviousMap = new NavigationPreviousMapAction(this);
 		navigationNextMap = new NavigationNextMapAction(this);
 		navigationMoveMapLeftAction = new NavigationMoveMapLeftAction(this);
@@ -263,8 +239,6 @@ public class Controller implements MapModuleChangeObserver {
 				}
 			}
 		});
-
-		localDocumentationLinkConverter = new DefaultLocalLinkConverter();
 
 		lastOpened = new LastOpenedList(this, getProperty("lastOpened"));
 		mapModuleManager = new MapModuleManager(this);
@@ -1016,145 +990,6 @@ public class Controller implements MapModuleChangeObserver {
 		}
 	}
 
-	public interface LocalLinkConverter {
-		/**
-		 * @throws MalformedURLException
-		 *             if the conversion didn't work
-		 */
-		URL convertLocalLink(String link) throws MalformedURLException;
-	}
-
-	private class DefaultLocalLinkConverter implements LocalLinkConverter {
-
-		public URL convertLocalLink(String map) throws MalformedURLException {
-			/* new handling for relative urls. fc, 29.10.2003. */
-			String applicationPath = frame.getFreemindBaseDir();
-			// remove "." and make url
-			return Tools
-					.fileToUrl(new File(applicationPath + map.substring(1)));
-			/* end: new handling for relative urls. fc, 29.10.2003. */
-		}
-	}
-
-	//
-	// Help
-	//
-
-	private class DocumentationAction extends AbstractAction {
-		Controller controller;
-
-		DocumentationAction(Controller controller) {
-			super(controller.getResourceString("documentation"));
-			this.controller = controller;
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			try {
-				String map = controller.getFrame().getResourceString(
-						"browsemode_initial_map");
-				// if the current language does not provide its own translation,
-				// POSTFIX_TRANSLATE_ME is appended:
-				map = Tools.removeTranslateComment(map);
-				if (map == null) {
-					logger.warning("browsemode_initial_map resource not configured");
-					return;
-				}
-				URL url = null;
-				if (map.startsWith(".")) {
-					url = localDocumentationLinkConverter.convertLocalLink(map);
-				} else {
-					url = Tools.fileToUrl(new File(map));
-				}
-				final URL endUrl = url;
-				// invokeLater is necessary, as the mode changing removes
-				// all
-				// menus (inclusive this action!).
-				SwingUtilities.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							createNewMode("MindMap");
-							controller.getModeController().load(endUrl);
-						} catch (Exception e1) {
-							freemind.main.Resources.getInstance().logException(
-									e1);
-						}
-					}
-				});
-			} catch (MalformedURLException e1) {
-				// TODO Auto-generated catch block
-				freemind.main.Resources.getInstance().logException(e1);
-			}
-		}
-	}
-
-	private class KeyDocumentationAction extends AbstractAction {
-		Controller controller;
-
-		KeyDocumentationAction(Controller controller) {
-			super(controller.getResourceString("KeyDoc"));
-			this.controller = controller;
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			String urlText = controller.getFrame().getResourceString(
-					"pdfKeyDocLocation");
-			// if the current language does not provide its own translation,
-			// POSTFIX_TRANSLATE_ME is appended:
-			urlText = Tools.removeTranslateComment(urlText);
-			if (urlText == null) {
-				logger.warning("pdfKeyDocLocation resource not configured");
-				return;
-			}
-			try {
-				URL url = null;
-				if (urlText.startsWith(".")) {
-					url = localDocumentationLinkConverter
-							.convertLocalLink(urlText);
-				} else {
-					url = Tools.fileToUrl(new File(urlText));
-				}
-				logger.info("Opening key docs under " + url);
-				controller.getFrame().openDocument(url);
-			} catch (Exception e2) {
-				freemind.main.Resources.getInstance().logException(e2);
-				return;
-			}
-		}
-	}
-
-	private class AboutAction extends AbstractAction {
-		Controller controller;
-
-		AboutAction(Controller controller) {
-			super(controller.getResourceString("about"));
-			this.controller = controller;
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(getView(),
-					controller.getResourceString("about_text")
-							+ getFrame().getFreemindVersion(),
-					controller.getResourceString("about"),
-					JOptionPane.INFORMATION_MESSAGE);
-		}
-	}
-
-	private class LicenseAction extends AbstractAction {
-		Controller controller;
-
-		LicenseAction(Controller controller) {
-			super(controller.getResourceString("license"));
-			this.controller = controller;
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(getView(),
-					controller.getResourceString("license_text"),
-					controller.getResourceString("license"),
-					JOptionPane.INFORMATION_MESSAGE);
-		}
-	}
-
 	//
 	// Map navigation
 	//
@@ -1565,28 +1400,6 @@ public class Controller implements MapModuleChangeObserver {
 		}
 	}
 
-	// open faq url from freeminds page:
-	private class OpenURLAction extends AbstractAction {
-		Controller c;
-		private final String url;
-
-		OpenURLAction(Controller controller, String description, String url) {
-			super(description, freemind.view.ImageFactory.getInstance().createIcon(
-					controller.getResource("images/Link.png")));
-			c = controller;
-			this.url = url;
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			try {
-				c.getFrame().openDocument(new URL(url));
-			} catch (MalformedURLException ex) {
-				c.errorMessage(c.getResourceString("url_error") + "\n" + ex);
-			} catch (Exception ex) {
-				c.errorMessage(ex);
-			}
-		}
-	}
 
 	public FilterController getFilterController() {
 		return mFilterController;

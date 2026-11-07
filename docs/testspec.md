@@ -92,7 +92,7 @@ The file chooser for an image, the join warning dialog, and the find dialog are 
 
 Labeled **Backwards compatibility**. This is the umbrella for code that no requirement names. The slices and the rule are in `docs/spec.md` under **Backwards compatibility tests**. A backwards-compatibility assertion does not replace a requirement test. Time-management calendars stay in this table. They are not a product requirement.
 
-Slices 1 and 2 also have deduced requirement tests. This table is the reference for every backwards-compatibility test. Every row in this table except the `freemind.main`, `plugins/map`, `freemind.view.mindmapview`, `accessories.plugins`, `freemind.controller`, `plugins.collaboration.socket`, `freemind.modes`, `freemind.modes.mindmapmode`, `accessories.plugins.time`, `freemind.controller.filter`, `freemind.modes.mindmapmode.actions`, `plugins.script`, `freemind.common`, `freemind.preferences.layout`, `plugins.contextgraph`, and `freemind.modes.browsemode` package rows was included in the 62.4% measurement. Those package rows are not in the 62.1% measurement. Slice 5 lists a file in a temporary directory, builds the Linux file chooser, searches a directory of `.mm` files, and exports an image of the open map. It still has no backwards-compatibility test for browse read-only, a script that runs, the help window, or a checked word. PDF bytes are covered by `plugins.svg.ExportPdfBehaviourTest`. A rendered LaTeX equation is covered by `tests.freemind.cov.latex`.
+Slices 1 and 2 also have deduced requirement tests. This table is the reference for every backwards-compatibility test. Every row in this table except the `freemind.main`, `plugins/map`, `freemind.view.mindmapview`, `accessories.plugins`, `freemind.controller`, `plugins.collaboration.socket`, `freemind.modes`, `freemind.modes.mindmapmode`, `accessories.plugins.time`, `freemind.controller.filter`, `freemind.modes.mindmapmode.actions`, `plugins.script`, `freemind.common`, `freemind.preferences.layout`, `plugins.contextgraph`, and `freemind.modes.browsemode` package rows was included in the 62.4% measurement. Those package rows are not in the 62.1% measurement. Slice 5 lists a file in a temporary directory, builds the Linux file chooser, searches a directory of `.mm` files, and exports an image of the open map. It still has no backwards-compatibility test for browse read-only, a script that runs, or a checked word. PDF bytes are covered by `plugins.svg.ExportPdfBehaviourTest`. A rendered LaTeX equation is covered by `tests.freemind.cov.latex`.
 
 | Slice | What is checked | Test | Status |
 |-------|-----------------|------|--------|
@@ -233,7 +233,7 @@ Slices 1 and 2 also have deduced requirement tests. This table is the reference 
 | — | Geographic map behaviour tests. | Removed with TAI-002. | removed |
 | — | The classes in `freemind.view.mindmapview` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.view`. Each of those tests is labeled backwards compatibility. The long-node dialog submits, splits, and cancels. The HTML dialog's south buttons do the same. `EditNodeTextField.show` still stops at the menu-shortcut lookup under the headless unit JVM. That method is not uncoverable. | `tests.freemind.cov.view.*BehaviourTest` | passed |
 | — | The classes in `accessories.plugins` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.accessories`. Each of those tests is labeled backwards compatibility. Node history keeps 100 entries and drops the tail. Save-all leaves the current map in place. The format, pattern, and icon dialogs, the note editor, the log viewer dialog, and the encrypt password frame still stop before they are shown when the suite is headless. They are not uncoverable. No method in this package only exits the process or runs a system command. | `tests.freemind.cov.accessories.*BehaviourTest` | passed |
-| — | The classes in `freemind.controller` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.controller` and `freemind.controller`. Tests with no requirement ID are labeled backwards compatibility. Zoom steps run from 25% to 400%. A title keeps the file path, the unsaved star, and a contributor. Tabs swap, and the split pane leaves when both panels are removed. Next and previous wrap the open maps. Open-map counts enable next and previous above 0, and move-left and move-right when the index allows. The filter toolbar starts hidden and toggles. A recent-file menu entry switches to the already-open map. Close follows whether actions are enabled. `Controller.quit` exits the process and is in the uncoverable table. About, license, properties, error, and color-chooser dialogs are not shown. They are not uncoverable. | `tests.freemind.cov.controller.*BehaviourTest`, `freemind.controller.*BehaviourTest` | passed |
+| — | The classes in `freemind.controller` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.controller` and `freemind.controller`. Tests with no requirement ID are labeled backwards compatibility. Zoom steps run from 25% to 400%. A title keeps the file path, the unsaved star, and a contributor. Tabs swap, and the split pane leaves when both panels are removed. Next and previous wrap the open maps. Open-map counts enable next and previous above 0, and move-left and move-right when the index allows. The filter toolbar starts hidden and toggles. A recent-file menu entry switches to the already-open map. Close follows whether actions are enabled. `Controller.quit` exits the process and is in the uncoverable table. Properties, error, and color-chooser dialogs are not shown. They are not uncoverable. | `tests.freemind.cov.controller.*BehaviourTest`, `freemind.controller.*BehaviourTest` | passed |
 | — | Socket collaboration behaviour tests. | Removed with TAI-006. | removed |
 | — | The classes in `freemind.modes` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.modes`. Each of those tests is labeled backwards compatibility. A pattern file keeps the node, the edge, the font, and a child that points at itself. Folding the selected child folds that child. The AWT file dialog constructor stops with `HeadlessException` before the dialog is shown. The Swing file dialog is constructed and is not shown. Open, save-as, and an unsaved close stay off the dialog. `FreeMindAwtFileDialog.main` calls `System.exit(0)` and is in the uncoverable table. | `tests.freemind.cov.modes.*BehaviourTest` | passed |
 | — | The classes in `freemind.modes.mindmapmode` keep the results named by each `*BehaviourTest` in `tests.freemind.cov.mindmapmode` and `freemind.modes.mindmapmode`. Each of those tests is labeled backwards compatibility. A sibling 1.1.0 map imports as a linked branch. HTML export writes the given path. An encrypted node hides a child and restores it when the passwords match. File choosers and the map-source dialog stay unopened. They are not uncoverable. No method in this package only exits the process or runs a system command. | `tests.freemind.cov.mindmapmode.*BehaviourTest`, `freemind.modes.mindmapmode.*BehaviourTest` | passed |
@@ -554,13 +554,17 @@ Database collaboration, Jabber, and the Palm OS tree are gone. `RemovedFeaturePr
 
 ### REQ-MODE-01 — Partial
 
-The default `initial_mode` property is `MindMap`. Browse mode and File mode are gone. `RemovedFeatureProofTest.TestREQ_MODE_01_BrowseAndFileModesAreGone` checks that those classes do not load and that `modes_since_0_8_0` names MindMap only. The documentation command opens its map in MindMap mode.
+The default `initial_mode` property is `MindMap`. Browse mode and File mode are gone. `RemovedFeatureProofTest.TestREQ_MODE_01_BrowseAndFileModesAreGone` checks that those classes do not load and that `modes_since_0_8_0` names MindMap only. The documentation command left with the Help menu (TAI-019).
 
 - `DefaultPropertiesTest.java` `initialModeDefaultIsMindMap`.
 
 ### Onekin MediaWiki export — removed (TAI-017)
 
 This tree was not a requirement and was not compiled. `RemovedFeatureProofTest.TestTAI_017_OnekinWikiExportIsGone` checks that `onekin.WSL.WSL_Main` does not load and that repo-root `plugins/wsl` is absent. `freemind/plugins` stays.
+
+### Help menu — removed (TAI-019)
+
+The Help menu was not a requirement. Documentation, the project pages, the keyboard guide, the license dialog, and About are gone. Integrated help was already removed (TAI-004). `RemovedFeatureProofTest.TestTAI_019_HelpMenuIsGone` checks that the Help menu constant and the documentation, about, license, and homepage actions are absent, that the English keyboard guide is absent, and that the log-file viewer, `LICENSE`, and `plugins/help/jhall.jar` stay. The log-file viewer is under Extras. `HelpMenuGuiTest` still checks version strings and is not this menu.
 
 ## Application
 
@@ -569,7 +573,7 @@ This tree was not a requirement and was not compiled. `RemovedFeatureProofTest.T
 The property store changes. The options panel builds and shows the Environment tab. OK does not write a property, and nothing is written to `auto.properties`.
 
 - `requirements/RequirementBehaviourTest.java` `TestREQ_APP_01_PreferenceStoreChanges`: `HeadlessFreeMind.setProperty` then `getProperty` returns the new value, and a second set replaces it.
-- `main/StartupBehaviourTest.java` `TestREQ_APP_01_StartupSelectsMindMapAndBuildsTheFileMenu`: the mode is `MindMap`, the menu bar has at least nine menus, and the File menu text is the shipped label.
+- `main/StartupBehaviourTest.java` `TestREQ_APP_01_StartupSelectsMindMapAndBuildsTheFileMenu`: the mode is `MindMap`, the menu bar has at least eight menus, and the File menu text is the shipped label.
 - `main/StartupBehaviourTest.java` `TestREQ_APP_01_OptionPanelShowsEnvironmentTab`: `OptionPanel.buildPanel` shows the Environment button and a split pane. The dialog is disposed.
 
 `DefaultPropertiesTest` only reads defaults. `HeadlessFreeMind.saveProperties` is empty.
@@ -580,7 +584,7 @@ Printing is gone. `RemovedFeatureProofTest.TestREQ_APP_02_PrintingIsGone` checks
 
 ### REQ-APP-03 — Partial
 
-Other language bundles are removed (TAI-015). `RemovedFeatureProofTest.TestREQ_APP_03_OnlyEnglishRemains` checks that `Resources_en.properties` is the only `Resources_*.properties` file, that `about` is `About`, and that the language list is `automatic` and `en`. A stored language code still falls back to English. Unicode map text stays under REQ-MAP-03.
+Other language bundles are removed (TAI-015). `RemovedFeatureProofTest.TestREQ_APP_03_OnlyEnglishRemains` checks that `Resources_en.properties` is the only `Resources_*.properties` file, that `file` is `&File`, and that the language list is `automatic` and `en`. A stored language code still falls back to English. Unicode map text stays under REQ-MAP-03.
 
 ### REQ-APP-04 — Partial
 

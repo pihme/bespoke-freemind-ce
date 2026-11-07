@@ -81,6 +81,8 @@ A line marked **docs** comes from `README.md` or `docs/`. A line marked **menu**
 
 The repo-root tree `plugins/wsl` is an old Onekin MediaWiki export. It was never a requirement and was not compiled. It is removed (TAI-017). The Gradle source directory `freemind/plugins` stays.
 
+The Help menu is not a requirement. It held documentation, the project pages, the keyboard guide, the license dialog, and About. Integrated help was already removed (TAI-004). The menu is removed (TAI-019). The log-file viewer moves to Extras. `LICENSE` stays. `plugins/help/jhall.jar` stays until the trimmed stage.
+
 ## Application
 
 | ID | What the user can do | Entry points | Source |
@@ -125,5 +127,5 @@ The tests are added in slices. A slice is finished when its assertions are in an
 2. Map view painting that the picture tests still do not reach: edge shapes, clouds, arrow links, mouse-wheel zoom, and an image pixel.
 3. The map plugin (`plugins/map`), including an attached geographic position.
 4. The preferences panel (`OptionPanel` and the layout package).
-5. Browse mode, File mode, the script editor, the PDF options dialog, the LaTeX viewer, the help window, and the spelling menu.
+5. Browse mode, File mode, the script editor, the PDF options dialog, the LaTeX viewer, and the spelling menu.
 6. Accessory dialogs the requirements do not name. Time-management calendars are in this slice. Every backwards-compatibility test, including the calendar day check, is listed in `docs/testspec.md` under **Backwards compatibility tests**. That list is the reference. It does not add a product requirement.
