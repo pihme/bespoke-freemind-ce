@@ -1,8 +1,10 @@
 version: 2
 updates:
-  # GitHub Actions
+  # One entry per stage branch. Dependabot reads this file from the
+  # default branch and opens each pull request against target-branch.
   - package-ecosystem: "github-actions"
     directory: "/"
+    target-branch: "1-raw"
     schedule:
       interval: "weekly"
       day: "monday"
@@ -16,9 +18,224 @@ updates:
         patterns:
           - "*"
 
-  # Gradle dependencies
   - package-ecosystem: "gradle"
     directory: "/"
+    target-branch: "1-raw"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    commit-message:
+      prefix: "deps"
+    labels:
+      - "dependencies"
+      - "java"
+    groups:
+      testing:
+        patterns:
+          - "org.junit*"
+          - "org.mockito*"
+          - "org.assertj*"
+          - "net.jqwik*"
+      logging:
+        patterns:
+          - "org.slf4j*"
+          - "ch.qos.logback*"
+      apache:
+        patterns:
+          - "org.apache.xmlgraphics*"
+          - "org.apache.batik*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: "2-covered"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    commit-message:
+      prefix: "ci"
+    labels:
+      - "dependencies"
+      - "ci"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "gradle"
+    directory: "/"
+    target-branch: "2-covered"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    commit-message:
+      prefix: "deps"
+    labels:
+      - "dependencies"
+      - "java"
+    groups:
+      testing:
+        patterns:
+          - "org.junit*"
+          - "org.mockito*"
+          - "org.assertj*"
+          - "net.jqwik*"
+      logging:
+        patterns:
+          - "org.slf4j*"
+          - "ch.qos.logback*"
+      apache:
+        patterns:
+          - "org.apache.xmlgraphics*"
+          - "org.apache.batik*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: "3-tailored"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    commit-message:
+      prefix: "ci"
+    labels:
+      - "dependencies"
+      - "ci"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "gradle"
+    directory: "/"
+    target-branch: "3-tailored"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    commit-message:
+      prefix: "deps"
+    labels:
+      - "dependencies"
+      - "java"
+    groups:
+      testing:
+        patterns:
+          - "org.junit*"
+          - "org.mockito*"
+          - "org.assertj*"
+          - "net.jqwik*"
+      logging:
+        patterns:
+          - "org.slf4j*"
+          - "ch.qos.logback*"
+      apache:
+        patterns:
+          - "org.apache.xmlgraphics*"
+          - "org.apache.batik*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: "4-customized"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    commit-message:
+      prefix: "ci"
+    labels:
+      - "dependencies"
+      - "ci"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "gradle"
+    directory: "/"
+    target-branch: "4-customized"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    commit-message:
+      prefix: "deps"
+    labels:
+      - "dependencies"
+      - "java"
+    groups:
+      testing:
+        patterns:
+          - "org.junit*"
+          - "org.mockito*"
+          - "org.assertj*"
+          - "net.jqwik*"
+      logging:
+        patterns:
+          - "org.slf4j*"
+          - "ch.qos.logback*"
+      apache:
+        patterns:
+          - "org.apache.xmlgraphics*"
+          - "org.apache.batik*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: "5-trimmed"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    commit-message:
+      prefix: "ci"
+    labels:
+      - "dependencies"
+      - "ci"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "gradle"
+    directory: "/"
+    target-branch: "5-trimmed"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    commit-message:
+      prefix: "deps"
+    labels:
+      - "dependencies"
+      - "java"
+    groups:
+      testing:
+        patterns:
+          - "org.junit*"
+          - "org.mockito*"
+          - "org.assertj*"
+          - "net.jqwik*"
+      logging:
+        patterns:
+          - "org.slf4j*"
+          - "ch.qos.logback*"
+      apache:
+        patterns:
+          - "org.apache.xmlgraphics*"
+          - "org.apache.batik*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: "6-bespoke"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    commit-message:
+      prefix: "ci"
+    labels:
+      - "dependencies"
+      - "ci"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "gradle"
+    directory: "/"
+    target-branch: "6-bespoke"
     schedule:
       interval: "weekly"
       day: "monday"

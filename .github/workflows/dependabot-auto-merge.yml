@@ -1,7 +1,9 @@
 name: Dependabot Auto-Merge
 
+# The workflow file comes from the default branch and does not check
+# out the pull request. That lets one copy cover every stage branch.
 on:
-  pull_request:
+  pull_request_target:
     branches:
       - 1-raw
       - 2-covered

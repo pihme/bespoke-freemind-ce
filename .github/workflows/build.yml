@@ -266,7 +266,7 @@ jobs:
   ci:
     name: CI
     if: always()
-    needs: [changes, build, gui-tests, codeql]
+    needs: [changes, build, gui-tests, codeql, release]
     runs-on: ubuntu-24.04
     permissions: {}
     steps:
@@ -276,6 +276,7 @@ jobs:
           echo "Build: ${{ needs.build.result }}"
           echo "GUI Tests: ${{ needs.gui-tests.result }}"
           echo "CodeQL: ${{ needs.codeql.result }}"
+          echo "Release: ${{ needs.release.result }}"
           if [[ "${{ contains(needs.*.result, 'failure') }}" == "true" ]]; then
             echo "::error::One or more jobs failed"
             exit 1
@@ -285,6 +286,44 @@ jobs:
             exit 1
           fi
           echo "All checks passed"
+
+  release:
+    name: Release
+    needs: [changes, build, gui-tests, codeql]
+    if: |
+      always() &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/6-bespoke' &&
+      needs.changes.outputs.code == 'true' &&
+      needs.build.result == 'success' &&
+      needs.gui-tests.result == 'success' &&
+      (needs.codeql.result == 'success' || needs.codeql.result == 'skipped')
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - name: Download the build
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: build-ubuntu-24.04
+          path: release
+
+      - name: Publish the GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mapfile -t files < <(find release -type f | sort)
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "::error::The build produced no files to release"
+            exit 1
+          fi
+          TAG=release/6-bespoke
+          gh release delete "$TAG" --yes --cleanup-tag || true
+          gh release create "$TAG" "${files[@]}" \
+            --target "$GITHUB_SHA" \
+            --title "6-bespoke" \
+            --notes "Built from 6-bespoke at ${GITHUB_SHA}." \
+            --latest
 
   codeql:
     name: CodeQL Analysis
