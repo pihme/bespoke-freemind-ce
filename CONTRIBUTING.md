@@ -1,83 +1,50 @@
-# Contributing to this fork
+# Contributing
 
-This tree is a bespoke fork of FreeMind CE. Product direction lives in [BESPOKE.md](BESPOKE.md) and [docs/spec.md](docs/spec.md). Agent rules live in [AGENTS.md](AGENTS.md). This file is the build, test, and commit mechanics.
+This is a personal edition of [FreeMind CE](https://github.com/Denomas/freemind-ce). It is built for one person, and that person is the audience.
 
-## Product rules that affect a change
+If you want a copy of your own, fork it and make it yours. That is the welcome mat. This repository is not collecting pull requests or feature requests, and a fork is the right place for a different idea.
 
-| Rule | What to do |
-|---|---|
-| User content | Store text as the user typed it, including paths, scripts, SQL, and markup. |
-| `.mm` files | An existing file opens. When a change cannot keep that, add an importer. |
-| Features | Add one when `docs/spec.md` lists it. Remove one when the user or the current stage asks, and record that in `BESPOKE.md` and `docs/spec.md`. |
-| License | Contributions stay under [GPL-2.0](LICENSE). |
-| Language and JDK | Not fixed. The toolchain in the build file is what this tree uses today. |
+The notes below are how this tree is built, so a fork has a working place to start. Product direction is in [BESPOKE.md](BESPOKE.md). The feature list is [docs/spec.md](docs/spec.md).
 
-## Prerequisites
+## Building
 
-- Git
-- A JDK the Gradle toolchain can use. The version is set in `build.gradle.kts`.
-- The Gradle wrapper (`./gradlew`)
-
-## Build and test
+You need Git and Nix. The dev shell in `flake.nix` provides the JDK this tree uses today. `make` runs Gradle inside that shell.
 
 ```bash
-make build    # Compile and test
+make build    # Compile and package. This does not run tests.
+make test     # Unit tests
+make test-gui # GUI tests. These need a display.
 make run      # Run the app
-make test     # Tests only
 make help     # Every target
 ```
 
-The Makefile sets `JAVA_HOME` and `--no-configuration-cache`. `make help` lists the targets.
+`make` passes `--no-configuration-cache`.
 
-## Other people's work
+CI uses the same three beats. The build only compiles and packages. The test run includes the unit tests and the GUI tests. Quality control sends the sources to SonarQube Cloud.
 
-Leave a branch you did not start as its author left it. Do not force-push. Do not close or rewrite it.
+## While you are in this tree
 
-## Commits
+Text is stored as it was typed, including paths, scripts, SQL, and markup. An existing `.mm` file opens. When a change cannot keep that, add an importer. A feature is added when `docs/spec.md` lists it, and removed when that removal is recorded in `BESPOKE.md` and in `docs/spec.md`. The language and the JDK are not fixed. The toolchain in the build file is only what this tree uses today.
 
-[Conventional Commits](https://www.conventionalcommits.org/), one logical change each. Subject line up to 72 characters, imperative mood. The body says why.
+Leave a branch you did not start as its author left it. Do not force-push, and do not close or rewrite it.
 
-Allowed types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`, `deps`.
+Commits follow [Conventional Commits](https://www.conventionalcommits.org/). One change each. The subject is imperative and at most 72 characters. The body says why. The types are `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`, and `deps`. A behavior change names the spec row and the `BESPOKE.md` decision.
 
-A behavior change names the spec row and the `BESPOKE.md` decision in the body.
+Before a commit, `make build` and `make test` pass. A dependency change also passes `make audit`. The staged diff is that change only. Leave out `build/`, `*.class`, `auto.properties`, and IDE files.
 
-Before committing:
+A dependency, including a tracked local JAR, is free of known high-severity vulnerabilities that already have a fix. `make audit` is the Grype scan. `make audit-full` is the OWASP report. Install Grype with `mise install grype` when it is missing. A high finding with a fix is updated. A high finding with no fix is written down in `config/dependency-check/suppressions.xml`, with the reason.
 
-1. `make build` passes.
-2. `make test` passes.
-3. A dependency change also passes `make audit`.
-4. `git diff --staged` contains that change only. Stage files by name.
-5. Leave out `build/`, `*.class`, `auto.properties`, and IDE files.
-
-## Security scan
-
-A dependency, including a tracked local JAR, is free of known high-severity vulnerabilities with a fix before it is pushed. The scan is a local CLI.
-
-```bash
-make audit
-make audit-full
-```
-
-Grype is `make audit`. The OWASP HTML report is `make audit-full`. Install Grype with `mise install grype` when it is missing. A high finding with a fix is updated. A high finding with no fix is written down in `config/dependency-check/suppressions.xml` with the reason.
-
-## Static analysis
-
-`make build` runs PMD and SpotBugs.
+PMD and SpotBugs are configured, and they run with `make check`, not with the quick build. SpotBugs fails that check. PMD reports and does not fail it, because the tree still has old violations.
 
 | Tool | Config | Report |
 |---|---|---|
 | PMD 7.21.0 | `config/pmd/ruleset.xml` | `build/reports/pmd/` |
 | SpotBugs 6.4.8, high confidence | `config/spotbugs/exclude.xml` | `build/reports/spotbugs/` |
 
-SpotBugs fails the build. PMD currently reports and does not fail the build, because the tree still has old violations.
-
-## Code style
-
-- Match the surrounding code.
-- Fix a warning at the cause.
-- JAXB classes are generated into the build directory. `make jaxb` runs that generator. `src/main/schema/jaxb-jibx-compat.patch` puts back the JiBX method names. Do not commit the generated classes and do not hand-edit them.
-- Leave a local JAR tracked while the build still uses it.
-
-## Tests
+Match the surrounding code. Fix a warning at the cause. JAXB classes are generated into the build directory. `make jaxb` regenerates them, and `src/main/schema/jaxb-jibx-compat.patch` puts the JiBX method names back. Do not commit the generated classes, and do not hand-edit them. Leave a local JAR tracked while the build still uses it.
 
 A test asserts the behavior it claims to check.
+
+## License
+
+The program is under [GPL-2.0](LICENSE). A fork stays under that license too.
