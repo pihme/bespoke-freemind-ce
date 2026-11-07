@@ -80,6 +80,7 @@ public class XMLElementAdapter extends XMLElement {
 
 	private boolean fontStyleStrikethrough;
 	private boolean fontUnderlined;
+	private boolean fontSizeSet;
 
 	// Overhead methods
 
@@ -203,9 +204,14 @@ public class XMLElementAdapter extends XMLElement {
 				mArrowLinkAdapters.add(arrowLink);
 			} else if (child.getName().equals("font")) {
 				node.setFont((Font) child.getUserObject());
-				if (child instanceof XMLElementAdapter
-						&& ((XMLElementAdapter) child).fontUnderlined) {
-					StoredNodeStyle.markUnderline(node);
+				if (child instanceof XMLElementAdapter) {
+					XMLElementAdapter fontChild = (XMLElementAdapter) child;
+					if (fontChild.fontSizeSet) {
+						node.setFontSizeChosen(true);
+					}
+					if (fontChild.fontUnderlined) {
+						StoredNodeStyle.markUnderline(node);
+					}
 				}
 			} else if (child.getName().equals(XML_NODE_ATTRIBUTE)) {
 				node.addAttribute(
@@ -347,6 +353,7 @@ public class XMLElementAdapter extends XMLElement {
 		if (getName().equals("font")) {
 			if (name.equals("SIZE")) {
 				fontSize = Integer.parseInt(sValue);
+				fontSizeSet = true;
 			} else if (name.equals("NAME")) {
 				fontName = sValue;
 			}

@@ -13,13 +13,13 @@ A line marked **docs** comes from `README.md` or `docs/`. A line marked **menu**
 | REQ-MAP-01 | Create a map, open one, and save it. | New, Open, Save. README shortcuts ⌘N, ⌘O, ⌘S. | docs |
 | REQ-MAP-02 | Save under a new name, or revert to the last saved file. | Save As, Revert. | menu |
 | REQ-MAP-03 | Keep the map in an XML `.mm` file: a tree of nodes with text, color, font, style, icons, links, and notes; edges with style, color, and width; clouds; arrow links between nodes. | `freemind.xsd`. Open and Save. | docs |
-| REQ-MAP-04 | Have more than one map open, see recent files, and have the window position remembered. | Map module manager, recent-files list. | docs |
+| REQ-MAP-04 | Have more than one map open, see recent files, and have the window position remembered. With no file on the command line, startup opens the map that was current when the app last closed, and does not reopen the other maps from that session. This does not depend on the preferences that restore a session or only the last map. A named file on the command line opens instead. A missing or absent last file still starts a new map when that preference is on, and a failed open still reports the error (CUS-031). Old text: Have more than one map open, see recent files, and have the window position remembered. | Map module manager, recent-files list. | docs |
 
 ## Nodes
 
 | ID | What the user can do | Entry points | Source |
 |----|----------------------|--------------|--------|
-| REQ-NODE-01 | Add a child or a sibling and edit its text in place, in a dialog, or in an external application. | Tab, Enter, F2. Insert menu. | docs |
+| REQ-NODE-01 | Add a child or a sibling and edit its text in place, in a dialog, or in an external application. Tab adds a child (CUS-029). Enter adds a sibling. Old text: Add a child or a sibling and edit its text in place, in a dialog, or in an external application. The entry points named Tab, Enter, and F2, and the Insert menu. The shipped child key was Insert. | Tab, Enter, F2. Insert menu. | docs |
 | REQ-NODE-02 | Fold and unfold a node, including its children. | Space. Navigate menu. | docs |
 | REQ-NODE-03 | Undo and redo an edit. Edits are stored as XML action pairs. | Undo, Redo. | docs |
 | REQ-NODE-04 | Cut, copy, copy a single node, paste, and paste as plain text. Delete a child. | Edit menu. | menu |
@@ -34,7 +34,7 @@ A line marked **docs** comes from `README.md` or `docs/`. A line marked **menu**
 | ID | What the user can do | Entry points | Source |
 |----|----------------------|--------------|--------|
 | REQ-STYLE-01 | Show a node as a fork or a bubble. The root has its own shape. | Format menu. | docs |
-| REQ-STYLE-02 | Set bold, italic, strikethrough, font size, text color, color blend, and background color. Underline is present in the menu file and commented out as not implemented in the view. | Format menu. Toolbar. | menu |
+| REQ-STYLE-02 | Set bold, italic, strikethrough, text color, color blend, and background color. A node stores whether its font size was changed. A changed size stays, including across save and load. An unchanged size follows the depth of the tree: the deepest nodes are 12, and each level above is 2 larger, including the center node. Adding or removing a node that changes that depth updates every unchanged size (CUS-030). Underline is present in the menu file and commented out as not implemented in the view. Old text: Set bold, italic, strikethrough, font size, text color, color blend, and background color. Underline is present in the menu file and commented out as not implemented in the view. | Format menu. Toolbar. | menu |
 | REQ-STYLE-03 | Use rich text or plain text for a node. | Format menu. | menu |
 | REQ-STYLE-04 | Apply and manage node style patterns. | Format menu. `patterns.xml` (24 or more patterns, per the architecture doc). | docs |
 | REQ-STYLE-05 | Put icons on a node. | Format menu. | docs |

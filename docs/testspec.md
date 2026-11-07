@@ -306,20 +306,22 @@ The `.mm` tree, node text, icons, links, notes, a cloud, and arrow links survive
 
 ### REQ-MAP-04 — Partial
 
-A recent-file string and a window rectangle round-trip. More than one map open at once, and restoring a real frame, are not checked.
+A recent-file string and a window rectangle round-trip. Startup opens the one map that was current at the last quit, even when the session preferences are off, and a command-line file wins (CUS-031). More than one map open at once, and restoring a real frame, are not checked.
 
 - `LastOpenedTests.java` `testStrangeCharsInList`: `LastOpenedList.save()` keeps a path that contains `&`.
 - `property/XMLRoundTripPropertyTest.java` `windowConfigRoundTrip`: x, y, width, and height survive marshalling. No frame is restored.
+- `cov/main/FreeMindBehaviourTest.java` `TestREQ_MAP_04_StartupOpensTheLastFile`: with the session preferences off, an empty argument list opens the stored last file and does not open the other file stored in the session. A command-line file is the current map, and the stored last file from that call is not opened. A missing last file reports `error occured`, and a new map is still created when that preference is on.
 
 ## Nodes
 
 ### REQ-NODE-01 — Partial
 
-Adding a child or sibling and storing its text are checked on the model. The in-place editor, the dialog, and an external application are not launched.
+Adding a child or sibling and storing its text are checked on the model. The shipped child key is Tab (CUS-029). The in-place editor, the dialog, and an external application are not launched.
 
 - `modes/NodeAdapterTest.java` `insertChildIncreasesCount`, `setAndGetText`.
 - `gui/NodeCrudGuiTest.java` `node_createChild`, `node_createSibling`, `node_setNodeText`.
 - `actions/ActionFrameworkTest.java` `setNodeTextChangesText`.
+- `requirements/RequirementBehaviourTest.java` `TestREQ_NODE_01_TabAddsAChild`: the shipped `keystroke_add_child` is Tab with no modifiers, and `keystroke_add` stays Enter.
 
 ### REQ-NODE-02 — Checked
 
@@ -386,10 +388,11 @@ Fork and bubble are stored on a node. The root's own shape is not asserted.
 
 ### REQ-STYLE-02 — Partial
 
-Bold, italic, strikethrough, font size, text color, and background are checked. Color blend is not. Underline is set on the model even though the spec says the view entry is commented out.
+Bold, italic, strikethrough, font size, text color, and background are checked. An unchanged font size follows structural depth, and a changed size stays (CUS-030). Color blend is not. Underline is set on the model even though the spec says the view entry is commented out.
 
 - `actions/ActionFrameworkTest.java` `setBoldChangesState`, `setItalicChangesState`, `setStrikethroughChangesState`, `setFontSizeChangesSize`, `setNodeColorChangesColor`, `setNodeBackgroundColorChanges`, `multipleFormatOperationsCompose`.
 - `modes/NodeAdapterTest.java` `setUnderlinedChangesState` sets the underline flag.
+- `requirements/RequirementBehaviourTest.java` `TestREQ_STYLE_02_FontSizeFollowsDepthUnlessChosen`: a root alone is 12 and saves no `SIZE`. A child makes the root 14 and the child 12. A folded middle node with a grandchild makes the sizes 16, 14, and 12. A size set to the current level stays when a deeper node is added, and the other sizes move. A `SIZE` attribute loads as a kept size. Bold without a chosen size saves no `SIZE`. Undoing a chosen size lets the next deeper node move that size. Removing the unique deepest node shrinks the sizes.
 
 ### REQ-STYLE-03 — Partial
 

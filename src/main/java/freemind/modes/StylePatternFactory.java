@@ -172,7 +172,8 @@ public class StylePatternFactory {
 		PatternNodeFontItalic nodeFontItalic = new PatternNodeFontItalic();
 		nodeFontItalic.setValue(node.isItalic() ? TRUE_VALUE : FALSE_VALUE);
 		pattern.setPatternNodeFontItalic(nodeFontItalic);
-		if (node.getFontSize() != null) {
+		if ((!(node instanceof NodeAdapter) || ((NodeAdapter) node).isFontSizeChosen())
+				&& node.getFontSize() != null) {
 			PatternNodeFontSize nodeFontSize = new PatternNodeFontSize();
 			nodeFontSize.setValue(node.getFontSize());
 			pattern.setPatternNodeFontSize(nodeFontSize);

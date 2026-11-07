@@ -86,11 +86,10 @@ import freemind.controller.Controller;
 import freemind.view.ImageFactory;
 import freemind.controller.LastStateStorageManagement;
 import freemind.controller.MenuBar;
-import freemind.controller.actions.generated.instance.MindmapLastStateStorage;
+
 import freemind.main.FreeMindStarter.ProxyAuthenticator;
 import freemind.modes.ModeController;
 import freemind.preferences.FreemindPropertyListener;
-import freemind.view.MapModule;
 import freemind.view.mindmapview.MapView;
 
 public class FreeMind extends JFrame implements FreeMindMain, ActionListener {
@@ -256,6 +255,7 @@ public class FreeMind extends JFrame implements FreeMindMain, ActionListener {
 	private JLabel status;
 
 	private Timer mStatusMessageDisplayTimer;
+	private String heldStatusMessage;
 
 	// used to open different file types
 
@@ -555,11 +555,26 @@ public class FreeMind extends JFrame implements FreeMindMain, ActionListener {
 
 	public void out(String msg) {
 		if (status != null) {
+			// A startup error stays until the display timer clears it. The
+			// node-status update would otherwise replace it after the new map
+			// opens (CUS-031).
+			if (heldStatusMessage != null && msg != null && msg.length() > 0
+					&& !msg.equals(heldStatusMessage)) {
+				return;
+			}
+			if (msg == null || msg.length() == 0) {
+				heldStatusMessage = null;
+			}
 			status.setText(msg);
 			// Automatically remove old messages after a certain time.
 			mStatusMessageDisplayTimer.restart();
 			// logger.info(msg);
 		}
+	}
+
+	private void holdStatus(String msg) {
+		heldStatusMessage = msg;
+		out(msg);
 	}
 
 	public void err(String msg) {
@@ -971,31 +986,6 @@ public class FreeMind extends JFrame implements FreeMindMain, ActionListener {
 	private void loadMaps(final String[] args, ModeController pModeController,
 			FeedBack pFeedBack) {
 		boolean fileLoaded = false;
-		if (Tools.isPreferenceTrue(getProperty(FreeMindCommon.LOAD_LAST_MAPS_AND_LAYOUT))) {
-			int index = 0;
-			MapModule mapToFocus = null;
-			LastStateStorageManagement management = getLastStateStorageManagement();
-			for (MindmapLastStateStorage store : management.getLastOpenList()) {
-				String restorable = store.getRestorableName();
-				pFeedBack.increase(FREE_MIND_PROGRESS_LOAD_MAPS_NAME,
-						new Object[] { restorable.replaceAll(".*/", "") });
-				try {
-					if (controller.getLastOpenedList().open(restorable)) {
-						if (index == management.getLastFocussedTab()) {
-							mapToFocus = controller.getMapModule();
-						}
-					}
-					fileLoaded = true;
-				} catch (Exception e) {
-					freemind.main.Resources.getInstance().logException(e);
-				}
-				index++;
-			}
-			if (mapToFocus != null) {
-				controller.getMapModuleManager().changeToMapModule(
-						mapToFocus.getDisplayName());
-			}
-		}
 		for (int i = 0; i < args.length; i++) {
 			String fileArgument = args[i];
 			pFeedBack.increase(FREE_MIND_PROGRESS_LOAD_MAPS_NAME,
@@ -1011,8 +1001,6 @@ public class FreeMind extends JFrame implements FreeMindMain, ActionListener {
 				try {
 					pModeController.load(new File(fileArgument));
 					fileLoaded = true;
-					// logger.info("Attempting to load: " +
-					// args[i]);
 				} catch (Exception ex) {
 					System.err.println("File " + fileArgument
 							+ " not found error");
@@ -1024,19 +1012,25 @@ public class FreeMind extends JFrame implements FreeMindMain, ActionListener {
 		}
 		if (!fileLoaded) {
 			String restoreable = getProperty(FreeMindCommon.ON_START_IF_NOT_SPECIFIED);
-			if (Tools
-					.isPreferenceTrue(getProperty(FreeMindCommon.LOAD_LAST_MAP))
-					&& restoreable != null && restoreable.length() > 0) {
+			if (restoreable != null && restoreable.length() > 0) {
 				pFeedBack.increase(FREE_MIND_PROGRESS_LOAD_MAPS_NAME,
 						new Object[] { restoreable.replaceAll(".*/", "") });
 				try {
-					controller.getLastOpenedList().open(restoreable);
-					controller.getModeController().getView().moveToRoot();
-					fileLoaded = true;
+					if (controller.getLastOpenedList().open(restoreable)) {
+						if (controller.getModeController().getView() != null) {
+							controller.getModeController().getView().moveToRoot();
+						}
+						fileLoaded = true;
+					}
 				} catch (Exception e) {
 					freemind.main.Resources.getInstance().logException(e);
-					out("An error occured on opening the file: " + restoreable
-							+ ".");
+					String message = "An error occured on opening the file: "
+							+ restoreable + ".";
+					if (Tools.isPreferenceTrue(getProperty(FreeMindCommon.LOAD_NEW_MAP))) {
+						holdStatus(message);
+					} else {
+						out(message);
+					}
 				}
 			}
 		}

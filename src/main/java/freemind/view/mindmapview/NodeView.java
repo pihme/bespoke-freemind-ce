@@ -58,6 +58,7 @@ import freemind.main.FreeMindMain;
 import freemind.main.HtmlTools;
 import freemind.main.Resources;
 import freemind.main.Tools;
+import freemind.modes.LevelFont;
 import freemind.modes.MindIcon;
 import freemind.modes.MindMapCloud;
 import freemind.modes.MindMapNode;
@@ -946,6 +947,10 @@ public class NodeView extends JComponent implements TreeModelListener {
 	private void updateFont() {
 		Font font = getModel().getFont();
 		font = font == null ? getViewFeedback().getDefaultFont() : font;
+		if (font != null && getModel() instanceof NodeAdapter
+				&& !((NodeAdapter) getModel()).isFontSizeChosen()) {
+			font = LevelFont.displayed(font, getModel());
+		}
 		if (font != null) {
 			mainView.setFont(font);
 		} else {

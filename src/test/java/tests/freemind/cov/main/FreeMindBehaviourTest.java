@@ -67,6 +67,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import freemind.controller.LastStateStorageManagement;
+import freemind.view.MapModule;
 import freemind.controller.actions.generated.instance.MindmapLastStateMapStorage;
 import freemind.controller.actions.generated.instance.MindmapLastStateStorage;
 import freemind.main.FeedBack;
@@ -436,6 +437,84 @@ class FreeMindBehaviourTest {
 		} else {
 			assertTrue(browse);
 		}
+	}
+
+	@Test
+	@Order(5)
+	void TestREQ_MAP_04_StartupOpensTheLastFile() throws Exception {
+		File last = new File(home, "last-open.mm");
+		File other = new File(home, "session-other.mm");
+		File skipped = new File(home, "skipped-last.mm");
+		Files.writeString(last.toPath(), mapXml("LastFile"));
+		Files.writeString(other.toPath(), mapXml("OtherFile"));
+		Files.writeString(skipped.toPath(), mapXml("SkipFile"));
+		storeSession(other);
+		frame.setProperty(FreeMindCommon.LOAD_LAST_MAPS_AND_LAYOUT, "true");
+		frame.setProperty(FreeMindCommon.LOAD_LAST_MAP, "false");
+		frame.setProperty(FreeMindCommon.LOAD_NEW_MAP, "false");
+		frame.setProperty(FreeMindCommon.ON_START_IF_NOT_SPECIFIED, restorable(last));
+
+		invoke("loadMaps", new Class<?>[] { String[].class, ModeController.class, FeedBack.class },
+				(Object) new String[0], frame.getController().getModeController(), FEEDBACK);
+
+		assertEquals("LastFile", currentRootText());
+		assertFalse(openMapText("OtherFile"));
+
+		frame.setProperty(FreeMindCommon.ON_START_IF_NOT_SPECIFIED, restorable(skipped));
+		invoke("loadMaps", new Class<?>[] { String[].class, ModeController.class, FeedBack.class },
+				(Object) new String[] { other.getAbsolutePath() }, frame.getController().getModeController(), FEEDBACK);
+		assertEquals("OtherFile", currentRootText());
+		assertFalse(openMapText("SkipFile"));
+
+		File missing = new File(home, "missing-last.mm");
+		JLabel status = (JLabel) ((BorderLayout) frame.getContentPane().getLayout())
+				.getLayoutComponent(BorderLayout.SOUTH);
+		frame.actionPerformed(new ActionEvent(frame, ActionEvent.ACTION_PERFORMED, "clear"));
+		assertEquals("", status.getText());
+		frame.setProperty(FreeMindCommon.ON_START_IF_NOT_SPECIFIED, restorable(missing));
+		frame.setProperty(FreeMindCommon.LOAD_NEW_MAP, "true");
+		int before = frame.getController().getMapModuleManager().getMapModules().size();
+		invoke("loadMaps", new Class<?>[] { String[].class, ModeController.class, FeedBack.class },
+				(Object) new String[0], frame.getController().getModeController(), FEEDBACK);
+		assertTrue(status.getText().contains("error occured"));
+		assertTrue(frame.getController().getMapModuleManager().getMapModules().size() > before);
+		frame.setProperty(FreeMindCommon.LOAD_LAST_MAPS_AND_LAYOUT, "false");
+		frame.setProperty(FreeMindCommon.LOAD_NEW_MAP, "false");
+	}
+
+	private static String mapXml(String text) {
+		return "<map version=\"" + FreeMind.XML_VERSION + "\"><node TEXT=\"" + text + "\"/></map>";
+	}
+
+	private static String restorable(File file) {
+		return "MindMap:" + file.getAbsolutePath();
+	}
+
+	private static void storeSession(File file) throws Exception {
+		MindmapLastStateStorage store = new MindmapLastStateStorage();
+		store.setRestorableName(restorable(file));
+		store.setLastChanged(1L);
+		store.setTabIndex(0);
+		store.setLastZoom(1f);
+		store.setX(0);
+		store.setY(0);
+		store.setLastSelected("ID_0");
+		MindmapLastStateMapStorage map = new MindmapLastStateMapStorage();
+		map.getListMindmapLastStateStorageList().add(store);
+		frame.setProperty(FreeMindCommon.MINDMAP_LAST_STATE_MAP_STORAGE, Tools.marshall(map));
+	}
+
+	private static String currentRootText() {
+		return frame.getController().getMap().getRootNode().getText();
+	}
+
+	private static boolean openMapText(String text) {
+		for (MapModule module : frame.getController().getMapModuleManager().getMapModules().values()) {
+			if (text.equals(module.getModel().getRootNode().getText())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private static Object invoke(String name, Class<?>[] types, Object... args) throws Exception {

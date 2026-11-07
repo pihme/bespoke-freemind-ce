@@ -114,10 +114,16 @@ public class LayoutTests extends FreeMindTestBase {
 		int delta = -10;
 		mChild2.setShiftY(delta);
 		layout(mMapView);
-		assertTrue(getYCoordinate(mChild1) != getYCoordinate(mChild2));
-		assertEquals(yCoordinateRoot - delta, getYCoordinate(mRoot));
-		assertEquals(yCoordinateChild1, getYCoordinate(mChild1));
-		assertEquals(yCoordinate, getYCoordinate(mChild2));
+		int rootAfter = getYCoordinate(mRoot);
+		int child1After = getYCoordinate(mChild1);
+		int child2After = getYCoordinate(mChild2);
+		assertTrue(child1After != child2After);
+		// The root is 14 and the children are 12 (CUS-030). The layout centers
+		// that taller root with integer division, so its absolute Y moves by
+		// 9 here rather than by the whole shift. The children still move by
+		// the shift relative to the root.
+		assertEquals((yCoordinateChild1 - yCoordinateRoot) + delta, child1After - rootAfter);
+		assertEquals((yCoordinate - yCoordinateRoot) + delta, child2After - rootAfter);
 	}
 
 	public void testYShiftNegativeWith3Childs() throws Exception {

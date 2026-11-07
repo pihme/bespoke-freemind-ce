@@ -21,11 +21,15 @@ package tests.freemind.requirements;
 
 import java.awt.Font;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Properties;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -33,6 +37,7 @@ import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.tree.MutableTreeNode;
@@ -274,6 +279,134 @@ class RequirementBehaviourTest {
 		assertTrue(build.contains("tasks.register<Exec>(\"jpackageWin\")"));
 		assertTrue(build.contains("tasks.register<Exec>(\"jpackageLinux\")"));
 		assertTrue(build.contains("freemind.main.FreeMindStarter"));
+	}
+
+	@Test
+	void TestREQ_NODE_01_TabAddsAChild() throws Exception {
+		Properties shipped = new Properties();
+		try (InputStream in = RequirementBehaviourTest.class.getResourceAsStream("/freemind.properties")) {
+			assertNotNull(in);
+			shipped.load(in);
+		}
+		KeyStroke child = KeyStroke.getKeyStroke(shipped.getProperty("keystroke_add_child").trim());
+		KeyStroke sibling = KeyStroke.getKeyStroke(shipped.getProperty("keystroke_add").trim());
+		assertEquals(KeyEvent.VK_TAB, child.getKeyCode());
+		assertEquals(0, child.getModifiers());
+		assertEquals(KeyEvent.VK_ENTER, sibling.getKeyCode());
+	}
+
+	@Test
+	void TestREQ_STYLE_02_FontSizeFollowsDepthUnlessChosen() throws Exception {
+		Loaded alone = load("<map version=\"1.0.0\"><node TEXT=\"Root\"/></map>");
+		assertEquals("12", alone.root.getFontSize());
+		assertFalse(((NodeAdapter) alone.root).isFontSizeChosen());
+		assertFalse(alone.xml().contains("SIZE="));
+
+		Loaded pair = load("<map version=\"1.0.0\"><node TEXT=\"Root\">"
+				+ "<node TEXT=\"Child\"/></node></map>");
+		MindMapNode child = (MindMapNode) pair.root.getChildAt(0);
+		assertEquals("14", pair.root.getFontSize());
+		assertEquals("12", child.getFontSize());
+
+		Loaded three = load("<map version=\"1.0.0\"><node TEXT=\"Root\">"
+				+ "<node TEXT=\"Child\" FOLDED=\"true\"><node TEXT=\"Grand\"/></node></node></map>");
+		MindMapNode middle = (MindMapNode) three.root.getChildAt(0);
+		MindMapNode grand = (MindMapNode) middle.getChildAt(0);
+		assertTrue(middle.isFolded());
+		assertEquals("16", three.root.getFontSize());
+		assertEquals("14", middle.getFontSize());
+		assertEquals("12", grand.getFontSize());
+
+		three.feedback.setFontSize(middle, "14");
+		assertTrue(((NodeAdapter) middle).isFontSizeChosen());
+		MindMapNodeModel deeper = new MindMapNodeModel("Deeper", three.map);
+		three.map.insertNodeInto(deeper, grand, 0);
+		assertEquals("18", three.root.getFontSize());
+		assertEquals("14", middle.getFontSize());
+		assertEquals("14", grand.getFontSize());
+		assertEquals("12", deeper.getFontSize());
+		assertTrue(three.xml().contains("SIZE=\"14\""));
+		assertFalse(three.xml().contains("SIZE=\"18\""));
+		assertFalse(three.xml().contains("SIZE=\"12\""));
+
+		Loaded kept = load("<map version=\"1.0.0\"><node TEXT=\"Root\">"
+				+ "<node TEXT=\"Set\"><font NAME=\"Dialog\" SIZE=\"18\"/></node>"
+				+ "<node TEXT=\"Open\"/></node></map>");
+		MindMapNode set = (MindMapNode) kept.root.getChildAt(0);
+		MindMapNode open = (MindMapNode) kept.root.getChildAt(1);
+		assertEquals("18", set.getFontSize());
+		assertTrue(((NodeAdapter) set).isFontSizeChosen());
+		assertEquals("14", kept.root.getFontSize());
+		assertEquals("12", open.getFontSize());
+		assertFalse(((NodeAdapter) open).isFontSizeChosen());
+		MindMapNodeModel underOpen = new MindMapNodeModel("Under", kept.map);
+		kept.map.insertNodeInto(underOpen, open, 0);
+		assertEquals("18", set.getFontSize());
+		assertEquals("16", kept.root.getFontSize());
+		assertEquals("14", open.getFontSize());
+		assertEquals("12", underOpen.getFontSize());
+
+		Loaded bold = load("<map version=\"1.0.0\"><node TEXT=\"Root\"/></map>");
+		((NodeAdapter) bold.root).setBold(true);
+		assertTrue(bold.root.isBold());
+		assertFalse(((NodeAdapter) bold.root).isFontSizeChosen());
+		String boldXml = bold.xml();
+		assertTrue(boldXml.contains("BOLD=\"true\""));
+		assertFalse(boldXml.contains("SIZE="));
+
+		Loaded undo = load("<map version=\"1.0.0\"><node TEXT=\"Root\">"
+				+ "<node TEXT=\"Child\"/></node></map>");
+		MindMapNode undoChild = (MindMapNode) undo.root.getChildAt(0);
+		ActionPair[] stored = new ActionPair[1];
+		undo.feedback.getActionRegistry().registerFilter(new ActionFilter() {
+			public ActionPair filterAction(ActionPair pair) {
+				stored[0] = pair;
+				return pair;
+			}
+		});
+		undo.feedback.setFontSize(undoChild, "20");
+		assertEquals("20", undoChild.getFontSize());
+		assertNotNull(stored[0]);
+		undo.feedback.doTransaction("Undo", stored[0].reverse());
+		assertFalse(((NodeAdapter) undoChild).isFontSizeChosen());
+		assertEquals("12", undoChild.getFontSize());
+		MindMapNodeModel undoGrand = new MindMapNodeModel("Grand", undo.map);
+		undo.map.insertNodeInto(undoGrand, undoChild, 0);
+		assertEquals("16", undo.root.getFontSize());
+		assertEquals("14", undoChild.getFontSize());
+		assertEquals("12", undoGrand.getFontSize());
+
+		three.map.removeNodeFromParent(deeper);
+		assertEquals("16", three.root.getFontSize());
+		assertEquals("14", middle.getFontSize());
+		assertEquals("12", grand.getFontSize());
+	}
+
+	private static Loaded load(String xml) throws Exception {
+		ExtendedMapFeedbackImpl feedback = new ExtendedMapFeedbackImpl();
+		MindMapMapModel map = new MindMapMapModel(feedback);
+		feedback.setMap(map);
+		MindMapNode root = map.loadTree(new Tools.StringReaderCreator(xml), MapAdapter.sDontAskInstance);
+		map.setRoot(root);
+		return new Loaded(feedback, map, root);
+	}
+
+	private static final class Loaded {
+		final ExtendedMapFeedbackImpl feedback;
+		final MindMapMapModel map;
+		final MindMapNode root;
+
+		Loaded(ExtendedMapFeedbackImpl feedback, MindMapMapModel map, MindMapNode root) {
+			this.feedback = feedback;
+			this.map = map;
+			this.root = root;
+		}
+
+		String xml() throws Exception {
+			StringWriter writer = new StringWriter();
+			map.getXml(writer);
+			return writer.toString();
+		}
 	}
 
 	private static MapView mapView(File mapFile) throws Exception {

@@ -96,8 +96,10 @@ public class StylePattern {
 
 		nodeFontBold = Boolean.valueOf(node.isBold());
 		nodeFontItalic = Boolean.valueOf(node.isItalic());
-		nodeFontSize = node.getFontSize() == null ? null : Integer.valueOf(node
-				.getFontSize());
+		if (!(node instanceof NodeAdapter) || ((NodeAdapter) node).isFontSizeChosen()) {
+			nodeFontSize = node.getFontSize() == null ? null : Integer.valueOf(node
+					.getFontSize());
+		}
 		nodeFontFamily = node.getFontFamilyName();
 
 		nodeIcon = null;

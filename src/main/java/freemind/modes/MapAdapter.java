@@ -188,7 +188,9 @@ public abstract class MapAdapter extends DefaultTreeModel implements MindMap {
 	 */
 	@Override
 	public void removeNodeFromParent(MindMapNode pNode) {
+		int before = deepestLevel();
 		super.removeNodeFromParent(pNode);
+		refreshLevelFontsWhenDepthChanges(before);
 	}
 
 	//
@@ -329,10 +331,33 @@ public abstract class MapAdapter extends DefaultTreeModel implements MindMap {
 	@Override
 	public void insertNodeInto(MindMapNode pNewChild,
 			MindMapNode pParent, int pIndex) {
+		int before = deepestLevel();
 		super.insertNodeInto(pNewChild, pParent, pIndex);
 		// call hooks
 		mMapFeedback.fireRecursiveNodeCreateEvent((MindMapNode) pNewChild);
+		refreshLevelFontsWhenDepthChanges(before);
+	}
 
+	private int deepestLevel() {
+		MindMapNode root = getRootNode();
+		if (root == null) {
+			return 0;
+		}
+		return LevelFont.deepest(root);
+	}
+
+	private void refreshLevelFontsWhenDepthChanges(int before) {
+		if (deepestLevel() == before) {
+			return;
+		}
+		if (!(mMapFeedback instanceof ModeController)) {
+			return;
+		}
+		ModeController mode = (ModeController) mMapFeedback;
+		if (mode.getView() == null) {
+			return;
+		}
+		mode.refreshMap();
 	}
 
 	/**

@@ -954,7 +954,7 @@ public class OptionPanel implements TextTranslator {
 		controls.add(new SeparatorProperty("new_node_commands"));
 		controls.add(new KeyProperty(frame, null, "keystroke_add")); // ENTER
 
-		controls.add(new KeyProperty(frame, null, "keystroke_add_child")); // INSERT
+		controls.add(new KeyProperty(frame, null, "keystroke_add_child")); // TAB
 
 		controls.add(new KeyProperty(frame, null, "keystroke_add_child_mac")); // TAB
 

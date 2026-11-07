@@ -127,6 +127,8 @@ public abstract class NodeAdapter implements MindMapNode {
 	private MindMapNode preferredChild;
 
 	protected Font font;
+	/** True when the user set this node's font size. An unchanged size follows {@link LevelFont}. */
+	private boolean fontSizeChosen;
 	protected boolean underlined = false;
 
 	private FilterInfo filterInfo = new FilterInfo();
@@ -436,6 +438,14 @@ public abstract class NodeAdapter implements MindMapNode {
 		this.font = font;
 	}
 
+	public boolean isFontSizeChosen() {
+		return fontSizeChosen;
+	}
+
+	public void setFontSizeChosen(boolean fontSizeChosen) {
+		this.fontSizeChosen = fontSizeChosen;
+	}
+
 	public MindMapNode getParentNode() {
 		return parent;
 	}
@@ -444,6 +454,7 @@ public abstract class NodeAdapter implements MindMapNode {
 		establishOwnFont();
 		setFont(getMapFeedback().getFontThroughMap(
 				font.deriveFont((float)fontSize)));
+		fontSizeChosen = true;
 	}
 
 	public Font getFont() {
@@ -451,11 +462,13 @@ public abstract class NodeAdapter implements MindMapNode {
 	}
 
 	public String getFontSize() {
+		if (!fontSizeChosen) {
+			return Integer.toString(LevelFont.size(this));
+		}
 		if (getFont() != null) {
 			return Integer.toString(getFont().getSize());
-		} else {
-			return getMapFeedback().getProperty("defaultfontsize");
 		}
+		return getMapFeedback().getProperty("defaultfontsize");
 	}
 
 	public String getFontFamilyName() {
@@ -1213,7 +1226,7 @@ public abstract class NodeAdapter implements MindMapNode {
 			if (font != null) {
 				fontElement.setAttribute("NAME", font.getFamily());
 			}
-			if (font.getSize() != 0) {
+			if (fontSizeChosen) {
 				fontElement.setAttribute("SIZE",
 						Integer.toString(font.getSize()));
 			}
