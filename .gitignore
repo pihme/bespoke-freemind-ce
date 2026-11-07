@@ -26,8 +26,6 @@ local.properties
 # Eclipse project files are not part of this tree.
 .project
 .classpath
-plugins/**/.project
-plugins/**/.classpath
 
 ### Java ###
 # Compiled class files
@@ -77,15 +75,6 @@ Desktop.ini
 /auto.properties
 /.jqwik-database
 
-# JiBX binding JAR (obsolete — replaced by JAXB)
-/lib/bindings.jar
-
-# Build output directories (legacy Ant)
-bin/dist/
-bin/classes/
-bin/testclasses/
-bin/reports/
-
 # Distribution artifacts
 *.dmg
 *.pkg
@@ -98,23 +87,9 @@ bin/reports/
 jacoco/
 coverage/
 
-# Legacy Ant build output
-/bin/
-
 # Local agent settings. This fork does not ship these directories.
 .claude/
 .opencode/
-
-# Serena LSP agent (keep .serena/project.yml versioned)
-.serena/project.local.yml
-.serena/memories/
-.serena/cache/
-.serena/logs/
-.serena/.gitignore
-
-# BMAD workflow framework and output artifacts (local tooling)
-_bmad/
-_bmad-output/
 
 # Content marketing materials (local only, not committed)
 docs/content-marketing/

@@ -183,20 +183,6 @@ class StructuralQualityTest {
     }
 
     @Test
-    @DisplayName("jaxb-bindings.xjb is well-formed XML")
-    void jaxbBindingsWellFormed() throws Exception {
-        Path xjbFile = findProjectRoot()
-                .resolve("src/main/schema/jaxb-bindings.xjb");
-        assertTrue(Files.exists(xjbFile),
-                "jaxb-bindings.xjb must exist");
-
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        assertDoesNotThrow(() -> builder.parse(xjbFile.toFile()),
-                "jaxb-bindings.xjb must be well-formed XML");
-    }
-
-    @Test
     @DisplayName("TODO/FIXME count is bounded")
     void todoFixmeCountBounded() throws IOException {
         Path root = findProjectRoot();

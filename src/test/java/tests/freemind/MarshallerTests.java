@@ -23,7 +23,6 @@
 
 package tests.freemind;
 
-import de.foltin.StringEncoder;
 import freemind.common.XmlBindingTools;
 import freemind.controller.actions.generated.instance.Pattern;
 import freemind.controller.actions.generated.instance.PatternChild;
@@ -53,16 +52,6 @@ public class MarshallerTests extends FreeMindTestBase {
 		assertEquals("Newline is correctly marshalled?" + marshall, testPattern
 				.getPatternChild().getValue(), testPatternUnmarshalled
 				.getPatternChild().getValue());
-	}
-
-	public void testStringEncoder() throws Exception {
-		String input = "\\ntest\n\\test";
-		String encodedString = StringEncoder.encode(input);
-		// System.out.println(encodedString);
-		assertEquals("\\\\ntest\\u000a\\\\test", encodedString);
-		String output = StringEncoder.decode(encodedString);
-		assertEquals(input, output);
-
 	}
 
 }

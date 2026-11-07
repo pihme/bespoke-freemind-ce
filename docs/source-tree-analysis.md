@@ -17,8 +17,7 @@ The repository root is the Gradle project `bespoke-freemind-ce`. Sources follow 
 │   │   ├── preferences/
 │   │   ├── common/
 │   │   └── swing/
-│   ├── accessories/                           # notes, icons, time, clone, and the other built-in features
-│   └── de/foltin/                             # StringEncoder
+│   └── accessories/                           # notes, icons, time, clone, and the other built-in features
 ├── src/main/resources/                        # classpath resources
 │   ├── freemind.properties
 │   ├── mindmap_menus.xml
@@ -28,7 +27,7 @@ The repository root is the Gradle project `bespoke-freemind-ce`. Sources follow 
 │   ├── doc/                                   # freemind.mm and the translated copies
 │   ├── accessories/                           # feature properties, xsl, icons
 │   └── freemind/modes/                        # mode xslt and xml
-├── src/main/schema/                           # freemind.xsd, freemind_actions.xsd, jaxb-bindings.xjb
+├── src/main/schema/                           # freemind.xsd, freemind_actions.xsd, jaxb-jibx-compat.patch
 ├── src/test/java/                             # directory matches the package
 ├── src/test/resources/
 ├── lib/                                       # SimplyHTML.jar
