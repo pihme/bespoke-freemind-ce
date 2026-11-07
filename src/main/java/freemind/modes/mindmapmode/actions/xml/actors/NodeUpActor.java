@@ -20,6 +20,8 @@
 
 package freemind.modes.mindmapmode.actions.xml.actors;
 
+import freemind.modes.NodeWalks;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -130,7 +132,7 @@ public class NodeUpActor extends XmlActorAdapter {
 	 */
 	private Vector<MindMapNode> getSortedSiblings(MindMapNode node) {
 		Vector<MindMapNode> nodes = new Vector<>();
-		for (Iterator<MindMapNode> i = node.childrenUnfolded(); i.hasNext();) {
+		for (Iterator<MindMapNode> i = NodeWalks.stored(node); i.hasNext();) {
 			nodes.add(i.next());
 		}
 		Collections.sort(nodes, new Comparator<MindMapNode>() {

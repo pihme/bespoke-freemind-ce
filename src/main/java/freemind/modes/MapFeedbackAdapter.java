@@ -214,7 +214,7 @@ public abstract class MapFeedbackAdapter implements MapFeedback, ViewFeedback {
 	 */
 	@Override
 	public void invokeHooksRecursively(MindMapNode pNode, MindMap pModel) {
-		for (Iterator i = pNode.childrenUnfolded(); i.hasNext();) {
+		for (Iterator i = NodeWalks.stored(pNode); i.hasNext();) {
 			NodeAdapter child = (NodeAdapter) i.next();
 			invokeHooksRecursively(child, getMap());
 		}

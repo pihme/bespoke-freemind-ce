@@ -23,6 +23,8 @@
  */
 package accessories.plugins;
 
+import freemind.modes.NodeWalks;
+
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -449,7 +451,7 @@ public class AutomaticLayout extends PermanentMindMapNodeHookAdapter {
 		logger.finest("setStyle " + node);
 		setStyle(node);
 		// recurse:
-		for (Iterator<MindMapNode> i = node.childrenUnfolded(); i.hasNext();) {
+		for (Iterator<MindMapNode> i = NodeWalks.stored(node); i.hasNext();) {
 			MindMapNode child = i.next();
 			invoke(child);
 		}

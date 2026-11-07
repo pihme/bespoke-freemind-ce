@@ -22,6 +22,8 @@
 
 package accessories.plugins.time;
 
+import freemind.modes.NodeWalks;
+
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -673,7 +675,7 @@ public class TimeList extends MindMapHookAdapter implements
 			// no recursion, if folded nodes should be hidden.
 			return;
 		}
-		for (Iterator<MindMapNode> i = node.childrenUnfolded(); i.hasNext();) {
+		for (Iterator<MindMapNode> i = NodeWalks.stored(node); i.hasNext();) {
 			MindMapNode child = i.next();
 			updateModel(model, child);
 		}

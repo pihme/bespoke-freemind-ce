@@ -23,6 +23,8 @@
  */
 package freemind.controller.filter;
 
+import freemind.modes.NodeWalks;
+
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
@@ -156,7 +158,7 @@ class FilterToolbar extends FreeMindToolBar {
 		}
 
 		private void unfoldAncestors(MindMapNode parent) {
-			for (Iterator<MindMapNode> i = parent.childrenUnfolded(); i.hasNext();) {
+			for (Iterator<MindMapNode> i = NodeWalks.stored(parent); i.hasNext();) {
 				MindMapNode node = i.next();
 				if (showDescendants.isSelected()
 						|| node.getFilterInfo().isAncestor()) {

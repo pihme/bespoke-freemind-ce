@@ -591,7 +591,7 @@ public class StylePatternFactory {
 			String searchedPatternName = pattern.getPatternChild().getValue();
 			for (Pattern otherPattern : pPatternList) {
 				if (otherPattern.getName().equals(searchedPatternName)) {
-					for (ListIterator j = node.childrenUnfolded(); j.hasNext();) {
+					for (ListIterator j = NodeWalks.stored(node); j.hasNext();) {
 						NodeAdapter child = (NodeAdapter) j.next();
 						applyPattern(child, otherPattern, pPatternList, pPlugins, pMapFeedback);
 					}

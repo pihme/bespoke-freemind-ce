@@ -177,7 +177,7 @@ public abstract class MapAdapter extends DefaultTreeModel implements MindMap {
 		node.removeAllHooks();
 		mMapFeedback.fireNodePreDeleteEvent(node);
 		// and all children:
-		for (Iterator<MindMapNode> i = node.childrenUnfolded(); i.hasNext();) {
+		for (Iterator<MindMapNode> i = NodeWalks.stored(node); i.hasNext();) {
 			MindMapNode child = i.next();
 			removeNodes(child);
 		}
@@ -502,7 +502,7 @@ public abstract class MapAdapter extends DefaultTreeModel implements MindMap {
 	 */
 	private void addIcons(SortedMapListModel pMapIcons, MindMapNode pNode) {
 		pMapIcons.addAll(pNode.getIcons());
-		ListIterator<MindMapNode> iterator = pNode.childrenUnfolded();
+		ListIterator<MindMapNode> iterator = NodeWalks.stored(pNode);
 		while (iterator.hasNext()) {
 			MindMapNode node = (MindMapNode) iterator.next();
 			addIcons(pMapIcons, node);

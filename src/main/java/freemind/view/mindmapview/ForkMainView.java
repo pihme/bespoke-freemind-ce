@@ -19,6 +19,8 @@
 
 package freemind.view.mindmapview;
 
+import freemind.modes.NodeWalks;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -116,7 +118,7 @@ class ForkMainView extends MainView {
 		case EdgeAdapter.INT_EDGESTYLE_SHARP_LINEAR:
 			// here, we take the maximum of width of children:
 			edgeWidth = 1;
-			for (Iterator<MindMapNode> it = nodeModel.childrenUnfolded(); it.hasNext();) {
+			for (Iterator<MindMapNode> it = NodeWalks.stored(nodeModel); it.hasNext();) {
 				MindMapNode child = it.next();
 				edgeWidth = Math.max(edgeWidth, child.getEdge().getWidth());
 			}

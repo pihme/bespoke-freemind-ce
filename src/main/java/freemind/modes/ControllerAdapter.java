@@ -340,7 +340,7 @@ public abstract class ControllerAdapter extends MapFeedbackAdapter implements Mo
 	}
 
 	public void fireRecursiveNodeCreateEvent(MindMapNode node) {
-		for (Iterator<MindMapNode> i = node.childrenUnfolded(); i.hasNext();) {
+		for (Iterator<MindMapNode> i = NodeWalks.stored(node); i.hasNext();) {
 			MindMapNode child = i.next();
 			fireRecursiveNodeCreateEvent(child);
 		}

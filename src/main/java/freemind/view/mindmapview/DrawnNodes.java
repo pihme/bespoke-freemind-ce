@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import freemind.modes.MindMapNode;
+import freemind.modes.NodeWalks;
 
 /**
  * Which child nodes are drawn, and in which order.
@@ -39,7 +40,7 @@ public final class DrawnNodes {
 	/** Pictures created under the parent, in stored order. Empty when the parent draws no children. */
 	public static List<MindMapNode> pictures(MindMapNode parent) {
 		List<MindMapNode> pictures = new ArrayList<>();
-		ListIterator<MindMapNode> children = parent.childrenFolded();
+		ListIterator<MindMapNode> children = NodeWalks.foldedAway(parent);
 		if (children == null) {
 			return pictures;
 		}

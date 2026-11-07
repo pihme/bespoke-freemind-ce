@@ -32,6 +32,7 @@ import java.util.ListIterator;
 import freemind.main.HtmlTools;
 import freemind.modes.MindMap;
 import freemind.modes.NodeAdapter;
+import freemind.modes.NodeWalks;
 
 /**
  * This class represents a single Node of a Tree. It contains direct handles to
@@ -115,7 +116,7 @@ public class MindMapNodeModel extends NodeAdapter {
 		if (color != null) {
 			colors.add(getColor());
 		}
-		for (ListIterator e = childrenUnfolded(); e.hasNext();) {
+		for (ListIterator e = NodeWalks.stored(this); e.hasNext();) {
 			((MindMapNodeModel) e.next()).collectColors(colors);
 		}
 	}

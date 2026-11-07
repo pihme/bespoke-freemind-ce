@@ -53,7 +53,6 @@ import freemind.controller.filter.FilterInfo;
 import freemind.extensions.DontSaveMarker;
 import freemind.extensions.NodeHook;
 import freemind.extensions.PermanentNodeHook;
-import freemind.main.FreeMind;
 import freemind.main.FreeMindCommon;
 import freemind.main.HtmlTools;
 import freemind.main.Resources;
@@ -69,8 +68,6 @@ import freemind.preferences.FreemindPropertyListener;
  */
 public abstract class NodeAdapter implements MindMapNode {
 
-	final static int SHIFT = -2;// height of the vertical shift between node and
-								// its closest child
 	public final static int HGAP = 20;// width of the horizontal gap that
 										// contains the edges
 	public final static int VGAP = 3;// height of the vertical gap between nodes
@@ -109,6 +106,14 @@ public abstract class NodeAdapter implements MindMapNode {
 	protected Color backgroundColor;
 	protected boolean folded;
 	private int position = UNKNOWN_POSITION;
+
+	int storedPosition() {
+		return position;
+	}
+
+	void storedPosition(int position) {
+		this.position = position;
+	}
 
 	private int vGap = VGAP;
 	private int hGap = HGAP;
@@ -317,8 +322,8 @@ public abstract class NodeAdapter implements MindMapNode {
 	 * Correct iterative level values of children
 	 */
 	private void changeChildCloudIterativeLevels(int deltaLevel) {
-		for (ListIterator<NodeAdapter> e = childrenUnfolded(); e.hasNext();) {
-			NodeAdapter childNode = e.next();
+		for (ListIterator<MindMapNode> e = NodeWalks.stored(this); e.hasNext();) {
+			NodeAdapter childNode = (NodeAdapter) e.next();
 			MindMapCloud childCloud = childNode.getCloud();
 			if (childCloud != null) {
 				childCloud.changeIterativeLevel(deltaLevel);
@@ -334,36 +339,7 @@ public abstract class NodeAdapter implements MindMapNode {
 
 	/** A Node-Style like MindMapNode.STYLE_FORK or MindMapNode.STYLE_BUBBLE */
 	public String getStyle() {
-		String returnedString = style; /* Style string returned */
-		if (style == null) {
-			if (this.isRoot()) {
-				returnedString = getMapFeedback().getProperty(
-						FreeMind.RESOURCES_ROOT_NODE_STYLE);
-			} else {
-				String stdstyle = getMapFeedback().getProperty(
-						FreeMind.RESOURCES_NODE_STYLE);
-				if (stdstyle.equals(MindMapNode.STYLE_AS_PARENT)) {
-					returnedString = getParentNode().getStyle();
-				} else {
-					returnedString = stdstyle;
-				}
-			}
-		} else if (this.isRoot() && style.equals(MindMapNode.STYLE_AS_PARENT)) {
-			returnedString = getMapFeedback().getProperty(
-					FreeMind.RESOURCES_ROOT_NODE_STYLE);
-		} else if (style.equals(MindMapNode.STYLE_AS_PARENT)) {
-			returnedString = getParentNode().getStyle();
-		}
-
-		// Handle the combined node style
-		if (returnedString.equals(MindMapNode.STYLE_COMBINED)) {
-			if (this.isFolded()) {
-				return MindMapNode.STYLE_BUBBLE;
-			} else {
-				return MindMapNode.STYLE_FORK;
-			}
-		}
-		return returnedString;
+		return StoredNodeStyle.drawn(this);
 	}
 
 	public boolean hasStyle() {
@@ -559,8 +535,8 @@ public abstract class NodeAdapter implements MindMapNode {
 	 */
 	public boolean hasFoldedStrictDescendant() {
 
-		for (ListIterator<NodeAdapter> e = childrenUnfolded(); e.hasNext();) {
-			NodeAdapter child = e.next();
+		for (ListIterator<MindMapNode> e = NodeWalks.stored(this); e.hasNext();) {
+			NodeAdapter child = (NodeAdapter) e.next();
 			if (child.isFolded() || child.hasFoldedStrictDescendant()) {
 				return true;
 			}
@@ -756,23 +732,11 @@ public abstract class NodeAdapter implements MindMapNode {
 
 	// fc, 16.12.2003 left-right bug:
 	public boolean isLeft() {
-		if (getParent() != null && !getParentNode().isRoot()) {
-			return getParentNode().isLeft();
-		}
-		if (position == UNKNOWN_POSITION && !isRoot()) {
-			setLeft(getParentNode().isLeft());
-		}
-		return position == LEFT_POSITION;
+		return PicturePlacement.isLeft(this);
 	}
 
 	public void setLeft(boolean isLeft) {
-		position = isLeft ? LEFT_POSITION : RIGHT_POSITION;
-		if (!isRoot()) {
-			for (int i = 0; i < getChildCount(); i++) {
-				final NodeAdapter child = (NodeAdapter) getChildAt(i);
-				child.position = position;
-			}
-		}
+		PicturePlacement.setLeft(this, isLeft);
 	}
 
 	public boolean isNewChildLeft() {
@@ -1214,12 +1178,8 @@ public abstract class NodeAdapter implements MindMapNode {
 		}
 
 		if (style != null) {
-			node.setAttribute("STYLE", this.getStyle());
+			node.setAttribute("STYLE", StoredNodeStyle.stored(this));
 		}
-		// ^ Here cannot be just getStyle() without super. This is because
-		// getStyle's style depends on folded / unfolded. For example, when
-		// real style is fork and node is folded, getStyle returns
-		// MindMapNode.STYLE_BUBBLE, which is not what we want to save.
 
 		// layout
 		if (vGap != VGAP) {
@@ -1266,7 +1226,7 @@ public abstract class NodeAdapter implements MindMapNode {
 			if (isItalic()) {
 				fontElement.setAttribute("ITALIC", "true");
 			}
-			if (isUnderlined()) {
+			if (StoredNodeStyle.writesUnderline(this)) {
 				fontElement.setAttribute("UNDERLINE", "true");
 			}
 			node.addChild(fontElement);
@@ -1299,7 +1259,7 @@ public abstract class NodeAdapter implements MindMapNode {
 			}
 		}
 
-		if (saveChildren && childrenUnfolded().hasNext()) {
+		if (saveChildren && NodeWalks.stored(this).hasNext()) {
 			node.writeWithoutClosingTag(writer);
 			// recursive
 			saveChildren(writer, registry, this, saveInvisible);
@@ -1319,8 +1279,8 @@ public abstract class NodeAdapter implements MindMapNode {
 
 	private void saveChildren(Writer writer, MindMapLinkRegistry registry,
 			NodeAdapter node, boolean saveHidden) throws IOException {
-		for (ListIterator<NodeAdapter> e = node.childrenUnfolded(); e.hasNext();) {
-			NodeAdapter child = e.next();
+		for (ListIterator<MindMapNode> e = NodeWalks.stored(node); e.hasNext();) {
+			NodeAdapter child = (NodeAdapter) e.next();
 			if (saveHidden || child.isVisible())
 				child.save(writer, registry, saveHidden, true);
 			else
@@ -1344,7 +1304,7 @@ public abstract class NodeAdapter implements MindMapNode {
 	}
 
 	public boolean hasVisibleChilds() {
-		for (ListIterator<MindMapNode> i = childrenUnfolded(); i.hasNext();) {
+		for (ListIterator<MindMapNode> i = NodeWalks.stored(this); i.hasNext();) {
 			if (i.next().isVisible())
 				return true;
 		}
@@ -1352,13 +1312,7 @@ public abstract class NodeAdapter implements MindMapNode {
 	}
 
 	public int calcShiftY() {
-		try {
-			// return 0;
-			return shiftY + (parent.hasExactlyOneVisibleChild() ? SHIFT : 0);
-		} catch (NullPointerException e) {
-			return 0;
-		}
-
+		return PicturePlacement.verticalOffset(this);
 	}
 
 	/**

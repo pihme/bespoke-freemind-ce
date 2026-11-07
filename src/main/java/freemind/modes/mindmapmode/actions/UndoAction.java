@@ -42,7 +42,6 @@ public class UndoAction extends AbstractXmlAction {
 
 
 	private MindMapController controller;
-	private boolean isUndoAction;
 	protected Vector<ActionPair> actionPairList = new Vector<>();
 	private long timeOfLastAdd = 0;
 	private boolean actionFrameStarted = false;
@@ -63,12 +62,11 @@ public class UndoAction extends AbstractXmlAction {
 		super(text, icon, mode);
 		this.controller = adapter;
 		setEnabled(false);
-		isUndoAction = false;
 	}
 
 
 	public boolean isUndoAction() {
-		return isUndoAction;
+		return controller.replay().isReplaying();
 	}
 
 	/*
@@ -100,10 +98,10 @@ public class UndoAction extends AbstractXmlAction {
 	protected void undoDoAction(ActionPair pair) {
 		logger.info("Undo, doing: " + Tools.printXmlAction(pair.getUndoAction()));
 		logger.info("Redo, would: " + Tools.printXmlAction(pair.getDoAction()));
-		isUndoAction = true;
+		controller.replay().start();
 		this.controller.doTransaction("Undo",
 				new ActionPair(pair.getUndoAction(), pair.getDoAction()));
-		isUndoAction = false;
+		controller.replay().end();
 	}
 
 	/*

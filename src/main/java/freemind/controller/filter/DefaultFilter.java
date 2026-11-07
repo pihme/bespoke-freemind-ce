@@ -23,6 +23,8 @@
  */
 package freemind.controller.filter;
 
+import freemind.modes.NodeWalks;
+
 import java.util.LinkedList;
 import java.util.ListIterator;
 
@@ -111,7 +113,7 @@ public class DefaultFilter implements Filter {
 	 */
 	private boolean filterChildren(MindMapNode parent, Controller c,
 			boolean isAncestorSelected, boolean isAncestorEclipsed) {
-		ListIterator<MindMapNode> iterator = parent.childrenUnfolded();
+		ListIterator<MindMapNode> iterator = NodeWalks.stored(parent);
 		boolean isDescendantSelected = false;
 		while (iterator.hasNext()) {
 			MindMapNode node = (MindMapNode) iterator.next();

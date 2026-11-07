@@ -23,6 +23,8 @@
  */
 package accessories.plugins;
 
+import freemind.modes.NodeWalks;
+
 import java.text.MessageFormat;
 import java.util.Iterator;
 
@@ -64,7 +66,7 @@ public class CreationModificationPlugin extends PermanentMindMapNodeHookAdapter 
 
 	private void removeToolTipRecursively(MindMapNode node) {
 		setToolTip(node, getName(), null);
-		for (Iterator<MindMapNode> i = node.childrenUnfolded(); i.hasNext();) {
+		for (Iterator<MindMapNode> i = NodeWalks.stored(node); i.hasNext();) {
 			MindMapNode child = i.next();
 			removeToolTipRecursively(child);
 		}
@@ -115,7 +117,7 @@ public class CreationModificationPlugin extends PermanentMindMapNodeHookAdapter 
 		logger.finest("setStyle " + node);
 		setStyle(node);
 		// recurse:
-		for (Iterator<MindMapNode> i = node.childrenFolded(); i.hasNext();) {
+		for (Iterator<MindMapNode> i = NodeWalks.foldedAway(node); i.hasNext();) {
 			MindMapNode child = i.next();
 			setStyleRecursive(child);
 		}

@@ -19,6 +19,8 @@
 
 package freemind.modes.mindmapmode;
 
+import freemind.modes.NodeWalks;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
@@ -120,6 +122,7 @@ import freemind.main.Resources;
 import freemind.main.Tools;
 import freemind.main.XMLParseException;
 import freemind.modes.ControllerAdapter;
+import freemind.modes.ActorDispatch;
 import freemind.modes.EdgeAdapter;
 import freemind.modes.ExtendedMapFeedback;
 import freemind.modes.FreeMindFileDialog;
@@ -184,6 +187,7 @@ import freemind.modes.mindmapmode.actions.NodeUpAction;
 import freemind.modes.mindmapmode.actions.PasteAction;
 import freemind.modes.mindmapmode.actions.PasteAsPlainTextAction;
 import freemind.modes.mindmapmode.actions.RedoAction;
+import freemind.modes.mindmapmode.actions.Replay;
 import freemind.modes.mindmapmode.actions.RemoveAllIconsAction;
 import freemind.modes.mindmapmode.actions.RemoveArrowLinkAction;
 import freemind.modes.mindmapmode.actions.RemoveIconAction;
@@ -404,6 +408,7 @@ public class MindMapController extends ControllerAdapter implements
 
 	public UndoAction undo = null;
 	public RedoAction redo = null;
+	private final Replay replay = new Replay();
 	public CopyAction copy = null;
 	public Action copySingle = null;
 	public CutAction cut = null;
@@ -694,8 +699,12 @@ public class MindMapController extends ControllerAdapter implements
 		return mPatternsList;
 	}
 
+	public Replay replay() {
+		return replay;
+	}
+
 	public boolean isUndoAction() {
-		return undo.isUndoAction() || redo.isUndoAction();
+		return replay.isReplaying();
 	}
 
 	protected void loadInternally(URL url, MapAdapter model) throws URISyntaxException, XMLParseException, IOException {
@@ -933,14 +942,7 @@ public class MindMapController extends ControllerAdapter implements
 
 	@Override
 	public void nodeStyleChanged(MindMapNode node) {
-		nodeChanged(node);
-		final ListIterator childrenFolded = node.childrenFolded();
-		while (childrenFolded.hasNext()) {
-			MindMapNode child = (MindMapNode) childrenFolded.next();
-			if (!(child.hasStyle() && child.getEdge().hasStyle())) {
-				nodeStyleChanged(child);
-			}
-		}
+		ActorDispatch.nodeStyleChanged(this, node);
 	}
 
 
@@ -1134,8 +1136,7 @@ public class MindMapController extends ControllerAdapter implements
 				}
 				String keystroke = action.getKeyRef();
 				try {
-					Action theAction = (Action) Tools.getField(new Object[] {
-							this, getController() }, field);
+					Action theAction = MenuActions.action(this, getController(), field);
 					String theCategory = categoryCopy + "/" + name;
 					if (obj instanceof MenuCheckedAction) {
 						addCheckBox(holder, theCategory, theAction, keystroke);
@@ -1431,7 +1432,7 @@ public class MindMapController extends ControllerAdapter implements
 			try {
 				MindMapNode node = loadTree(
 						Tools.urlToFile(absolute));
-				for (ListIterator i = node.childrenUnfolded(); i.hasNext();) {
+				for (ListIterator i = NodeWalks.stored(node); i.hasNext();) {
 					MindMapNodeModel importNode = (MindMapNodeModel) i.next();
 					paste(importNode, selected);
 					invokeHooksRecursively(importNode, getMindMapMapModel());
@@ -1496,15 +1497,15 @@ public class MindMapController extends ControllerAdapter implements
 	}
 
 	public void setBold(MindMapNode node, boolean bolded) {
-		mActorFactory.getBoldActor().setBold(node, bolded);
+		ActorDispatch.setBold(getActorFactory(), node, bolded);
 	}
 
 	public void setStrikethrough(MindMapNode node, boolean strikethrough) {
-		mActorFactory.getStrikethroughActor().setStrikethrough(node, strikethrough);
+		ActorDispatch.setStrikethrough(getActorFactory(), node, strikethrough);
 	}
 
 	public void setItalic(MindMapNode node, boolean isItalic) {
-		mActorFactory.getItalicActor().setItalic(node, isItalic);
+		ActorDispatch.setItalic(getActorFactory(), node, isItalic);
 	}
 
 	public void setCloud(MindMapNode node, boolean enable) {

@@ -79,6 +79,7 @@ public class XMLElementAdapter extends XMLElement {
 	protected final MapFeedback mMapFeedback;
 
 	private boolean fontStyleStrikethrough;
+	private boolean fontUnderlined;
 
 	// Overhead methods
 
@@ -202,6 +203,10 @@ public class XMLElementAdapter extends XMLElement {
 				mArrowLinkAdapters.add(arrowLink);
 			} else if (child.getName().equals("font")) {
 				node.setFont((Font) child.getUserObject());
+				if (child instanceof XMLElementAdapter
+						&& ((XMLElementAdapter) child).fontUnderlined) {
+					StoredNodeStyle.markUnderline(node);
+				}
 			} else if (child.getName().equals(XML_NODE_ATTRIBUTE)) {
 				node.addAttribute(
 						(Attribute) child.getUserObject());
@@ -354,6 +359,8 @@ public class XMLElementAdapter extends XMLElement {
 					fontStyle += Font.ITALIC;
 				} else if (name.equals("STRIKETHROUGH")){
 					fontStyleStrikethrough = true;
+				} else if (StoredNodeStyle.underlineToken(name, sValue)) {
+					fontUnderlined = true;
 				}
 			}
 		}

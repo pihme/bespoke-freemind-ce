@@ -132,14 +132,7 @@ public abstract class ExtendedMapFeedbackAdapter extends MapFeedbackAdapter
 
 	@Override
 	public void nodeStyleChanged(MindMapNode node) {
-		nodeChanged(node);
-		final ListIterator<MindMapNode> childrenFolded = node.childrenFolded();
-		while (childrenFolded.hasNext()) {
-			MindMapNode child = (MindMapNode) childrenFolded.next();
-			if (!(child.hasStyle() && child.getEdge().hasStyle())) {
-				nodeStyleChanged(child);
-			}
-		}
+		ActorDispatch.nodeStyleChanged(this, node);
 	}
 
 	@Override
@@ -257,17 +250,17 @@ public abstract class ExtendedMapFeedbackAdapter extends MapFeedbackAdapter
 
 	@Override
 	public void setBold(MindMapNode pNode, boolean pBolded) {
-		mActorFactory.getBoldActor().setBold(pNode, pBolded);
+		ActorDispatch.setBold(getActorFactory(), pNode, pBolded);
 	}
 
 	@Override
 	public void setStrikethrough(MindMapNode pNode, boolean pStrikethroughed) {
-		mActorFactory.getStrikethroughActor().setStrikethrough(pNode, pStrikethroughed);
+		ActorDispatch.setStrikethrough(getActorFactory(), pNode, pStrikethroughed);
 	}
 
 	@Override
 	public void setItalic(MindMapNode pNode, boolean pIsItalic) {
-		mActorFactory.getItalicActor().setItalic(pNode, pIsItalic);
+		ActorDispatch.setItalic(getActorFactory(), pNode, pIsItalic);
 	}
 
 	@Override

@@ -219,7 +219,7 @@ public class MindMapLinkRegistry {
 			deregisterLink(link);
 		}
 		// and process my sons:
-		for (ListIterator<MindMapNode> e = target.childrenUnfolded(); e.hasNext();) {
+		for (ListIterator<MindMapNode> e = NodeWalks.stored(target); e.hasNext();) {
 			MindMapNode child = e.next();
 			deregisterLinkTarget(child);
 		}

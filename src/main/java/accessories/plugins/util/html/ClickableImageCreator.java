@@ -19,6 +19,8 @@
 
 package accessories.plugins.util.html;
 
+import freemind.modes.NodeWalks;
+
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.text.MessageFormat;
@@ -136,7 +138,7 @@ public class ClickableImageCreator {
 			holder.coordinates.width = content.getWidth();
 			holder.coordinates.height = content.getHeight();
 			area.add(holder);
-			for (Iterator<MindMapNode> i = node.childrenUnfolded(); i.hasNext();) {
+			for (Iterator<MindMapNode> i = NodeWalks.stored(node); i.hasNext();) {
 				MindMapNode child = i.next();
 				createArea(child);
 			}

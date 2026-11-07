@@ -20,6 +20,8 @@
 
 package freemind.modes.mindmapmode.actions.xml.actors;
 
+import freemind.modes.NodeWalks;
+
 import java.awt.datatransfer.Transferable;
 import java.util.Iterator;
 
@@ -100,7 +102,7 @@ public class DeleteChildActor extends XmlActorAdapter {
 	}
 
 	private void removeHooks(MindMapNode selectedNode) {
-		for (Iterator<MindMapNode> it = selectedNode.childrenUnfolded(); it.hasNext();) {
+		for (Iterator<MindMapNode> it = NodeWalks.stored(selectedNode); it.hasNext();) {
 			MindMapNode child = it.next();
 			removeHooks(child);
 		}

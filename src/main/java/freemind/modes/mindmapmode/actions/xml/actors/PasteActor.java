@@ -20,6 +20,8 @@
 
 package freemind.modes.mindmapmode.actions.xml.actors;
 
+import freemind.modes.NodeWalks;
+
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -269,20 +271,20 @@ public class PasteActor extends XmlActorAdapter {
 					MindMapNode node = getExMapFeedback().getMap().loadTree(
 									new Tools.StringReaderCreator(
 											mapContent), MapAdapter.sDontAskInstance);
-					for (ListIterator i = node.childrenUnfolded(); i.hasNext();) {
+					for (ListIterator i = NodeWalks.stored(node); i.hasNext();) {
 						MindMapNodeModel importNode = (MindMapNodeModel) i
 								.next();
 						insertNodeInto(importNode, target, asSibling, isLeft,
 								true);
 						// addUndoAction(importNode);
 					}
-					for (ListIterator i = node.childrenUnfolded(); i.hasNext();) {
+					for (ListIterator i = NodeWalks.stored(node); i.hasNext();) {
 						MindMapNodeModel importNode = (MindMapNodeModel) i
 								.next();
 						getExMapFeedback().invokeHooksRecursively(importNode,
 								getExMapFeedback().getMap());
 					}
-					for (ListIterator i = node.childrenUnfolded(); i.hasNext();) {
+					for (ListIterator i = NodeWalks.stored(node); i.hasNext();) {
 						MindMapNodeModel importNode = (MindMapNodeModel) i
 								.next();
 						processUnfinishedLinksInHooks(importNode);
@@ -913,7 +915,7 @@ public class PasteActor extends XmlActorAdapter {
 	}
 
 	public void processUnfinishedLinksInHooks(MindMapNode node) {
-		for (Iterator<MindMapNode> i = node.childrenUnfolded(); i.hasNext();) {
+		for (Iterator<MindMapNode> i = NodeWalks.stored(node); i.hasNext();) {
 			MindMapNode child = i.next();
 			processUnfinishedLinksInHooks(child);
 		}

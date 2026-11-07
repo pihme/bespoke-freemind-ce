@@ -20,6 +20,8 @@
 
 package freemind.modes.mindmapmode;
 
+import freemind.modes.NodeWalks;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -122,7 +124,7 @@ public class EncryptedMindMapNode extends MindMapNodeModel {
 					node = getNodeFromXml(mapContent);
 				}
 				int index = 0;
-				for (ListIterator<MindMapNode> i = node.childrenUnfolded(); i.hasNext();) {
+				for (ListIterator<MindMapNode> i = NodeWalks.stored(node); i.hasNext();) {
 					MindMapNode importNode = i.next();
 					getMap().insertNodeInto(importNode, this, index++);
 				}

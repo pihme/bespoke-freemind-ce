@@ -22,6 +22,8 @@
 /*$Id: HookInstanciationMethod.java,v 1.1.4.1.16.3 2007/06/05 20:53:30 dpolivaev Exp $*/
 package freemind.extensions;
 
+import freemind.modes.NodeWalks;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -65,7 +67,7 @@ public class HookInstanciationMethod {
 			DestinationNodesGetter {
 		private void addChilds(MindMapNode node, Collection<MindMapNode> allNodeCollection) {
 			allNodeCollection.add(node);
-			for (Iterator<MindMapNode> i = node.childrenFolded(); i.hasNext();) {
+			for (Iterator<MindMapNode> i = NodeWalks.foldedAway(node); i.hasNext();) {
 				MindMapNode child = i.next();
 				addChilds(child, allNodeCollection);
 			}

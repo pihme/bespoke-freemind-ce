@@ -172,33 +172,6 @@
 +    }
 +
  }
---- a/freemind/controller/actions/generated/instance/CollaborationOffers.java
-+++ b/freemind/controller/actions/generated/instance/CollaborationOffers.java
-@@ -105,4 +105,24 @@
-         this.isSingleOffer = value;
-     }
- 
-+    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
-+    public List<CollaborationMapOffer> getListCollaborationMapOfferList() {
-+        return getCollaborationMapOffer();
-+    }
-+
-+    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
-+    public void addCollaborationMapOffer(CollaborationMapOffer o) {
-+        getCollaborationMapOffer().add(o);
-+    }
-+
-+    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
-+    public CollaborationMapOffer getCollaborationMapOffer(int index) {
-+        return getCollaborationMapOffer().get(index);
-+    }
-+
-+    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
-+    public boolean getIsSingleOffer() {
-+        return isIsSingleOffer();
-+    }
-+
- }
 --- a/freemind/controller/actions/generated/instance/CompoundAction.java
 +++ b/freemind/controller/actions/generated/instance/CompoundAction.java
 @@ -199,4 +199,32 @@
@@ -601,13 +574,13 @@
 --- a/freemind/controller/actions/generated/instance/Plugin.java
 +++ b/freemind/controller/actions/generated/instance/Plugin.java
 @@ -89,6 +89,12 @@
-         return this.pluginClasspathOrPluginRegistrationOrPluginAction;
+         return this.pluginRegistrationOrPluginActionOrPluginStrings;
      }
  
 +    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
 +
 +    public List<Object> getListChoiceList() {
-+        return getPluginClasspathOrPluginRegistrationOrPluginAction();
++        return getPluginRegistrationOrPluginActionOrPluginStrings();
 +    }
 +
      /**
@@ -628,52 +601,6 @@
 +    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
 +    public boolean getIsPluginBase() {
 +        return isIsPluginBase();
-+    }
-+
- }
---- a/freemind/controller/actions/generated/instance/Reversegeocode.java
-+++ b/freemind/controller/actions/generated/instance/Reversegeocode.java
-@@ -148,4 +148,21 @@
-         this.timestamp = value;
-     }
- 
-+    // JiBX backward-compatibility methods (manual addition - preserve on regeneration)
-+
-+    public java.util.List<Result> getListResultList() {
-+        java.util.List<Result> list = new java.util.ArrayList<>();
-+        if (result != null) {
-+            list.add(result);
-+        }
-+        return list;
-+    }
-+
-+    public Result getResult(int index) {
-+        if (index == 0 && result != null) {
-+            return result;
-+        }
-+        throw new IndexOutOfBoundsException("Index: " + index);
-+    }
-+
- }
---- a/freemind/controller/actions/generated/instance/Searchresults.java
-+++ b/freemind/controller/actions/generated/instance/Searchresults.java
-@@ -234,4 +234,19 @@
-         this.moreUrl = value;
-     }
- 
-+    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
-+    public List<Place> getListPlaceList() {
-+        return getPlace();
-+    }
-+
-+    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
-+    public void addPlace(Place p) {
-+        getPlace().add(p);
-+    }
-+
-+    // JiBX backward-compatibility method (manual addition - preserve on regeneration)
-+    public int sizePlaceList() {
-+        return getPlace().size();
 +    }
 +
  }

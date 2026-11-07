@@ -19,6 +19,8 @@
  */
 package freemind.modes.common.actions;
 
+import freemind.modes.NodeWalks;
+
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -296,7 +298,7 @@ public class FindAction extends FreemindAction {
 		while (!nodes.isEmpty()) {
 			MindMapNode node = (MindMapNode) nodes.removeFirst();
 			// Add children to the queue
-			for (ListIterator<MindMapNode> i = node.childrenUnfolded(); i.hasNext();) {
+			for (ListIterator<MindMapNode> i = NodeWalks.stored(node); i.hasNext();) {
 				nodes.addLast(i.next());
 			}
 

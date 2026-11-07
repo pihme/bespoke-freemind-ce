@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 
 import javax.swing.AbstractAction;
 
+import freemind.modes.NodeWalks;
 import freemind.view.mindmapview.NodeView;
 
 /**
@@ -49,8 +50,7 @@ public class CommonToggleChildrenFoldedAction extends AbstractAction {
 
 	public void actionPerformed(ActionEvent e) {
 		NodeView selected = modeController.getSelectedView();
-		modeController.toggleFolded.toggleFolded(selected.getModel()
-				.childrenUnfolded());
+		modeController.toggleFolded.toggleFolded(NodeWalks.stored(selected.getModel()));
 		modeController.getView().selectAsTheOnlyOneSelected(selected);
 		modeController.getController().obtainFocusForSelected();
 	}
