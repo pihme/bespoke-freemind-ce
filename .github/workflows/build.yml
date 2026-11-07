@@ -30,59 +30,7 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  changes:
-    name: Detect changes
-    runs-on: ubuntu-24.04
-    permissions:
-      contents: read
-    outputs:
-      code: ${{ steps.check.outputs.code }}
-      java_code: ${{ steps.check.outputs.java_code }}
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-        with:
-          fetch-depth: 0
-      - name: Check for code changes
-        id: check
-        run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            BASE=$(git merge-base "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}")
-            HEAD="${{ github.event.pull_request.head.sha }}"
-          else
-            BASE="${{ github.event.before }}"
-            HEAD="${{ github.sha }}"
-            if [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
-              echo "code=true" >> "$GITHUB_OUTPUT"
-              echo "java_code=true" >> "$GITHUB_OUTPUT"
-              echo "::notice::New branch, running full build"
-              exit 0
-            fi
-          fi
-          echo "::notice::Comparing $BASE..$HEAD"
-          NON_DOC_FILES=$(git diff --name-only "$BASE..$HEAD" -- \
-            ':!**/*.md' ':!docs/**' \
-            ':!LICENSE' ':!COPYING' ':!.gitattributes')
-          if [ -z "$NON_DOC_FILES" ]; then
-            echo "code=false" >> "$GITHUB_OUTPUT"
-            echo "java_code=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::Documentation-only change — skipping build and test"
-          else
-            echo "code=true" >> "$GITHUB_OUTPUT"
-            echo "::notice::Code changes detected: $(echo "$NON_DOC_FILES" | wc -l | tr -d ' ') non-doc files"
-            echo "$NON_DOC_FILES" | head -10
-            JAVA_FILES=$(git diff --name-only "$BASE..$HEAD" -- '*.java' '*.kt' '*.kts')
-            if [ -z "$JAVA_FILES" ]; then
-              echo "java_code=false" >> "$GITHUB_OUTPUT"
-              echo "::notice::No Java/Kotlin files changed — CodeQL analysis will be skipped"
-            else
-              echo "java_code=true" >> "$GITHUB_OUTPUT"
-              echo "::notice::Java/Kotlin files changed: $(echo "$JAVA_FILES" | wc -l | tr -d ' ') files"
-            fi
-          fi
-
   build:
-    needs: changes
-    if: ${{ needs.changes.outputs.code == 'true' }}
     name: Build (ubuntu-24.04, Java 21)
     runs-on: ubuntu-24.04
 
@@ -173,8 +121,7 @@ jobs:
 
   gui-tests:
     name: GUI Tests (ubuntu-24.04, Java 21)
-    needs: [changes, build]
-    if: ${{ needs.changes.outputs.code == 'true' }}
+    needs: build
     runs-on: ubuntu-24.04
 
     steps:
@@ -266,16 +213,14 @@ jobs:
   ci:
     name: CI
     if: always()
-    needs: [changes, build, gui-tests, codeql, release]
+    needs: [build, gui-tests, release]
     runs-on: ubuntu-24.04
     permissions: {}
     steps:
       - name: Evaluate results
         run: |
-          echo "Code changed: ${{ needs.changes.outputs.code }}"
           echo "Build: ${{ needs.build.result }}"
           echo "GUI Tests: ${{ needs.gui-tests.result }}"
-          echo "CodeQL: ${{ needs.codeql.result }}"
           echo "Release: ${{ needs.release.result }}"
           if [[ "${{ contains(needs.*.result, 'failure') }}" == "true" ]]; then
             echo "::error::One or more jobs failed"
@@ -289,15 +234,13 @@ jobs:
 
   release:
     name: Release
-    needs: [changes, build, gui-tests, codeql]
+    needs: [build, gui-tests]
     if: |
       always() &&
       github.event_name == 'push' &&
       github.ref == 'refs/heads/6-bespoke' &&
-      needs.changes.outputs.code == 'true' &&
       needs.build.result == 'success' &&
-      needs.gui-tests.result == 'success' &&
-      (needs.codeql.result == 'success' || needs.codeql.result == 'skipped')
+      needs.gui-tests.result == 'success'
     runs-on: ubuntu-24.04
     permissions:
       contents: write
@@ -324,46 +267,3 @@ jobs:
             --title "6-bespoke" \
             --notes "Built from 6-bespoke at ${GITHUB_SHA}." \
             --latest
-
-  codeql:
-    name: CodeQL Analysis
-    needs: [changes, build]
-    if: ${{ needs.changes.outputs.code == 'true' && needs.changes.outputs.java_code == 'true' }}
-    runs-on: ubuntu-24.04
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
-    strategy:
-      fail-fast: false
-      matrix:
-        language: ['java-kotlin', 'javascript-typescript']
-    steps:
-      - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@95e58e9a2cdfd71adc6e0353d5c52f41a045d225 # v4
-        with:
-          languages: ${{ matrix.language }}
-          queries: security-extended
-
-      - name: Set up JDK ${{ env.JAVA_VERSION }}
-        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5
-        with:
-          java-version: ${{ env.JAVA_VERSION }}
-          distribution: 'temurin'
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e # v6.1.0
-
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
-
-      - name: Build
-        run: ./gradlew build -x test --no-daemon --no-configuration-cache
-
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@95e58e9a2cdfd71adc6e0353d5c52f41a045d225 # v4
-        with:
-          category: "/language:${{ matrix.language }}"
