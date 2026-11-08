@@ -186,7 +186,7 @@ jobs:
 
       - name: Compile for analysis
         if: env.RUN_SONAR == 'true'
-        run: env -u JAVA_HOME nix develop -c ./gradlew classes testClasses --no-daemon --no-configuration-cache
+        run: env -u JAVA_HOME nix develop -c ./gradlew classes testClasses sonarLibraries --no-daemon --no-configuration-cache
 
       - name: SonarQube Cloud scan
         if: env.RUN_SONAR == 'true'
