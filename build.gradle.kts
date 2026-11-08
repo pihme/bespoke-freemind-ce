@@ -325,6 +325,16 @@ tasks.register<Test>("testGui") {
     }
 }
 
+// SonarQube Cloud reads the dependency jars from these folders
+// (sonar.java.libraries and sonar.java.test.libraries).
+tasks.register<Sync>("sonarLibraries") {
+    description = "Copies the compile classpath jars for the SonarQube Cloud analysis"
+    group = "Verification"
+    into(layout.buildDirectory.dir("sonar-libraries"))
+    from(configurations.compileClasspath) { into("main") }
+    from(configurations.testCompileClasspath) { into("test") }
+}
+
 tasks.register<Test>("testPerformance") {
     description = "Run performance tests (large file, timing)"
     group = "verification"
