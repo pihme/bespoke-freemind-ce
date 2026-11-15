@@ -7,7 +7,9 @@ updates:
     target-branch: "1-raw"
     schedule:
       interval: "weekly"
-      day: "monday"
+      day: "wednesday"
+      time: "06:00"
+      timezone: "Europe/Berlin"
     commit-message:
       prefix: "ci"
     labels:
@@ -23,7 +25,9 @@ updates:
     target-branch: "1-raw"
     schedule:
       interval: "weekly"
-      day: "monday"
+      day: "wednesday"
+      time: "06:00"
+      timezone: "Europe/Berlin"
     commit-message:
       prefix: "deps"
     labels:
@@ -50,7 +54,9 @@ updates:
     target-branch: "2-covered"
     schedule:
       interval: "weekly"
-      day: "monday"
+      day: "wednesday"
+      time: "06:00"
+      timezone: "Europe/Berlin"
     commit-message:
       prefix: "ci"
     labels:
@@ -66,7 +72,9 @@ updates:
     target-branch: "2-covered"
     schedule:
       interval: "weekly"
-      day: "monday"
+      day: "wednesday"
+      time: "06:00"
+      timezone: "Europe/Berlin"
     commit-message:
       prefix: "deps"
     labels:
@@ -93,7 +101,9 @@ updates:
     target-branch: "3-tailored"
     schedule:
       interval: "weekly"
-      day: "monday"
+      day: "wednesday"
+      time: "06:00"
+      timezone: "Europe/Berlin"
     commit-message:
       prefix: "ci"
     labels:
@@ -109,7 +119,9 @@ updates:
     target-branch: "3-tailored"
     schedule:
       interval: "weekly"
-      day: "monday"
+      day: "wednesday"
+      time: "06:00"
+      timezone: "Europe/Berlin"
     commit-message:
       prefix: "deps"
     labels:
@@ -136,7 +148,9 @@ updates:
     target-branch: "4-customized"
     schedule:
       interval: "weekly"
-      day: "monday"
+      day: "wednesday"
+      time: "06:00"
+      timezone: "Europe/Berlin"
     commit-message:
       prefix: "ci"
     labels:
@@ -152,7 +166,9 @@ updates:
     target-branch: "4-customized"
     schedule:
       interval: "weekly"
-      day: "monday"
+      day: "wednesday"
+      time: "06:00"
+      timezone: "Europe/Berlin"
     commit-message:
       prefix: "deps"
     labels:
@@ -179,7 +195,9 @@ updates:
     target-branch: "5-trimmed"
     schedule:
       interval: "weekly"
-      day: "monday"
+      day: "wednesday"
+      time: "06:00"
+      timezone: "Europe/Berlin"
     commit-message:
       prefix: "ci"
     labels:
@@ -195,7 +213,9 @@ updates:
     target-branch: "5-trimmed"
     schedule:
       interval: "weekly"
-      day: "monday"
+      day: "wednesday"
+      time: "06:00"
+      timezone: "Europe/Berlin"
     commit-message:
       prefix: "deps"
     labels:
@@ -222,7 +242,9 @@ updates:
     target-branch: "6-bespoke"
     schedule:
       interval: "weekly"
-      day: "monday"
+      day: "wednesday"
+      time: "06:00"
+      timezone: "Europe/Berlin"
     commit-message:
       prefix: "ci"
     labels:
@@ -238,7 +260,9 @@ updates:
     target-branch: "6-bespoke"
     schedule:
       interval: "weekly"
-      day: "monday"
+      day: "wednesday"
+      time: "06:00"
+      timezone: "Europe/Berlin"
     commit-message:
       prefix: "deps"
     labels:
@@ -265,7 +289,9 @@ updates:
     target-branch: "6-bespoke"
     schedule:
       interval: "weekly"
-      day: "monday"
+      day: "wednesday"
+      time: "06:00"
+      timezone: "Europe/Berlin"
     commit-message:
       prefix: "deps"
     labels:
